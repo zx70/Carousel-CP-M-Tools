@@ -5,9 +5,10 @@ Carousel MicroTools Inc. was a company formed by Phil Scherrer, Deborah Scherrer
 
 
 Original Carousel MicroTools came from:
-Philip & Deborah Scherrer
-30261 Palomares Rd
-Castro Valley, AC  94552
-dscherrer@solar.stanford.edu
-pscherrer@solar.stanford.edu
-510-881-4489
+
+    Philip & Deborah Scherrer
+    30261 Palomares Rd
+    Castro Valley, AC  94552
+    dscherrer@solar.stanford.edu
+    pscherrer@solar.stanford.edu
+    510-881-4489
