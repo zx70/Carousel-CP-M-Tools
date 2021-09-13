@@ -1,0 +1,12 @@
+  ## fread - read line from file  (random access)
+  subroutine fread (buffer, nchar, fd)
+ 
+ #note--in this implementation, a call to getlin is made rather
+ #than reading a specified number of characters
+ #Change if necessary
+ integer nchar, fd, getlin, junk
+  character buffer(ARB)
+ 
+  junk = getlin (buffer, fd)
+  return
+  end
