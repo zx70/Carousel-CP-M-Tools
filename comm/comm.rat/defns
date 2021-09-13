@@ -1,0 +1,7 @@
+ # include standard definitions
+ # include ratdef
+ #------------------------------------------------------------
+ 
+define(LEADERING,15)
+
+ 

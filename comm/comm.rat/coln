@@ -1,0 +1,15 @@
+# coln - print lin with leadering ldr if flag = YES; rm leading blanks
+   subroutine coln(lin, ldr, flag)
+   character lin(ARB)
+   integer ldr, flag
+   integer i
+
+   if (flag == NO)
+      return
+   for (i = 1; i <= ldr; i = i + 1)
+      call putc(BLANK)
+   i = 1
+   call skipbl(lin, i)
+   call putlin(lin(i), STDOUT)
+   return
+   end

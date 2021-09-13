@@ -1,0 +1,48 @@
+# common - print lines common to file1 & file2 according to flags 1..3
+   subroutine common(file1, file2, one, two, three)
+   integer file1, file2, one, two, three
+   integer k, stat1, stat2, ldr1, ldr2, ldr3
+   character buf1(MAXLINE), buf2(MAXLINE)
+   integer getlin, strcmp
+
+   ldr1 = 0     # compute leadering
+   ldr2 = 0
+   ldr3 = 0
+   if (one == YES) {
+      ldr2 = LEADERING
+      ldr3 = LEADERING
+      }
+   if (two == YES)
+      ldr3 = ldr3 + LEADERING
+   stat1 = getlin(buf1,file1)
+   stat2 = getlin(buf2,file2)
+   repeat {
+      if (stat1 == EOF | stat2 == EOF)
+          break
+      k = strcmp(buf1, buf2)     # compare lines
+      if (k < 0) {               # line only in file1
+         call coln(buf1, ldr1, one)
+         stat1 = getlin(buf1, file1)
+         }
+      else if (k > 0) {          # line only in file2
+         call coln(buf2, ldr2, two)
+         stat2 = getlin(buf2, file2)
+         }
+      else {                     # line in both files
+         call coln(buf1, ldr3, three)
+         stat1 = getlin(buf1, file1)
+         stat2 = getlin(buf2, file2)
+         }
+      }
+   if (stat1 == EOF)      # end of file1, print rest of file2
+      while (stat2 ^= EOF) {
+         call coln(buf2, ldr2, two)
+         stat2 = getlin(buf2, file2)
+         }
+   else if (stat2 == EOF) # end of file2, print rest of file1
+      while (stat1 ^= EOF) {
+         call coln(buf1, ldr1, one)
+         stat1 = getlin(buf1, file1)
+         }
+   return
+   end
