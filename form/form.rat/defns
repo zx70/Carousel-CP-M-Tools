@@ -1,0 +1,4 @@
+ define(MAXFILES,10)    #number files allowed on command line
+ define(MAXREPLY,3000)  #maximum characters available in user's response
+# define(MEM_SIZE,3000)  # size of dynamic storage in words
+ define(ESCAPE,MINUS)
