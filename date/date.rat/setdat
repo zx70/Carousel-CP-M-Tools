@@ -1,0 +1,9 @@
+ integer function setdat (now)
+ integer now(7)
+ include config
+ 
+ for (i=1; i<=7; i=i+1)
+	ddate(i) = now(i)
+ call setenv
+ return
+ end
