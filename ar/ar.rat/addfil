@@ -1,0 +1,47 @@
+## addfil - add file 'name' to archive open on 'fd'
+
+   subroutine addfil (name, fd)
+   character name (ARB)
+   filedes fd
+
+   include carch
+
+   character head(MAXLINE), trail(MAXLINE)
+   integer seksz(2), cpin
+   filedes nfd
+   filedes open
+
+   nfd = open (name, READ)
+   if (nfd == ERR)
+      {
+      call putlin (name, ERROUT)
+      call remark (":  can't add.")
+      errcnt = errcnt + 1
+      return
+      }
+
+   if (errcnt == 0)
+      {
+      call makhdr (head, name, seksz)
+      if (errcnt == 0)
+	  {  
+	  if (verbos == YES)
+		{
+		call putlin (name, STDOUT)
+         	call putch (NEWLINE, STDOUT)
+         	}
+      	  call putlin (head, fd)
+	  if (cpin (nfd, fd, seksz) == EOF)
+		  {
+		  errcnt = errcnt + 1
+		  call putlin (name, ERROUT)
+		  call remark (":  unexpected end of file.")
+		  }
+	  call maktrl (head, trail)
+	  call putlin (trail, fd)
+	  }
+      }
+
+   call close (nfd)
+   return
+   end

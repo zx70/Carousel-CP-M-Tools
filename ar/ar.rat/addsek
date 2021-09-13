@@ -1,0 +1,14 @@
+## addsek -- add seek offsets
+
+subroutine addsek (a, b, total)
+
+ integer a(2), b(2), total(2)
+
+ integer t1
+
+ t1 = a(1) + b(1)
+ total(1) = mod(t1, 128)
+ total(2) = a(2) + b(2) + (t1/128)
+ return		# total is already properly normalized.
+
+ end

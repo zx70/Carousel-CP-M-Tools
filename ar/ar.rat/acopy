@@ -1,0 +1,20 @@
+## acopy - copy size characters from fdi to fdo
+#  NOTE - if fdo == ERR, copy to null
+integer function acopy (fdi, fdo, size)
+character getch
+character c
+integer fdi, fdo, i, size
+
+acopy = YES
+for (i=1; i <= size; i=i+1)
+        {
+        if (getch (c, fdi) == EOF)
+		{
+		acopy = EOF
+                break
+		}
+        if (fdo != ERR)
+                call putch (c, fdo)
+        }
+return
+end
