@@ -1,0 +1,8 @@
+ ## /cdefio/ - holds pushed-back characters
+ # kludgey version - only works for one file
+ 
+ define(BUFSIZE,MAXLINE)
+ integer bp	#next available character; init = 0
+ character buf  # pushed-back characters
+ 
+ common /cdefio/ bp, buf(BUFSIZE)

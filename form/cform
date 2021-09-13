@@ -1,0 +1,11 @@
+ ## cform common block  for formletter tool
+ # put on a file named 'cform'
+ # Used only by form
+ 
+ common /cform/ char1, char2, ftb
+ 
+ character char1        #character to indicate beginning of prompt;
+                        #init = LESS
+ character char2        #character to terminate prompt;
+                        #init = GREATER
+ integer ftb		#pointer to symbol table holding responses
