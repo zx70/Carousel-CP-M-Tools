@@ -1,0 +1,6 @@
+ ## common block holding number registers for format tool
+ #  put on a file called "cnr"
+ #  used only by the format tool
+ 
+ common /cnr/ nr(26)
+   integer nr	# number registers a..z

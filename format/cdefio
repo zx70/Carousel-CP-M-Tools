@@ -1,0 +1,7 @@
+ ## common block to hold pushed-back input characters
+ #  put on a file called 'cdefio'
+ #  used by ratfor, macro, roff
+ 
+ common /cdefio/ bp, buf(BUFSIZE)
+   integer bp      # next available character; init = 0
+   character buf   # pushed-back characters

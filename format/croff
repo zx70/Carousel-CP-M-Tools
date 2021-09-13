@@ -1,0 +1,3 @@
+# croff - used only in roff, symbol table pointer
+common /croff/ st
+pointer st
