@@ -1,0 +1,6 @@
+ # /ctxt/ - common block for editor
+ # put on a file called 'ctxt'
+ # Used only by the editor
+ 
+ common /ctxt/ txt(MAXLINE) 
+   character txt      # text line for matching and output 

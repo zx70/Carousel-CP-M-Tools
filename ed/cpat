@@ -1,0 +1,6 @@
+ # /cpat/ - common block for editor
+ # put on a file named 'cpat'
+ # Used only by the editor
+ 
+ common /cpat/ pat(MAXPAT) 
+   character pat      # pattern 

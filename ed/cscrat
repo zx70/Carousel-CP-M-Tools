@@ -1,0 +1,11 @@
+ # /cscrat/ - common block for editor; holds scratch file info
+ # put on a file called 'cscrat'
+ # Used only by the editor
+ 
+ common /cscrat/ scr, wscr, scrend(2), scrfil(FILENAMESIZE)
+    integer scr      # scratch file id 
+    integer wscr     # scratch file id for WRITE access (if file
+                     # needs to be opened twice cause READWRITE
+                     # hasn't been implemented
+    integer scrend   # end of info on scratch file 
+    character scrfil # name of scratch file

@@ -1,0 +1,6 @@
+ ## cfile common block - for editor
+ # put on a file named 'cfile'
+ # Used only by the editor
+ 
+ common /cfile/  savfil(MAXLINE)
+ character savfil	#remembered file name

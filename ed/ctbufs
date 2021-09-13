@@ -1,0 +1,10 @@
+ ## common block used to hold temporary buffers for editor
+ #  put on a file called "ctbufs"
+ #  used only by the editor
+ 
+ common / ctbufs / edtbuf(FILENAMESIZE, MAXTBUFS),
+                   bufid(3, MAXTBUFS)
+
+ character edtbuf	# name of scratch files for temp buffs
+ character bufid        # buffer name associated with each buff
+                        #  (e.g. $1, $2, etc.)
