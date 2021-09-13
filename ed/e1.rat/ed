@@ -1,0 +1,68 @@
+  ## ed - driver subroutine for editor
+ DRIVER
+   character lin(MAXLINE)
+   character arg (MAXLINE)
+   integer ckglob, docmd, doglob, doread, getarg, prompt, getlst
+   integer i, status, clrbuf
+   include cfile
+   include clines
+   include cpat
+   include cbuf
+ 
+   string edpmt ": "
+ #Initialize flag for printing/suppression of line counts
+  data print /YES/
+ 
+   # Initialize variables and buffers
+   call inited
+   call setbuf
+   pat(1) = EOS
+   savfil(1) = EOS
+ 
+  #Pick up file name and possible flag(s)
+  for (i=1; getarg(i, arg, MAXLINE) != EOF; i=i+1)
+     {
+     if (arg(1) == QMARK & arg(2) == EOS)
+        call error ("usage:  ed [-] file.")
+     if (arg(1) == DASH & arg(2) == EOS)
+          print = NO
+    else
+         {
+         call scopy (arg, 1, savfil, 1)
+         if (doread (0, savfil, ENTER) == ERR)
+                call remark ('?.')
+         }
+     }
+ 
+    repeat
+        {
+        status = prompt (edpmt, lin, STDIN)
+        if (status == EOF)      # MUST clear buffer on EOF of input file
+            {
+            status = clrbuf(EOF)
+            break
+            }
+        else if (status != ERR)
+            {
+            i = 1
+            cursav = curln
+            if (getlst(lin, i, status) == OK) {
+               if (ckglob(lin, i, status) == OK)
+                  status = doglob(lin, i, cursav, status)
+               else if (status != ERR)
+                  status = docmd(lin, i, NO, status)
+         # else error, do nothing
+               }
+            }
+      if (status == ERR) {
+         call remark('?.')
+         curln = cursav
+         }
+      else if (status == EOF)
+         if (clrbuf(QUIT) == OK)    # will return ERR if changes since last w
+            break
+      # else OK, loop
+      }
+   call ended
+ DRETURN
+   end
