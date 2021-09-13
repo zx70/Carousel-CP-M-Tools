@@ -1,0 +1,5 @@
+ define(NEXPR,10)   # max nbr expressions allowed on command line
+ define(DITTO,11111)
+ ifdef(NEGDEF, define(DITTO,(-3)))
+ #        include ratdef
+ 
