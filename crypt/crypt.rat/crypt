@@ -1,0 +1,26 @@
+# crypt - encrypt and decrypt
+ DRIVER
+   character xor
+   character c, key(MAXKEY), b
+   character getc
+   integer getarg
+   integer i, keylen, junk
+ 
+   keylen = getarg(1, key, MAXKEY)
+   if (keylen == EOF | (key(1) == QMARK & key(2) == 0) )
+      call error("usage: crypt key.")
+   for (i=1; getc(c) != EOF; i=mod(i, keylen) +1)
+        {
+        ifnotdef(NOCONTROL,   call putc(xor(c, key(i))) )
+                                 #leave control characters alone
+        ifdef(NOCONTROL,
+        if (c < BLANK)
+                call putc(c)
+        else
+                {
+                b = xor(c, key(i) & 31)
+                call putc(b)
+                } )
+        }
+   DRETURN
+   end
