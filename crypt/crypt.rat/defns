@@ -1,0 +1,11 @@
+ # include ratdef
+define(MAXKEY,MAXLINE)
+ #  There are 2 versions of crypt here--the one from the book
+ #  and a simpler one which does not encrypt control characters
+ #  (since some systems have trouble reading/printing various
+ #  control characters).  If you want the simpler, no-control-
+ #  character version, do this:
+#            define(NOCONTROL,)
+ 
+ ifdef(CPM, define(NOCONTROL,))
+ 

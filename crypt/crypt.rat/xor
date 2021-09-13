@@ -1,0 +1,7 @@
+ # xor - exclusive-or of a and b
+ character function xor(a,b)
+ character a, b
+  
+ xor = (a & !b) | (!a & b)
+ return
+ end
