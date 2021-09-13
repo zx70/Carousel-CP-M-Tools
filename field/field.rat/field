@@ -1,0 +1,67 @@
+# field - rearrange fields in a file
+ DRIVER
+   character buf(MAXLINE), tabc
+   integer from(MAXFIELDS), to(MAXFIELDS)
+   character ofmt(MAXLINE)
+   integer i, j, k, n, nflds, len, fd, tflag, files
+   integer getarg, getlin, open, doflds, getfmt
+   data tabc /TAB/, tflag /YES/, nflds /MAXFIELDS/
+
+   i = 1        # assume no field specification is given
+   if (getarg(1, buf, MAXLINE) == EOF)
+      call usage
+   else if (buf(1) == QMARK & buf(2) == EOS)
+        call usage
+					# tab fields are specified?
+   if (buf(1) == MINUS & (buf(2) == LETT | buf(2) == BIGT) ) {
+      if (buf(3) ^= EOS)
+         tabc = buf(3)
+      i = 2
+      }
+   else if (buf(1) >= DIG0 & buf(1) <= DIG9) {  # fields are specified
+      nflds = doflds(buf, from, to, MAXFIELDS)
+      if (nflds == ERR)
+                call error ("illegal field specification.")
+      tflag = NO
+      i = 2
+      }
+   if (getarg(i, buf, MAXLINE) == EOF)
+      call usage                #error, no output format specified
+   junk = getfmt(buf, ofmt)
+   files = NO
+   for (i=i+1; ; i=i+1)
+      {
+      if (getarg(i, buf, MAXLINE) == EOF)     #done?
+          {
+          if (files == YES)             #yes, done
+               break
+          fd = STDIN              #not done, read from STDIN
+          }
+      else if (buf(1) == MINUS & buf(2) == EOS)
+         fd = STDIN
+      else
+         fd = open(buf, READ)
+      files = YES
+      if (fd == ERR)
+         call cant(buf)
+      len = getlin(buf, fd)
+      while (len ^= EOF) {
+         if (tflag == YES)
+            call dotabs(buf, tabc, from, to, nflds)
+         for (j = 1; ofmt(j) ^= EOS; j = j + 1)
+            if (ofmt(j) == ARGFLAG) {
+               n = ofmt(j+1)
+               for (k = from(n); k <= to(n) & k < len; k = k + 1)
+                   call putch(buf(k), STDOUT)
+               j = j + 1
+               }
+            else
+               call putch(ofmt(j), STDOUT)
+         call putch(NEWLINE, STDOUT)
+         len = getlin(buf, fd)
+         }
+      if (fd ^= STDIN)
+         call close(fd)
+      }
+    DRETURN
+   end

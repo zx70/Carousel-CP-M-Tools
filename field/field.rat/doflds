@@ -1,0 +1,40 @@
+# doflds - get field specifications from buf into from and to
+   integer function doflds(buf, from, to, maxsiz)
+   character buf(ARB)
+   integer from(ARB), to(ARB), maxsiz
+   integer i, n
+   integer ctoi
+
+   n = 1
+   from(1) = 1
+   to(1) = HUGE
+   for (i = 1; buf(i) ^= EOS; ) {
+      n = n + 1
+      if (n > maxsiz)
+         return(ERR)
+      from(n) = ctoi(buf, i)
+      to(n) = from(n)
+      call skipbl(buf, i)
+      if (buf(i) == MINUS) {            # form is n-m
+         i = i + 1
+         to(n) = ctoi(buf, i)
+         call skipbl(buf, i)
+         }
+      else if (buf(i) == PLUS) {        # form is n+m
+         i = i + 1
+         to(n) = from(n) + ctoi(buf, i) - 1
+         call skipbl(buf, i)
+         }
+      if (from(n) < 1 |
+          from(n) > to(n) |
+         (buf(i) ^= COMMA & buf(i) ^= EOS))
+           return(ERR)
+      if (buf(i) == COMMA)
+         i = i + 1
+      }
+   for (i = n + 1; i <= maxsiz; i = i + 1) {    # clear other fields
+      from(i) = HUGE
+      to(i) = HUGE
+      }
+   return(n)
+   end

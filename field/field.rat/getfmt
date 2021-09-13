@@ -1,0 +1,22 @@
+# getfmt - convert output format in buf to internal form in fmt
+   subroutine getfmt(buf, fmt)
+   character buf(ARB)
+   character fmt(ARB)
+   integer i, j
+   character esc
+   integer addset
+
+   j = 1
+   for (i = 1; buf(i) ^= EOS; i = i + 1)
+      {
+      if (buf(i) == DOLLAR & buf(i+1) >= DIG0 & buf(i+1) <= DIG9) {
+        junk = addset(ARGFLAG, fmt, j, MAXLINE)
+        junk = addset(buf(i+1) - DIG0 + 1, fmt, j, MAXLINE)
+         i = i + 1
+         }
+      else
+        junk = addset(esc(buf,i), fmt, j, MAXLINE)
+      }
+ fmt(j) = EOS
+ return
+ end

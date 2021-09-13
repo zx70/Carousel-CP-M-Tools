@@ -1,0 +1,29 @@
+# dotabs - break buf into fields defined by tab character c
+   subroutine dotabs(buf, c, from, to, maxsiz)
+   character buf(ARB), c
+   integer from(ARB), to(ARB), maxsiz
+   integer i, j, n
+
+   n = 1
+   from(n) = 1
+   to(n) = HUGE
+   j = 1
+   for (i = 1; buf(i) ^= EOS & n < maxsiz; i = i + 1)
+      if (buf(i) == c) {
+         n = n + 1
+         from(n) = j
+         to(n) = i - 1
+         j = i + 1
+         }
+      if (n < maxsiz)
+        {
+        n = n + 1
+        from(n) = j
+        to(n) = HUGE
+        }
+   for ( ; n < maxsiz; n = n + 1) {     # clear other fields
+      from(n+1) = HUGE
+      to(n+1) = HUGE
+      }
+   return
+   end

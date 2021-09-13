@@ -1,0 +1,5 @@
+# usage - print usage message and die
+   subroutine usage
+ call error ("usage: field [-t[c] | fieldslist] outputformat [files].")
+ return
+ end
