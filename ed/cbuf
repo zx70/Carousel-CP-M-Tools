@@ -1,0 +1,23 @@
+ # /cbuf/ common block
+ # put on a file called 'cbuf'
+ # Used only by the editor
+ 
+ common /cbuf/ buf(MAXBUF), lastbf, free	#NOTBKY
+ integer buf, lastbf, free			#NOTBKY
+ 
+ #buf(k+0)     PREV    previous line 
+ #buf(k+1)     NEXT    next line 
+ #buf(k+2)     MARK    mark for global commands 
+ #buf(k+3)     SEEDADR where line is on scratch file 
+ 
+ #-------------------------------------------------------------
+ #Special version for BKY
+ #BKY common /cbuf/ buf(MAXBUF, lastbf,
+ #BKY               descr(NTYPS), locb(NTYPS), mskb(NTYPS)
+ #BKY integer buf, lastb, descr, locb, mskb
+ #BKY # structure of line pointers for all lines
+ #BKY # MARK     (LENG)    SEEKADR     PREV      NEXT
+ #BKY #   3         --         18       15        15
+ #BKY #Variables in the arrays 'descr', 'locb', and 'mskb' describe
+ #BKY #the line pointer structures.  They are all initialized in
+ #BKY #subroutine ed.
