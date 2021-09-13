@@ -1,0 +1,10 @@
+ # tabpos - return YES if col is a tab stop 
+    integer function tabpos(col, tabs) 
+    integer col, i, tabs(MAXLINE) 
+  
+    if (col > MAXLINE) 
+       tabpos = YES 
+    else 
+       tabpos = tabs(col) 
+    return 
+    end 

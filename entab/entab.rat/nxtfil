@@ -1,0 +1,40 @@
+ ## nxtfil - get next file from argument list
+ integer function nxtfil(argct,int)
+ integer getarg, open, alldig
+ integer argct, int
+ integer flag                   #own
+ character abuf(FILENAMESIZE)
+ data flag /0/                  # flag for one time through
+  
+  
+ int = STDIN
+ for ( ; ; argct = argct + 1)
+        {
+        nxtfil = getarg(argct,abuf,FILENAMESIZE)
+        if (nxtfil == EOF)
+                break
+        if (abuf(1) == PLUS | alldig(abuf) == YES)
+                next
+        flag = flag + 1
+        if (abuf(1) == MINUS & abuf(2) == EOS)
+                {
+                int = STDIN
+                break
+                }
+        else
+                {
+                int = open(abuf,READ)
+                if (int != ERR)
+                        break
+                else
+                        call cant(abuf)
+                }
+        }
+ if (flag == 0)
+        {
+        flag = 1
+        nxtfil = EOS
+        }
+ argct = argct + 1
+ return
+ end

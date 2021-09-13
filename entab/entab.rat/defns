@@ -1,0 +1,43 @@
+ ## entab - replace blanks by tabs and blanks
+ DRIVER
+ character getch
+ integer nxtfil
+ character c
+ integer tabpos, int, argct
+ integer col, i, newcol, tabs(MAXLINE)
+  
+ call query ("usage: entab [tab-stops] [+n] [file].")
+ call settab(tabs)
+ col = 1
+ argct = 1
+ while (nxtfil(argct,int) != EOF)
+    {
+    repeat
+        {
+        newcol = col
+        while (getch(c,int) == BLANK)
+                {
+                newcol = newcol + 1
+                if(tabpos(newcol,tabs) == YES)
+                        {
+                        call putc(TAB)
+                        col = newcol
+                        }
+                }
+        for (;col < newcol; col = col + 1)
+                call putc(BLANK)
+        if(c == EOF)
+                {
+                if (int != STDIN)
+                        call close(int)
+                break
+                }
+        call putc(c)
+        if(c == NEWLINE)
+                col = 1
+        else
+                col = col + 1
+        }
+    }
+ DRETURN
+ end

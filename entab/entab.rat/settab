@@ -1,0 +1,40 @@
+ # settab - set initial tab stops 
+    subroutine settab(tabs) 
+    integer alldig
+    integer tabs(MAXLINE), m, p, k, i, j, l 
+    integer getarg, ctoi
+    character n(4)
+  
+   p = 0 
+   for (i=1; i<=MAXLINE; i=i+1) 
+       tabs(i) = NO 
+   for (j=1; getarg(j,n,4)!=EOF; j=j+1) 
+       { 
+       k=1 
+       if (n(1) == PLUS) 
+          k = k + 1 
+       if (alldig(n(k)) == NO)
+                next
+       l = ctoi(n,k) 
+       if (l<=0 | l>MAXLINE) 
+          next 
+       if (n(1)!=PLUS) 
+          { 
+          p = l 
+          tabs(p) = YES 
+          } 
+       else 
+          { 
+          if (p==0) 
+             p = l  + 1
+          for (m=p; m<=MAXLINE; m=m+l) 
+             tabs(m) = YES 
+          } 
+      } 
+   if (p==0) 
+      { 
+      for (i=9; i<=MAXLINE; i=i+8) 
+          tabs(i) = YES 
+      } 
+   return 
+   end 
