@@ -1,0 +1,4 @@
+ # include ratdef
+ define(NFILES,arith(MAXOFILES,-,4))
+                        #(should be set to max nbr opened files
+                        # allowed - 4)
