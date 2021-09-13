@@ -1,0 +1,28 @@
+ #        include ratdef 
+ ## expand - uncompress input files
+ DRIVER(expand)
+ 
+ character buf(MAXLINE)
+ integer getarg, open
+ integer i
+ 
+ call query ("usage: expand [files].")
+ for (i=1; getarg(i, buf, MAXLINE) != EOF; i=i+1)
+        {
+        if (buf(1) == MINUS & buf(2) == EOS)
+                int = STDIN
+        else
+                {
+                int = open(buf,READ)
+                if (int == ERR)
+                        call cant(buf)
+                }
+        call xpd (int)
+        if (int != STDIN)
+                call close(int)
+        }
+ 
+ if (i == 1)
+        call xpd(STDIN)
+ DRETURN
+ end

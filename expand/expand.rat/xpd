@@ -1,0 +1,31 @@
+ ## xpd - uncompress file -int-
+ subroutine xpd (int)
+ 
+ character getch
+ character c, code
+ 
+ while(getch(code,int) != EOF)
+        if (code == RCODE)      #expand repetition
+                {
+                if (getch(c,int) == EOF)
+                        break
+                if (getch(code,int) == EOF)
+                        break
+		code = code - BASECOUNT
+                for (; code >0; code = code - 1)
+                        call putc(c)
+                }
+        else
+                {
+		code = code - BASECOUNT
+                for (; code > 0; code = code - 1)
+                        {
+                        if (getch(c,int) == EOF)
+                                break
+                        call putc(c)
+                        }
+                if (c == EOF)
+                        break
+                }
+ return
+ end
