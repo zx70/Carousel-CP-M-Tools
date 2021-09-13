@@ -1,0 +1,28 @@
+ ## dotab - convert tabs to equivalent number of blanks
+ subroutine dotab (tabs, int)
+ integer int
+ character getch
+ character c
+ integer tabs(ARB)
+ integer tabpos
+ integer col
+
+    col = 1
+    while (getch(c, int) != EOF)
+       if (c == TAB)
+          repeat {
+             call putc(BLANK)
+             col = col + 1
+             if (tabpos(col, tabs) == YES)
+                break
+             }
+       else if (c == NEWLINE) {
+          call putc(NEWLINE)
+          col = 1
+          }
+       else {
+          call putc(c)
+          col = col + 1
+          }
+    return
+    end
