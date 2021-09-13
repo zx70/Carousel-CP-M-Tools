@@ -1,0 +1,26 @@
+BIN ## bncopy - copy binary archive member
+BIN integer function bncopy (fd1, fd2, size)
+BIN #  Note:  if fd2 == ERR, copy to NULL
+BIN filedes fd1, fd2
+BIN integer size, i, j, len
+BIN integer readf, writef, junk
+BIN 
+BIN include binbuf
+BIN 
+BIN bncopy = YES
+BIN j = size
+BIN for (i=min(j,BINARY_BUFSIZE); i > 0; i = min (j, BINARY_BUFSIZE) )
+BIN         {
+BIN         len = readf (buf, i, fd1)
+BIN         if (len == EOF)
+BIN		    {
+BIN		    bncopy = EOF
+BIN                 break
+BIN		    }
+BIN         if (fd2 != ERR)
+BIN                 junk = writef(buf, len, fd2)
+BIN         j = j - i
+BIN         }
+BIN 
+BIN return
+BIN end

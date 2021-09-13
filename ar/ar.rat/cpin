@@ -1,0 +1,11 @@
+## cpin --- copy a file into an archive
+
+   integer function cpin (fd, afd, seksz)
+   filedes fd, afd
+   integer seksz(2)
+
+   integer sekcpy
+
+   cpin = sekcpy (fd, afd, seksz)
+   return
+   end

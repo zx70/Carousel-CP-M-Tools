@@ -1,0 +1,9 @@
+## cpout --- copy a file out of an archive
+
+   subroutine cpout (afd, fd)
+   filedes afd, fd
+
+   call fromar (afd, fd)
+   return
+
+   end

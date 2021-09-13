@@ -1,0 +1,18 @@
+## ctosek -- decode seek offset from string, increment i
+
+subroutine ctosek (in, i, offset)
+
+ character in(ARB)
+ integer i, offset(2)
+
+ integer isseek, ctoi
+
+ if (isseek(in(i)) == NO)
+        call error ("ctosek:  invalid seek offset.")
+ offset(2) = ctoi(in,i)
+ i = i + 1      # skip past UNDERLINE
+ offset(1) = ctoi(in,i)
+ call seknrm (offset)
+ return
+
+ end

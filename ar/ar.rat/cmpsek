@@ -1,0 +1,29 @@
+## cmpsek -- compare seek offsets, return -1, 0, or 1
+#       returns -1 if a<b, 1 if a>b, 0 if a=b.
+
+integer function cmpsek (a, b)
+
+ integer a(2), b(2)
+
+ integer la(2), lb(2), a2, b2
+
+ la(1) = a(1)
+ la(2) = a(2)
+ lb(1) = b(1)
+ lb(2) = b(2)
+ call seknrm(la)
+ call seknrm(lb)
+ a2 = la(2)
+ b2 = lb(2)
+ if (a2 >= 0 & b2 < 0)	# Compare a2 & b2 as unsigned integers
+        cmpsek = -1
+    else if (a2 < 0 & b2 >= 0)
+        cmpsek = 1
+    else if (a2 != b2)		# a2 & b2 have the same sign
+        cmpsek = isign(1, a2 - b2)
+    else if (la(1) != lb(1))
+        cmpsek = isign(1, la(1) - lb(1))
+    else
+        cmpsek = 0
+return
+end
