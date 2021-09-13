@@ -1,0 +1,69 @@
+ DRIVER
+ 
+##      find -- main program
+ 
+
+ character exp(MAXARG,NEXPR), pat(MAXPAT,NEXPR), lin(MAXLINE),
+           arg(MAXARG)
+ integer i, getarg, except, andpat, count, elevel, itoc, getpat,
+         mcount, getlin, matchd, status, gmatch, index
+
+ string illpat "illegal pattern: "
+ string maxexp "max nbr expressions allowed is: "
+ data except/NO/
+ data andpat/NO/
+ data count /NO/
+ data elevel/0/
+
+ for (i=1; getarg(i, arg, MAXARG) != EOF; i=i+1)
+    if (arg(1) == QMARK & arg(2) == EOS)
+        call finerr
+    else if (arg(1) == MINUS)
+        {
+        call scopy(arg, 1, lin, 1)
+        call fold(lin)
+        if (index(lin, LETA) > 0)
+            andpat = YES
+        if (index(lin, LETC) > 0)
+            count = YES
+        if (index(lin, LETX) > 0)
+            except = YES
+        }
+    else if (elevel < NEXPR)
+        {
+        elevel = elevel + 1
+        call scopy(arg, 1, exp(1, elevel), 1)
+        }
+    else
+        {
+        call putlin(maxexp, ERROUT)
+        status = itoc(NEXPR, arg, MAXARG)
+        call error(arg)
+        }
+ if (elevel == 0)
+    call finerr
+ for (i=1; i <= elevel; i=i+1)
+    if (getpat(exp(1,i), pat(1,i)) == ERR)
+        {
+        call putlin(illpat, ERROUT)
+        call error(exp(1,i))
+        }
+ mcount = 0
+ while (getlin(lin, STDIN) != EOF)
+    {
+    matchd = gmatch(lin, pat, elevel, andpat)
+    if ( (matchd == YES & except == NO) |
+         (matchd == NO & except == YES) )
+        if (count == YES)
+            mcount = mcount + 1
+        else
+            call putlin(lin, STDOUT)
+    }
+ if (count == YES)
+    {
+    call putdec(mcount, 1)
+    call putc(NEWLINE)
+    }
+
+ DRETURN
+ end

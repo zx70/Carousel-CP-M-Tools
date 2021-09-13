@@ -1,0 +1,6 @@
+ subroutine finerr
+
+ call error("usage:  find [-acx] expression [expression ].")
+
+ return
+ end
