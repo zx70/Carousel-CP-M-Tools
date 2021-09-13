@@ -1,0 +1,49 @@
+## delete - delete files from the archive
+
+   subroutine delete (aname)
+   character aname (ARB)
+
+   include carch
+
+   character tname (FILENAMESIZE)
+
+   filedes afd, tfd
+   filedes create, open
+
+   integer junk
+   integer remove, amove, mkuniq
+
+   string tprefx "arctemp"
+
+   if (fcount <= 0)
+      call error ("delete by name only.")
+
+   afd = open (aname, READ)
+   if (afd == ERR)
+      call cant (aname)
+
+   junk = mkuniq (tprefx, tname)
+   tfd = create (tname, READWRITE)
+   if (tfd == ERR)
+      call cant (tname)
+   call replac (afd, tfd, DELETE_CMD)
+   call notfnd
+
+   call close (afd)
+   call close (tfd)
+   if (errcnt == 0)
+      {
+      if (amove (tname, aname) == ERR)
+	{
+	errcnt = errcnt + 1
+        call remark ("can't rename/move temp file.")
+	}
+      }
+  else
+        {
+        call remark ("fatal errors - archive not altered.")
+        junk = remove (tname)
+        }
+
+   return
+   end

@@ -1,0 +1,19 @@
+## elend --- see if string is end of archive element
+
+   integer function elend (str)
+ 
+   character str (ARB)
+   integer i
+   integer equal
+ 
+   include carch
+
+  string tstr TRAILER_STRING
+ 
+
+  for (i=1; tstr(i) != EOS; i=i+1)       # look for trailer string
+          if (tstr(i) != str(i) )
+                return(NO)
+  call skipbl (str, i)
+  return ( equal(str(i), chead) )
+   end

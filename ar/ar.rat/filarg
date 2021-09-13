@@ -1,0 +1,21 @@
+## filarg - see if name is present in argument list
+
+   integer function filarg (name)
+   character name (ARB)
+
+   include carch
+
+   integer i
+   integer equal
+
+   if (fcount <= 0)
+      return (YES)
+
+   for (i = 1; i <= fcount; i = i + 1)
+      if (equal (name, fname (1, i)) == YES) {
+         fstat (i) = YES
+         return (YES)
+         }
+
+   return (NO)
+   end

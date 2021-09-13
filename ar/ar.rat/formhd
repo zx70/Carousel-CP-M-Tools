@@ -1,0 +1,49 @@
+## formhd - form version-specific portion of header line
+
+   subroutine formhd (head, i, name, type, seksz)
+   character head (ARB), name (ARB)
+   integer i, type
+   integer seksz(2)
+
+   integer l
+   integer length
+   integer sektoc
+   character text (MAXLINE)
+
+   string hdrstr HEADER_STRING
+   string blanks " "
+   string astr ASCII_STRING
+   string lstr LOCAL_STRING
+BIN string bstr BINARY_STRING
+
+   i = 1
+   call stcopy (hdrstr, 1, head, i)
+   call stcopy (blanks, 1, head, i)
+   call stcopy (name, 1, head, i)
+   for (l = length(name) + 1; l <= NAMESIZE; l = l+1)
+           {
+           head(i) = BLANK
+           i = i + 1
+           }
+
+   for (l = sektoc(seksz, text, MAXLINE) ; l <= 10 ; l = l + 1)
+	{
+        head(i) = BLANK
+        i = i + 1
+	}
+   call stcopy (text, 1, head, i)
+   call stcopy (blanks, 1, head, i)
+
+   if (type == ASCII)
+      call stcopy (astr, 1, head, i)
+BIN else if (type == BINARY)
+BIN   call stcopy (bstr, 1, head, i)
+   else
+      call stcopy (lstr, 1, head, i)
+
+   head(i) = NEWLINE
+   i = i + 1
+   head(i) = EOS
+
+   return
+   end

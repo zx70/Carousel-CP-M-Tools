@@ -1,0 +1,40 @@
+# define(byte,integer*2)
+
+   define(ON,)
+   define(OFF,#)
+   define(FOLDF,ON)           # if on, fold file names to lower case
+   ifdef(CPM,define(BIN,OFF)) # process binary files if on
+   ifnotdef(CPM,define(BIN,ON))
+   ifdef(CPM,define(NOTBIN,ON))
+   ifnotdef(CPM,define(NOTBIN,OFF))
+
+   define(MAXFILES,200)        # maximum number of files processable
+
+       # Values for ccount:  how to find end of archive element
+   define(CCHARS,1)           # use character count
+   define(CSEEK,2)	      # use seek offset
+   define(CLINES,3)	      # check each line for trailer
+
+	# Value for intrls:  whether trailers expected on input
+   define(DONT_KNOW,2)	      # alternative to YES or NO
+
+   define(DELETE_CMD,LETD)    # delete member from archive (by name only)
+   define(PRINT_CMD,LETP)     # print archive members
+   define(READ_CMD,LETR)      # ignore file sizes while
+			      #   reading, use trailers only
+   define(TABLE_CMD,LETT)     # print table of contents
+   define(UPDATE_CMD,LETU)    # update archive member
+   define(VERBOSE_CMD,LETV)   # controls amount of output
+   define(EXTRACT_CMD,LETX)   # extract archive member
+
+   define(USAGE_MESSAGE,"usage:  ar (dptux)[v][r] archive [files].")
+
+   define(HEADER_STRING,"#-h-")
+   define(TRAILER_STRING,"#-t-")
+   define(NAMESIZE,20)         # size of name allowed in header
+
+   define(ASCII_STRING,"ascii")
+   define(LOCAL_STRING,"local")
+   define(BINARY_STRING,"binary")
+
+   define(BINARY_BUFSIZE,1024) # size of buffer for binary reads

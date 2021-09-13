@@ -1,0 +1,53 @@
+## extrac - extract files from archive
+
+   subroutine extrac (aname, cmd)
+   character aname (ARB), cmd
+
+   include carch
+
+   character name (FILENAMESIZE), hdr (MAXLINE)
+
+   filedes afd, fd
+   filedes create, open
+
+   integer filarg, gethdr
+   integer done
+
+   afd = open (aname, READ)
+   if (afd == ERR)
+      call cant (aname)
+
+   while (gethdr (afd, hdr, name) != EOF)
+
+      if (filarg (name) == NO)
+         call skipf (afd)
+
+      else {
+         if (verbos == YES) {
+            call putlin (name, STDOUT)
+            call putch (NEWLINE, STDOUT)
+            }
+
+         if (cmd == PRINT_CMD)
+            call cpout (afd, STDOUT)
+         else {
+            fd = create (name, WRITE)
+            if (fd != ERR) {
+               call cpout (afd, fd)
+               call close (fd)
+               }
+            else {
+               call putlin (name, ERROUT)
+               call remark (":  can't create.")
+               errcnt = errcnt + 1
+               call skipf (afd)
+               }
+            }
+
+         if (done(junk) == YES) 
+                break
+         }
+
+   call notfnd
+   return
+   end

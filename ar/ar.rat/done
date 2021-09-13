@@ -1,0 +1,16 @@
+## done - see if all files have been extracted/printed
+integer function done (junk)
+
+integer i
+
+include carch
+
+if (fcount <= 0)
+        return (NO)
+for (i=1; i <= fcount; i=i+1)
+        {
+        if (fstat(i) == NO)
+                return (NO)
+        }
+return (YES)
+end

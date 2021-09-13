@@ -1,0 +1,87 @@
+## fromar -- general routine to read or copy an archive element
+
+subroutine fromar (fromfd, tofd)
+
+ filedes fromfd, tofd	# tofd == ERR if output to be discarded
+
+ include carch
+
+ character line(MAXLINE)
+ integer getlin, elend, here(2), ans
+ integer sekcpy, acopy
+BIN integer bncopy
+
+ if (ccount != CLINES)
+	{	# then we can copy without scanning for trailer
+	if (ccount == CSEEK)
+		ans = sekcpy (fromfd, tofd, seeksz)
+	    else
+		{
+		ifelse(BIN,ON,
+		if (typef == BINARY)
+			ans = bncopy (fromfd, tofd, sizef)
+		    else
+		    ,) # ifelse
+			ans = acopy (fromfd, tofd, sizef)
+		}
+	if (ans == EOF)
+		{
+		errcnt = errcnt + 1
+		call remark ("unexpected end of archive file.")
+		}
+	switch (intrls)		# handle any trailer
+	    {
+	    case YES:		# must find a trailer
+		{
+		if (getlin(line,fromfd) != EOF)
+		    {
+		    if (elend(line) == YES)
+			return		# found correct trailer
+		    }
+		}	# fall through means trailer missing
+	    case NO:		# trailer prohibited on input
+		return
+
+	# Note:  this case DONT_KNOW occurs at most once, that
+	#  is, at the end of the first archive element.  It is
+	#  assumed that either all or none of the elements
+	#  carry a trailer.  Therefore case DONT_KNOW
+	#  always resets intrls to YES or to NO.  From then on,
+	#  the presence of trailers is strictly monitored by
+	#  the cases YES and NO above.
+
+	    case DONT_KNOW:		# might find a trailer
+		{
+		call note (here, fromfd)
+		if (getlin(line, fromfd) == EOF)
+			return
+		if (elend(line) == YES)
+			intrls = YES
+		    else
+			{
+			intrls = NO
+			call seek (here, fromfd)
+			}
+		return
+		}
+	    }
+	}
+    else	# copy while scanning for trailer
+	{
+	while (getlin(line, fromfd) != EOF)
+	    {
+	    if (elend(line) == YES)
+		    return
+	        else
+		    {
+		    if (tofd != ERR)
+			call putlin (line, tofd)
+		    }
+	    }
+	}
+
+ call remark ("archive integrity in doubt - missing trailer.")
+ errcnt = errcnt + 1
+ return
+
+ end
