@@ -1,0 +1,43 @@
+ integer function brows(line, lin, i)
+
+ character lin(ARB), direc
+ integer line, i, screen, curscr, ctoi, lin1, lin2
+ integer doprnt
+
+ include clines
+
+ data screen, curscr/SCREENSIZE, SCREENSIZE/
+
+ if (lin(i) == NEWLINE)
+    {
+    direc = FORWARD
+    screen = curscr
+    }
+ else
+    {
+    if (lin(i) == FORWARD | lin(i) == CENTER | lin(i) == BACKWARD)
+        {
+        direc = lin(i)
+        i = i + 1
+        }
+    else
+        direc = FORWARD
+    screen = ctoi(lin, i) - 1
+    if (screen <= 0)
+        screen = curscr
+    else
+        curscr = screen
+    }
+ if (direc == FORWARD)
+    lin1 = line
+ else if (direc == CENTER)
+    lin1 = line - (screen / 2)
+ else
+    lin1 = line - screen
+ lin2 = lin1 + screen
+ lin1 = max(1, lin1)
+ lin2 = min(lin2, lastln)
+ brows = doprnt(lin1, lin2)
+
+ return
+ end
