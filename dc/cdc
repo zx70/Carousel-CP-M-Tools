@@ -1,0 +1,2 @@
+common /cdc/ st
+pointer st  # symbol table
