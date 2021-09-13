@@ -1,0 +1,33 @@
+ ## dc - desk calculator
+ DRIVER
+ character name(FILENAMESIZE)
+ integer getarg, open, mktabl
+ integer fd, i
+ include cdc
+ 
+ st = mktabl(CHAR_DEFN) #initialize variable (hash) table
+ fd = ERR
+ for (i=1; getarg(i, name, FILENAMESIZE) != EOF; i=i+1)
+        {
+        if (name(1) == QMARK & name(2) == EOS)
+                call error ("usage:  dc.")
+        if (name(1) == MINUS & name(2) == EOS)
+                fd = STDIN
+        else if (name(1) != MINUS)
+                {
+                fd = open(name, READ)
+                if (fd == ERR)
+                        call cant(name)
+                }
+        if (fd != ERR)
+                {
+                call dcexp (fd)
+                if (fd != STDIN)
+                        call close (fd)
+                }
+        }
+ 
+ if (fd == ERR)
+        call dcexp (STDIN)
+ DRETURN
+ end
