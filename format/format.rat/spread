@@ -1,0 +1,35 @@
+# spread - spread words to justify right margin
+   subroutine spread(buf, outp, nextra, outwds)
+   character buf(MAXOUT)
+   include cparam
+   integer dir, i, j, nb, ne, nextra, nholes, outp, outwds
+   data dir /0/
+ 
+   if (nextra <= 0 | outwds <= 1)
+       return
+   dir = 1 - dir   # reverse previous direction
+   ne = nextra
+   nholes = outwds - 1
+   if (tival ^= inval & nholes > 1)
+       nholes = nholes - 1
+   i = outp - 1
+   j = min(MAXOUT-2, i+ne)   # leave room for NEWLINE, EOS
+   while (i < j) {
+       buf(j) = buf(i)
+       if (buf(i) == BLANK & buf(i-1) ^= BLANK) {
+          if (dir == 0)
+             nb = (ne-1) / nholes + 1
+          else
+             nb = ne / nholes
+          ne = ne - nb
+          nholes = nholes - 1
+          for ( ; nb > 0; nb = nb - 1) {
+             j = j - 1
+             buf(j) = BLANK
+             }
+          }
+       i = i - 1
+       j = j - 1
+       }
+   return
+   end

@@ -1,0 +1,13 @@
+# getval - evaluate optional numeric argument; increment i
+   integer function getval(buf, i, argtyp)
+   character buf(MAXLINE)
+   integer i, argtyp
+   integer ctoi
+ 
+   call skipbl(buf, i)      # find argument
+   argtyp = buf(i)
+   if (argtyp == PLUS | argtyp == MINUS)
+       i = i + 1
+   getval = ctoi(buf, i)
+   return
+   end

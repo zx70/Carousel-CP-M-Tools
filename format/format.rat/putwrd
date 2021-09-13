@@ -1,0 +1,32 @@
+# putwrd - put a word in outbuf; includes margin justification
+   subroutine putwrd(wrdbuf)
+   character wrdbuf(INSIZE)
+   integer length, width
+   integer last, llval, nextra, w
+   include cout
+   include cparam
+ 
+   w = width(wrdbuf)
+   last = length(wrdbuf) + outp         # new end of outbuf
+   llval = rmval - tival
+   if (outw + w > llval | last >= MAXOUT) {    # too big
+        last = last - outp
+        nextra = llval - outw
+        for (outp = outp + 1; outp > 1; outp = outp - 1)
+           if (outbuf(outp-1) == BLANK)
+              nextra = nextra + 1
+           else
+              break
+        if (rjust == YES) {
+           call spread(outbuf, outp, nextra, outwds)
+           if (nextra > 0 & outwds > 1)
+              outp = outp + nextra
+           }
+        call brk         # flush previous line
+        }
+   call scopy(wrdbuf, 1, outbuf, outp+1)
+   outp = last
+   outw = outw + w
+   outwds = outwds + 1
+   return
+   end

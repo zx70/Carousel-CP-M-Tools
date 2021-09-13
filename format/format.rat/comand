@@ -1,0 +1,167 @@
+# comand - perform formatting command
+   subroutine comand(buf)
+   character buf(MAXLINE), name(MAXLINE), defn(MAXDEF)
+   integer comtyp, getval, getwrd, open, length
+   integer ctoc
+   integer argtyp, ct, spval, val, i, j
+   include cpage
+   include cparam
+   include cfiles
+   include cnr
+ 
+   ct = comtyp(buf, defn)
+   if (ct == UNKNOWN)   # ignore unknown commands
+       return
+   call doesc(buf, name, MAXLINE)
+   i = 1        # skip command name
+   while (buf(i) ^= BLANK & buf(i) ^= TAB & buf(i) ^= NEWLINE)
+       i = i + 1
+   val = getval(buf, i, argtyp)
+   if (ct == DEFINED)
+       call eval(buf, defn)
+   else if (ct == FI) {
+       call brk
+       fill = YES
+       }
+   else if (ct == NF) {
+       call brk
+       fill = NO
+       }
+   else if (ct == BR)
+       call brk
+   else if (ct == LS)
+       call set(lsval, val, argtyp, 1, 1, HUGE)
+   else if (ct == CE) {
+       call brk
+       call set(ceval, val, argtyp, 1, 0, HUGE)
+       }
+   else if (ct == UL) {
+       cuval = 0
+       call set(ulval, val, argtyp, 0, 1, HUGE)
+       }
+   else if (ct == BD)
+       call set(boval, val, argtyp, 0, 1, HUGE)
+   else if (ct == HE) {
+       call gettl(buf, ehead, ehlim)
+       call gettl(buf, ohead, ohlim)
+       }
+   else if (ct == FO) {
+       call gettl(buf, efoot, eflim)
+       call gettl(buf, ofoot, oflim)
+       }
+   else if (ct == BP) {
+       call brk       # perform break explicitly
+       if (lineno > 0)
+          call space(HUGE)
+       call set(curpag, val, argtyp, curpag+1, -HUGE, HUGE)
+       newpag = curpag
+       }
+   else if (ct == SP) {
+       call set(spval, val, argtyp, 1, 0, HUGE)
+       call space(spval)
+       }
+   else if (ct == IN) {
+       call brk
+       call set(inval, val, argtyp, 0, 0, rmval-1)
+       tival = inval
+       }
+   else if (ct == RM)
+       call set(rmval, val, argtyp, PAGEWIDTH, tival+1, HUGE)
+   else if (ct == TI) {
+       call brk
+       call set(tival, val, argtyp, 0, 0, rmval)
+       }
+   else if (ct == PL) {
+       call set(plval, val, argtyp, PAGELEN,
+          m1val+m2val+m3val+m4val+1, HUGE)
+       bottom = plval - m3val - m4val
+       }
+   else if (ct == PO)
+       call set(offset, val, argtyp, 0, 0, rmval-1)
+   else if (ct == M1)
+       call set(m1val, val, argtyp, 3, 0,
+            plval-m2val-m3val-m4val-1)
+   else if (ct == M2)
+       call set(m2val, val, argtyp, 2, 0,
+            plval-m1val-m3val-m4val-1)
+   else if (ct == M3) {
+       call set(m3val, val, argtyp, 2, 0,
+            plval-m1val-m2val-m4val-1)
+       bottom = plval - m3val - m4val
+       }
+   else if (ct == M4) {
+       call set(m4val, val, argtyp, 3, 0,
+            plval-m1val-m2val-m3val-1)
+       bottom = plval - m3val - m4val
+       }
+   else if (ct == MC) {			# margin flag
+	call brk
+	call set (mfval, val, argtyp, 0, 0, MAXLINE-rmval)
+	call skipbl (buf, i)
+	j = ctoc (buf(i), mfstng, 21)
+	if (mfstng(j) == NEWLINE)
+		mfstng(j) = EOS
+	}
+   else if (ct == EH)
+       call gettl(buf, ehead, ehlim)
+   else if (ct == OH)
+       call gettl(buf, ohead, ohlim)
+   else if (ct == EF)
+       call gettl(buf, efoot, eflim)
+   else if (ct == OF)
+       call gettl(buf, ofoot, oflim)
+   else if (ct == CC) {
+       cchar = argtyp
+       if (cchar == EOS | cchar == NEWLINE)
+          cchar = PERIOD
+       }
+   else if (ct == NE) {
+       if ((lineno + val) > bottom & lineno <= bottom) {
+          call space(val)
+          lineno = 0
+          }
+       }
+   else if (ct == BS)
+       call set(bsval, val, argtyp, 1, 0, HUGE)
+   else if (ct == JU)
+       rjust = YES
+   else if (ct == NJ)
+       rjust = NO
+   else if (ct == SO) {
+       if (getwrd(buf, i, name) == 0)
+          return
+       if (level + 1 > NFILES)
+          call error("so commands nested too deeply.")
+       infile(level+1) = open(name, READ)
+       if (infile(level+1) ^= ERR)
+          level = level + 1
+       }
+   else if (ct == CU) {
+       ulval = 0
+       call set(cuval, val, argtyp, 0, 1, HUGE)
+       }
+   else if (ct == DE)
+       call dodef(buf, infile(level))
+   else if (ct == NR) {
+       if (getwrd(buf, i, name) == 0)
+          return
+       call fold(name)
+       if (name(1) < LETA | name(1) > LETZ)
+          call error("invalid number register name.")
+       val = getval(buf, i, argtyp)
+	itmp = name(1) - LETA+1
+       call set(nr(itmp), val, argtyp, 0, -HUGE, HUGE)
+       }
+   else if (ct == ST) {
+       if (argtyp == MINUS)
+          spval = plval
+       else
+          spval = 0
+       call set(spval, val, argtyp, 0, 1, bottom)
+       if (spval > lineno & lineno == 0)
+          call phead
+       if (spval > lineno)
+          call space(spval - lineno)
+       }
+   return
+   end

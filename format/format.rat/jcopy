@@ -1,0 +1,14 @@
+# jcopy - scopy without copying EOS
+   subroutine jcopy(from, i, to, j)
+   character from(ARB), to(ARB)
+   integer i, j, k1, k2
+ 
+   k1 = i
+   k2 = j
+   while (from(k1) ^= EOS) {
+        to(k2) = from(k1)
+        k1 = k1 + 1
+        k2 = k2 + 1
+        }
+   return
+   end

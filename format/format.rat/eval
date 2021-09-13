@@ -1,0 +1,38 @@
+# eval - evaluate defined command; push back definition
+   subroutine eval(buf, defn)
+   character buf(MAXLINE), defn(MAXDEF)
+   integer i, j, k, argptr(10)
+   integer length
+
+   for (j = 1; j <= 10; j = j + 1)   # initialize arguments to null
+      argptr(j) = 1
+   buf(1) = EOS
+   i = 2
+   for (j = 1; j <= 10; j = j + 1) {
+      call skipbl(buf, i)
+      if (buf(i) == NEWLINE | buf(i) == EOS)
+         break
+      argptr(j) = i
+      while (buf(i) ^= BLANK & buf(i) ^= TAB & buf(i) ^= NEWLINE &
+             buf(i) ^= EOS)
+                i = i + 1
+      buf(i) = EOS
+      i = i + 1
+      }
+   for (k = length(defn); k > 1; k = k - 1)
+      if (defn(k-1) ^= ARGFLAG)
+         call putbak(defn(k))
+      else {
+         if (defn(k) < DIG0 | defn(k) > DIG9)
+            call putbak(defn(k))
+         else {
+            i = defn(k) - DIG0 + 1
+            i = argptr(i)
+            call pbstr(buf(i))
+            k = k - 1   # skip over $
+            }
+         }
+   if (k > 0)   # do last character
+      call putbak(defn(k))
+   return
+   end

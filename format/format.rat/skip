@@ -1,0 +1,10 @@
+# skip - output  n  blank lines
+   subroutine skip(n)
+   integer i, n
+   include cpage
+ 
+   if (print == YES)
+       for (i = 1; i <= n; i = i + 1)
+          call putc(NEWLINE)
+   return
+   end

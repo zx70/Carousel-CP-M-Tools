@@ -1,0 +1,20 @@
+# getwrb - get  a word; hangs onto trailing blanks
+   integer function getwrb(in,  i, out)
+   character in(ARB), out(ARB)
+   integer i, j
+
+   j = 1
+   while (in(i) ^= EOS & in(i) ^= BLANK & in(i) ^= TAB & in(i) ^= NEWLINE) {
+       out(j) = in(i)
+       i = i + 1
+       j = j + 1
+       }
+   while (in(i) == BLANK) {     # include trailing blanks
+       out(j) = BLANK
+       i = i + 1
+       j = j + 1
+       }
+   out(j) = EOS
+   getwrb = j - 1
+   return
+   end

@@ -1,0 +1,27 @@
+# phead - put out page header
+   subroutine phead
+   include cpage
+   integer c(MAXLINE)
+ 
+   curpag = newpag
+   if (curpag >= frstpg & curpag <= lastpg)
+       print = YES
+   else print = NO
+   if(stopx > 0 & print == YES)
+      call prmpt(stopx)
+   newpag = newpag + 1
+   ifdef(PAGECONTROL,
+         if (stopx == 0 & print == YES)
+              call putc(PAGEJECT)
+         )
+   if (m1val > 0) {
+       call skip(m1val-1)
+       if (mod(curpag, 2) == 0)
+          call puttl(ehead, ehlim, curpag)
+       else
+          call puttl(ohead, ohlim, curpag)
+       }
+   call skip(m2val)
+   lineno = m1val + m2val + 1
+   return
+   end

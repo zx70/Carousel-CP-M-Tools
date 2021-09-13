@@ -1,0 +1,16 @@
+# space - space  n  lines or to bottom of page
+   subroutine space(n)
+   integer n
+   include cpage
+ 
+   call brk
+   if (lineno > bottom)
+       return
+   if (lineno == 0)
+       call phead
+   call skip(min(n, bottom+1-lineno))
+   lineno = lineno + n
+   if (lineno > bottom)
+       call pfoot
+   return
+   end

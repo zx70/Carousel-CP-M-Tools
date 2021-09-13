@@ -1,0 +1,18 @@
+# ngetln - get next line from f into line
+   integer function ngetln(line, f)
+   character line(MAXLINE), c, ngetch
+   integer f
+
+   for (ngetln = 0; ngetch(c, f) ^= EOF; ) {
+      if (ngetln < MAXLINE - 1) {
+         ngetln = ngetln + 1
+         line(ngetln) = c
+         }
+      if (c == NEWLINE)
+         break
+      }
+   line(ngetln+1) = EOS
+   if (ngetln == 0 & c == EOF)
+      ngetln = EOF
+   return
+   end

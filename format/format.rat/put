@@ -1,0 +1,54 @@
+# put - put out line with proper spacing and indenting
+   subroutine put(buf)
+   character buf(MAXLINE)
+   integer width
+   integer i, j, k, w, c, cuflg
+   include cpage
+   include cparam
+   data cuflg /NO/
+ 
+   if (lineno == 0 | lineno > bottom)
+       call phead
+   if (print == YES) {
+       for (i = 1; i <= offset; i = i + 1)      # page offset
+          call putc(BLANK)
+       for (i = 1; i <= tival; i = i + 1)      # indenting
+          call putc(BLANK)
+       for (i = 1; buf(i) ^= EOS & buf(i) ^= NEWLINE; i = i + 1)
+           if (buf(i) == STARTU)
+              cuflg = YES
+           else if (buf(i) == STOPU)
+              cuflg = NO
+           else if (cuflg == YES) {     # underlining
+              for (j = i; buf(i) ^= STOPU & buf(i) ^= NEWLINE &
+                 buf(i) ^= EOS; i = i + 1)
+                    ;
+              c = buf(i)
+              buf(i) = EOS
+              w = width(buf(j))
+              for (k = 1; k <= w; k = k + 1)
+                 call putch(UNDERLINE, STDOUT)
+              for (k = 1; k <= w; k = k + 1)
+                 call putch(BACKSPACE, STDOUT)
+              for (; j < i; j = j + 1)
+                 call putch(buf(j), STDOUT)
+              buf(i) = c
+              i = i - 1
+              }
+           else
+              call putch(buf(i), STDOUT)
+	if (mfval > 0) {
+		k = rmval + (mfval-1) - width(buf) - tival
+		for (; k > 0; k = k - 1)
+			call putch (BLANK, STDOUT)
+		call putlin (mfstng, STDOUT)
+		}
+       call putch(NEWLINE, STDOUT)
+       }
+   tival = inval
+   call skip(min(lsval-1, bottom-lineno))
+   lineno = lineno + lsval
+   if (lineno > bottom)
+       call pfoot
+   return
+   end

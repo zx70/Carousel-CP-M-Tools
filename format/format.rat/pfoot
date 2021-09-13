@@ -1,0 +1,14 @@
+# pfoot - put out page footer
+   subroutine pfoot
+   include cpage
+ 
+   call skip(m3val)
+   if (m4val > 0) {
+       if (mod(curpag, 2) == 1)
+          call puttl(efoot, eflim, curpag)
+       else
+          call puttl(ofoot, oflim, curpag)
+       ifnotdef(PAGECONTROL,  call skip(m4val-1) )
+       }
+   return
+   end

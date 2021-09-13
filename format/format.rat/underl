@@ -1,0 +1,32 @@
+# underl - underline words in a line
+   subroutine underl(buf, tbuf, size)
+   integer i, j, size, t
+   character buf(ARB), tbuf(ARB), type
+ 
+   j = 1      # expand into tbuf
+   i = 1
+   while (j < size - 1) {
+      for (t = type(buf(i)); t ^= LETTER & t ^= DIGIT & t ^= NEWLINE &
+           t ^= EOS; t = type(buf(i))) {
+         tbuf(j) = buf(i)
+         i = i + 1
+         j = j + 1
+         }
+      if (buf(i) == EOS | buf(i) == NEWLINE)
+         break
+      tbuf(j) = STARTU
+      j = j + 1
+      for (t = type(buf(i)); t == LETTER | t == DIGIT | t == MINUS;
+           t = type(buf(i))) {
+         tbuf(j) = buf(i)
+         i = i + 1
+         j = j + 1
+         }
+      tbuf(j) = STOPU
+      j = j + 1
+      }
+   tbuf(j) = NEWLINE
+   tbuf(j+1) = EOS
+   call scopy(tbuf, 1, buf, 1)   # copy it back to buf
+   return
+   end

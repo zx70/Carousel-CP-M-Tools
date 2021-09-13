@@ -1,0 +1,15 @@
+# justfy - justifies string in its tab column
+   subroutine justfy(in, left, right, type, out)
+   character in(ARB), out(ARB)
+   integer left, right, type, j, n, width
+
+   n = width(in)
+   if (type == RIGHT)
+        call jcopy(in, 1, out, right-n)
+   else if (type == CENTER) {
+        j = max((right+left-n)/2, left)
+        call jcopy(in, 1, out, j)
+        }
+   else call jcopy(in, 1, out, left)
+   return
+   end

@@ -1,0 +1,24 @@
+# dotabs - expand tabs in buf
+   subroutine dotabs(buf, tbuf, size)
+   character buf(ARB), tbuf(ARB)
+   integer size
+   integer i, j
+   include cparam
+
+   j = 1   # expand into tbuf
+   for (i = 1; buf(i) ^= EOS & j < size; i = i + 1)
+      if (buf(i) == TAB)
+         while (j < size) {
+            tbuf(j) = BLANK
+            j = j + 1
+            if (tabs(j) == YES | j > INSIZE)
+               break
+            }
+      else {
+         tbuf(j) = buf(i)
+         j = j + 1
+         }
+   tbuf(j) = EOS
+   call scopy(tbuf, 1, buf, 1)
+   return
+   end

@@ -1,0 +1,16 @@
+# set - set parameter and check range
+   subroutine set(param, val, argtyp, defval, minval, maxval)
+   integer argtyp, defval, maxval, minval, param, val
+ 
+   if (argtyp == NEWLINE)      # defaulted
+       param = defval
+   else if (argtyp == PLUS)      # relative +
+       param = param + val
+   else if (argtyp == MINUS)   # relative -
+       param = param - val
+   else               # absolute
+       param = val
+   param = min(param, maxval)
+   param = max(param, minval)
+   return
+   end

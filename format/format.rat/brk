@@ -1,0 +1,14 @@
+# brk - end current filled line
+   subroutine brk
+   include cout
+
+   if (outp > 0) {
+       outbuf(outp) = NEWLINE
+       outbuf(outp+1) = EOS
+       call put(outbuf)
+       }
+   outp = 0
+   outw = 0
+   outwds = 0
+   return
+   end

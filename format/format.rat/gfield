@@ -1,0 +1,22 @@
+# gfield - get next tab or title field
+   integer function gfield(buf, i, n, temp, delim)
+   character buf(ARB), temp(ARB), delim
+   integer i, j, n
+
+   j = 1
+   if (n > 0) {
+        if (buf(i) == delim)
+           i = i + 1
+        while (buf(i) ^= delim & buf(i) ^= EOS & buf(i) ^= NEWLINE &
+               j <= n) {
+            temp(j) = buf(i)
+            j = j + 1
+            i = i + 1
+            }
+        }
+   temp(j) = EOS
+   gfield = j - 1   # set to number of characters copied
+   while (buf(i) ^= delim & buf(i) ^= EOS & buf(i) ^= NEWLINE)
+       i = i + 1
+   return
+   end

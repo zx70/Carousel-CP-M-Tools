@@ -1,0 +1,20 @@
+# doroff - format text in file fd
+   subroutine doroff(fd)
+   integer fd
+   character inbuf(INSIZE)
+   integer ngetln
+   include cfiles
+   include cparam
+ 
+   infile(1) = fd
+   for (level = 1; level > 0; level = level - 1) {
+       while (ngetln(inbuf, infile(level)) ^= EOF)
+          if (inbuf(1) == cchar)   # it's a command
+             call comand(inbuf)
+          else               # it's text
+             call text(inbuf)
+       if (level > 1 & infile(level) >= 0)
+          call close(infile(level))
+       }
+   return
+   end

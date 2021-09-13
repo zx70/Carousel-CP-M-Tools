@@ -1,0 +1,39 @@
+# puttl - put out title line with optional page number & date
+   subroutine puttl(buf, lim, pageno)
+   character buf(MAXLINE), chars(MAXCHARS), delim, cdate(20)
+   integer pageno, lim(2)
+   integer nc, itoc, i, j, n, left, right, gfield, ncd
+   integer length
+   include cpage
+   include cparam
+   include ctemp
+ 
+   if (print == NO)
+       return
+   left = lim(1) + 1
+   right = lim(2) + 1
+   nc = itoc(pageno, chars, MAXCHARS)
+   call gdate (cdate, tbuf1)
+   ncd = length(cdate)
+   i = 1
+   delim = buf(i)
+   for (j = 1; j < right; j = j + 1)
+        ttl(j) = BLANK
+   n = 0
+   repeat {
+        n = n + 1         # update title counter
+        if (gfield(buf, i, right-left, tbuf1, delim) > 0) {
+            call subst(tbuf1, PAGENUM, tbuf2, chars, nc)
+            call subst(tbuf2, CURRENTDATE, tbuf1, cdate, ncd)
+            call justfy(tbuf1, left, right, tjust(n), ttl)
+            }
+        } until (buf(i) == EOS | buf(i) == NEWLINE | n == 3)
+   while (ttl(right-1) == BLANK)        # trim blanks
+       right = right - 1
+   ttl(right) = NEWLINE
+   ttl(right+1) = EOS
+   for (i = 1; i <= offset; i = i + 1)
+       call putc(BLANK)  # offset
+   call putlin(ttl, STDOUT)
+   return
+   end

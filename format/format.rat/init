@@ -1,0 +1,72 @@
+# init - set parameters to default values
+   subroutine init
+   integer i
+   integer mktabl
+   include cparam
+   include cpage
+   include cout
+   include cdefio
+   include cnr
+   include croff
+ 
+   inval = 0            # initialize cparam
+   rmval = PAGEWIDTH
+   mfval = 0
+   tival = 0
+   lsval = 1
+   fill = YES
+   ceval = 0
+   ulval = 0
+   boval = 0
+   cchar = PERIOD
+   mfstng(1) = EOS
+   tjust(1) = LEFT
+   tjust(2) = CENTER
+   tjust(3) = RIGHT
+   bsval = 0
+   rjust = YES
+   cuval = 0
+   for (i = 1; i <= INSIZE; i = i + 1)
+      if (mod(i, 8) == 1)
+         tabs(i) = YES
+      else
+         tabs(i) = NO
+   lineno = 0           # initialize cpage
+   curpag = 0
+   newpag = 1
+   plval = PAGELEN
+   m1val = 3
+   m2val = 2
+   m3val = 2
+   m4val = 3
+   bottom = plval - m3val - m4val
+   ehead(1) = NEWLINE
+   ehead(2) = EOS
+   ohead(1) = NEWLINE
+   ohead(2) = EOS
+   efoot(1) = NEWLINE
+   efoot(2) = EOS
+   ofoot(1) = NEWLINE
+   ofoot(2) = EOS
+   ehlim(1) = inval
+   ehlim(2) = rmval
+   ohlim(1) = inval
+   ohlim(2) = rmval
+   eflim(1) = inval
+   eflim(2) = rmval
+   oflim(1) = inval
+   oflim(2) = rmval
+   stopx = 0
+   frstpg = 0
+   lastpg = HUGE
+   print = YES
+   offset = 0
+   outp = 0             # initialize cout
+   outw = 0
+   outwds = 0
+   st = mktabl(CHAR_DEFN) # init hash table
+   bp = 0               # initialize cdefio
+   for (i = 1; i <= 26; i = i + 1)      # initialize cnr
+      nr(i) = 0
+   return
+   end

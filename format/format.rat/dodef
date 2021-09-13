@@ -1,0 +1,28 @@
+# dodef - define a command; .de xx is in buf
+   subroutine dodef(buf, fd)
+   character buf(MAXLINE)
+   integer fd
+   character name(MAXNAME), defn(MAXDEF)
+   integer i, junk
+   integer getwrd, addstr, addset, ngetln
+   include cparam
+   include croff
+
+   i = 1
+   junk = getwrd(buf, i, name)
+   i = getwrd(buf, i, name)   # get name
+   if (i == 0)
+      call error("missing name in command definition.")
+   if (i > 2)
+      name(3) = EOS   # truncate to xx
+   i = 1
+   while (ngetln(buf, fd) ^= EOF) {
+      if (buf(1) == cchar & buf(2) == LETE & buf(3) == LETN)
+         break
+      junk = addstr(buf, defn, i, MAXDEF)
+      }
+   if (addset(EOS, defn, i, MAXDEF) == NO)
+      call error("definition too long.")
+   call enter(name, defn, st)
+   return
+   end

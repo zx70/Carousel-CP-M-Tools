@@ -1,0 +1,19 @@
+# subst - substitutes a string for a specified character
+   subroutine subst(in, char, out, subara, n)
+   character in(ARB), char, out(ARB), subara(ARB)
+   integer i, j, k, n
+
+   j = 1
+   for (i = 1; in(i) ^= EOS; i = i + 1)
+        if (in(i) == char)
+            for (k = 1; k <= n; k = k + 1) {
+                out(j) = subara(k)
+                j = j + 1
+                }
+        else {
+            out(j) = in(i)
+            j = j + 1
+            }
+   out(j) = EOS
+   return
+   end

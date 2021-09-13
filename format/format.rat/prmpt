@@ -1,0 +1,28 @@
+# prmpt - pause for paper insertion; prompt if i == 1; increment i
+   subroutine prmpt(i)
+   integer i
+   integer open, getlin
+   integer tin, tout, junk
+   character line(MAXLINE)
+   string tell "Type return to begin a page"
+   string trmin TERMINAL_IN
+   string trmout TERMINAL_OUT
+
+   if (i == 1) 
+        {
+        tout = open(trmout, WRITE)
+        if (tout == ERR)
+                return
+        call putlin(tell, tout)
+        call flush(tout)
+        }
+   tin = open(trmin, READ)
+   if (tin == ERR)
+        return
+   junk = getlin(line, tin)
+   call close(tin)
+   if (i == 1)
+        call close(tout)
+   i = i + 1
+   return
+   end

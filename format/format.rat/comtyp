@@ -1,0 +1,90 @@
+# comtyp - decode command type
+   integer function comtyp(buf, defn)
+   character buf(MAXLINE), defn(MAXDEF)
+   character name(MAXNAME)
+   integer i
+   integer lookup, getwrd
+   include croff
+
+   i = 2
+   i = getwrd(buf, i, name)
+   if (i > 2)
+       name(3) = EOS
+   if (lookup(name, defn, st) == YES)
+       comtyp = DEFINED
+   else if (buf(2) == LETF & buf(3) == LETI)
+       comtyp = FI
+   else if (buf(2) == LETN & buf(3) == LETF)
+       comtyp = NF
+   else if (buf(2) == LETB & buf(3) == LETR)
+       comtyp = BR
+   else if (buf(2) == LETL & buf(3) == LETS)
+       comtyp = LS
+   else if (buf(2) == LETB & buf(3) == LETP)
+       comtyp = BP
+   else if (buf(2) == LETS & buf(3) == LETP)
+       comtyp = SP
+   else if (buf(2) == LETI & buf(3) == LETN)
+       comtyp = IN
+   else if (buf(2) == LETR & buf(3) == LETM)
+       comtyp = RM
+   else if (buf(2) == LETT & buf(3) == LETI)
+       comtyp = TI
+   else if (buf(2) == LETC & buf(3) == LETE)
+       comtyp = CE
+   else if (buf(2) == LETU & buf(3) == LETL)
+       comtyp = UL
+   else if (buf(2) == LETH & buf(3) == LETE)
+       comtyp = HE
+   else if (buf(2) == LETF & buf(3) == LETO)
+       comtyp = FO
+   else if (buf(2) == LETP & buf(3) == LETL)
+       comtyp = PL
+   else if (buf(2) == LETP & buf(3) == LETO)
+       comtyp = PO
+   else if (buf(2) == LETB & buf(3) == LETD)
+       comtyp = BD
+   else if (buf(2) == LETM & buf(3) == DIG1)
+       comtyp = M1
+   else if (buf(2) == LETM & buf(3) == DIG2)
+       comtyp = M2
+   else if (buf(2) == LETM & buf(3) == DIG3)
+       comtyp = M3
+   else if (buf(2) == LETM & buf(3) == DIG4)
+       comtyp = M4
+   else if (buf(2) == LETM & buf(3) == LETC)
+	comtyp = MC
+   else if (buf(2) == LETE & buf(3) == LETH)
+       comtyp = EH
+   else if (buf(2) == LETO & buf(3) == LETH)
+       comtyp = OH
+   else if (buf(2) == LETE & buf(3) == LETF)
+       comtyp = EF
+   else if (buf(2) == LETO & buf(3) == LETF)
+       comtyp = OF
+   else if (buf(2) == LETC & buf(3) == LETC)
+       comtyp = CC
+   else if (buf(2) == LETN & buf(3) == LETE)
+       comtyp = NE
+   else if (buf(2) == LETB & buf(3) == LETS)
+       comtyp = BS
+   else if (buf(2) == LETJ & buf(3) == LETU)
+       comtyp = JU
+   else if (buf(2) == LETN & buf(3) == LETJ)
+       comtyp = NJ
+   else if (buf(2) == LETS & buf(3) == LETO)
+       comtyp = SO
+   else if (buf(2) == LETC & buf(3) == LETU)
+       comtyp = CU
+   else if (buf(2) == LETD & buf(3) == LETE)
+       comtyp = DE
+   else if (buf(2) == LETE & buf(3) == LETN)
+       comtyp = EN
+   else if (buf(2) == LETN & buf(3) == LETR)
+       comtyp = NR
+   else if (buf(2) == LETS & buf(3) == LETT)
+       comtyp = ST
+   else
+       comtyp = UNKNOWN
+   return
+   end

@@ -1,0 +1,58 @@
+# text - process text lines
+   subroutine text(inbuf)
+   character inbuf(INSIZE), wrdbuf(INSIZE)
+   integer getwrb, length
+   integer i, cuflg
+   include cparam
+   data cuflg /NO/
+
+   call doesc(inbuf, wrdbuf, INSIZE)    # expand escapes
+   call dotabs(inbuf, wrdbuf, INSIZE)   # expand tabs
+   if (inbuf(1) == BLANK | inbuf(1) == NEWLINE)
+       call leadbl(inbuf)                    # move left, set tival
+   if (ulval > 0) {                          # word underlining
+       call underl(inbuf, wrdbuf, INSIZE)
+       ulval = ulval - 1
+       }
+   if (cuval > 0) {                          # continuous underlining
+       if (cuflg == NO) {
+           call scopy(inbuf, 1, wrdbuf, 1)
+           inbuf(1) = STARTU
+           call scopy(wrdbuf, 1, inbuf, 2)
+           cuflg = YES
+           }
+       cuval = cuval - 1
+       if (cuflg == YES & cuval == 0) {
+           i = length(inbuf)
+           inbuf(i) = STOPU
+           inbuf(i+1) = NEWLINE
+           inbuf(i+2) = EOS
+           cuflg = NO
+           }
+       }
+   if (boval >  0) {                         # boldfacing
+       call bold(inbuf, wrdbuf, INSIZE)
+       boval = boval - 1
+       }
+   if (ceval >  0) {                         # centering
+       call center(inbuf)
+       call put(inbuf)
+       ceval = ceval - 1
+       }
+   else if (inbuf(1) == NEWLINE)             # all blank line
+       call put(inbuf)
+   else if (fill == NO)              # unfilled text
+       call put(inbuf)
+   else {                                     # filled text
+       i = length(inbuf)
+       inbuf(i) = BLANK
+       if (inbuf(i-1) == PERIOD) {
+          i = i + 1
+          inbuf(i) = BLANK
+          }
+       inbuf(i+1) = EOS
+       for (i = 1; getwrb(inbuf, i, wrdbuf) > 0; )
+           call putwrd(wrdbuf)
+       }
+   return
+   end

@@ -1,0 +1,9 @@
+# center - center a line by setting tival
+   subroutine center(buf)
+   character buf(ARB)
+   integer width
+   include cparam
+ 
+   tival = max((rmval+tival-width(buf))/2, 0)
+   return
+   end

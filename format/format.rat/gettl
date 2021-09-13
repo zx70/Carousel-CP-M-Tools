@@ -1,0 +1,15 @@
+# gettl - copy title from buf to ttl
+   subroutine gettl(buf, ttl, lim)
+   character buf(MAXLINE), ttl(MAXLINE)
+   integer i, lim(2)
+   include cparam
+ 
+   i = 1            # skip command name
+   while (buf(i) ^= BLANK & buf(i) ^= TAB & buf(i) ^= NEWLINE)
+       i = i + 1
+   call skipbl(buf, i)      # find argument
+   call scopy(buf, i, ttl, 1)   # copy titles to ttl
+   lim(1) = inval               # set limits
+   lim(2) = rmval
+   return
+   end

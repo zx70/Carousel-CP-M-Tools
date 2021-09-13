@@ -1,0 +1,32 @@
+# doesc - expand escapes in buf
+   subroutine doesc(buf, tbuf, size)
+   character buf(ARB), tbuf(ARB)
+   integer size
+   integer i, j
+   integer itoc
+   include cnr
+
+   j = 1   # expand into tbuf
+   for (i = 1; buf(i) ^= EOS & j < size; i = i + 1)
+      if (buf(i) ^= ESCAPE) {
+         tbuf(j) = buf(i)
+         j = j + 1
+         }
+      else if (buf(i+1) == ESCAPE) {
+         tbuf(j) = ESCAPE
+         j = j + 1
+         i = i + 1
+         }
+      else if (buf(i+1) == LETN & (buf(i+2) >= LETA & buf(i+2) <= LETZ)) {
+	 itmp = buf(i+2) - LETA+1
+         j = j + itoc(nr(itmp), tbuf(j), size - j - 1)
+         i = i + 2
+         }
+      else {
+         tbuf(j) = buf(i)
+         j = j + 1
+         }
+   tbuf(j) = EOS
+   call scopy(tbuf, 1, buf, 1)
+   return
+   end

@@ -1,0 +1,18 @@
+# leadbl - delete leading blanks, set tival
+   subroutine leadbl(buf)
+   character buf(MAXLINE)
+   integer i, j
+   include cparam
+ 
+   call brk
+   for (i = 1; buf(i) == BLANK; i = i + 1)   # find 1st non-blank
+       ;
+   if (buf(i) ^= NEWLINE)
+       tival = tival + i - 1
+   for (j = 1; buf(i) ^= EOS; j = j + 1) {   # move line to left
+       buf(j) = buf(i)
+       i = i + 1
+       }
+   buf(j) = EOS
+   return
+   end

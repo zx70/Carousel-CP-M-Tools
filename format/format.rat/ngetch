@@ -1,0 +1,16 @@
+# ngetch - get a (possibly pushed back) character from file fd
+   character function ngetch(c, fd)
+   character c
+   integer fd
+   character getch
+   include cdefio
+ 
+   if (bp > 0) {
+      c = buf(bp)
+      bp = bp - 1
+      }
+   else
+      c = getch(c, fd)
+   ngetch = c
+   return
+   end
