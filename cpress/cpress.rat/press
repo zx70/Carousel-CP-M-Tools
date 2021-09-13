@@ -1,0 +1,32 @@
+ ## press - compress file -int-
+ subroutine press (int)
+ character getch
+ character buf(MAXCHUNK), c, lastc
+ integer int, nrep, nsave
+ #must have RCODE > MAXCHUNK or RCODE = 0
+ 
+ nsave = 0
+ for (lastc=getch(lastc,int); lastc != EOF; lastc = c)
+        {
+        for (nrep=1; getch(c,int) == lastc; nrep = nrep + 1)
+                if (nrep >= MAXCHUNK)   #count repetitions
+                        break
+        if (nrep < THRESH)              #append short string
+                for (; nrep > 0; nrep = nrep - 1)
+                        {
+                        nsave = nsave + 1
+                        buf(nsave) = lastc
+                        if (nsave >= MAXCHUNK)
+                                call putbuf(buf, nsave)
+                        }
+        else
+                {
+                call putbuf(buf, nsave)
+                call putc (RCODE)
+                call putc(lastc)
+                call putc(nrep+BASECOUNT)
+                }
+        }
+ call putbuf(buf, nsave)                #put last chunk
+ return
+ end

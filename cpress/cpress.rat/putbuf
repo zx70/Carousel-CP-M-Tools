@@ -1,0 +1,14 @@
+ ## putbuf - output buf(1) ... buf(nsave),  clear nsave
+ subroutine putbuf(buf, nsave)
+ character buf(MAXCHUNK)
+ integer i, nsave
+ 
+ if (nsave > 0)
+        {
+        call putc (nsave+BASECOUNT)
+        for (i=1; i<=nsave; i=i+1)
+                call putc(buf(i))
+        }
+ nsave = 0
+ return
+ end

@@ -1,0 +1,32 @@
+ #        include ratdef 
+ ## cpress - compress input files
+ DRIVER
+ 
+ character buf(MAXLINE)
+ integer getarg, open
+ integer i
+ #must have RCODE > MAXCHUNK or RCODE = 0
+ 
+ call query ("usage:  cpress [file].")
+ for (i=1; ; i=i+1)
+        {
+        if (getarg(i,buf,MAXLINE) == EOF)
+                {
+                if (i != 1)
+                        break
+                int = STDIN
+                }
+        else if (buf(1) == MINUS & buf(2) == EOS)
+                int = STDIN
+        else
+                {
+                int = open(buf,READ)
+                if (int == ERR)
+                        call cant(buf)
+                }
+        call press (int)
+        if (int != STDIN)
+                call close(int)
+        }
+ DRETURN
+ end
