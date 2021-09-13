@@ -1,0 +1,23 @@
+## carch - common blocks for the archiver
+
+   common /carch/ fname, fstat, fcount, errcnt, verbos,
+                  chead, typef, sizef, seeksz, ccount, intrls,
+		  rswich
+
+   character fname (FILENAMESIZE, MAXFILES)  # list of archive members
+   integer fstat (MAXFILES)       # mark member when processed
+   integer fcount                 # number of members
+   integer errcnt                 # running error count
+   integer verbos                 # verbose flag
+   character chead (MAXLINE)      # holds current header
+   integer typef                  # holds current member type
+   integer sizef                  # holds current member size
+   integer seeksz(2)              # size of member as a seek
+                                  #   offset
+   integer ccount                 # CCHARS if count chars;
+                                  # CSEEK if seek to end;
+                                  # CLINES if await trailer
+   integer intrls                 # YES if trailer required;
+                                  # NO if trailer prohibited;
+                                  # DONT_KNOW if still optional
+   integer rswich		  # YES if -r on command line
