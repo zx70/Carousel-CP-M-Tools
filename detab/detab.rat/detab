@@ -1,0 +1,30 @@
+ ## detab - driver for detab tool
+ DRIVER
+    character buf(MAXLINE)
+    integer open, getarg, length, alldig
+    integer tabs(MAXLINE), int, i, k, l
+
+
+    call query ("usage:  detab [<t1> <t2> etc] [+<n>] [files].")
+    call settab(tabs)   # set initial tab stops
+    int = ERR
+
+     for (i=1; getarg(i, buf, MAXLINE) != EOF; i=i+1)
+        {
+        if (buf(1) == PLUS | alldig(buf) == YES)        #ignore flags
+                next
+        if (buf(1) == MINUS & buf(2) == EOS)    #read from standard input
+                int = STDIN
+        else
+                int = open(buf, READ)
+        if (int == ERR)
+                call cant(buf)
+        call dotab (tabs, int)
+        if (int != STDIN)
+                call close(int)
+        }
+
+    if (int == ERR)     #no files read
+        call dotab(tabs, STDIN)
+    return
+    end
