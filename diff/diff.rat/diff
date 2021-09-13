@@ -1,0 +1,18 @@
+DRIVER(diff)
+
+   include cdiff
+
+   call initialize
+   if (Option == COMPARISON)
+      call simple_compare
+   else {
+      call load
+      call pair
+      call grow
+      call label
+      call report
+      call cleanup
+      }
+
+   DRETURN
+   end
