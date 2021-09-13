@@ -1,0 +1,7 @@
+ common / cisam / dif, width, justfy, addr, oldadr
+
+ integer dif            # number of CP/M blocks between isam'ed records
+ integer width          # width of key field in index
+ integer justfy         # type of justification desired on key; init = LEFT
+ integer oldadr(2)	# previous record address
+ integer addr(2)	# current record address
