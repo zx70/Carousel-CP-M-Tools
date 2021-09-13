@@ -1,0 +1,22 @@
+## isseek -- check whether next word is a seek offset
+
+integer function isseek (text)
+
+ character text(ARB)
+
+ integer i, ctoi, j
+ character type
+
+ j = 1
+ call skipbl (text, j)
+ if (type(text(j)) != DIGIT & text(j) != MINUS)
+        return NO
+ i = ctoi(text, j)
+ if (text(j) != UNDERLINE)
+        return NO
+ j = j + 1      # skip past UNDERLINE
+ if (type(text(j)) != DIGIT & text(j) != MINUS)
+        return NO
+ return YES
+
+ end

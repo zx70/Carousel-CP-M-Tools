@@ -1,0 +1,17 @@
+## notfnd - print 'not found' message if member isn't in archive
+
+   subroutine notfnd
+
+   include carch
+
+   integer i
+
+   for (i = 1; i <= fcount; i = i + 1)
+      if (fstat (i) == NO) {
+         call putlin (fname (1, i), ERROUT)
+         call remark (":  not in archive.")
+         errcnt = errcnt + 1
+         }
+
+   return
+   end

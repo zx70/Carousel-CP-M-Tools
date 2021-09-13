@@ -1,0 +1,50 @@
+## replac - replace or delete archive members
+
+   subroutine replac (afd, tfd, cmd)
+   filedes afd, tfd
+   character cmd
+
+   include carch
+
+   character hdr (MAXLINE), trl(MAXLINE), name (FILENAMESIZE)
+   integer bfrhed(2), bfrfil(2), after(2), diff(2), afthed(2)
+   integer gethdr, filarg, subsek, cmpsek
+
+   while (gethdr (afd, hdr, name) != EOF)
+      if (filarg (name) == YES) {
+         if (cmd == UPDATE_CMD)
+            call addfil (name, tfd)
+         if (verbos == YES & cmd == DELETE_CMD) {
+            call putlin (name, STDOUT)
+            call putch (NEWLINE, STDOUT)
+            }
+         call skipf (afd)
+         }
+      else
+	 {
+	 call note (bfrhed, tfd)
+         call putlin (hdr, tfd)
+	 call note (bfrfil, tfd)
+	 call cpout (afd, tfd)
+	 call note (after, tfd)
+	 if (subsek(after, bfrfil, diff) < 0)
+		{
+		call putlin (name, ERROUT)
+		call error (":  inconsistent seek offsets.")
+		}
+	 call remkhd (hdr, diff)
+	 call seek (bfrhed, tfd)
+	 call putlin (hdr, tfd)
+	 call note (afthed, tfd)	# check placement
+	 if (cmpsek(afthed, bfrfil) != 0)
+		{
+		call putlin (name, ERROUT)
+		call error (":  can't position new header.")
+		}
+	 call seek (after, tfd)
+	 call maktrl (hdr, trl)
+	 call putlin (trl, tfd)
+         }
+
+   return
+   end

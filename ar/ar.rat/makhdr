@@ -1,0 +1,38 @@
+## makhdr - make header line for an archive member
+
+   subroutine makhdr (head, name, seksz)
+   character head (ARB), name (ARB)
+   integer type
+   integer seksz(2)
+
+   include carch
+
+   integer i, now (7)
+   integer gettyp
+   character text (MAXLINE)
+   string blanks " "
+
+   type = gettyp (name)
+NOTBIN if (type == BINARY){
+NOTBIN	       errcnt = errcnt + 1
+NOTBIN         call putlin (name, ERROUT)
+NOTBIN	       call remark (":  binary file, can't handle.")
+NOTBIN	       return}
+
+   call szseek (name, seksz)
+
+   call formhd (head, i, name, type, seksz)
+
+   i = i - 1	# overwrite the NEWLINE left by formhd
+   call stcopy (blanks, 1, head, i)
+   call getnow (now)
+   call fmtdat (text(1), text(25), now, 0)
+   call stcopy (text(1), 1, head, i)
+   call stcopy (blanks, 1, head, i)
+   call stcopy (text(25), 1, head, i)
+
+   head (i) = NEWLINE
+   head (i + 1) = EOS
+
+   return
+   end

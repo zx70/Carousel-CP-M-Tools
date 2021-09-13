@@ -1,0 +1,18 @@
+## sektoc -- convert seek offset to character string
+
+integer function sektoc (offset, str, len)
+                               # return no. of chars needed
+
+ integer offset(2), len
+ character str(ARB)
+
+ integer gitoc, addset
+
+ sektoc = gitoc(offset(2), str, len, -10) + 1
+ if (addset(UNDERLINE, str, sektoc, len) == YES)
+     sektoc = sektoc +
+	   gitoc(offset(1), str(sektoc), len - sektoc + 1, -10)
+ sektoc = sektoc - 1
+ return
+
+ end

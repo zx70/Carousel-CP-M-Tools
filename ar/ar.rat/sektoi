@@ -1,0 +1,14 @@
+## sektoi - convert seek offset to positive integer if possible
+
+integer function sektoi(offset)
+ integer offset(2)
+
+ integer o2
+
+ o2 = offset(2)
+ if (o2 >= 256 | o2 < 0)     # that is, if some bit 8-15 is set
+	sektoi = ERR
+    else
+	sektoi = (o2 * 128) + offset(1)
+ return
+ end

@@ -1,0 +1,36 @@
+## sekcpy - copy file using seek offset to know when done
+
+integer function sekcpy (fromfd, tofd, seeksz)
+
+ filedes fromfd, tofd     # tofd == ERR if output discarded
+ integer seeksz(2)
+
+ include binbuf
+
+ integer readf, writef, len, here(2), target(2)
+ integer subsek, sektoi, j, yet(2)
+
+ sekcpy = YES
+ call note (here, fromfd)
+ call addsek (here, seeksz, target)
+
+ if (tofd != ERR)
+        {       # there's really a file to copy to
+        for(;subsek(target,here,yet)>0;call note(here,fromfd))
+            {
+	    j = sektoi(yet)
+	    if (j == ERR | j > BINARY_BUFSIZE)
+		    j = BINARY_BUFSIZE
+            len = readf(buf, j, fromfd)
+            if (len == EOF)
+		    {
+		    sekcpy = EOF
+		    break
+		    }
+            len = writef(buf, len, tofd)
+            }
+        }
+    else        # just skipping (discarding) the input data
+        call seek (target, fromfd)
+ return
+ end

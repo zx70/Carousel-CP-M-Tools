@@ -1,0 +1,18 @@
+## maktrl - make trailer line for an archive member
+
+   subroutine maktrl (head, trail)
+   character trail (ARB), head (ARB)
+   integer i, j, len
+   integer getwrd
+
+   include carch
+
+   string tstr TRAILER_STRING
+
+   i = 1
+   len = getwrd (head, i, trail)        # skip over header string
+   j = 1
+   call stcopy (tstr, 1, trail, j)
+   call stcopy (head, i, trail, j)
+   return
+   end

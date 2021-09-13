@@ -1,0 +1,60 @@
+## update - update existing files, add new ones at end
+
+   subroutine update (aname)
+   character aname (ARB)
+
+   include carch
+
+   filedes afd, tfd
+   filedes open, create
+
+   integer fp, junk
+   integer remove, amove, mkuniq
+
+   character tname (FILENAMESIZE)
+
+   string tprefx "arctemp"
+
+   afd = open (aname, READ)
+   if (afd == ERR) {          # try to create a new archive
+      afd = create (aname, READ)
+#     afd = create (aname, WRITE)
+#     if (afd == ERR)
+#        call cant (aname)
+#     call close (afd)        # close and reopen to mark EOF
+#     afd = open (aname, READ)
+      if (afd == ERR)
+         call cant (aname)
+      }
+
+   junk = mkuniq (tprefx, tname)
+   tfd = create (tname, READWRITE)
+   if (tfd == ERR)
+      call cant (tname)
+
+   call replac (afd, tfd, UPDATE_CMD)        # update existing members
+
+   for (fp = 1; fp <= fcount; fp = fp + 1)   # add new members
+      if (fstat (fp) == NO) {
+         call addfil (fname (1, fp), tfd)
+         fstat (fp) = YES
+         }
+
+   call close (afd)
+   call close (tfd)
+
+   if (errcnt == 0)
+        {
+        if (amove (tname, aname) == ERR)
+		{
+		errcnt = errcnt + 1
+                call remark ("can't rename/move temp file.")
+		}
+        }
+   else {
+      call remark ("fatal errors - archive not altered.")
+      junk = remove (tname)
+      }
+
+   return
+   end

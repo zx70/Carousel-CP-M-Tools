@@ -1,0 +1,14 @@
+## savhdr - save current header
+  subroutine savhdr (head)
+ 
+  include carch
+  character head(ARB)
+  integer i, len
+  integer getwrd
+
+  i = 1
+  len = getwrd (head, i, chead)
+  call skipbl (head, i)
+  call scopy (head, i, chead, 1)
+  return
+  end

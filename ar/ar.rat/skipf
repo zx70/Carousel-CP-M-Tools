@@ -1,0 +1,9 @@
+## skipf --- skip current archive element on file afd
+
+   subroutine skipf (afd)
+   filedes afd
+
+   call fromar (afd, ERR)
+   return
+
+   end

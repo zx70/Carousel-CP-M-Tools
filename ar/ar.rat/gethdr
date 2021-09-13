@@ -1,0 +1,99 @@
+## gethdr - read archive header, prepare output header
+
+   integer function gethdr (fd, ohdr, name)
+   filedes fd
+   character ohdr (ARB), name (ARB)
+
+   include carch
+
+   character text (FILENAMESIZE), hdr(MAXLINE)
+   character type
+   integer i, savei, j, len
+   integer getwrd, equal, getlin, ctoi
+   integer isseek
+
+   string hdrstr HEADER_STRING
+   string astr ASCII_STRING
+   string bstr BINARY_STRING
+
+   if (getlin (hdr, fd) == EOF)
+      return (EOF)
+   FOLDF call fold (hdr)
+
+   i = 1
+
+   len = getwrd (hdr, i, text)
+   if (equal (text, hdrstr) == NO) {
+      call remark ("archive not in proper format.")
+      errcnt = errcnt + 1
+      return (EOF)
+      }
+   call savhdr (hdr)
+
+   len = getwrd (hdr, i, name)  # pick up member name
+
+   savei = i
+   len = getwrd (hdr, i, text)  # try to find member size
+   if (type(text(1)) != DIGIT)
+	    {
+	    i = savei	# back up:  that wasn't a size
+			# no valid size => must find trailer
+		# Note:  rswich makes no difference here.
+	    switch (intrls)	# trailer already required?
+		{
+		case YES:	# ok, no problem
+		case NO:	# trailer prohibited
+		    {
+		    errcnt = errcnt + 1
+		    call putlin (name, ERROUT)
+		    call remark (":  missing size.")
+		    return (EOF)
+		    }
+		case DONT_KNOW:
+		    intrls = YES
+		}
+	    ccount = CLINES
+	    sizef = 0
+	    }
+    else			# there is a size here
+	{
+	if (rswich == NO)
+		{		# take note of the size
+		if (isseek(text) == YES)
+			{
+			j = 1
+			call ctosek (text, j, seeksz)
+			ccount = CSEEK
+			}
+		    else
+			{
+			j = 1
+			sizef = ctoi(text, j)
+			ccount = CCHARS
+			}
+		}
+	}
+
+   len = getwrd (hdr, i, text)  # pick up member type
+   if (equal (text, astr) == YES)
+        typef = ASCII
+   else if (equal (text, bstr) == YES)
+	{
+BIN	typef = BINARY
+BIN	if (ccount == CLINES)
+		{
+		errcnt = errcnt + 1
+		call putlin (name, ERROUT)
+	       call remark (":  binary element, can't handle.")
+		return (EOF)
+		}
+	}
+   else
+        typef = LOCAL
+
+   call formhd (ohdr, j, name, typef, seeksz)
+
+   call scopy (hdr, i, ohdr, j - 1)       # copy rest of header
+
+   return (YES)
+   end

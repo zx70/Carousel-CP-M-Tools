@@ -1,0 +1,30 @@
+## table - print table of archive contents
+
+   subroutine table (aname)
+   character aname (ARB)
+
+   filedes afd
+   filedes open
+
+   character hdr (MAXLINE), name (FILENAMESIZE)
+
+   integer gethdr, filarg
+
+   integer done
+
+   afd = open (aname, READ)
+   if (afd == ERR)
+      call cant (aname)
+
+   while (gethdr (afd, hdr, name) != EOF) {
+      if (filarg (name) == YES)
+         call tprint
+      if (done(junk) == YES)
+        break
+      call skipf (afd)
+      }
+
+   call close (afd)
+   call notfnd
+   return
+   end

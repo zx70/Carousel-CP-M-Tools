@@ -1,0 +1,17 @@
+## szseek - find size of file in terms of a seek offset
+subroutine szseek (name, offset)
+
+ character name(ARB)
+ integer offset(2)
+
+ filedes fd, open
+
+ fd = open(name, READ)
+ if (fd == ERR)
+        call cant (name)
+ call seek (END_OF_FILE, fd)
+ call note (offset, fd)
+ call close (fd)
+ return
+
+ end

@@ -1,0 +1,25 @@
+## tprint - print table entry for one archive member
+
+   subroutine tprint
+
+   include carch
+
+   character name (FILENAMESIZE)
+
+   integer i, len
+   integer getwrd
+
+   i = 1
+
+   len = getwrd (chead, i, name)      # grab the filename
+
+   call putlin (name, STDOUT)
+   if (verbos == YES) {             # print other info only if asked
+      for (; chead(i) != NEWLINE & chead(i) != EOS; i = i + 1)
+         call putch (chead(i), STDOUT)
+      }
+
+   call putch (NEWLINE, STDOUT)
+
+   return
+   end

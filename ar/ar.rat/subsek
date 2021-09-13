@@ -1,0 +1,25 @@
+## subsek -- subtract seek offsets
+
+integer function subsek(subtrh, minuen, differ)
+
+ integer subtrh(2), minuen(2), differ(2)
+
+ integer top(2), bottom(2), cmpsek
+
+ top(1) = subtrh(1)
+ top(2) = subtrh(2)
+ bottom(1) = minuen(1)
+ bottom(2) = minuen(2) 
+ call seknrm (top)
+ call seknrm (bottom)
+
+ if (top(1) < bottom(1))
+	{			# then borrow from top(2)
+	top(2) = top(2) - 1
+	top(1) = top(1) + 128
+	}
+ differ(1) = top(1) - bottom(1)
+ differ(2) = top(2) - bottom(2)
+ return (cmpsek(subtrh, minuen))
+
+ end

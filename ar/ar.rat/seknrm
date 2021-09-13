@@ -1,0 +1,16 @@
+## seknrm -- normalize seek offset
+
+subroutine seknrm (offset)
+
+ integer offset(2)
+
+ integer o1
+
+ o1 = offset(1)
+ if (o1 > 127)
+	    {
+	    offset(2) = offset(2) + (o1/128)
+	    offset(1) = mod(o1, 128)       # maximum of 127
+	    }
+ return
+ end

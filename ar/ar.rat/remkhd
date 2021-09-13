@@ -1,0 +1,22 @@
+## remkhd -- put file size (as seek offset) into existing hdr
+
+subroutine remkhd (hdr, offset)
+ character hdr(ARB)
+ integer offset(2)
+
+ include carch
+
+ character save(MAXLINE), name(FILENAMESIZE)
+ integer len, getwrd, i
+
+ i = 1
+ len = getwrd(hdr, i, save)	# skip the header string
+ len = getwrd(hdr, i, name)	# save the file name
+ len = getwrd(hdr, i, save)	# skip the file size
+ len = getwrd(hdr, i, save)	# skip the file type
+ call scopy (hdr, i, save, 1)	# save all the rest
+ call formhd (hdr, i, name, typef, offset)
+ call scopy (save, 1, hdr, i - 1)	# replace the rest
+ return
+
+ end

@@ -1,0 +1,52 @@
+## getfns - get file names into 'fname', check for duplicates
+
+   subroutine getfns
+
+   include carch
+
+   integer ap, fp, len, i
+   integer getarg, getlin, equal
+
+   character line (MAXLINE)
+
+   fp = 1
+
+   for (ap = 3; getarg (ap, fname (1, fp), FILENAMESIZE) != EOF; ap = ap + 1)
+      if (fname (1, fp) == MINUS & fname (2, fp) == EOS) {
+         while (fp <= MAXFILES) {
+            len = getlin (fname (1, fp), STDIN)
+            if (len == EOF)
+               break
+            fname (len, fp) = EOS         # remove the NEWLINE
+            FOLDF call fold (fname (1, fp))
+            fp = fp + 1
+            }
+         if (fp > MAXFILES)
+            if (getlin (line, STDIN) != EOF)
+               call error ("too many file names.")
+         }
+      else {
+         FOLDF call fold (fname (1, fp))
+         fp = fp + 1
+         if (fp > MAXFILES)
+            if (getarg (ap + 1, line, MAXLINE) != EOF)
+               call error ("too many file names.")
+         }
+
+   fcount = fp - 1
+   for (fp = 1; fp <= fcount; fp = fp + 1)
+      fstat (fp) = NO
+
+   for (fp = 1; fp < fcount; fp = fp + 1)
+      for (i = fp + 1; i <= fcount; i = i + 1)
+         if (equal (fname (1, fp), fname (1, i)) == YES) {
+            call putlin (fname (1, i), ERROUT)
+            call remark (":  duplicate file name.")
+            errcnt = errcnt + 1
+            }
+
+   if (errcnt != 0)
+      call error ("fatal errors - archive not altered.")
+
+   return
+   end
