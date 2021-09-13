@@ -1,0 +1,3 @@
+ # include ratdef
+define(MAXFIELDS,10)
+define(ARGFLAG,-1)       # or define(ARGFLAG,255)
