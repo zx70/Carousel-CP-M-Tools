@@ -1,0 +1,35 @@
+  ## getnum - convert one term to line number    
+   integer function getnum(lin, i, pnum, status)
+   character lin(MAXLINE)
+   integer ctoi, optpat, ptscan
+   integer i, pnum, status
+   character c
+   character type
+   include clines
+   include cpat
+ 
+   c = lin(i)
+   getnum = OK
+   if (type(c) == DIGIT) {
+      pnum = ctoi(lin, i)
+      i = i - 1   # move back; to be advanced at the end
+      }
+   else if (c == CURLINE)
+      pnum = curln
+   else if (c == LASTLINE)
+      pnum = lastln
+   else if (c == SCAN | c == BACKSCAN) {
+      if (optpat(lin, i) == ERR)   # build the pattern
+         getnum = ERR
+      else if (c == SCAN)
+         getnum = ptscan(FORWARD, pnum)
+      else
+         getnum = ptscan(BACKWARD, pnum)
+      }
+   else
+      getnum = EOF
+   if (getnum == OK)
+      i = i + 1   # point at next character to be examined
+   status = getnum
+   return
+   end

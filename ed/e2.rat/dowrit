@@ -1,0 +1,32 @@
+  ## dowrit - write 'from' through 'to' into file      
+   integer function dowrit(from, to, file)
+   character file(MAXLINE), lin(FILENAMESIZE)
+   integer create, gettxt
+   integer fd, from, k, line, to
+   integer look4
+   include ctxt
+   include clines
+   include cfile
+ 
+   if (look4(file, lin) != YES)
+       call scopy(file, 1, lin, 1)
+   fd = create(lin, WRITE)
+   if (fd == ERR)
+      dowrit = ERR
+   else {
+      for (line = from; line <= to; line = line + 1) {
+         k = gettxt(line)
+         call putlin(txt, fd)
+         }
+      call close(fd)
+      if (print == YES)
+          {
+          call putdec (to-from+1, 1)
+          call putc (NEWLINE)
+          }
+      dowrit = OK
+      ifmod = NO        # reset changes since last w flags
+      notify = NO
+      }
+   return
+   end

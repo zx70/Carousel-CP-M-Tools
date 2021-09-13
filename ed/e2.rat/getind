@@ -1,0 +1,29 @@
+  ## getind - locate line index in buffer      
+   integer function getind(line)
+ integer line, k, j
+ integer nextln, prevln
+ include clines
+ data oldndx /ERR/
+ data oldlin /-2/
+ 
+ if (oldndx != ERR & line == nextln(oldlin))
+                call getb(oldndx, NEXT, k)
+ else if (oldndx != ERR & line == oldlin)
+                k = oldndx
+ else if (oldndx != ERR & line == prevln(oldlin))
+                call getb(oldndx, PREV, k)
+ else
+        {
+         k = LINE0
+         if (line < lastln/2)
+                for (j=0; j<line; j=j+1)        #search forward
+                        call getb (k, NEXT, k)
+         else
+                for (j=lastln; j>=line; j=j-1)  #search backwards
+                        call getb(k, PREV, k)
+        }
+ oldlin = line
+ oldndx = k
+ getind = k
+ return
+ end

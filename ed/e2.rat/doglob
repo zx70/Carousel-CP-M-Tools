@@ -1,0 +1,47 @@
+  ## doglob - do command at lin(i) on all marked lines   
+   integer function doglob(lin, i, status)
+   character lin(MAXLINE)
+   integer docmd, getind, getlst, nextln
+   integer getlin
+   integer value(2)
+   integer count, i, istart, k, line, status, last
+   include cbuf
+   include clines
+ 
+   for (last = length(lin); lin(last - 1) == ATSIGN; last = length(lin))
+        {
+        lin(last - 1) = NEWLINE
+        junk = getlin(lin(last),STDIN)
+        }
+   status = OK
+   count = 0
+   line = line1
+   istart = i
+   repeat {
+      k = getind(line)
+      call getb(k, MARK, value)
+      if (value(1) == YES) {
+         call setb(k, MARK, NO)
+         cursav = line
+         i = istart
+         repeat
+                {
+                curln = line
+                 if (getlst(lin, i, status) == OK)
+                   andif (docmd(lin, i, YES, status) == OK)
+                    count = 0
+                 while(lin(i) != NEWLINE)
+                        i = i + 1
+                 i = i + 1
+                 if (lin(i) == EOS)
+                        break
+                }
+         }
+      else {
+         line = nextln(line)
+         count = count + 1
+         }
+      } until (count > lastln | status != OK)
+   doglob = status
+   return
+   end

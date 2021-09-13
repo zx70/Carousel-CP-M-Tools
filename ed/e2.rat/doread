@@ -1,0 +1,43 @@
+  ## doread - read 'file' into scratch after 'line'   
+   integer function doread(line, file, comand)
+   character file(MAXLINE), lin(MAXLINE), comand
+   integer getlin, inject, open, access
+   #BKY  integer equal, gettyp
+   integer count, fd, line
+   integer look4
+   include clines
+   include cfile
+ 
+   access = READ
+   ifdef(VAX_VMS,
+      if (comand == ENTER)      # enter new file - open at READWRITE
+        access = READWRITE )
+      if (look4(file, lin) != YES)
+       call scopy(file, 1, lin, 1)
+   fd = open(lin, access)
+   if (fd == ERR)
+      doread = ERR
+   else
+        {
+        curln = line
+        doread = OK
+        for (count = 0; getlin(lin, fd) != EOF; count = count + 1) 
+                {
+                doread = inject(lin)
+                if (doread == ERR)
+                        break
+                }
+      call close(fd)
+      if (print == YES)
+          {
+          call putdec (count, 1)
+          call putc (NEWLINE)
+          }
+      if (comand == ENTER)      # reset changes since last write switches
+        {
+        ifmod = NO
+        notify = NO
+        }
+      }
+   return
+   end
