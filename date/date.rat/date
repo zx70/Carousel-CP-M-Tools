@@ -1,0 +1,24 @@
+ DRIVER(date)
+ 
+ integer getarg, atodat, setdat
+ integer now(7)
+ character buf(MAXLINE)
+
+ call query ("usage:  date [current_date].")
+ 
+ if ( getarg(1, buf, MAXLINE) == EOF)	#user wants to see date
+	{
+	call gdate (buf(1),buf(10))
+	buf(9) = BLANK
+	call putlin (buf, STDOUT)
+	call putch (NEWLINE, STDOUT)
+	}
+ else					#user wants to set date
+	{
+	call getcl (buf, MAXLINE)       #get entire command line
+	if (atodat (buf, now) == ERR)
+		call error ("invalid date string.")
+	call setdat (now)
+	}
+ return
+ end
