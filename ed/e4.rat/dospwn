@@ -1,0 +1,56 @@
+#       spawns a shell command from within the editor
+#
+# ifdef(SPAWN_OK,
+# integer function dospwn(lin, i)
+#
+# character lin(ARB), proces(FILENAMESIZE), args(ARGBUFSIZE), sh(3),
+#           desc(PIDSIZE)
+# integer i, length, j, spawn, init, k, int, create
+#
+# include ctbufs
+#
+# data init/YES/
+# data sh/LETS, LETH, EOS/
+# )
+# 
+# ifdef(SPAWN_OK,
+# if (init == YES)
+#    {
+#    call usrbin(proces)
+#    j = length(proces) + 1
+#    call scopy(sh, 1, proces, j)
+#    k = 1
+# )
+# ifdef(SPAWN_OK,
+#    for (j=1; j <= MAXTBUFS; j=j+1)
+#        {
+#        call stcopy(edtbuf(1,j), 1, args, k)
+#        args(k) = BLANK
+#        k = k + 1
+#        }
+#    args(k) = EOS
+#    init = NO
+#    }
+#    )
+# ifdef(SPAWN_OK,
+# call skipbl(lin, i)            # extra blanks not necessary
+# if (lin(i) == NEWLINE | lin(i) == EOS)         # no shell command
+#    dospwn = spawn(proces, EOS, desc, WAIT)
+# else
+#    {
+#    int = create(edtbuf(1,1), WRITE)
+#    if (int == ERR)
+#        dospwn = ERR
+#  )
+#  ifdef(SPAWN_OK,
+#    else
+#        {
+#        call putlin(lin(i), int)
+#        call close(int)
+#        dospwn = spawn(proces, args, desc, WAIT)
+#        }
+#    }
+#
+# return
+# end
+# )

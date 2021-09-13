@@ -1,0 +1,11 @@
+ subroutine ended
+
+ integer i
+
+ include ctbufs
+
+ for (i=1; i <= MAXTBUFS; i=i+1)
+    call remove(edtbuf(1,i))
+
+ return
+ end

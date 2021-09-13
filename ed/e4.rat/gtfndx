@@ -1,0 +1,20 @@
+ integer function gtfndx(newind)
+
+ include cbuf
+
+ if (free != 0)         # something in free list
+    {
+    newind = free
+    call getb(free, NEXT, free)         # relink free list
+    }
+ else if (lastbf + BUFENT <= MAXBUF)
+    {
+    newind = lastbf
+    lastbf = lastbf + BUFENT
+    }
+ else
+    newind = ERR
+ gtfndx = newind
+
+ return
+ end

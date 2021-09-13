@@ -1,0 +1,11 @@
+ subroutine ptfndx(start, stop)
+
+ integer start, stop
+
+ include cbuf
+
+ call setb(stop, NEXT, free)
+ free = start
+
+ return
+ end

@@ -1,0 +1,11 @@
+  ## relink - rewrite two half line links     
+   subroutine relink(a, x, y, b)
+   integer a, b, x, y
+   include clines
+ 
+   oldndx = ERR
+   call setb (x, PREV, a)
+   call setb (y, NEXT, b)
+   ifmod = YES
+   return
+   end

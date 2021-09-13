@@ -1,0 +1,24 @@
+ integer function kopy(line3)
+
+ integer line3, nline, junk, gettxt, inject
+
+ include clines
+ include ctxt
+
+ if (line1 <= 0 | (line1 <= line3 & line3 <= line2))
+    kopy = ERR
+ else
+    {
+    kopy = OK
+    curln = line3
+    for (nline = line1; nline <= line2; nline = nline + 1)
+        {
+        junk = gettxt(nline)
+        kopy = inject(txt)
+        if (kopy == ERR)
+            break
+        }
+    }
+
+ return
+ end

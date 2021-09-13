@@ -1,0 +1,17 @@
+ ## look4 - look for filename associated with buffer id
+ integer function look4 (id, name)
+ character id(ARB), name(ARB)
+ integer i
+ integer equal
+ include ctbufs
+ 
+ for (i=1; i<=MAXTBUFS; i=i+1)
+        {
+        if (equal (id, bufid(1,i)) == YES)
+                {
+                call scopy(edtbuf(1,i), 1, name, 1)
+                return(YES)
+                }
+        }
+ return(NO)
+ end

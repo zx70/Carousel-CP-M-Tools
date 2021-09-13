@@ -1,0 +1,38 @@
+  ## setbuf - create scratch file, set up line 0  
+   subroutine setbuf
+ 
+   integer create, open
+   integer k, j
+   include cbuf
+   include clines
+   include cscrat
+    string null ''
+    string fil "eds"
+ 
+ 
+   call mkuniq(fil, scrfil)     #get unique name for scratch file
+    ifnotdef(NO_READWRITE,
+             scr = create(scrfil, READWRITE) )
+    ifdef(NO_READWRITE,
+             scr = create(scrfile, READ)
+             wscr = create(scrfile, WRITE)
+             if (wscr == ERR)
+                call cant(scrfil)
+             )
+    if (scr == ERR)
+        call cant(scrfil)
+ 
+                                #pick up current location of file
+                                # (better be at the beginning)
+   call note(scrend,scr)
+   lastbf = LINE0
+   free = 0                     # initialize free list
+   call maklin(null, 1, k)   # create empty line 0
+   call relink(k, k, k, k)      # establish initial linked list
+   curln = 0
+   lastln = 0
+   cursav = 0
+   ifmod = NO           # initialize changes since last w variables
+   notify = NO
+   return
+   end

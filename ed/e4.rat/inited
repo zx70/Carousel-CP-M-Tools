@@ -1,0 +1,23 @@
+ ## inited - set up temporary buffers (for $1, $2, etc.)
+ subroutine inited
+
+ character num(2), edt(4), defn(3)
+ integer i, j, junk, itoc
+ 
+ include ctbufs
+
+ data edt(1), edt(2), edt(3), edt(4) /LETE, LETD, LETT, EOS/
+ data defn(1), defn(2), defn(3) /DOLLAR, BLANK, EOS/
+ 
+ for (j=1; j <= MAXTBUFS; j=j+1)
+    {
+    i = j - 1
+    junk = itoc(i, num, 2)
+    edt(3) = num(1)
+    call mkuniq(edt, edtbuf(1,j))
+    defn(2) = num(1)
+    call scopy(defn, 1, bufid(1,j), 1)
+    }
+
+ return
+ end
