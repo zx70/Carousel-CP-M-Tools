@@ -1,0 +1,43 @@
+ #----------------------------------------------------------------
+ # comm - print lines common to two files
+ DRIVER
+ 
+   character buf(MAXLINE)
+   integer getarg, open, index
+   integer i, file(2), j, one, two, three
+
+   one = YES    # default is all columns
+   two = YES
+   three = YES
+   j = 0
+   for (i = 1; getarg(i, buf, MAXLINE) ^= EOF; i = i + 1) {
+      if (j == 2)
+         break
+      if (buf(1) == QMARK & buf(2) == EOS)
+        call error ("usage:  comm [-123] file1 file2.")
+      if (buf(1) == MINUS & buf(2) ^= EOS) {
+         if (index(buf, DIG1) == 0)
+            one = NO
+         if (index(buf, DIG2) == 0)
+            two = NO
+         if (index(buf, DIG3) == 0)
+            three = NO
+         }
+      else if (buf(1) == MINUS) {
+         j = j + 1
+         file(j) = STDIN
+         }
+      else {
+         j = j + 1
+         file(j) = open(buf,READ)
+         if (file(j) == ERR)
+            call cant(buf)
+         }
+      }
+   if (j == 0)
+      call error ("usage:  comm [-123] file1 file2.")
+   if (j == 1)
+      file(2) = STDIN
+   call common(file(1), file(2), one, two, three)
+    DRETURN
+   end
