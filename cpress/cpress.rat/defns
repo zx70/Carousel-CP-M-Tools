@@ -1,0 +1,7 @@
+  # These definitions are used by both the cpress and expand tools
+ 
+ #must have RCODE > MAXCHUNK or RCODE = 0
+ define(MAXCHUNK,92)
+ define(BASECOUNT,32)
+ define(RCODE,125)
+ define(THRESH,4)
