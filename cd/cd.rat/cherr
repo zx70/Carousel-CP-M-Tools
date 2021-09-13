@@ -1,6 +1,0 @@
- subroutine cherr
-
- call error ("usage: ch [-ax] [expressions] from [to].")
-
- return
- end
