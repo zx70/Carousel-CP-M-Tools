@@ -1,0 +1,14 @@
+ ## catsub - add replacement text to end of  new. 
+    subroutine catsub(lin, from, to, sub, new, k, maxnew) 
+    integer addset 
+    integer from, i, j, junk, k, maxnew, to 
+    character lin(MAXLINE), new(maxnew), sub(MAXPAT) 
+  
+    for (i = 1; sub(i) != EOS; i = i + 1) 
+       if (sub(i) == DITTO) 
+          for (j = from; j < to; j = j + 1) 
+             junk = addset(lin(j), new, k, maxnew) 
+       else 
+          junk = addset(sub(i), new, k, maxnew) 
+    return 
+    end 
