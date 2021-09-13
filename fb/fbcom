@@ -1,0 +1,26 @@
+ ## /fbcom/ - common block for 'bf' tool
+ #  Put on a file called 'fbcom'
+ # Used only by 'fb', but very similar to variables used in 'find'
+ 
+ common /fbcom/ andpat, count, except, elevel,
+              pat(MAXPAT, NEXPR),
+              atend, atbeg, seps(MAXPAT,2),
+	      nbrsep, skping, prting, locatd(MAXARG),
+	      mcount, seploc, bklth, lcount
+ 
+ integer andpat		#flag for locating blocks which contain all args
+ integer count		#flag for counting occurrences only
+ integer except		#flag for locating blocks without indicated patterns
+ integer elevel		#number of patterns to locate
+ character pat		#patterns to locate
+ integer atend		#flag for indicating end of block reached
+ integer atbeg		#flag indicating beginning of block reached
+ character seps		#block separator(s) (1=start,2=ending)
+ integer nbrsep		#number of separators (1 or 2)
+ integer seploc         #location of separator (BEFORE or AFTER block)
+ integer mcount		#count of number of matches
+ integer skping		#flag indicating lines should not be examined
+ character locatd	#flag indicating which patterns have been located
+ integer bklth          #max size of block to output
+                        # init = HUGE
+ integer lcount         #running line count of block

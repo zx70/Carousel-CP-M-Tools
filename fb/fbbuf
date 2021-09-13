@@ -1,0 +1,8 @@
+ ## fbbuf - common block for 'fb'  block buffer
+ common /fbbuf/ fbbuf(MAXBUFLENGTH), endstk,
+                fname(FILENAMESIZE), fb
+ 
+ character fbbuf	#buffer which holds lines
+ integer endstk		#pointer to end of stack; init=0
+ character fname	#holds name of scratch file
+ integer fb		#file ID of scratch file; init=ERR
