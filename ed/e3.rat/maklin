@@ -1,0 +1,41 @@
+  ## maklin - make new line entry, copy text to scratch  
+    integer function maklin(lin, i, newind)
+ 
+    character lin(MAXLINE)
+    integer addset, gtfndx
+    integer i, j, junk, newind, txtend
+    include cbuf
+    include cscrat
+    include ctxt
+    include clines
+ 
+    maklin = ERR
+    oldndx = ERR
+    if (gtfndx(newind) == ERR)
+       {              # no room for new line entry
+       call remark ('File size exceeded.')
+       return
+       }
+    txtend = 1
+    for (j = i; lin(j) != EOS; ) {
+       junk = addset(lin(j), txt, txtend, MAXLINE)
+       j = j + 1
+       if (lin(j - 1) == NEWLINE)
+          break
+       }
+    if (addset(EOS, txt, txtend, MAXLINE) == NO)
+        {
+        call ptfndx(newind, newind)     # return free index block
+       return
+        }
+    call setb (newind, SEEKADR, scrend)
+    call seek (scrend, scr)
+    ifnotdef(NO_READWRITE,
+        call putlin(txt, scr) )
+    ifdef(NO_READWRITE,
+         call putlin(txt, wscr) )
+    call note(scrend,scr)
+    call setb (newind, MARK, NO)
+    maklin = j         # next character to be examined in lin
+    return
+    end

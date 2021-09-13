@@ -1,0 +1,24 @@
+  ## gettxt - locate text for line, copy to txt   
+    integer function gettxt(line)
+    character null(1)
+    integer getind
+    integer line, len, j, k
+    integer loc(2)
+    include cbuf
+    include cscrat
+    include ctxt
+ 
+    data null/EOS/
+
+    k = getind(line)
+    if (line != 0)
+        {
+        call getb (k, SEEKADR, loc)
+        call seek (loc, scr)
+        call fread (txt, dummy, scr)
+        }
+    else
+        call scopy(null, 1, txt, 1)
+    gettxt = k
+    return
+    end
