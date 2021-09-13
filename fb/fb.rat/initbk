@@ -1,0 +1,17 @@
+ ## initbk - initialize buffers for 'fb' tool
+ subroutine initbk
+ 
+ include fbcom
+ include fbbuf
+ 
+ for (i=1; i<=elevel; i=i+1)
+        locatd(i) = NO
+ endstk = 0
+ if (fb != ERR)
+        {
+        call close(fb)
+        call remove(fname)
+        fb = ERR
+        }
+ return
+ end

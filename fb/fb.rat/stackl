@@ -1,0 +1,41 @@
+ ## stackl - put line on bottom of stack (if user wants to see it)
+ 
+ integer function stackl (line)
+ character line(MAXLINE)
+ integer length, create
+ integer len
+ 
+ include fbbuf
+ include fbcom
+ 
+  string fbtemp "fbt"
+ 
+ stackl = OK
+ if (count == YES)      #no need to stack if just counting
+        return
+ lcount = lcount + 1
+ if (lcount > bklth)    #user doesn't want to see this much
+        return
+ len = length(line)
+ if ( (len+endstk+1) > MAXBUFLENGTH)    #store buffer on scratch file
+        {
+        if (fb == ERR)
+                {
+                call mkuniq(fbtemp, fname)
+                fb = create(fname, WRITE)
+                if (fb == ERR)
+                        {
+                        call remark ('problems opening scratch file.')
+                        call cant (fname)
+                        }
+                }
+        for (i=1; i<=endstk; i=i+1)
+                call putch(fbbuf(i), fb)
+        call putlin(line, fb)
+        endstk = 0
+        return
+        }
+ call scopy(line, 1, fbbuf, endstk+1)
+ endstk = endstk + len 
+ return
+ end

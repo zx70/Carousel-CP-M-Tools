@@ -1,0 +1,14 @@
+ ## checkl - check line for block separator
+ subroutine checkl (line)
+ character line(ARB)
+ integer match
+ 
+ include fbcom
+ 
+ atbeg = match(line, seps(1,1))
+ if (nbrsep == 1)
+        atend = atbeg
+ else
+        atend = match(line, seps(1,2))
+ return
+ end

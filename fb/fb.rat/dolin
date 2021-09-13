@@ -1,0 +1,36 @@
+ ## dolin - process line for 'fb' tool
+ 
+ subroutine dolin (line)
+ 
+ character line(ARB)
+ integer prt
+ integer stackl
+ 
+ include fbcom
+ 
+ if (skping == YES)
+        return
+ if (prting == YES)
+        {
+        if (count == NO)
+                call outlin(line)
+        }
+ else                   #check line for match
+        {
+        call bmatch (line)
+        if (stackl(line) == ERR)
+                call error ("Block buffer overflow.")
+        call tally(prt)
+                #block may definitely be printed
+        if (prt == YES & except == NO)
+                {
+                call printb
+                prting = YES
+                }
+                  #block may definitely be skipped
+        else if (prt == NO & except == YES)
+                skping = YES
+        }
+ 
+ return
+ end

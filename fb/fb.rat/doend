@@ -1,0 +1,40 @@
+ ## doend - process end of block (fb tool)
+ 
+ subroutine doend (line)
+ 
+ character line(ARB)
+ integer stackl
+ integer prt
+ include fbcom
+ 
+ if (prting == YES)
+        {
+        if ( (nbrsep > 1 | seploc == AFTER) & count == NO)
+                call outlin(line)
+        if (bklth != HUGE)      #finish off rest of block
+                for(lcount=lcount+1; lcount<=bklth; lcount=lcount+1)
+                        call putch(NEWLINE, STDOUT)
+        }
+ else if (skping == NO)
+        {
+        if (nbrsep > 1 | seploc == AFTER)
+                {
+                call bmatch (line)
+                if (stackl(line) ==ERR)
+                        call error ("Block buffer overflow.")
+                }
+        call tally (prt)
+        if (prt == YES)
+                {
+                call printb
+                if (bklth != HUGE)
+                        for (lcount=lcount+1; lcount<=bklth;
+                             lcount=lcount+1)
+                                call putch(NEWLINE,STDOUT)
+                }
+        }
+ skping = YES
+ prting = NO
+ 
+ return
+ end

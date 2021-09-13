@@ -1,0 +1,12 @@
+ #        include ratdef
+ 
+     #note--the following 3 symbols should be defined the same as
+     #      those in the pattern-matching library routines
+ define(BOL,PERCENT)            #beginning of line
+ define(CLOSURE,STAR)           #flag for closure
+ define(EOL,DOLLAR)             #end of line
+ 
+ define(MAXBUFLENGTH,5000)      #length of block buffer (characters)
+ define(BEFORE,1)               #separator at beginning of block
+ define(AFTER,0)                #separator at end of block
+ define(NEXPR,10)               #nbr expressions allowed on cmd line

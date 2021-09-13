@@ -1,0 +1,17 @@
+ DRIVER
+
+ ## fb - find block of lines
+
+ include fbcom
+ 
+ call fbargs            #set initial values; parse args
+ 
+ call dobk (STDIN)              #search blocks for patterns
+ if (count == YES)              #print final count
+        {
+        call putdec(mcount, 1)
+        call putc(NEWLINE)
+        }
+ 
+ DRETURN
+ end

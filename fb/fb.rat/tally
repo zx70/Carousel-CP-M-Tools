@@ -1,0 +1,30 @@
+ ## tally - tally results of block search
+ subroutine tally (prt)
+ integer prt    #returned as YES if block should be printed; else NO
+ 
+ include fbcom
+ 
+ prt = andpat
+ for (i=1; i<=elevel; i=i+1)
+        {
+        if (andpat == NO & locatd(i) == YES)
+                {
+                prt = YES
+                break
+                }
+        else if (andpat == YES & locatd(i) == NO)
+                {
+                prt = NO
+                break
+                }
+        }
+ 
+ if (except == YES)             #opposite for exceptions
+        {
+        if (prt == NO)
+                prt = YES
+        else
+                prt = NO
+        }
+ return
+ end

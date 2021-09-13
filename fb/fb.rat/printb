@@ -1,0 +1,33 @@
+ ## printb - print (or count) block of lines
+ subroutine printb
+ integer i
+ character c
+ character getch
+ integer open
+ 
+ include fbbuf
+ include fbcom
+ 
+ if (endstk == 0 & fb == ERR)           #nothing on stack
+        return
+ if (count == YES)
+        {
+        mcount = mcount + 1
+        return
+        }
+ if (fb != ERR)         #copy scratch file to output
+        {
+        call close(fb)
+        fb = open(fname, READ)  #start at beginning
+        if (fb == ERR)
+                call error ('problems reopening scratch file.')
+        while(getch(c, fb) != EOF)
+                call putch(c, STDOUT)
+        call close(fb)
+        call remove (fname)
+        fb = ERR
+        }
+ for (i=1; i<=endstk; i=i+1)
+        call putch(fbbuf(i), STDOUT)
+ return
+ end

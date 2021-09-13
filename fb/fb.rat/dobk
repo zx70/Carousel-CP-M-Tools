@@ -1,0 +1,44 @@
+ ## dobk - find patterns in block of text
+ subroutine dobk (fd)
+ 
+ integer getlin
+ integer fd, prt, first
+ character line(MAXLINE)
+ 
+ include fbcom
+ include fbbuf
+ 
+ call initbk                    #clear stacks
+ first = YES
+ while(getlin(line, fd) != EOF)
+        {
+        call checkl (line)      #check line for block separator
+                        #check if sep really at start of block
+        if (first == YES & atend == YES & nbrsep == 1)
+                seploc = BEFORE
+        first = NO
+        if (atend == YES)
+                call doend(line)
+        if (atbeg == YES)
+                {
+                call dobeg(line)
+                next
+                }
+        if (skping == YES)
+                next
+        else call dolin (line)
+        }
+ 
+                        #EOF reached
+ if (skping == NO)
+        call doend(line)
+ 
+ if (fb != ERR)         #make sure scratch file is removed
+        {
+        call close(fb)
+        call remove(fname)
+        fb = ERR
+        }
+ return
+ end
+ 

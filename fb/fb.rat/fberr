@@ -1,0 +1,6 @@
+ ## fberr - report error in fb' tool
+ subroutine fberr
+ 
+ call error ('usage:  fb [-axc] [-ln] [-spat] [-spat] pats.')
+ return
+ end

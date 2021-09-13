@@ -1,0 +1,10 @@
+ ## outlin - output line from block, if user wants to see it
+ subroutine outlin(line)
+ character line(ARB)
+ include fbcom
+ 
+ lcount = lcount + 1
+ if (lcount <= bklth)
+        call putlin(line, STDOUT)
+ return
+ end

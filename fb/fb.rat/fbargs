@@ -1,0 +1,93 @@
+ 
+ ## fbargs - parse arguments for 'fb' tool
+ 
+ subroutine fbargs
+ character arg(MAXLINE), dsep(5)
+ integer getarg, itoc, getpat, status, index, ctoi
+ integer i, j
+ 
+ include fbbuf
+ include fbcom
+ string ilpat "illegal pattern: "
+ string maxexp "max nbr expressions allowed: "
+ data except/NO/
+ data andpat/NO/
+ data count /NO/
+ data mcount /0/
+ data elevel/0/
+ data skping /NO/
+ data nbrsep /0/
+ data seploc /AFTER/
+ data endstk /0/
+ data fb /ERR/
+ data bklth /HUGE/
+ data lcount /0/
+
+                #default separator (% *$)
+ data dsep(1), dsep(2), dsep(3), dsep(4), dsep(5) /BOL,
+      BLANK, CLOSURE, EOL, EOS/
+ 
+ call query ("usage:  fb [-axc] [-ln] [-spat] [-spat] pats.")
+                #loop thru args, picking up flags and patterns
+ for (i=1; getarg(i, arg, MAXARG) != EOF; i=i+1)
+    {
+    if (arg(1) == MINUS & (arg(2) == LETS | arg(2) == BIGS))
+        {
+        nbrsep = nbrsep + 1
+        if (nbrsep > 2)
+                call error ("only start and ending separators allowed.")
+        if (getpat(arg(3), seps(1, nbrsep)) == ERR)
+                {
+                call putlin(ilpat, ERROUT)
+                call error (arg(3))
+                }
+        }
+    else if (arg(1) == MINUS)
+        {
+        call fold(arg)
+        if (index(arg, LETA) > 0)
+            andpat = YES
+        if (index(arg, LETC) > 0)
+            count = YES
+        if (index(arg, LETX) > 0)
+            except = YES
+        j = index(arg, LETL)
+        if (j > 0)               #setting block length
+                {
+                j = j + 1
+                bklth = ctoi(arg, j)
+                if (bklth <= 0)
+                        call fberr
+                }
+        }
+    else if (elevel < NEXPR)
+        {
+        elevel = elevel + 1
+        if (getpat(arg(1), pat(1,elevel)) == ERR)
+                {
+                call putlin(ilpat, ERROUT)
+                call error (arg)
+                }
+        }
+    else
+        {
+        call putlin(maxexp, ERROUT)
+        status = itoc(NEXPR, arg, MAXARG)
+        call error(arg)
+        }
+    }
+                #check for errors
+ if (elevel == 0)
+    call fberr
+ 
+ if (nbrsep == 0)       #set default separator
+        {
+        if (getpat(dsep, seps(1,1)) == ERR)
+                call error ("illegal default separator.")
+        nbrsep = 1
+        }
+ 
+ if (nbrsep > 1)        #skip till beginning of first block
+        skping = YES
+ return
+ end

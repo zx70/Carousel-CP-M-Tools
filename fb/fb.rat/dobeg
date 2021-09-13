@@ -1,0 +1,21 @@
+## dobeg - process beginning of block (fb tool)
+ 
+ subroutine dobeg (line)
+ 
+ character line(ARB)
+ integer stackl
+ 
+ include fbcom
+ 
+ call initbk            #clear stacks
+ lcount = 0
+ if (nbrsep > 1 | seploc == BEFORE)
+        {
+        call bmatch(line)
+        if (stackl(line) == ERR)
+                call error ("Block buffer overflow.")
+        }
+ skping = NO
+ prting = NO
+ return
+ end
