@@ -1,0 +1,13 @@
+ ## putbak - push character back onto input
+ # kludgey version - fd better always be the same
+ subroutine putbak (c, fd)
+ character c
+ integer fd
+
+ include cdefio
+ bp = bp  + 1
+ if (bp > BUFSIZE)
+	call error ("too many characters pushed back.")
+ buf(bp) = c
+ return
+ end

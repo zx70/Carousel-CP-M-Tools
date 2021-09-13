@@ -1,0 +1,41 @@
+ ##forml - replace prompts with user input on file 'int'
+ subroutine forml(int)
+ 
+ integer int, tog
+ integer ftok, guser
+ integer lookup
+ character token(MAXLINE), defn(MAXREPLY)
+ 
+ include cform
+ 
+ 
+ tog = NO
+ while (ftok(token, int, tog) != EOF)
+        {
+        if (tog == YES)                 #inside prompt
+                {
+                if (token(1) == char2)
+                        {
+                        tog = NO
+                        next
+                        }
+		if (lookup(token, defn, ftb) == NO)
+                        {
+                        if (guser(token, defn) == EOF)
+                                break
+ #                      call tbinst(token, defn)
+			call enter (token, defn, ftb)
+                        }
+                call putlin(defn, STDOUT)
+                next
+                }
+        else if (token(1) == char1)
+                {
+                tog = YES
+                next
+                }
+        call putlin(token, STDOUT)      #output normal text
+        }
+ 
+ return
+ end

@@ -1,0 +1,39 @@
+ ##guser - get form letter replacement text from user
+ integer function guser(pstr, repl)
+ 
+ character repl(ARB), pstr(ARB)
+ integer getlin, prompt
+ integer lth
+ 
+ lth = 0
+ repeat
+        {
+        if (lth == 0)
+            i = prompt(pstr, repl(lth+1), STDIN)
+        else
+            i = getlin(repl(lth+1), STDIN)
+        if (i == EOF)
+                break
+        lth = lth + i
+        if (lth >= MAXREPLY)                    #oops--too long
+                {
+                call remark ('truncating response.')
+                break
+                }
+        if (repl(lth) == NEWLINE & repl(lth-1) != ESCAPE)
+                break                           #no more
+        lth = lth - 1
+        repl(lth) = NEWLINE                     #remove the escape
+                                                #and continue
+        }
+ 
+ if (repl(lth) == NEWLINE)                      #remove last NEWLINE
+        lth = lth - 1
+ repl(lth+1) = EOS
+ 
+ if (i == EOF)
+        guser = EOF
+ else
+        guser = lth
+ return
+ end

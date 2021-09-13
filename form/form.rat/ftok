@@ -1,0 +1,34 @@
+ ## ftok - pick up token for form letter
+ integer function ftok(token, int, prflag)
+ 
+ character token(ARB)
+ integer int, prflag
+ character ngetch
+ 
+ include cform
+ 
+ for (i=1; i< MAXREPLY; i=i+1)
+        {
+        ftok = ngetch(token(i), int)
+        if (ftok == EOF |
+            (prflag == NO & ftok == NEWLINE) |
+            (i == 1 & ftok == char1)   |
+            (i == 1 & ftok == char2) )
+                break
+        if (ftok == char1 | ftok == char2)      #beginning of next token
+                {
+                call putbak(ftok, int)
+                if (ftok == char2 & prflag == YES)
+                    token(i) = BLANK
+                else
+                    i = i - 1
+                break
+                }
+        }
+ 
+ if (i >=MAXREPLY)
+        call error ("token too long.")
+ 
+ token(i+1) = EOS
+ return
+ end

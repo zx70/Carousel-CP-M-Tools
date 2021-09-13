@@ -1,0 +1,23 @@
+ ## ngetch - get a (possibly pushed-back) character from 'fd'
+ #  kludgy version - fd better always be the same
+ 
+ character function ngetch (c, fd)
+ character c
+ character getch
+ integer fd
+ include cdefio
+ 
+ data bp /0/
+ 
+ if (bp > 0)
+	c = buf(bp)
+ else
+	{
+	bp = 1
+	buf(bp) = getch(c, fd)
+	}
+ if (c != EOF)
+	bp = bp - 1
+ ngetch = c
+ return
+ end

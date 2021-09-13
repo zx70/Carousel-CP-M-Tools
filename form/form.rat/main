@@ -1,0 +1,48 @@
+ ## form - replace all instances of '<...>' in file with input from user
+ 
+ DRIVER(form)
+ character line(MAXLINE)
+ integer getarg, open, mktabl
+ integer i, nfiles
+ character fnames(FILENAMESIZE, MAXFILES)
+ 
+ include cform
+
+
+
+ data  char1 /LESS/
+ data char2 /GREATER/
+ 
+ call query ("usage: form file.")
+ ftb = mktabl (CHAR_DEFN)
+ nfiles = 0
+ for (i=1; getarg(i, line, MAXLINE) != EOF; i=i+1)
+        {
+        if (line(1) == MINUS & line(2) != EOS)
+                char1 = line(2)
+        else if (line(1) == PLUS)
+                char2 = line(2)
+        else
+                {
+                nfiles = nfiles + 1
+                if (nfiles > MAXFILES)
+                        call error ('too many file names.')
+                call scopy(line, 1, fnames(1, nfiles), 1)
+                }
+        }
+ 
+
+ for (i=1; i<=nfiles; i=i+1)            #loop through all files
+        {
+        int = open(fnames(1,i), READ)
+        if (int == ERR)
+                call cant(fnames(1,i))
+        call forml(int)
+        call close(int)
+        }
+ 
+ if (i == 1)                            #no input file
+        call error ("usage:  form file.")
+ 
+ DRETURN
+ end
