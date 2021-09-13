@@ -1,0 +1,23 @@
+ integer function gmatch(lin, pat, elevel, andpat)
+
+ integer elevel, andpat, match, i, status
+ character lin(ARB), pat(MAXPAT, NEXPR)
+
+ gmatch = andpat
+ for (i=1; i <= elevel; i=i+1)
+    {
+    status = match(lin, pat(1,i))
+    if (andpat == NO & status == YES)
+        {
+        gmatch = YES
+        break
+        }
+    else if (andpat == YES & status == NO)
+        {
+        gmatch = NO
+        break
+        }
+    }
+
+ return
+ end
