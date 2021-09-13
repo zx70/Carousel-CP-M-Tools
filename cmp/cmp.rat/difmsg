@@ -1,0 +1,13 @@
+ #---------------------------------------------------------- 
+ ## difmsg - print line number and differing lines of file1 and file2 
+  
+ subroutine difmsg(lineno, line1, line2) 
+ character line1(MAXLINE), line2(MAXLINE) 
+ integer lineno 
+  
+ call putdec(lineno, 5) 
+ call putc(NEWLINE) 
+ call putlin(line1, STDOUT) 
+ call putlin(line2, STDOUT) 
+ return 
+ end 
