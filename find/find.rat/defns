@@ -1,0 +1,2 @@
+ 
+ define(NEXPR,10)  # max nbr expressions allowed on cmd line
