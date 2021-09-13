@@ -1,0 +1,16 @@
+ ## strip - string blanks, tabs, and NEWLINES from line
+ 
+ subroutine strip (line)
+ 
+ character line(ARB)
+ integer i
+ 
+ for (i=1; line(i) != EOS; )
+        {
+        if (line(i) == BLANK | line(i) == TAB | line(i) == NEWLINE)
+                call scopy(line, i+1, line, i)
+        else
+                i = i + 1
+        }
+ return
+ end

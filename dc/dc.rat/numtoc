@@ -1,0 +1,33 @@
+ ## numtoc - convert integer int to char string in str
+ integer function numtoc(int, str, size, radix)
+ integer mod
+ integer radix
+ integer d, i, int, intval, j, k, size
+ character str(ARB)
+ string digits "0123456789ABCDEF"
+
+ intval = abs(int)
+ str(1) = EOS
+ i = 1
+ repeat
+        {       # generate digits
+        i = i+1
+        d = mod(intval,radix)
+        str(i) = digits(d+1)
+        intval = intval / radix
+        } until (intval == 0 | i >= size)
+ if (int < 0 & i < size)
+        {       # then sign
+        i = i+1
+        str(i) = MINUS
+        }
+ numtoc = i - 1
+ for (j = 1; j < i; j = j+1)
+        {       # reverse digits
+        k = str(i)
+        str(i) = str(j)
+        str(j) = k
+        i = i-1
+        }
+ return
+ end

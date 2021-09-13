@@ -1,0 +1,78 @@
+ ## dcexp - read file and process desk calculator expressions
+ subroutine dcexp (fd)
+ 
+ integer fd, junk, i, answer, save
+ integer getlin, numtoc, exptoi, index, strcmp
+ integer ibase, obase, ubase, radexp, eqloc
+ character line(MAXLINE), name(MAXTOKEN)
+ include cdc
+ string errmsg ":  invalid expression"
+ string ten "10"
+ string ibname "ibase"
+ string obname "obase"
+ 
+ ibase = 10
+ obase = 10
+ call enter(ibname,ten,st)
+ call enter(obname,ten,st)
+ while(getlin(line, fd) != EOF)
+        {
+        radexp = 0              # assume not radix expression
+        call strip(line)        #remove blanks, tabs, NEWLINEs
+        i = 1
+        save = index(line, EQUALS)      #see if result should be stored
+        if (save != 0)
+                {
+                if (line(save+1) == EQUALS)     #oops, found relational
+                        save = 0
+                else
+                        {
+                        eqloc = save
+                        i = save + 1
+                        line(eqloc) = EOS
+                        call scopy(line, 1, name, 1)
+                        if (strcmp(name,ibname) == 0 |
+                            strcmp(name,obname) == 0)
+                                radexp = 1
+                        }
+                }
+        else
+                {
+                if (strcmp(line,ibname) == 0 |
+                    strcmp(line,obname) == 0)
+                        radexp = 1
+                }
+        ubase = ibase
+        if (radexp == 1)
+                ubase = 10
+        answer = exptoi(line, i, ubase)
+        if (line(i) != EOS)             #error
+                {
+                if (save != 0) line(eqloc) = EQUALS
+                call putlin(line, ERROUT)
+                call putlin(errmsg, ERROUT)
+                call putch(NEWLINE, ERROUT)
+                }
+        else
+                {
+                ubase = obase
+                if (radexp == 1 | save != 0)
+                        ubase = 10
+                junk = numtoc(answer, line, MAXLINE, ubase)
+                if (save != 0)          #store answer
+                        {
+                        call enter(name, line,st)
+                        if (strcmp(ibname,name) == 0)
+                                ibase = answer
+                        if (strcmp(obname,name) == 0)
+                                obase = answer
+                        }
+                else
+                        {
+                        call putlin(line, STDOUT)
+                        call putch(NEWLINE, STDOUT)
+                        }
+                }
+        }
+ return
+ end

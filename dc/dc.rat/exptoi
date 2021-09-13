@@ -1,0 +1,83 @@
+ ## exptoi - evalutate arithmetic expression
+ integer function exptoi (exp, ptr, radix)
+ 
+ integer exptok, stackx
+ character exp(ARB)
+ integer ptr, radix
+ integer k, tok, kind
+ character prec
+ include cexp
+ 
+ k = ptr
+ top = 1
+ tokst(top) = OPGO
+ kindst(top) = SEP
+ 
+ while (exptok(exp, k, tok, kind, radix) == YES) #loop thru legal toks
+        {
+        if (kind == OPND)
+                {
+                if (kindst(top) == OPND)
+                        return(0)
+                }
+        else if (kind == OP)
+                {
+                if (kindst(top) == OP)
+                        return(0)
+                else if (kindst(top) == SEP)
+                        {       #check for unary +,- or !
+                        if (tok != OPADD & tok != OPSUB & tok != OPNOT)
+                                return(0)
+                        if (stackx(0, OPND) == ERR)
+                                return(0)
+                        if (tok == OPADD)
+                                tok = OPPLUS
+                        else if (tok == OPSUB)
+                                tok = OPNEG
+                        }
+                else    #kindst(top) == OPND
+                        {
+                        if (kindst(top-1) == OP)
+                                {
+                                while(prec(tokst(top-1)) >= prec(tok))
+                                        call binop
+                                }
+                        }
+                }
+        else # (kind == SEP)
+                {
+                if (tok != OPLP)        #if tok == ( or tok == EOS
+                        {
+                        if (kindst(top) != OPND)
+                                return(0)
+                        while(prec(tokst(top-1)) > prec(tok))
+                                {
+                                if (kindst(top-1) == OP)
+                                        call binop
+                                else
+                                        return(0)  # no right paren
+                                }
+                        if (prec(tokst(top-1)) == prec(tok))
+                                {
+                                if (tok == OPDONE)
+                                        {
+                                        ptr = k    #normal return
+                                        return(tokst(top))
+                                        }
+                                else    #remove matching LPAREN
+                                        {
+                                        tok = tokst(top)
+                                        kind = kindst(top)
+                                        top = top -2
+                                        }
+                                }
+                        else    #unbalanced parens
+                                return(0)
+                        }
+                }
+        # stack new tok, kind
+        if (stackx(tok, kind) == ERR)
+                return(0)
+        }
+ return(0)
+ end
