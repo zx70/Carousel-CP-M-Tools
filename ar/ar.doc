@@ -1,0 +1,333 @@
+.so manhdr
+.hd AR (1) 06/06/83
+archive file maintainer
+.sy
+ar [-](d|p|t|u|x)[v][r] arcname [files]
+.ds
+Ar collects sets of arbitrary files into one big file and
+maintains that file as an 'archive'.
+Files can be extracted from the archive, new ones can be added,
+old ones can be deleted or replaced by updated versions, and
+data about the contents can be listed.
+
+If a minus sign ('-') is given as a file name, further file
+names
+are read from the standard input, one file name per line.
+
+Files that are to be added to an archive must exist as
+files with the name given.  Files that are extracted from
+an archive will be put onto files with the name given.
+Files that are added to archives can, of course, be archive
+files
+themselves.  There is no (theoretical) limit to the number
+of files that can be nested this way.
+Thus ar provides the utility necessary to maintain
+tree-structured file directories.
+
+Ar is invoked by the command line
+
+.ti +10
+ar command arcname [optional filenames]
+
+where 'command' is any one of 'dptux', optionally concatenated
+with 'v' and/or with 'r',
+specifying what operation to perform on the
+archive file named 'arcname'.  (For consistency with other
+tools, the command may be preceded with a minus "-"
+sign.)  The possible commands are:
+
+.in +10
+u - Update named archive by replacing existing files or adding new
+ones at end.
+If the 'v' option is used, file names will be printed on the
+standard output as files are written to the new archived file.
+
+x - Extract named files from archive.  Put onto file of the
+same name.
+If the 'v' option is added, file names will be printed on the
+standard output as files are extracted.
+
+d - Delete named files from archive.
+If the 'v' option is used, file names will be printed on
+the standard output as they are deleted from the archive.
+
+p - Print named files on standard output.
+Using the 'v' option will cause the file name to precede the
+file.
+
+r - Read a (possibly) damaged archive.
+This option causes the archiver to try harder than usual
+to read a spoiled archive.
+(Editing an archive can spoil its format.
+Some other archivers create archives in formats that this
+archiver has trouble reading.)  Archives created
+or updated by this archiver will not need this special
+handling unless they are later spoiled.
+
+t - Print table of archive contents.
+Normally, the table will contain only the file name.
+If the 'v' option is used, the table will also contain
+the file's length, type, and date and time of last change.
+
+v - Verbose.  This command may be concatenated to any of the
+above commands,
+and will cause the archiver to print additional information,
+generally file names, on the standard output.
+Its specific action for each command has already been
+described.
+.in -10
+
+The optional filenames in the command line specify individual
+files that may participate in the action.
+If no files are named, the action is done on ALL files in the
+archive,
+but if any files are explicitly named, they are the ONLY ones
+that
+take part in the action.
+(The 'd' command is an exception--files may be deleted only by
+specifying their names.)
+.sp
+Binary files are NOT allowed in an archive.
+.ex
+.in +5
+.fi
+.ti -5
+ar u book chap1 chap2 chap3
+.br
+Create an archive file called "book" and insert 3 members into 
+it -- chap1, chap2, and chap3
+.sp
+.ti -5
+ar -xv source rtnA rtnB
+.br
+From the archive file "source", extract the members "rtnA"
+and "rtnB"
+and put them into files with the same name.
+Print the member names as they are extracted.
+(The minus sign "-" preceding the "xv" is optional.)
+.sp
+.ti -5
+ar t library
+.br
+List all the members of the archive file "library".
+.sp
+.ti -5
+ar p book | format
+.br
+Extract all the members from the archive "book" and send them
+to the formatter.
+.sp
+.ti -5
+ar uv somefile a b c | rm -
+.br
+Update members "a", "b", and "c" in archive file "somefile",
+and then delete them from the file system.
+.sp
+.ti -5
+ar uvr arc one two three
+.br
+Insert three members into the archive file "arc", 
+while ignoring (and correcting) some of the (possibly
+invalid) format information stored in "arc".
+.in -5
+.fl
+A file whose exact name is based on 'arctemp'
+is created and subsequently deleted for each run.
+.sa
+The Unix commands 'ar' and 'ls' in the Unix manual
+.di
+archive not in proper format
+.in +10
+The basic problem is that archive didn't find a header
+line where one was expected.
+Typical reasons include misspelling the file name,
+using an existing file (not in archive format)
+on a creation run, and
+referencing an archive file that has been modified
+directly (say with the editor).
+For the latter case, try again using the 'r' option.
+.in -10
+
+archive integrity in doubt - missing trailer
+.in +10
+Some archives (including all those produced by this version
+of the archiver)
+terminate each file by a special line called a
+"trailer".
+The message is caused by the lack of a trailer line when one
+was expected.
+This archiver can read old-style archives a la Kernighan &
+Plauger, which lack trailers.
+However,
+if ANY archive element is found to have a trailer, then this
+archiver reports an error unless ALL elements have a proper
+trailer.
+.in -10
+
+binary element, can't handle
+.br
+binary file, can't handle
+.in +10
+This version of the archiver isn't built to handle binary
+files, and it distrusts archive elements marked "binary".
+.in -10
+
+can't rename/move temp file
+.in +10
+The scratch file named above was successfully generated
+but could not be renamed or copied to its final destination.
+Possibly there isn't enough room for the new file, or there
+is some other file system problem.
+.in -10
+
+ctosek:  invalid seek offset
+.in +10
+This indicates a logical error in the portion of code which
+extracts seek offsets from header records.
+.in -10
+
+delete by name only
+.in +10
+For user protection, files are allowed to be deleted from an archive
+only by specifying each file name.
+.in -10
+
+duplicate file name
+.in +10
+A file was listed more than once when calling the archiver
+.in -10
+
+error in main:  can't happen
+.in +10
+This indicates a logical error in the portion of code which
+parses the command line.  See the main program.
+.in -10
+
+fatal errors-archive not altered
+.in +10
+This message is generated whenever one or more of the other
+errors have been detected.  An archive is never altered unless
+EVERYTHING has run properly.
+.in -10
+
+too many file names
+.in +10
+The maximum number of files that can be handled is set
+by the parameter "MAXFILES" in the source code.
+.in -10
+
+unexpected end of archive file
+.in +10
+The last element in the archive had a size recorded,
+but the archive ended before the whole element was read.
+This may reflect a truncated archive or an incorrect notation
+of file size.
+Try option 'r' to aid reading the archive:  if it works,
+then the cause was the latter.  Something indeed may have
+removed data from the archive to cause the invalid format,
+but if so it wasn't mere archive truncation.
+.in -10
+
+usage:  ar (dptux)[v][r] arcname [files]
+.in +10
+The command line passed to the archiver is in error.
+Possibly the command is wrong or the archive file name
+has not been given.
+.in -10
+
+'filename': can't add
+.in +10
+The file specified by 'filename' doesn't exist or can't be
+opened (e. g. is locked).
+.in -10
+
+'filename': can't create
+.in +10
+The archiver could not generate a local file by the name
+of 'filename'.  Probably the archiver's internal file
+buffer space has been exceeded.
+.in -10
+
+'filename':  can't position new header
+.br
+'filename':  inconsistent seek offsets
+.in +10
+The archiver was navigating around an existing archive or
+the scratch file using seek offsets, and detected a mistake.
+This is a profound malfunction, probably reflecting a coding
+error.
+.in -10
+
+'filename':  missing size
+.in +10
+After processing an archive element without a trailer,
+this archiver insists that ALL elements in this archive
+must lack trailers, and therefore that they must have
+proper sizes recorded.
+But now it has found an element with no size recorded.
+This can result from concatenating archives of differing
+styles, or from otherwise monkeying with archive internals.
+.in -10
+
+'filename': not in archive
+.in +10
+The archiver could not locate the file specified by 'filename' in
+the archived file.
+.in -10
+.au
+Original code from Kernighan and Plauger's 'Software Tools',
+with rewrites by Allen Akin (Georgia Institute of Technology),
+Debbie Scherrer (Lawrence Berkeley Laboratory),
+Philip Davidson (for Carousel MicroTools), and
+minor changes suggested by David Hanson (University
+of Arizona).
+.bu
+With this version only TEXT files can be archived.
+
+When the update and print commands are used, the files are
+updated or printed
+in the order they appear on the
+archived file, NOT the order listed on
+the command line.
+
+This version creates archives having headers and trailers.
+Each header records the file size in terms of seek offsets
+in a format peculiar to this archiver and to the CP/M-80
+implementation of the tools.
+Other archivers attempting to read these archives should
+ignore the file sizes and use only the header-trailer pairs
+to delimit the elements.
+
+This version uses the file size (if any) recorded
+in the header, and reports resulting discrepancies.
+The 'r' option forces it to ignore recorded sizes
+and to rely strictly on header-trailer matchups to delimit
+elements when reading an archive.
+In any event, it is assumed that either ALL or NONE of the
+elements in an archive carry a trailer, and exceptions are
+treated as format errors.
+
+The Unix archiver allows files to be positioned in the
+archive, rather than simply added at the end as ar does.
+This is done by adding the following commands:
+.br
+.in +10
+
+m - Move specified files to end of archive
+
+ma posname - Move specified files to position after file 'posname'
+
+mb posname - Move specified files to position before file 'posname'
+
+r - Replace specified files and place at end of archive
+
+ra posname - Replace files and place after file 'posname'
+
+rb posname - Replace files and place before file 'posname'
+.br
+.in -10
+
+There are some discrepancies between the Unix version of ar and
+this version.  Unix uses 'r'--replace instead of 'u'--update.
+Unix also requires the user to specify an additional command 'n'
+when creating a new archive.
