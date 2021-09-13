@@ -1,0 +1,60 @@
+subroutine initfs (tb)
+integer tb		# symbol table pointer
+character code(2)
+string send "end"
+string sprog "program"
+string ssub "subroutine"
+string sblck "block"
+string sdata "data"
+string sint "integer"
+string sint1 "integer*1"
+string sint2 "integer*2"
+string sreal "real"
+string sreal4 "real*4"
+string sreal8 "real*8"
+string sdoubl "double"
+string sprec "precision"
+string slog "logical"
+string slog1 "logical*1"
+string slog2 "logical*2"
+string sbyte "byte"
+string sext "external"
+string sdim "dimension"
+string simpl "implicit"
+string scom "common"
+string sequ "equivalence"
+
+code(2) = EOS
+code(1) = PROG
+call enter(sprog,code, tb)
+call enter(ssub,code, tb)
+code(1) = BLOCK
+call enter(sblck,code, tb)
+code(1) = COMN
+call enter(scom,code, tb)
+code(1) = TYPE
+call enter(sint,code, tb)
+call enter(sint2,code, tb)
+call enter(sint1,code, tb)
+call enter(sreal,code, tb)
+call enter(sreal4,code, tb)
+call enter(sreal8,code, tb)
+call enter(slog,code, tb)
+call enter(slog1,code, tb)
+call enter(slog2,code, tb)
+call enter(sbyte,code, tb)
+call enter(sdim,code, tb)
+call enter(sext,code, tb)
+call enter(simpl,code, tb)
+code(1) = EQUI
+call enter(sequ,code, tb)
+code(1) = DAT
+call enter(sdata,code, tb)
+code(1) = DOUBLE
+call enter(sdoubl,code, tb)
+code(1) = PRECISION
+call enter(sprec,code, tb)
+code(1) = END
+call enter(send,code, tb)
+return
+end

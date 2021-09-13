@@ -1,0 +1,23 @@
+DRIVER
+integer getarg, open
+integer i, fd
+character buf(FILENAMESIZE)
+
+call query ("usage: fsort [files].")
+for (i=1; getarg(i, buf, FILENAMESIZE) != EOF; i=i+1)
+	{
+	if (buf(1) == MINUS & buf(2) == EOS)
+		fd = STDIN
+	else
+		fd = open(buf, READ)
+	if (fd == ERR)
+		call cant (buf)
+	call fsort (fd, STDOUT)
+	if (fd != STDIN)
+		call close (fd)
+	}
+if (i == 1)		# no files given
+	call fsort (STDIN, STDOUT)
+DRETURN
+end
+

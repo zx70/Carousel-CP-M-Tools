@@ -1,0 +1,34 @@
+byte function gcode(line,i,word)
+character line(ARB), word(ARB), code(2)
+integer i, len
+integer lookup, getwrd
+byte tmp
+#common for fsort
+character ord	# sorted order of kind
+character buf	# line hold buffer
+integer ptr	# index of starts of lines
+byte type	# kind of each line
+integer nextp	# next line pos pointer
+integer stb   # symbol table pointer
+common /fsortc/ buf(MAXBUF),ptr(MAXSAVE),type(MAXSAVE),
+		ord(MAXNAMES),nextp, stb
+if (lookup(word,code, stb) == NO)
+	return(BODY)
+if (code(1)==BLOCK | code(1)==DOUBLE)
+	{
+	tmp = code(1)
+	i = 1
+	len = getwrd(line,i,word)
+	len = getwrd(line,i,word)
+	if (lookup(word,code, stb) == NO)
+		return(BODY)
+	if (tmp==BLOCK & code(1)==DAT)
+		return(PROG)
+	else if(tmp==DOUBLE & code(1)==PRECISION) return(TYPE)
+	else return(BODY)
+	}
+else
+	return(code(1))
+return(BODY) # no path here but supress message
+end
+

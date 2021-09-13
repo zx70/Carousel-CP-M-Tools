@@ -1,0 +1,25 @@
+subroutine sflush(fd)
+integer fd,j,p
+byte i,kind
+#common for fsort
+character ord	# sorted order of kind
+character buf	# line hold buffer
+integer ptr	# index of starts of lines
+byte type	# kind of each line
+integer nextp	# next line pos pointer
+integer stb   # symbol table pointer
+common /fsortc/ buf(MAXBUF),ptr(MAXSAVE),type(MAXSAVE),
+		ord(MAXNAMES),nextp, stb
+for (i=1; ord(i) != EOS; i=i+1)  # step thru kinds
+	{
+	kind = ord(i)
+	for (p=1; p<nextp; p=p+1)  # step thru saved lines
+	if (type(p) == kind)
+		{  # take it
+		j = ptr(p)
+		call putlin(buf(j),fd)
+		}
+	}
+return
+end
+

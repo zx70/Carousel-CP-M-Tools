@@ -1,0 +1,45 @@
+subroutine fsort(ifd,ofd)
+integer ifd,ofd
+integer len, i
+byte kind
+character line(MAXLINE), word(MAXLINE), code(2)
+integer getlin, getwrd, lookup, mktabl
+byte gcode
+#common for fsort
+character ord	# sorted order of kind
+character buf	# line hold buffer
+integer ptr	# index of starts of lines
+byte type	# kind of each line
+integer nextp	# next line pos pointer
+integer stb   # symbol table pointer
+common /fsortc/ buf(MAXBUF),ptr(MAXSAVE),type(MAXSAVE),
+		ord(MAXNAMES),nextp, stb
+data ord/PROG,TYPE,COMN,EQUI,DAT,BODY,END,EOS/
+
+nextp = 1
+ptr(nextp) = 1
+kind = WRONG
+stb = mktabl (CHAR_DEFN)
+call initfs (stb)
+for(len=getlin(line,ifd);len!=EOF;len=getlin(line,ifd))
+	{
+	i = 1
+	if(getwrd(line,i,word) == 0)  # line is blank
+		next;
+	if (len>6 & line(6)!=BLANK & line(6)!=DIG0 & line(6)!=TAB)
+		{ # continuation line
+		# kind = kind
+		}
+	else
+		kind = gcode(line,i,word)
+	call keepln(line,kind)
+	if (kind==END)
+		{
+		call sflush (ofd)
+		nextp = 1
+		ptr(nextp) = 1
+		kind = WRONG
+		}
+	}
+return
+end

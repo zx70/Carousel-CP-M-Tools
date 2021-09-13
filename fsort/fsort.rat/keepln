@@ -1,0 +1,28 @@
+subroutine keepln(line,kind)
+character line(ARB)
+integer length
+integer i,j
+byte kind
+#common for fsort
+character ord	# sorted order of kind
+character buf	# line hold buffer
+integer ptr	# index of starts of lines
+byte type	# kind of each line
+integer nextp	# next line pos pointer
+integer stb   # symbol table pointer
+common /fsortc/ buf(MAXBUF),ptr(MAXSAVE),type(MAXSAVE),
+		ord(MAXNAMES),nextp, stb
+if (kind == WRONG)
+	call error("fsort sequence error.")
+if (nextp == MAXSAVE)
+	call error("too many decl lines.")
+type(nextp) = kind
+i = ptr(nextp)
+j = length(line)
+if (i+j >= MAXBUF)
+	call error("too many decl chars.")
+call scopy(line,1,buf,i)
+nextp = nextp + 1
+ptr(nextp) = i+j+1
+return
+end
