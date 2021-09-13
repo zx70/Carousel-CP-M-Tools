@@ -1,8 +1,0 @@
- ## getsub - get substitution pattern into sub 
-    integer function getsub(arg, sub) 
-    character arg(MAXARG), sub(MAXPAT) 
-    integer maksub 
-  
-    getsub = maksub(arg, 1, EOS, sub) 
-    return 
-    end 
