@@ -1,0 +1,14 @@
+# hash --- hash a line into a hash_index
+
+   hash_index function hash (line)
+   character line (ARB)
+
+   integer i
+
+   hash = 0
+   for (i = 1; line (i) ~= EOS; i = i + 1)
+      hash = hash + line (i)
+   hash = mod (iabs (hash), HASH_TABLE_SIZE) + 1
+
+   return
+   end

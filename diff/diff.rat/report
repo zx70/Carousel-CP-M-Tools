@@ -1,0 +1,30 @@
+# report --- report differences between files in desired format
+
+   subroutine report
+
+   include cdiff
+
+DEBUG sym_pointer i
+
+DEBUG call print (ERROUT, "New mark: "s)
+DEBUG do i = 1, New_size
+DEBUG    call print (ERROUT, "  *i"s, New_count (i))
+DEBUG call print (ERROUT, "*nOld mark: "s)
+DEBUG do i = 1, Old_size
+DEBUG    call print (ERROUT, "  *i"s, Old_count (i))
+DEBUG call putch (NEWLINE, ERROUT)
+
+   call seek (BEGINNING_OF_FILE, Old_copy)
+   call seek (BEGINNING_OF_FILE, New_copy)
+
+   if (Option == DIFFERENCES)
+      call gen_listing
+   else if (Option == REVISION)
+      call gen_revision
+   else if (Option == SCRIPT)
+      call gen_script
+   else
+      call error ("in report:  can't happen.")
+
+   return
+   end

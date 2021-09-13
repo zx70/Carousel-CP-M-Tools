@@ -1,0 +1,84 @@
+# initialize --- set up everything needed for a file comparison
+
+   subroutine initialize
+
+   include cdiff
+
+   filedes open, create
+
+   integer argno, i
+   integer equal, getarg
+
+   character arg (FILENAMESIZE)
+
+   string tf1 "df1"      # text of unique lines
+   string tf2 "df2"      # copy of "old" file
+   string tf3 "df3"      # copy of "new" file
+ 
+   call query ("usage:  diff [-{c|d|r|s|v}] old_file [new_file].")
+
+   Option = DIFFERENCES    # the default
+   Verbos = NO
+
+   argno = 1      # where we expect to find file names
+   if (getarg (1, arg, FILENAMESIZE) ~= EOF)
+   if (arg (1) == MINUS) {
+      call lower (arg)
+      for (i = 2; arg (i) ~= EOS; i = i + 1)
+         if (arg (i) == LETC)
+            Option = COMPARISON
+         else if (arg (i) == LETD)
+            Option = DIFFERENCES
+         else if (arg (i) == LETR)
+            Option = REVISION
+         else if (arg (i) == LETS)
+            Option = SCRIPT
+         else if (arg (i) == LETV)
+            Verbos = YES
+         else
+            call usage
+      argno = 2
+      }
+
+   if (getarg (argno, arg, FILENAMESIZE) == EOF) {   # no files, use STDIN
+      # Old_file = STDIN1
+      # New_file = STDIN2
+      call usage     # GT implementation has multiple standard ports...
+      }
+   else {
+      Old_file = open (arg, READ)
+      if (Old_file == ERR)
+         call cant (arg)
+      argno = argno + 1
+      if (getarg (argno, arg, FILENAMESIZE) == EOF)
+         New_file = STDIN     # STDIN1, to be precise
+      else {
+         New_file = open (arg, READ)
+         if (New_file == ERR)
+            call cant (arg)
+         argno = argno + 1
+         }
+      }
+
+   if (getarg (argno, arg, FILENAMESIZE) ~= EOF)
+      call usage
+
+   Next_inx = 1
+   Next_sym = 1
+   call mkuniq (tf1, Text_file_name)
+   Text_file = create (Text_file_name, READWRITE)
+   if (Text_file == ERR)
+      call error ("can't open temporary file.")
+
+   call mkuniq (tf2, Old_copy_name)
+   Old_copy = create (Old_copy_name, READWRITE)
+   if (Old_copy == ERR)
+      call error ("can't open temporary file.")
+
+   call mkuniq (tf3, New_copy_name)
+   New_copy = create (New_copy_name, READWRITE)
+   if (New_copy == ERR)
+      call error ("can't open temporary file.")
+
+   return
+   end

@@ -1,0 +1,7 @@
+# usage --- print usage message, then die
+
+   subroutine usage
+
+   call error ("usage:  diff [-{c|d|r|s|v}] old_file [new_file].")
+
+   end

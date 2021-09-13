@@ -1,0 +1,61 @@
+# simple_compare --- do a line-by-line comparison of the input files
+
+   subroutine simple_compare
+
+   include cdiff
+
+   character line1 (MAXLINE), line2 (MAXLINE)
+
+   integer lineno, m1, m2
+   integer equal, getlin
+
+			# different
+   string diff "different"
+			# eof_on_old_file
+   string oldeof "eof on old file"
+			# eof_on_new_file
+   string neweof "eof on new file"
+
+   lineno = 0
+   repeat {
+      m1 = getlin (line1, Old_file)
+      m2 = getlin (line2, New_file)
+      if (m1 == EOF | m2 == EOF)
+         break
+      lineno = lineno + 1
+      if (equal (line1, line2) == NO)
+         if (Verbos == YES) {
+            call putch (NEWLINE, STDOUT)
+            call putint (lineno, 5, STDOUT)
+            call putch (NEWLINE, STDOUT)
+            call putlin (line1, STDOUT)
+            call putlin (line2, STDOUT)
+            }
+         else {
+            call putlin (diff, STDOUT)
+            call putch (NEWLINE, STDOUT)
+            return
+            }
+      }
+
+   if (m1 == EOF & m2 ~= EOF)
+      if (Verbos == YES) {
+         call putlin (oldeof, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         }
+      else {
+         call putlin (diff, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         }
+   if (m1 ~= EOF & m2 == EOF)
+      if (Verbos == YES) {
+         call putlin (neweof, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         }
+      else {
+         call putlin (diff, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         }
+
+   return
+   end

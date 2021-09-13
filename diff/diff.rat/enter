@@ -1,0 +1,50 @@
+# enter --- enter a line in the symbol table, return its index
+
+   sym_pointer function enter (line)
+   character line (ARB)
+
+   include cdiff
+
+   hash_index h
+   hash_index hash
+
+   sym_pointer i, p
+
+   character text (MAXLINE)
+
+   integer junk
+   integer equal, getlin
+
+   h = hash (line)
+   p = Bucket (h)
+
+   while (p ~= NULL_POINTER) {
+      i = Sym_store (p + 1)      # grab index field of entry structure
+      call seek (Text_loc (1, i), Text_file)
+      junk = getlin (text, Text_file)
+      if (equal (line, text) == YES)
+         return (i)              # we got it; return its useful index
+      p = Sym_store (p)          # try next item in the chain
+      DEBUG call remark ("probing in lookup:.")
+      DEBUG call remark ("ptr =.")
+      DEBUG call putint (p, 0, ERROUT)
+      DEBUG call putch (NEWLINE, ERROUT)
+      DEBUG call remark ("line =.")
+      DEBUG call putlin (line, ERROUT)
+      }
+
+   if (Next_inx >= MAX_UNIQUE_LINES)
+      call error ("too many unique lines; symbol table overflow.")
+   i = Next_inx
+   Next_inx = Next_inx + 1
+   h = hash (line)
+   Sym_store (Next_sym) = Bucket (h)   # link in new entry
+   Sym_store (Next_sym + 1) = i
+   Bucket (h) = Next_sym
+   Next_sym = Next_sym + 2
+   call seek (END_OF_FILE, Text_file)
+   call note (Text_loc (1, i), Text_file)
+   call putlin (line, Text_file)
+
+   return (i)
+   end

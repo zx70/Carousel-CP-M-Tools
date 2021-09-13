@@ -1,0 +1,22 @@
+# cleanup --- close input files, remove temporaries, and shut down
+
+   subroutine cleanup
+
+   include cdiff
+
+   call close (Old_file)
+
+   if (New_file ~= STDIN)
+      call close (New_file)
+
+   ifnotdef(CPM,call close (Old_copy))
+   call remove (Old_copy_name)
+
+   ifnotdef(CPM,call close (New_copy))
+   call remove (New_copy_name)
+
+   ifnotdef(CPM,call close (Text_file))
+   call remove (Text_file_name)
+
+   return
+   end

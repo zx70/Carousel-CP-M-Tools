@@ -1,0 +1,77 @@
+# label --- label lines as "inserted," "deleted," or "unchanged"
+
+   subroutine label
+
+   include cdiff
+
+   sym_pointer oi, ni, ox, nx
+
+DEBUG call remark ("input new xref:.")
+DEBUG do ni = 1, New_size; {
+DEBUG    call putch (BLANK, ERROUT)
+DEBUG    call putint (New_xref (ni), 0, ERROUT)
+DEBUG    }
+DEBUG call putch (NEWLINE, ERROUT)
+DEBUG call remark ("input old xref:.")
+DEBUG do oi = 1, Old_size; {
+DEBUG    call putch (BLANK, ERROUT)
+DEBUG    call putint (Old_xref (oi), 0, ERROUT)
+DEBUG    }
+DEBUG call putch (NEWLINE, ERROUT)
+
+   oi = 2
+   ni = 2
+
+   repeat {
+
+      ox = Old_xref (oi)
+      nx = New_xref (ni)
+
+      if (oi >= Old_size & ni >= New_size)
+         break
+
+      else if (oi < Old_size & ox < 0) { # deletion from old file
+         Old_count (oi) = 1
+         oi = oi + 1
+         }
+
+      else if (ni < New_size & nx < 0) { # insertion in new file
+         New_count (ni) = 1
+         ni = ni + 1
+         }
+
+      else if (ox == ni & nx == oi) {    # unchanged line
+         Old_count (oi) = 0
+         oi = oi + 1
+         New_count (ni) = 0
+         ni = ni + 1
+         }
+
+      else if (oi <= Old_size & ni <= New_size) {  # out-of-order block
+         New_count (ni) = 1
+         ni = ni + 1
+         Old_count (nx) = 1
+         Old_count (oi) = 1
+         oi = oi + 1
+         New_count (ox) = 1
+         }
+
+      else {
+         call remark ("oi, ox, ni, nx:.")
+         call putint (oi, 10, ERROUT)
+         call putint (ox, 10, ERROUT)
+         call putint (ni, 10, ERROUT)
+         call putint (nx, 10, ERROUT)
+         call putch (NEWLINE, ERROUT)
+         call error ("in label:  can't happen.")
+         }
+
+      }
+
+   Old_count (1) = 2             # mark the null lines specially,
+   Old_count (Old_size) = 2      #    so people won't have to deal
+   New_count (1) = 2             #    with file sizes
+   New_count (New_size) = 2
+
+   return
+   end

@@ -1,0 +1,72 @@
+# gen_revision --- generate 'fmt' input text with revision bar requests
+
+   subroutine gen_revision
+
+   include cdiff
+
+   sym_pointer oi, ni
+
+   integer junk
+   integer getlin
+
+   character line (MAXLINE)
+
+			# start_revision_bar
+   string srbar  ".mc 2 |"
+			# stop_revision_bar
+   string stbar   ".mc"
+			#start_deletion_star
+   string sdstar ".mc 2 *"
+			# stop_deletion_star
+   string ststar  ".mc"
+
+   oi = 2
+   ni = 2
+
+   repeat
+
+      if (Old_count (oi) == 0 & New_count (ni) == 0) {
+         oi = oi + 1
+         ni = ni + 1
+         junk = getlin (line, New_copy)
+         call putlin (line, STDOUT)
+         }
+
+      else if (Old_count (oi) ~= 1 & New_count (ni) == 1) {
+         call putlin (srbar, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         for (; New_count (ni) == 1; ni = ni + 1) {
+            junk = getlin (line, New_copy)
+            call putlin (line, STDOUT)
+            }
+         call putlin (stbar, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         }
+
+      else if (Old_count (oi) == 1 & New_count (ni) ~= 1) {
+         call putlin (sdstar, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         call putlin (ststar, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         for (; Old_count (oi) == 1; oi = oi + 1)
+            ;
+         }
+
+      else if (Old_count (oi) == 1 & New_count (ni) == 1) {
+         for (; Old_count (oi) == 1; oi = oi + 1)
+            ;
+         call putlin (srbar, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         for (; New_count (ni) == 1; ni = ni + 1) {
+            junk = getlin (line, New_copy)
+            call putlin (line, STDOUT)
+            }
+         call putlin (stbar, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         }
+
+      else if (Old_count (oi) == 2 & New_count (ni) == 2)
+         break
+
+   return
+   end

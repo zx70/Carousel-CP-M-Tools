@@ -1,0 +1,24 @@
+# pair --- pair up unique lines in both files
+
+   subroutine pair
+
+   include cdiff
+
+   sym_pointer i, j, k
+
+   for (i = 2; i < New_size; i = i + 1) {
+      j = -New_xref (i)
+      if (Old_count (j) == 1 & New_count (j) == 1) { # unique pair
+         New_xref (i) = Old_lno (j)
+         k = Old_lno (j)
+         Old_xref (k) = i
+         }
+      }
+
+   New_xref (1) = 1                 # match null lines at BOF
+   Old_xref (1) = 1
+   New_xref (New_size) = Old_size   # ... and at EOF
+   Old_xref (Old_size) = New_size
+
+   return
+   end

@@ -1,0 +1,81 @@
+# gen_script --- produce editor script to convert old file into new
+
+   subroutine gen_script
+
+   include cdiff
+
+   sym_pointer oi, ni, offset, length
+
+   integer junk
+   integer getlin
+
+   character line (MAXLINE)
+
+   oi = 2
+   ni = 2
+   offset = 0
+
+   repeat
+
+      if (Old_count (oi) == 0 & New_count (ni) == 0) {
+         oi = oi + 1
+         ni = ni + 1
+         junk = getlin (line, New_copy)
+         }
+
+      else if (Old_count (oi) ~= 1 & New_count (ni) == 1) {
+         call putint (oi - 2 + offset, 0, STDOUT)
+         call putch (LETA, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         length = 0
+         for (; New_count (ni) == 1; ni = ni + 1) {
+            length = length + 1
+            junk = getlin (line, New_copy)
+            call putlin (line, STDOUT)
+            }
+         call putch (PERIOD, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         offset = offset + length
+         }
+
+      else if (Old_count (oi) == 1 & New_count (ni) ~= 1) {
+         length = 0
+         for (; Old_count (oi) == 1; oi = oi + 1)
+            length = length + 1
+         call putint (oi - 1 - length + offset, 0, STDOUT)
+         call putch (COMMA, STDOUT)
+         call putint (oi - 2 + offset, 0, STDOUT)
+         call putch (LETD, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         offset = offset - length
+         }
+
+      else if (Old_count (oi) == 1 & New_count (ni) == 1) {
+         length = 0
+         for (; Old_count (oi) == 1; oi = oi + 1)
+            length = length + 1
+         call putint (oi - 1 - length + offset, 0, STDOUT)
+         call putch (COMMA, STDOUT)
+         call putint (oi - 2 + offset, 0, STDOUT)
+         call putch (LETC, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         offset = offset - length
+         length = 0
+         for (; New_count (ni) == 1; ni = ni + 1) {
+            length = length + 1
+            junk = getlin (line, New_copy)
+            call putlin (line, STDOUT)
+            }
+         call putch (PERIOD, STDOUT)
+         call putch (NEWLINE, STDOUT)
+         offset = offset + length
+         }
+
+      else if (Old_count (oi) == 2 & New_count (ni) == 2)
+         break
+
+   call putch (LETW, STDOUT)
+   call putch (NEWLINE, STDOUT)
+   # DON'T output a 'q' command -- prevents concatentation of scripts
+   return
+   end

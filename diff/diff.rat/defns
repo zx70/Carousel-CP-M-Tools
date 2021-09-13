@@ -1,0 +1,51 @@
+# diff --- isolate differences between two files
+
+define (MAX_UNIQUE_LINES,500 )   # no. of unique lines in all files
+define (MAX_UNIQUE_LINES2,arith(MAX_UNIQUE_LINES,*,2))
+define (NULL_POINTER,0)
+#define (HASH_TABLE_SIZE,6073)    # must be prime, as large as possible
+ define(HASH_TABLE_SIZE,101)
+define (MAX_FILE_SIZE,500 )      # no. of lines in largest input file
+
+define (sym_pointer,integer)     # large enough to index MAX_UNIQUE_LINES2
+define (hash_index,integer)      # large enough to index HASH_TABLE_SIZE
+define (file_mark,integer)       # large enough to hold a file position
+
+define (DIFFERENCES,1)           # -d => list differences
+define (REVISION,2)              # -r => revision bar requests for 'fmt'
+define (SCRIPT,3)                # -s => update script for 'ed'
+define (COMPARISON,4)            # -c => simple line-by-line compare
+
+define (ON,)
+define (OFF,#)
+define (DEBUG,OFF)               # turn debugging output on/off
+define (TUNING,OFF)              # turn algorithm tuning output on/off
+
+
+ # definitions for long variable names
+define(Old_count,ocount)
+define(New_count,ncount)
+define(Old_xref,oxref)
+define(New_xref,nxref)
+define(Old_lno,oldlno)
+define(Sym_store,sstore)
+define(Text_loc,tloc)
+define(Next_sym,nsym)
+define(Next_inx,ninx)
+define(New_size,nsize)
+define(Old_size,osize)
+define(Old_file,ofile)
+define(New_file,nfile)
+define(Text_file,tfile)
+define(Old_copy,ocopy)
+define(New_copy,ncopy)
+define(Text_file_name,tfname)
+define(Old_copy_name,ocname)
+define(New_copy_name,ncname)
+
+define(cleanup,clean)
+define(gen_listing,glist)
+define(gen_revision,grevis)
+define(gen_script,gscrip)
+define(initialize,init)
+define(simple_compare,scompr)

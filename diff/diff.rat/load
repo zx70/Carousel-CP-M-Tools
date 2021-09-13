@@ -1,0 +1,74 @@
+# load --- load symbol table, set up cross-reference structures
+
+   subroutine load
+
+   include cdiff
+
+   sym_pointer lno, i
+   sym_pointer enter
+
+   hash_index h
+
+   character line (MAXLINE)
+
+   integer getlin, length
+
+TUNING sym_pointer p
+TUNING integer used, chain_len, max_chain_len, min_chain_len
+
+   do h = 1, HASH_TABLE_SIZE
+      Bucket (h) = NULL_POINTER
+
+   do lno = 1, MAX_UNIQUE_LINES; {
+      Old_count (lno) = 0
+      New_count (lno) = 0
+      }
+
+  # Load the "old" file:
+   for (lno = 2; getlin (line, Old_file) ~= EOF; lno = lno + 1) {
+      if (lno > MAX_FILE_SIZE)
+         call error ("old file too large to handle.")
+      call putlin (line, Old_copy)
+      i = enter (line)
+      Old_count (i) = Old_count (i) + 1
+      Old_lno (i) = lno
+      Old_xref (lno) = -i
+      }
+   Old_size = lno    # includes null line at end
+
+  # Load the "new" file:
+   for (lno = 2; getlin (line, New_file) ~= EOF; lno = lno + 1) {
+      if (lno > MAX_FILE_SIZE)
+         call error ("new file too large to handle.")
+      call putlin (line, New_copy)
+      i = enter (line)
+      New_count (i) = New_count (i) + 1
+      New_xref (lno) = -i
+      }
+   New_size = lno    # also allows for null line at end
+
+TUNING call print (STDOUT2, "Old_size = *i, New_size = *i*n"s,
+TUNING    Old_size, New_size)
+TUNING call print (STDOUT2, "*i unique lines*n"s, Next_inx - 1)
+TUNING used = 0
+TUNING max_chain_len = 0
+TUNING min_chain_len = MAX_UNIQUE_LINES
+TUNING do h = 1, HASH_TABLE_SIZE; {
+TUNING    p = Bucket (h)
+TUNING    if (p ~= NULL_POINTER)
+TUNING       used += 1
+TUNING    chain_len = 0
+TUNING    while (p ~= NULL_POINTER) {
+TUNING       chain_len += 1
+TUNING       p = Sym_store (p)
+TUNING       }
+TUNING    max_chain_len = max0 (chain_len, max_chain_len)
+TUNING    min_chain_len = min0 (chain_len, min_chain_len)
+TUNING    }
+TUNING call print (STDOUT2, "chain lengths:  min = *i, avg = *i, max = *i*n"s,
+TUNING    min_chain_len, (Next_inx - 1) / used, max_chain_len)
+TUNING call print (STDOUT2, "hash buckets *i% full*n"s,
+TUNING    (100 * used) / HASH_TABLE_SIZE)
+
+   return
+   end
