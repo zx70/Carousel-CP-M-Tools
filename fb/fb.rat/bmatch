@@ -1,0 +1,12 @@
+ ## bmatch - locate patterns which appear in line of block
+ subroutine bmatch (line)
+ character line(ARB)
+ integer match
+ 
+ include fbcom
+ 
+ for (i=1; i<=elevel; i=i+1)
+        if (match(line, pat(1,i)) == YES)
+                locatd(i) = YES         #mark arg that was matched
+ return
+ end
