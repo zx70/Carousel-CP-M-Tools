@@ -1,0 +1,62 @@
+ #        include ratdef
+ #
+ # definitions for editor 
+ #
+ #  If you haven't implemented READWRITE access (but are able to
+ #  open the same file at READ and at WRITE access, set the
+ #  following definition:
+ #
+ #        define(NO_READWRITE,)
+ 
+ ifdef(BKY, define(NO_READWRITE,))
+ 
+ #  If you have implemented "spawn", set the following definition:
+ #           define(SPAWN_OK,)
+ 
+ ifdef(VAX_VMS, define(SPAWN_OK,))
+ ifdef(RSX_11M, define(SPAWN_OK,))
+  define(DITTO,11111)
+  ifdef(NEGDEF, define(DITTO,(-3)) )
+  define(GLOBAL,LETG) 
+  define(PRINT,LETP) 
+  define(MARKED,LETY) 
+  define(NOMARK,LETN) 
+  define(EXCLUDE,LETX) 
+  define(APPENDCOM,LETA) 
+  define(CHANGE,LETC) 
+  define(DELCOM,LETD) 
+  define(ENTER,LETE) 
+  define(PRINTFIL,LETF) 
+  define(READCOM,LETR) 
+  define(WRITECOM,LETW) 
+  define(INSERT,LETI) 
+  define(PRINTCUR,EQUALS) 
+  define(MOVECOM,LETM) 
+  define(QUIT,LETQ) 
+  define(SUBSTITUTE,LETS) 
+  define(CURLINE,PERIOD) 
+  define(LASTLINE,DOLLAR) 
+  define(SCAN,SLASH) 
+  define(BACKSCAN,BACKSLASH) 
+  define(NOSTATUS,1) 
+  define(LINE0,1) 
+  define(PREV,0) 
+  define(NEXT,1) 
+  define(MARK,2) 
+  define(TEXT,3) 
+  define(MAXBUF,4008)           #size of line pointer array
+                                # (includes line 0 and line $)
+                                #(each line needs 4 words)
+  ifdef(VAX_VMS, define(MAXBUF,20008) )
+  define(SEEKADR,3) 
+  define(BUFENT,4) 
+ 
+  define(BROWSE,LETB)
+  define(SCREENSIZE,22)
+  define(KOPYCOM,LETK)
+  define(SPAWNCOM,ATSIGN)
+  define(COMMENT,SHARP)
+  define(FORWARD,PLUS)
+  define(CENTER,PERIOD)
+  define(BACKWARD,MINUS)
+  define(MAXTBUFS,4)

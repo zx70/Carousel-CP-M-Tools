@@ -1,0 +1,23 @@
+  ## clrbuf - dispose of editor scratch file   
+    integer function clrbuf(comand)
+
+    character comand
+
+    include cscrat
+    include clines
+ 
+    if (comand == QUIT & ifmod == YES & notify == NO)  # no w since last change
+        {
+        notify = YES
+	call remark("NO WRITE SINCE LAST CHANGE.")
+        clrbuf = ERR
+        }
+    else
+        {
+        ifnotdef(CPM, call close(scr) )
+        ifdef(NO_READWRITE, call close(wscr) )
+        call remove(scrfil)
+        clrbuf = OK
+        }
+    return
+    end

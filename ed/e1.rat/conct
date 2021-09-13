@@ -1,0 +1,24 @@
+ ## conct - concat line to next line if necessary
+ integer function conct (nbr, lin)
+ 
+ integer nbr, i, gettxt, junk
+ character lin(ARB)
+ 
+ include clines
+ include ctxt
+ 
+ conct = OK
+ for (i=1; lin(i)!=EOS; i=i+1)  #check for lack of NEWLINE
+        if (lin(i) == NEWLINE)
+                return
+ if (nbr+1 > lastln)            #no next line
+        {
+        conct = ERR
+        return
+        }
+ 
+ junk = gettxt (nbr+1)
+ call scopy (txt, 1, lin, i)
+ call lindel (nbr+1, nbr+1, junk)
+ return
+ end

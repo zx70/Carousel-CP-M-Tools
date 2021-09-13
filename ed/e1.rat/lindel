@@ -1,0 +1,22 @@
+  ## lindel - delete lines 'from' through 'to'   
+   integer function lindel(from, to, status)
+   integer getind, nextln, prevln
+   integer from, k1, k2, status, to, start, stop
+   include clines
+ 
+   if (from <= 0)
+      status = ERR
+   else {
+      k1 = getind(prevln(from))
+      k2 = getind(nextln(to))
+      start = getind(from)
+      stop = getind(to)
+      lastln = lastln - (to - from + 1)
+      curln = prevln(from)
+      call relink(k1, k2, k1, k2)
+      call ptfndx(start, stop)
+      status = OK
+      }
+   lindel = status
+   return
+   end
