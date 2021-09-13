@@ -1,0 +1,27 @@
+ ## getqw - get word or quoted word from in(i) into out; increment i
+ integer function getqw (in, i, out)
+ character in(ARB), out(ARB)
+ integer i, j
+ character qm
+ integer getwrd
+ 
+ while (in(i) == BLANK | in(i) == TAB)
+        i = i + 1
+ if (in(i) == SQUOTE | in(i) == DQUOTE)
+        {
+        qm = in(i)
+        j = 1
+        for (i=i+1; in(i) != qm & in(i) != EOS; i=i+1)
+                {
+                out(j) = in(i)
+                j = j + 1
+                }
+        out(j) = EOS
+        getqw = j - 1 
+        if (in(i) != EOS)
+                i = i + 1       #skip past ending quote
+        }
+ else
+        getqw = getwrd(in, i, out)
+ return
+ end

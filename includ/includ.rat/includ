@@ -1,0 +1,26 @@
+# includ-concatenate args and replace include file by contents of file
+ DRIVER
+   character name(MAXLINE)
+   integer i, f
+   integer getarg, open, equal
+   string dash "-"
+
+   for (i = 1; getarg(i, name, MAXLINE) ^= EOF; i = i + 1) {
+      if (name(1) == QMARK & name(2) == EOS)
+                call error ("usage:  includ [file].")
+      if (equal(name, dash) == YES) {
+         call incl(STDIN)
+         next
+         }
+      f = open(name, READ)
+      if (f == ERR)
+         call cant(name)
+      else {
+         call incl(f)
+         call close(f)
+         }
+      }
+   if (i == 1)  # read from STDIN
+      call incl(STDIN)
+ DRETURN
+   end
