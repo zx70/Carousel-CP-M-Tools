@@ -1,0 +1,17 @@
+define(HEAD,1)
+define(END,2)
+define(BODY,3)
+define(PROG,4)
+define(TYPE,5)
+define(COMN,6)
+define(EQUI,7)
+define(DAT,8)
+define(DOUBLE,9)
+define(BLOCK,10)
+define(PRECISION,11)
+define(WRONG,12)
+
+define(MAXNAMES,10)
+define(MAXBUF,10000)
+define(MAXSAVE,1000)
+
