@@ -1,0 +1,26 @@
+# rev - reverse lines
+ DRIVER
+  character lin(MAXLINE)
+  integer i, fd
+  integer getarg, open
+
+ call query ("usage: rev [files].")
+ for (i=1; getarg(i, lin, FILENAMESIZE) != EOF; i=i+1)
+        {
+        if (lin(1) == MINUS & lin(2) == EOS)
+                fd = STDIN
+        else
+                {
+                fd = open(lin, READ)
+                if (fd == ERR)
+                        call cant(lin)
+                }
+        call revl(fd)
+        if (fd != STDIN)
+                call close(fd)
+        }
+ 
+ if (i == 1)		# no files given, read STDIN
+        call revl(STDIN)
+  DRETURN
+ end

@@ -1,0 +1,14 @@
+ ## revl - reverse lines in file 'fd'
+ subroutine revl(fd)
+ integer fd, i
+ integer getlin
+ character lin(MAXLINE)
+
+
+  for (i = getlin(lin, fd); i ^= EOF; i = getlin(lin, fd)) {
+     for (i = i - 1; i > 0; i = i - 1)
+        call putc(lin(i))
+     call putc(NEWLINE)
+     }
+  return
+  end
