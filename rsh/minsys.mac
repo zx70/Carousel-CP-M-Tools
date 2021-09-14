@@ -1,0 +1,199 @@
+;## minsys.mac -- minimal library functions for sh.com
+; Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+;	All rights reserved.
+
+	title minsys
+	.8080
+	include LIBDEFS
+entry	$INIT, $EX, EXIT, bdos$c, exec$, addrs$
+
+EXIT:
+$EX:	mvi	c,0
+	jmp	bdos
+
+; INIT - called as first instruction in each FORTRAN MAIN program.
+; 	 sets stack and initializes FORTRAN I/O variables in case
+;	 they are needed.
+$INIT:	xra	a	; set system flags, SP
+	lhld	base+6
+	sphl
+	push	b
+addrs$:	ret
+
+exec$:	push	h	; save fcb
+	xchg		; HL = loadaddress address
+	mov	e,m	; take address
+	inx	h
+	mov	d,m	;
+	xchg		; HL = loadaddress
+	shld	l5	; save for later use
+	mov	l,c	; HL = goaddress address
+	mov	h,b	;
+	mov	e,m	; take address
+	inx	h	;
+	mov	d,m	;
+	xchg		; HL = goaddress
+	shld	l4	; save for later use
+	pop	d	; DE = FCB
+	lhld	base+6	; HL = BDOS entry address
+	sphl		; reset stack to max
+	lxi	h,36	; HL = FCBsize
+	dad	d	; HL = FCB end + 1
+	mvi	a,18	; count = FCB words to move
+l1:	dcx	h	; loop1:
+	mov	d,m	;  push FCB onto stack
+	dcx	h	;  from back end
+	mov	e,m	;
+	push	d	;
+	dcr	a	;
+	jnz	l1	;
+	lxi	h,0	; HL = 0 + SP so
+	dad	sp	; HL = FCB on stack
+	shld	t1	; temp = FCB
+	call	cd$
+	mvi	a,proge-progg  ; count=prog size
+	ora	a	;
+	rar		;
+	lxi	h,proge	; push prog onto stack
+l3:	dcx	h	; same way as FCB
+	mov	d,m	;
+	dcx	h	;
+	mov	e,m	;
+	push	d	;
+	dcr	a	;
+	jnz	l3	;
+	lhld	t1	; HL = FCB
+	mvi	a,15
+	ana	m
+	inr	a
+	mov	m,a
+	xchg		; DE = FCB
+	lxi	h,0	;
+	dad	sp	; HL = prog entry address
+	push	h	; stack reference copy
+	push	h	; stack ret for initial call
+	db	33	; lxi	h, loadaddress
+l5:	dw	CPMgo	;
+	ret		; goto load program
+
+progg:	nop		; DE = FCB
+			; HL = DMA
+	xchg		; DE = DMA, HL = FCB
+	mvi	c,26	; op = setDMA
+	push	d	; stack DMA
+	push	h	; stack FCB
+	call	bdos	; do set DMA
+	pop	d	; DE = FCB
+	push	d	; stack FCB
+	mvi	c,20	; op = read seq.
+	call	bdos	; do read
+	pop	d	; DE = FCB
+	pop	h	; HL = DMA
+	pop	b	; BC = loop address
+	push	b	; stack reference copy
+	push	b	; stack for loop ret
+	push	psw	; stack read result
+	push	d	; stack FCB
+	lxi	d,128	; DE = DMA increment
+	dad	d	; HL = new DMA (old + 80H)
+	pop	d	; DE = FCB
+	pop	psw	; a = read result
+	cpi	0	; if not done then continue
+	rz		; with loop via ret
+	mvi	c,26
+	lxi	d,CPMDMA
+	call	bdos
+	lxi	h,base
+	push	h
+	db	33	; lxi h,startaddress
+l4:	dw	CPMgo	;
+	push	h
+	lxi	h,CPMdsk
+cd$:	push	h	; change directory
+	mvi	a,15
+	ana	m
+	mov	e,a
+	mvi	c,14
+	call	bdos
+	pop	h
+	mvi	a,-16
+	ana	m
+	rar
+	rar
+	rar
+	rar
+	mov	e,a
+	mvi	c,32
+	call	bdos
+	ret		; cd$ done, ret or go
+proge:	
+
+t1:	dw	0	; temp
+
+bdos$c:	mov	c,m
+	push	b
+	xchg
+	push	h
+	call	cd$
+	pop	h
+	pop	b
+	mov	a,m
+	push	psw
+	ani	15
+	inr	a
+	mov	m,a
+	push	h
+	xchg
+	call	bdos
+	pop	h
+	pop	b
+	mov	m,b
+	ret
+
+; DIRECT BDOS output routines for low-level errors
+;
+; outc$ (c)
+; character c
+; putc(c)
+; return
+; end
+
+	PUBLIC outc$
+outc$:	mov	e,m
+	mvi	c,2
+	push	h
+	call	bdos
+	pop	h
+	ret
+
+; outs$ (s)
+; character s(ARB)
+; integer i
+; for (i=1; s(i) != EOS; i=i+1)
+;	call outc$ (s(i))
+; return
+; end
+
+	PUBLIC outs$
+outs$:	mov	a,m
+	ana	a
+	rz
+	push	h
+	call	outc$
+	pop	h
+	inx	h
+	jmp	outs$
+
+; outl$ (l)
+; character l(ARB)
+; call outs$ (l)
+; call outs$ (NEWLINE)
+; return
+	PUBLIC outl$, outnl$
+outl$:	call	outs$
+outnl$:	lxi	h,outnl
+	jmp	outs$
+outnl:	db	13,10,0
+
+
+	end
