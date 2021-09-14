@@ -1,0 +1,7 @@
+## closdr - close directory
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+  subroutine closdr (fd)
+  pointer fd
+  call dsfree (fd)
+  return
+  end

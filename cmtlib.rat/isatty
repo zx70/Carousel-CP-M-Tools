@@ -1,0 +1,11 @@
+ ## isatty - determine if file is a teletype/CRT device
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function isatty (fd)
+ integer fd
+ include cprimio
+ if (dev(fd) > DISK)
+        isatty = YES
+ else
+        isatty = NO
+ return
+ end

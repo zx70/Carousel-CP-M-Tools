@@ -1,0 +1,9 @@
+## push - push item onto top of stack/list
+pointer function push (thing, list)
+integer thing (ARB)	# characters are OK
+pointer list
+pointer inject
+
+push = inject (thing, list, list)
+return
+end

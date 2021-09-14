@@ -1,0 +1,9 @@
+## writef - write 'n' bytes to file fd
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function writef (buf, n, fd)
+ character buf(ARB)
+ integer n, fd
+ for (i=1; i<= n; i=i+1)
+        call putch$ (buf(i), fd)
+ return (n)
+ end

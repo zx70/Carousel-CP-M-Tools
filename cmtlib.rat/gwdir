@@ -1,0 +1,21 @@
+## gwdir - get (current) working directory name
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+#	   CP/M version - rewrite for different system
+ subroutine gwdir (name, form)
+ integer form	#specifies UNIX-style or local format
+ character name(ARB)
+ include config
+ character buf(7)
+ integer i, itoc
+
+ i = curusr
+ i = itoc (i, buf, 3) + 1
+ buf(i) = curdsk + BIGA
+ buf(i+1) = COLON
+ buf(i+2) = EOS
+ if (form == PATH)
+	call mkpath (buf, name)
+ else
+	call ctoc (buf, name, FILENAMESIZE)
+ return
+ end

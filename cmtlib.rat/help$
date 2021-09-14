@@ -1,0 +1,70 @@
+## help$ - prints i/o info on STDERR
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+subroutine help$
+include cprimio
+include config
+byte movic$
+DS_DECLARE
+byte fd
+pointer tfcb
+integer i,j
+string h1 "fd  st dev drt wrt  nq lastc  fpos block"
+string h2 "   fcb  bufq  cbuf"
+
+call newlin(STDERR)
+call putlin(h1,STDERR)
+call putlin(h2,STDERR)
+call newlin(STDERR)
+for (fd=1; fd<=MAXOFILES; fd=fd+1)
+  {
+  i = fd
+  call putint(i,2,STDERR)
+  i = state(fd)
+  if (i == CLOSED)
+	{
+	call remark(".")
+	next
+	}
+  call putint(i,4,STDERR)
+  i = dev(fd)
+  call putint(i,4,STDERR)
+  i = dirty(fd)
+  call putint(i,4,STDERR)
+  i = wrt(fd)
+  call putint(i,4,STDERR)
+  i = nq(fd)
+  call putint(i,4,STDERR)
+  call putint(lastc(fd),6,STDERR)
+  call putint(fpos(fd),6,STDERR)
+  call putint(block(fd),6,STDERR)
+  call putint(fcb(fd),6,STDERR)
+  call putint(bufq(fd),6,STDERR)
+  call putint(curbuf(fd),6,STDERR)
+  call newlin(STDERR)
+  }
+for (fd=1; fd<=MAXOFILES; fd=fd+1)
+	{
+	i = fd
+	call putint(i,2,STDERR)
+	if (state(fd) == CLOSED)
+		call remark(" closed.")
+	else
+		{
+		call newlin(STDERR)
+		tfcb = fcb(fd)
+		i = Mem(tfcb) & 15
+		call putint(i,3,ERROUT)
+		i = (Mem(tfcb) & 255) / 16
+		call putint(i,3,ERROUT)
+		for (j=2; j<=FCBSIZE; j=j+1)
+			{
+			i = 255 & movic$ (Mem(tfcb),j)
+			call putint(i,3,STDERR)
+			if (j == 16)
+				call newlin(STDERR)
+			}
+		call remark(".")
+		}
+	}
+return
+end

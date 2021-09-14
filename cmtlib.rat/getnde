@@ -1,0 +1,17 @@
+ ## getnde - get number of directory entries
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function getnde (dir)
+ character dir(ARB)
+ DS_DECLARE
+ include cprimio
+ character peek
+ integer dpa, n
+
+ call packnm (dir, tmpfcb)
+ call cd$ (tmpfcb(1))
+ call bdos$a (CPM_GETDPB, n, dpa)
+ dpa = dpa + 7
+ n = peek(dpa)
+ n = (n&255) + 256*peek(dpa+1) + 1
+ return(n)
+ end

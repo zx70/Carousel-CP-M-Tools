@@ -1,0 +1,22 @@
+## setmod - change mode on terminal unit to RAW/RARE/COOKED
+ integer function setmod (fd, mode)
+ byte mode
+ integer fd
+ include cprimio
+ integer isatty
+
+ call fdok$ (fd)
+ if (state(fd) == CLOSED | state(fd) == ERR)
+	return(ERR)
+ if (isatty(fd) == YES & mode != COOKED)
+	{
+	state (fd) = state (fd) | RAWMODE
+	if (dev(fd) == 1)
+		dev(fd) = 2	# raw console
+	return(mode)
+	}
+ state (fd) = state (fd) & 251 # bit RAWMODE off
+ if (dev(fd) == 2)
+	dev(fd) = 1	# cooked console
+ return(COOKED)
+ end

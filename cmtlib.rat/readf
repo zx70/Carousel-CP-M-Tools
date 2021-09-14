@@ -1,0 +1,18 @@
+ ## readf - read 'n' bytes from file fd
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function readf (buf, n, fd)
+ character getch$
+ character buf(ARB)
+ integer n, fd, ch
+ 
+ for (i=1; i<= n; i=i+1)
+        {
+        if (getch$ (ch, fd) != OK)
+		break
+	else
+		buf(i) = ch
+        }
+ if (i == 1) i = EOF
+ else i = i-1
+ return(i)
+ end

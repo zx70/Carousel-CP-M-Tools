@@ -1,0 +1,10 @@
+## renam$ - rename file described in fcb1 to fcb2
+ integer function renam$ (fcb1, fcb2)
+ byte fcb1(FCBSIZE), fcb2(FCBSIZE)
+ byte bdos$c
+
+ call movb$ (fcb2, fcb1(17), 16)
+ fcb1(17) = 0
+ renam$ = bdos$c (CPM_RENAME, fcb1)
+ return
+ end

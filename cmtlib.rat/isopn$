@@ -1,0 +1,30 @@
+# isopn$ - returns file descriptor if fcb is open
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+integer function isopn$ (wrkfcb)
+byte wrkfcb(ARB), k, movic$
+integer i, j
+integer stncmp
+pointer tfcb
+include cprimio
+DS_DECLARE
+
+for (j=1; j<=MAXOFILES; j=j+1)
+	{
+	if (state(j) == CLOSED)
+		next
+	tfcb = fcb(j)
+	k = 1
+	for (i=1; i<13; i=i+1)
+		{
+		if (wrkfcb(i) != movic$ (Mem(tfcb),i))
+			k = 0
+		}
+	if (k == 1)
+		{
+		isopn$ = j
+		return
+		}
+	}
+isopn$ = ERR
+return
+end

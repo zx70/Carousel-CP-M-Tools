@@ -1,0 +1,30 @@
+## xtract - read an item from a linked list
+integer function xtract (thing, max, node, list)
+integer thing (ARB)	# character(ARB) ok on call
+integer max
+pointer node, list
+integer ctoc
+DS_DECLARE
+integer nodsiz, length, i
+pointer junk, j
+
+if (node == list)
+	return (EOF)
+nodsiz = Mem(list+LISTDATA)
+if (nodsiz == CHAR_DEFN)
+	{
+	junk =  ctoc (Mem(node+LISTDATA), thing, max)
+	nodsiz = length (thing)
+	}
+else
+	{
+	if (nodsiz > max)
+		nodsiz = max	# loose some data...
+	for (i=1; i <=nodsiz; i=i+1)
+		{
+		j = i + node + (LISTDATA-1)
+		thing(i) = Mem(j)
+		}
+	}
+return (nodsiz)
+end

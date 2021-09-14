@@ -1,0 +1,24 @@
+## opendr - open directory
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+  integer function opendr (wpath, fd)
+  character wpath (FILENAMESIZE)
+  pointer fd
+	# fd is a pointer to a structure
+	#	{
+	#	int flag	# YES if Mem(fd) just opened
+	#	char fcb(36)	# Mem(fd+1)
+	#	char buf(128)	# Mem(fd+19)
+	#	}
+  DS_DECLARE
+  pointer dsget
+  include config
+  string unknam "???????????"
+
+  fd = dsget(DIRBUFSIZE)
+  if (fd == NULL)
+	return(ERR)
+  Mem(fd) = YES   # just opened
+  call packnm (wpath, Mem(fd+1))
+  call scopy (unknam,1,Mem(fd),4)
+  return(OK)
+  end

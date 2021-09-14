@@ -1,0 +1,8 @@
+## nxtnod = get next node pointer
+pointer function nxtnod (node)
+pointer node
+
+DS_DECLARE
+
+return (Mem(node+NEXTBUF))
+end

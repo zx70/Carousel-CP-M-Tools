@@ -1,0 +1,8 @@
+ ## trmout - pick up name of output channel to users teletype
+ # portable version - return string 'tty'
+ subroutine trmout (name)
+ character name(ARB)
+
+ call termin (name)
+ return
+ end

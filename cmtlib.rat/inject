@@ -1,0 +1,22 @@
+## inject - inject a new item into a linked list
+pointer function inject (thing, node, list)
+integer thing (ARB)	# character(ARB) ok on call
+pointer node, list
+DS_DECLARE
+integer nodsiz, ilen, i
+pointer dsget, newnod, j
+
+nodsiz = Mem(list+LISTDATA)
+if (nodsiz == CHAR_DEFN)
+	nodsiz = ilen (thing)
+newnod = dsget (nodsiz + 2)
+if (newnod == NULL)
+	call error ("out of memory.")
+call linkq (node, newnod)
+for (i=1; i <= nodsiz; i=i+1)
+	{
+	j = i + newnod + (LISTDATA-1)
+	Mem(j) = thing(i)
+	}
+return (newnod)
+end

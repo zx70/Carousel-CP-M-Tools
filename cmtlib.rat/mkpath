@@ -1,0 +1,29 @@
+## mkpath - generate Tool style pathname from CP/M style
+# Copyright
+  subroutine mkpath (local, path)
+  character local(FILENAMESIZE), path(FILENAMESIZE)
+  integer i, j, index, colon
+  character c
+
+  j = 1
+  colon = index (local, COLON)
+  if (colon > 0)	# directory part present
+	{
+	path(1) = SLASH
+	j = 2
+	for (i = 1; IS_DIGIT(local(i)); i = i+1)
+		{
+		path(j) = local(i)
+		j = j+1
+		}
+	path(j) = SLASH
+	j = j+1
+	for ( ; i < colon; i = i+1)
+		{
+		path(j) = local(i)
+		j = j+1
+		}
+	}
+  call ctoc (local(colon+1), path(j), FILENAMESIZE+1-j)
+  return
+  end

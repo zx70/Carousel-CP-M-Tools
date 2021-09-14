@@ -1,0 +1,12 @@
+# isopen - returns file descriptor if file is open
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+integer function isopen(name)
+character name(ARB)
+integer isopn$
+character packnm
+include cprimio
+
+if (packnm(name,tmpfcb) == ERR)
+	return(ERR)
+return(isopn$ (tmpfcb))
+end

@@ -1,0 +1,9 @@
+ ## termin - pick up name of input channel to users teletype
+ # portable version - return string 'tty'
+ subroutine termin (name)
+ character name(ARB)
+ string tname "TTY:"
+
+ call ctoc (tname, name, FILENAMESIZE)
+ return
+ end

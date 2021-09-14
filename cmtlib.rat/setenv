@@ -1,0 +1,54 @@
+ ## setenv - set environment parameters in sh.env
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ subroutine setenv
+ integer create
+ integer i, fd, wrkint
+ string tabstr "TAB "
+ string datstr "DATE "
+ string tmpstr "TEMP "
+ string endstr "ATEND "
+ string maxstr "MAXDEV "
+ string prestr "PATH "
+ string suffix "EXT "
+ string ctcstr "CTRLC"
+ string lststr "LIST"
+ string vrbstr "VERBOSE"
+ include config
+ include "cshstuff"
+ byte ctrlc
+ common /cntrlc/ ctrlc
+ fd = create(envfil,WRITE)
+ if (fd == ERR)
+	{
+	call remark("can't save environment.")
+	call exit
+	}
+ wrkint = tabsiz
+ call putlin(tabstr,fd);   call putint(wrkint,2,fd);   call newlin(fd)
+ call putlin(datstr,fd)
+   for (i=1; i<=7; i=i+1)
+	call putint(ddate(i),5,fd)
+   call newlin(fd)
+ call putlin(maxstr,fd);   call putch(maxdev,fd);   call newlin(fd)
+ call putlin(tmpstr,fd);   call putlin(tmpdev,fd);   call newlin(fd)
+ call putlin(endstr,fd);   call putlin(atend,fd);   call newlin(fd)
+ call putlin(prestr,fd);   call putlin(path,fd);   call newlin(fd)
+ call putlin(suffix,fd);   call putlin(extn,fd);   call newlin(fd)
+ if (ctrlc == 1)
+	{
+	call putlin(ctcstr,fd)
+	call newlin(fd)
+	}
+  if (list == 1)
+	{
+	call putlin(lststr,fd)
+	call newlin(fd)
+	}
+  if (vbose == 1)
+	{
+	call putlin(vrbstr,fd)
+	call newlin(fd)
+	}
+ call close(fd)
+ return
+ end

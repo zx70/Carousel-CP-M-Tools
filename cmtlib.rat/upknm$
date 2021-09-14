@@ -1,0 +1,38 @@
+## upknm$ - unpack name from fcb into local name
+ byte function upknm$ (fcb, name)
+ byte fcb(FCBSIZE)
+ character name(FILENAMESIZE)
+ integer j
+ byte i, lim
+ character c
+ integer k, l, itoc
+
+ k = fcb(1)
+ l = (k & 255) /16
+ j = itoc (l, name, 3) + 1
+ name(j) = (k & 15) + BIGA
+ name(j+1) = COLON
+ j = j+2
+ lim = 9
+ for (i=2; i<13; i=i+1)
+	{
+	c = fcb(i) & 127
+	if (c == BLANK)
+		{
+		i = lim
+		lim = 12
+		next
+		}
+	if (i == 10)
+		{
+		name(j) = PERIOD
+		j = j+1
+		lim = 12
+		}
+	name(j) = c
+	j = j+1
+	}
+ name(j) = EOS
+ upknm$ = j-1
+ return
+ end

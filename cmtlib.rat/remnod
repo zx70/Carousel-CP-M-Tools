@@ -1,0 +1,11 @@
+## remnod - remove a node from a linked list
+subroutine remnod (node)
+pointer node, unlink, junk, nxtnod
+DS_DECLARE
+
+if (node == nxtnod (node))
+	return
+junk = unlink (node)
+call dsfree (node)
+return
+end

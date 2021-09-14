@@ -1,0 +1,8 @@
+## prvnod - get previous node pointer
+  pointer function prvnod (node)
+  pointer node
+
+  DS_DECLARE
+
+  return (Mem(node + PREVBUF))
+  end

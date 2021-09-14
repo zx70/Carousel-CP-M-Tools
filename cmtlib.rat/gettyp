@@ -1,0 +1,13 @@
+# gettyp - get type of file (character or binary)
+ integer function gettyp(name)
+ character name(FILENAMESIZE)
+ character i, packnm
+ include cprimio
+ i = packnm(name,tmpfcb)
+ if (tmpfcb(10)==BIGC & tmpfcb(11)==BIGO & tmpfcb(12)==BIGM)
+	return(BINARY)
+ if (tmpfcb(10)==BIGT & tmpfcb(11)==BIGO & tmpfcb(12)==BIGL)
+	return(BINARY)
+ else
+	return(ASCII)
+ end

@@ -1,0 +1,26 @@
+## remove - remove a file from the file system
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function remove (file)
+ character file(ARB)
+ byte remov$
+ integer fd, isopn$
+ character packnm
+ pointer queue, blk
+ include cprimio
+ DS_DECLARE
+
+ if (packnm(file,tmpfcb) != DISK)
+	return(ERR)
+ repeat
+	{
+	fd = isopn$ (tmpfcb)
+	if (fd <= 0)
+		break
+	dirty(fd) = NO
+	queue = bufq (fd)
+	for (blk=Mem(queue+NEXTBUF); blk!=queue; blk=Mem(blk+NEXTBUF))
+		Mem(blk+BUFSTATE) = NO
+	call close(fd)
+	}
+ remove = remov$ (tmpfcb)
+ end

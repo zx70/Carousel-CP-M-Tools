@@ -1,0 +1,14 @@
+## frelst - remove a linked list and free allocated memory
+subroutine frelst (list)
+pointer list
+DS_DECLARE
+pointer node
+
+for (node=Mem(list); node != list; node=Mem(node+NEXTBUF))
+	{
+	call unlink (node)
+	call dsfree (node)
+	}
+call dsfree (list)
+return
+end

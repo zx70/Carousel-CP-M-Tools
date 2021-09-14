@@ -1,0 +1,15 @@
+## maklst - create and init linked list
+pointer function maklst (kind)
+integer kind
+pointer dsget
+DS_DECLARE
+pointer list
+
+list = dsget(3)
+if (list == 0)
+	call error ("can't allocate linked list.")
+Mem(list+NEXTBUF) = list
+Mem(list+PREVBUF) = list
+Mem(list+LISTDATA) = kind
+return (list)
+end

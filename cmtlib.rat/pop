@@ -1,0 +1,14 @@
+## pop - pop item off top of list/stack
+integer function pop (thing, max, list)
+integer thing (ARB)	#characters OK
+integer max
+pointer list
+DS_DECLARE
+integer xtract
+pointer node
+
+node = Mem(list)
+pop = xtract (thing, max, node, list)
+call remnod (node)
+return
+end

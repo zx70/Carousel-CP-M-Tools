@@ -1,0 +1,67 @@
+ ## getenv - read environment from file
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ subroutine getenv
+ integer open, ctoi, ctoc, getlin, getwrd, equal
+ character tok(10), envwrd(10)
+ integer fd
+ byte j, k
+ integer i, e
+ include config
+ include cprimio
+ include "cshstuff"
+ byte ctrlc
+ common /cntrlc/ ctrlc
+ string envstr "TAB TEMP DATE MAXDEV CTRLC PATH EXT ATEND LIST VERBOSE"
+ common /genv$/ gotenv, firste
+ logical gotenv, firste
+
+ if (gotenv)
+	return
+ gotenv = .TRUE.
+ if (firste)
+	call outl$ (copyrt)
+ firste = .FALSE.
+ fd = open (envfil, READ)
+ if (fd == ERR)
+	return
+ repeat
+	{
+	i = getlin(wrkbuf,fd)
+	if (i == EOF) break
+	wrkbuf(i) = EOS
+	call upper (wrkbuf)
+	i = 1
+	if (getwrd(wrkbuf,i,tok) == 0)
+		next
+	call skipbl(wrkbuf,i)
+	e = 1
+	for (k=1; getwrd(envstr,e,envwrd) > 0; k = k+1)
+	  if (equal(tok, envwrd) == YES)
+		{
+		if (k == 1)
+		  	tabsiz = ctoi (wrkbuf,i)
+		else if (k == 2)
+		  	call ctoc (wrkbuf(i), tmpdev, 8)
+		else if (k == 3)
+		  	for (j=1; j<=7; j=j+1)
+					ddate(j) = ctoi (wrkbuf,i)
+		else if (k == 4)
+		  	maxdev = wrkbuf(i)
+		else if (k == 5)
+			ctrlc = 1
+		else if (k == 6)
+		  	call ctoc (wrkbuf(i),path,MAXPATH)
+		else if (k == 7)
+		  	call ctoc (wrkbuf(i),extn,MAXPATH)
+		else if (k == 8)
+		  	call ctoc (wrkbuf(i),atend,FILENAMESIZE)
+		else if (k == 9)
+			list = 1
+		else if (k == 10)
+			vbose = 1
+		break
+		}
+	}
+	call close(fd)
+  return
+  end

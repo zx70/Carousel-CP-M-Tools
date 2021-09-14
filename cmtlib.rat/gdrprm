@@ -1,0 +1,26 @@
+## gdrprm - get next directory entry
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+  integer function gdrprm (fd, file)
+  pointer fd
+  character file (FILENAMESIZE)
+  character buf (FILENAMESIZE)
+  character bdos$b, op, i, bdos$c
+  character movic$
+  integer dc, j, ctoc, index
+  DS_DECLARE
+  if (Mem(fd) == YES)
+	{
+	op = CPM_SFIRST
+	Mem(fd) = NO
+	}
+  else
+	op = CPM_SNEXT
+  i = bdos$b (CPM_SETDMA, Mem(fd+19))
+  dc = bdos$c (op, Mem(fd+1))
+  if (dc < 0)
+	return(EOF)
+  dc = 19 + 16*dc + fd
+  call upknm$ (Mem(dc), buf)
+  j = index (buf, COLON)
+  return(ctoc (buf(j+1),file,FILENAMESIZE))
+  end

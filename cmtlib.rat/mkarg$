@@ -1,0 +1,31 @@
+## mkarg$ - pick up arguments from system
+subroutine mkarg$ (arg)
+character arg(ARB)
+integer i, j
+character peek
+
+DS_DECLARE
+
+string pmpt "Args: "
+
+repeat
+	{
+	j = Mem(3) + 128	# start of CPM default buffer; see ratmac.mac
+	i = peek (j)
+	call movmc$ (j+1, arg, i)
+	arg(i+1) = EOS
+	i = 1
+	call skipbl (arg, i)
+	if (arg(i) == PERIOD & arg(i+1) == EOS)	# get args from user
+		{
+		call outs$ (pmpt)
+		j = Mem(3) + 127
+		call poke (j, 128)
+		call bdos$d (CPM_CONBUFIN, j)
+		call bdos$d (CPM_CONOUT, NEWLINE)
+		}
+	else
+		break
+	}
+return
+end

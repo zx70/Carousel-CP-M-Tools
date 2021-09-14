@@ -1,0 +1,13 @@
+## mkuniq - get scratch file name based on 'seed'
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function mkuniq (seed, name)
+ character seed(ARB), name(ARB)
+ integer i
+ include config
+ string ext ".$$$"
+ i = 1
+ call stcopy(tmpdev, 1, name, i)
+ call stcopy(seed, 1, name, i)
+ call stcopy(ext,1,name,i)
+ return(i-1)
+ end

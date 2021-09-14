@@ -1,0 +1,35 @@
+ ## loccom - locate full name of command
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function loccom (name, fullnm)
+ character name(ARB), fullnm(ARB)
+ include config
+ integer ctoc, pre, i, gettyp, getwrd, index, length
+ logical locom$
+
+ if (name(1) == SLASH | index(name,COLON) > 0)
+	{ #assume path prefix fully specified
+	i = 1 + ctoc (name, fullnm, FILENAMESIZE)
+	if (!locom$ (fullnm,i))
+		return(ERR)
+	}
+ else
+	{
+	for (pre=1; ;)
+		{
+		i = getwrd (path, pre, fullnm)
+		if (i == 0)
+			return(ERR)
+		if (fullnm(1) == PERIOD)
+			{
+			call gwdir (fullnm, LOCAL)
+			i = length(fullnm)
+			}
+		i = i+1
+		i = i + ctoc (name, fullnm(i), FILENAMESIZE-i)
+		if (locom$ (fullnm,i))
+			break
+		}
+	}
+ call fold (fullnm)
+ return(gettyp(fullnm))
+ end

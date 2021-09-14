@@ -1,0 +1,9 @@
+# prompt - prompt user for input
+  integer function prompt(str, buf, fd)
+  character str(ARB), buf(MAXLINE)
+  integer fd
+  integer getlin
+  if (isatty(fd) == YES)
+	call outs$ (str)
+  return(getlin(buf,fd))
+  end

@@ -1,0 +1,17 @@
+## cwdir - change working directory
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function cwdir (name)
+ character name (ARB)
+ byte packnm, device, gu$, gd$
+ include config
+ include cprimio
+ DS_DECLARE
+
+ device = packnm (name, tmpfcb)
+ if (device != DISK | tmpfcb(2) != BLANK)
+	return(ERR)
+ curusr = gu$ (tmpfcb)
+ curdsk = gd$ (tmpfcb)
+ call poke (Mem(3)+4, tmpfcb)
+ return(OK)
+ end

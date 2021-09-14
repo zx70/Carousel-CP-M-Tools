@@ -1,0 +1,72 @@
+ ## locom$ - loccom aux. routine, finds suffix
+# Copyright 1982 by Unicorn Systems, Castro Valley, CA 94546
+ logical function locom$ (n,i)
+ character n(ARB)
+ integer i
+ DS_DECLARE
+ include config
+ include cprimio
+ integer base, post, equal, getwrd, d
+ byte fdev,packnm,bdos$c,op,ex,iex,dc,sufx(5),tsufx(5)
+
+ if (packnm (n, tmpfcb) != DISK)
+	{
+	locom$ = .FALSE.
+	return
+	}
+ if (tmpfcb(10) != BLANK)
+	{ # suffix fully specified
+	if (bdos$c (CPM_OPEN,tmpfcb) < 0)
+		locom$ = .FALSE.
+	else
+		locom$ = .TRUE.
+	return
+	}
+ tmpfcb(10) = QMARK; tmpfcb(11) = QMARK; tmpfcb(12) = QMARK
+ op = CPM_SFIRST
+ ex = 127
+ sufx(1) = PERIOD; sufx(5) = EOS
+ base = Mem(3) + 128
+ call bdos$d (CPM_SETDMA,base)
+ repeat
+	{
+	dc = bdos$c (op,tmpfcb)
+	if (dc < 0)
+		break
+	dc = 9 + 32*dc
+	call movmc$ (dc+base,sufx(2),3)
+	for (d=2; d<5; d=d+1)
+		{
+		sufx(d) = sufx(d) & 127
+		if (sufx(d)==BLANK)
+			sufx(d) = EOS
+		}
+	post = 1
+	for (iex=1; getwrd(extn,post,tsufx)>0; iex=iex+1)
+		{
+		call upper(tsufx)
+		if (iex < ex)
+			{
+			if (equal (sufx,tsufx) == YES)
+				{
+				if (sufx(2) != EOS)
+					call ctoc (sufx, n(i), 5)
+				if (iex == 1)
+					{
+					locom$ = .TRUE.
+					return
+					}
+				ex = iex
+				}
+			}
+		else
+			break
+		}
+	op = CPM_SNEXT
+	}
+ if (ex == 127)
+	locom$ = .FALSE.
+ else
+	locom$ = .TRUE.
+ return
+ end

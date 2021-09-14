@@ -1,0 +1,38 @@
+## gdraux - get aux. directory info
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+  subroutine gdraux (dfd,file,info,info2)
+  integer dfd
+  character file(FILENAMESIZE), info(ARB), info2(ARB)
+  character tfile(FILENAMESIZE)
+  character movic$
+  integer open, itoc, i, fd, j, n, index
+  pointer tfcb
+  DS_DECLARE
+  include cprimio
+  string ro "  R/O"	# <BLANK,BLANK>
+  string rw "  R/W"	# <BLANK,BLANK>
+  string sys "  SYS"	# <BLANK,BLANK>
+  call upknm$ (Mem(dfd+1), tfile)
+  i = index (tfile, COLON) + 1
+  call ctoc (file, tfile(i), 13)
+  fd = open (tfile,READ)
+  if (fd == ERR)
+	call cant (tfile)
+  j = fsize(fd) + 1
+  i = itoc(j,info,5)
+  for (i=i+1; i<=6; i=i+1)
+	info(i) = BLANK
+  info(i) = EOS
+  tfcb = fcb(fd)
+  j = movic$ (Mem(tfcb),10) & 128
+  if (j != 0)
+	call concat (info,ro,info)
+  else
+	call concat (info,rw,info)
+  j = movic$ (Mem(tfcb),11) & 128
+  if (j != 0)
+	call concat (info,sys,info)
+  info2(1) = EOS
+  call close(fd)
+  return
+  end
