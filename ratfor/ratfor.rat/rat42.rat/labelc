@@ -1,0 +1,15 @@
+# labelc - output statement number
+   subroutine labelc(lexstr)
+   character lexstr(ARB)
+   integer length
+   # include commonblocks
+   include cgoto
+ 
+   xfer = NO   # can't suppress goto's now
+   if (length(lexstr) == 5)   # warn about 23xxx labels
+      if (lexstr(1) == DIG2 & lexstr(2) == DIG3)
+         call synerr("warning: possible label conflict.")
+   call outstr(lexstr)
+   call outtab
+   return
+   end

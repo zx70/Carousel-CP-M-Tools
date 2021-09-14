@@ -1,0 +1,43 @@
+##### ordinary fortran statements - routines in this group are eatup,
+##### labelc, otherc
+
+
+# eatup - process rest of statement; interpret continuations
+   subroutine eatup
+   character gettok
+   character ptoken(MAXTOK), t, token(MAXTOK)
+   integer nlpar
+ 
+   nlpar = 0
+   repeat {
+      t = gettok(token, MAXTOK)
+      if (t == SEMICOL | t == NEWLINE)
+         break
+      if (t == RBRACE | t == LBRACE) {
+         call pbstr(token)
+         break
+         }
+      if (t == EOF) {
+         call synerr("unexpected EOF.")
+         call pbstr(token)
+         break
+         }
+      if (t == COMMA | t == PLUS | t == MINUS | t == STAR |
+          t == LPAREN | t == AND | t == BAR | t == BANG | t == TILDE |
+          t == NOT | t == CARET | t == EQUALS | t == UNDERLINE) {
+         while (gettok(ptoken, MAXTOK) == NEWLINE)
+            ;
+         call pbstr(ptoken)
+         if (t == UNDERLINE)
+            token(1) = EOS
+         }
+      if (t == LPAREN)
+         nlpar = nlpar + 1
+      else if (t == RPAREN)
+         nlpar = nlpar - 1
+      call outstr(token)
+      } until (nlpar < 0)
+   if (nlpar ^= 0)
+      call synerr("unbalanced parentheses.")
+   return
+   end

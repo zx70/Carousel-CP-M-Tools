@@ -1,0 +1,27 @@
+# process macros with arguments
+# routines involved are doarth, domac, doif, doincr, dosub, evalr, ifparm,
+# pbnum, push, putchr, puttok
+ ## doarth - do arithmetic operation
+ subroutine doarth(argstk,i,j)
+ integer ctoi
+ integer argstk(ARGSIZE), i, j, k, l
+ character op
+ integer ie
+ include cmacro
+  
+ k = argstk(i+2)
+ l = argstk(i+4)
+ ie = argstk(i+3)
+ op = evalst(ie)
+ if (op == PLUS)
+	call pbnum(ctoi(evalst,k)+ctoi(evalst,l))
+ else if (op == MINUS)
+	call pbnum(ctoi(evalst,k)-ctoi(evalst,l))
+ else if (op ==  STAR )
+	call pbnum(ctoi(evalst,k)*ctoi(evalst,l))
+ else if (op ==  SLASH )
+	call pbnum(ctoi(evalst,k)/ctoi(evalst,l))
+ else
+	call remark('arith error')
+ return
+ end

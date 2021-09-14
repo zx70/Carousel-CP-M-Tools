@@ -1,0 +1,10 @@
+  ## doincr - increment macro argument by 1    /*/sor/macror/doincr
+    subroutine doincr(argstk, i, j)
+    integer ctoi
+    integer argstk(ARGSIZE), i, j, k
+    include cmacro
+ 
+    k = argstk(i+2)
+    call pbnum(ctoi(evalst, k)+1)
+    return
+    end

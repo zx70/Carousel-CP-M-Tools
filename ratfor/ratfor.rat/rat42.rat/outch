@@ -1,0 +1,23 @@
+# output routines
+##### routines in this group are outch, outcon, outdon, outgo, outnum,
+##### outstr, outtab, allblk
+
+
+# outch - put one character into output buffer
+   subroutine outch(c)
+   character c
+   integer i
+   # include commonblocks
+   include coutln
+ 
+   if (outp >= 72) {   # continuation card
+      call outdon
+      for (i = 1; i < 6; i = i + 1)
+         outbuf(i) = BLANK
+      outbuf(6) = STAR
+      outp = 6
+      }
+   outp = outp + 1
+   outbuf(outp) = c
+   return
+   end

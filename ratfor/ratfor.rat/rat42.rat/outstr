@@ -1,0 +1,26 @@
+# outstr - output string; handles quoted literals
+   subroutine outstr(str)
+   character c, str(ARB)
+   integer i, j
+ 
+   for (i = 1; str(i) ^= EOS; i = i + 1) {
+      c = str(i)
+      if (c ^= SQUOTE & c ^= DQUOTE) {
+                         # produce upper case fortran, if desired
+         ifdef(UPPERC,
+         if (c >= LETA & c <= LETZ)
+            c = c - LETA + BIGA	  )
+         call outch(c)
+         }
+      else {
+         i = i + 1
+         for (j = i; str(j) ^= c; j = j + 1)   # find end
+            ;
+         call outnum(j-i)
+         call outch(BIGH)
+         for ( ; i < j; i = i + 1)
+            call outch(str(i))
+         }
+      }
+   return
+   end

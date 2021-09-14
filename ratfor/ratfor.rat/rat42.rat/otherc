@@ -1,0 +1,13 @@
+# otherc - output ordinary Fortran statement
+   subroutine otherc(lexstr)
+   character lexstr(ARB)
+   # include commonblocks
+   include cgoto
+
+   xfer = NO
+   call outtab
+   call outstr(lexstr)
+   call eatup
+   call outdon
+   return
+   end

@@ -1,0 +1,15 @@
+# outgo - output "goto  n"
+   subroutine outgo(n)
+   integer n
+   # include commonblocks
+   include cgoto
+   string goto "goto "
+ 
+   if (xfer == YES)
+      return
+   call outtab
+   call outstr(goto)
+   call outnum(n)
+   call outdon
+   return
+   end

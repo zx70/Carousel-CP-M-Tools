@@ -1,0 +1,13 @@
+  ## domac - install macro definition in table   /*/sor/macror/domac
+    subroutine domac(argstk, i, j)
+    integer a2, a3, argstk(ARGSIZE), i, j
+    include cmacro
+    include crat4
+ 
+    if (j - i > 2) {
+       a2 = argstk(i+2)
+       a3 = argstk(i+3)
+       call enter(evalst(a2), evalst(a3), st)   # subarrays
+       }
+    return
+    end

@@ -1,0 +1,38 @@
+ ## evalr - expand args i through j: evaluate builtin or push back defn
+    subroutine evalr(argstk, i, j)
+    integer index, length
+    integer argno, argstk(ARGSIZE), i, j, k, m, n, t, td
+    include cmacro
+    string digits '0123456789'
+ 
+    t = argstk(i)
+    td = evalst(t)
+    if (td == MACTYPE)
+       call domac(argstk, i, j)
+    else if (td == INCTYPE)
+#    if (td == INCTYPE)
+       call doincr(argstk, i, j)
+    else if (td == SUBTYPE)
+       call dosub(argstk, i, j)
+    else if (td == IFTYPE)
+       call doif(argstk, i, j)
+    else if (td == ARITHTYPE)
+        call doarth(argstk, i, j)
+    else {
+       for (k = t+length(evalst(t))-1; k > t; k = k - 1)
+          if (evalst(k-1) != ARGFLAG)
+             call putbak(evalst(k))
+          else {
+             argno = index(digits, evalst(k)) - 1
+             if (argno >= 0 & argno < j-i) {
+                n = i + argno + 1
+                m = argstk(n)
+                call pbstr(evalst(m))
+                }
+             k = k - 1   # skip over $
+             }
+       if (k == t)         # do last character
+          call putbak(evalst(k))
+       }
+    return
+    end

@@ -1,0 +1,18 @@
+ ## doif - select one of two (macro) arguments    /*/sor/macror/doif
+    subroutine doif(argstk, i, j)
+    integer equal
+    integer a2, a3, a4, a5, argstk(ARGSIZE), i, j
+    include cmacro
+ 
+    if (j - i < 5)
+       return
+    a2 = argstk(i+2)
+    a3 = argstk(i+3)
+    a4 = argstk(i+4)
+    a5 = argstk(i+5)
+    if (equal(evalst(a2), evalst(a3)) == YES)   # subarrays
+       call pbstr(evalst(a4))
+    else
+       call pbstr(evalst(a5))
+    return
+    end

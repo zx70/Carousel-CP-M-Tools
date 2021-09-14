@@ -1,0 +1,9 @@
+# outtab - get past column 6
+   subroutine outtab
+   # include commonblocks
+   include coutln
+ 
+   while (outp < 6)
+      call outch(BLANK)
+   return
+   end

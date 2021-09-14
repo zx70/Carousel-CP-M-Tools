@@ -1,0 +1,10 @@
+ ## push - push ep onto argstk, return new pointer ap   /*/sor/macror/push
+    integer function push(ep, argstk, ap)
+    integer ap, argstk(ARGSIZE), ep
+ 
+    if (ap > ARGSIZE)
+       call baderr('arg stack overflow.')
+    argstk(ap) = ep
+    push = ap + 1
+    return
+    end
