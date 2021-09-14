@@ -1,0 +1,12 @@
+ ## makset - make set from  array(k)  in  set
+    integer function makset(array, k, set, size)
+    integer addset
+    integer i, j, k, size
+    character array(ARB), set(size)
+ 
+    i = k
+    j = 1
+    call filset(EOS, array, i, set, j, size)
+    makset = addset(EOS, set, j, size)
+    return
+    end

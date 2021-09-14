@@ -1,0 +1,2 @@
+  #  include ratdef
+  define(MAXSET,100)

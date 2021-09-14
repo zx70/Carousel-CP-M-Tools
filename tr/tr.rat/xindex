@@ -1,0 +1,16 @@
+ ## xindex - invert condition returned by index
+    integer function xindex(array, c, allbut, lastto)
+    character array(ARB), c
+    integer index
+    integer allbut, lastto
+ 
+    if (c == EOF)
+       xindex = 0
+    else if (allbut == NO)
+       xindex = index(array, c)
+    else if (index(array, c) > 0)
+       xindex = 0
+    else
+       xindex = lastto + 1
+    return
+    end
