@@ -1,0 +1,9 @@
+ subroutine puteor(int)
+
+ integer int
+
+ call putch(CTRLD, int)
+ call putch(NEWLINE, int)
+
+ return
+ end

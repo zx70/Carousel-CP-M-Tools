@@ -1,0 +1,56 @@
+ subroutine srtint
+
+ character temp(FILENAMESIZE), clower
+ integer i, n, getarg, index, ctoi
+
+ include select
+ include sortcom
+ include flist
+
+ flevel = 0
+ blanks = NO
+ dict = NO
+ fold = NO
+ noprt = NO
+ merg = NO
+ revers = NO
+ subf = NO
+ cofset = 0
+ # ifout = NO
+ for (i=1; getarg(i, temp, FILENAMESIZE) != EOF; i=i+1)
+    {
+    if (temp(1) == QMARK & temp(2) == EOS)
+        call error('usage:  sort [-bdfimr] [+sn] [files].')
+    else if (temp(1) == MINUS & temp(2) != EOS)
+        {
+        if (index(temp, LETB) != 0 | index(temp, BIGB) != 0)
+            blanks = YES
+        if (index(temp, LETD) != 0 | index(temp, BIGD) != 0)
+            dict = YES
+        if (index(temp, LETF) != 0 | index(temp, BIGF) != 0)
+            fold = YES
+        if (index(temp, LETI) != 0 | index(temp, BIGI) != 0)
+            noprt = YES
+        if (index(temp, LETM) != 0 | index(temp, BIGM) != 0)
+            merg = YES
+        if (index(temp, LETR) != 0 | index(temp, BIGR) != 0)
+            revers = YES
+        }
+   else if (temp(1) == PLUS & clower(temp(2)) == LETS)
+        {
+        subf = YES
+        n = 3
+        cofset = ctoi(temp, n) - 1
+        if (cofset < 0)
+            cofset = 0
+        }
+ #    else if (temp(1) == PLUS & clower(temp(2)) == LETO)
+ #      {
+ #      ifout = YES
+ #      call scopy(temp, 3, ofile, 1)
+ #      }
+    else
+        call fstack(temp)
+    }
+ return
+ end

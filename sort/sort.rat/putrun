@@ -1,0 +1,13 @@
+ subroutine putrun(linptr, nlines, linbuf, outfil)
+
+ character linbuf(MAXTEXT)
+ integer i, j, linptr(MAXPTR), nlines, outfil
+
+ for (i=1; i <= nlines; i=i+1)
+    {
+    j = linptr(i)
+    call putlin(linbuf(j), outfil)
+    }
+
+ return
+ end

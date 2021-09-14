@@ -1,0 +1,10 @@
+ integer function sum(array, n)
+
+ integer array(ARB), n, i
+
+ sum = 0
+ for (i=1; i<=n; i=i+1)
+    sum = sum + array(i)
+
+ return
+ end

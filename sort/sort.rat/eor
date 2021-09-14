@@ -1,0 +1,11 @@
+ integer function eor(buffer)
+
+ character buffer(ARB)
+
+ if (buffer(1) == CTRLD & buffer(2) == NEWLINE)
+    eor = YES
+ else
+    eor = NO
+
+ return
+ end

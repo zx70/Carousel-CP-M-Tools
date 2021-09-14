@@ -1,0 +1,11 @@
+ subroutine cleans
+
+ integer i
+
+ include select
+
+ for (i=1; i <= TAPENO; i=i+1)
+        call remove(file(1,i))
+
+ return
+ end

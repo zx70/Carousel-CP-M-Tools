@@ -1,0 +1,51 @@
+ #      merges one run from unit(t(i)),...,unit(t(TAPENO-1)) onto
+ #      unit(t(TAPENO))
+ #      returns a value of 0 if all files terminate on EOR
+ #      returns index of file which terminated on EOF (1...TAPENO-1)
+
+ subroutine mrgrun(ieof)
+
+ integer outfil, lbp, nf, i, k, n, getlin, eor, ieof
+
+ include select
+ include sortcom
+
+ outfil = t(TAPENO)
+ lbp = 1
+ nf = 0
+ ieof = 0
+ for (i=1; i < TAPENO; i=i+1)
+    {
+    k = t(i)
+    n = getlin(linbuf(lbp), unit(k))
+    if (n != EOF & eor(linbuf(lbp)) != YES)
+        {
+        nf = nf + 1
+        linptr(nf) = lbp
+        }
+    else if (n == EOF)
+        ieof = i
+    lbp = lbp + MAXLINE
+    }
+
+ call quick(linptr, nf, linbuf)                 # now have initial heap
+
+ while (nf > 0)
+    {
+    lbp = linptr(1)
+    call putlin(linbuf(lbp), unit(outfil))      # write top line of heap
+    i = lbp / MAXLINE + 1                       # compute index of file
+    k = t(i)
+    n = getlin(linbuf(lbp), unit(k))
+    if (n == EOF | eor(linbuf(lbp)) == YES)
+        {
+        linptr(1) = linptr(nf)
+        nf = nf - 1
+        if (n == EOF)
+            ieof = i
+        }
+    call reheap(linptr, nf, linbuf)
+    }
+
+ return
+ end

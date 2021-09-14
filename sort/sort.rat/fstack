@@ -1,0 +1,18 @@
+   #------------------------------------------------------------
+   ## fstack - generate stack of input files
+ 
+   subroutine fstack (iarg)
+ 
+   integer i
+   character iarg(FILENAMESIZE)
+ 
+   include flist
+ 
+   if (flevel >= FLMAX)
+        call error ("too many arguments.")
+     flevel = flevel + 1
+     for (i=1; iarg(i) != EOS; i=i+1)
+         ffiles(i,flevel) = iarg(i)
+    ffiles(i,flevel) = EOS
+   return
+   end

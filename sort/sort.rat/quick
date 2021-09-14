@@ -1,0 +1,43 @@
+  #-------------------------------------------------------------------- 
+  
+ ## quick - quicksort for character lines 
+    subroutine quick(linptr, nlines, linbuf) 
+    character linbuf(ARB) 
+    integer compar 
+    integer i, j, linptr(ARB), lv(LOGPTR), nlines, p, pivlin, uv(LOGPTR) 
+  
+    lv(1) = 1 
+    uv(1) = nlines 
+    p = 1 
+    while (p > 0) 
+       if (lv(p) >= uv(p))      # only one element in this subset 
+          p = p - 1      # pop stack 
+       else { 
+          i = lv(p) - 1 
+          j = uv(p) 
+          pivlin = linptr(j)   # pivot line 
+          while (i < j) { 
+             for (i=i+1; compar(linptr(i), pivlin, linbuf) < 0; i=i+1) 
+                ; 
+             for (j = j - 1; j > i; j = j - 1) 
+                if (compar(linptr(j), pivlin, linbuf) <= 0) 
+                   break 
+             if (i < j)      # out of order pair 
+                call exchan(linptr(i), linptr(j), linbuf) 
+             } 
+          j = uv(p)         # move pivot to position i 
+          call exchan(linptr(i), linptr(j), linbuf) 
+          if (i-lv(p) < uv(p)-i) {   # stack so shorter done first 
+             lv(p+1) = lv(p) 
+             uv(p+1) = i - 1 
+             lv(p) = i + 1 
+             } 
+          else { 
+             lv(p+1) = i + 1 
+             uv(p+1) = uv(p) 
+             uv(p) = i - 1 
+             } 
+          p = p + 1         # push onto stack 
+          } 
+    return 
+    end 

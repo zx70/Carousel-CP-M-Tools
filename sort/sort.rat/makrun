@@ -1,0 +1,31 @@
+ integer function makrun(nlines)
+
+ integer nlines, lbp, len, gsrtln
+
+ include sortcom
+
+ nlines = 0
+ lbp = 1
+ repeat
+    {
+    len = gsrtln(linbuf(lbp))
+    if (len == EOI)
+        break
+    if (len == EOF & merg == YES)
+        break
+    if (len != EOF)
+        {
+        nlines = nlines + 1
+        linptr(nlines) = lbp
+        lbp = lbp + len + 1             # "1" is room for EOS
+        if (lbp >= MAXTEXT - MAXLINE | nlines >= MAXPTR)
+            break
+        }
+    }
+ if (len == EOI)
+    makrun = EOI
+ else
+    makrun = OK
+
+ return
+ end

@@ -1,0 +1,12 @@
+ # subroutine redout
+ #
+ # integer assign
+ #
+ # include sortcom
+ #
+ # if (ifout == YES)
+ #    if (assign(ofile, STDOUT, WRITE) == ERR)
+ #      call remark("Cannot redirect standard output to +o file.")
+ #
+ # return
+ # end

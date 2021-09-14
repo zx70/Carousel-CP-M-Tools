@@ -1,0 +1,109 @@
+ DRIVER
+ #  (dummy routine necessary for proper returning from main 
+ #  sort driver)
+ call sorts
+ DRETURN
+ end
+ subroutine sorts
+
+ integer nlines, sum, i, n, getlin, eor, open, outfil, ieof, j
+ filedes create
+ integer status, makrun, sunit, nruns
+ character buf(MAXLINE)
+
+ include select
+ include sortcom
+
+ call srtint
+
+ status = OK
+ nruns = 0
+ repeat
+    {
+    if (status == OK)           # haven't reached EOI yet
+        {
+        status = makrun(nlines)                 # make a run
+        nruns = nruns + 1       # update number of runs
+        if (merg == NO)
+            call quick(linptr, nlines, linbuf)  # sort run
+        if (nruns == 1)
+            if (status == EOI)                  # internal sort only
+                {
+ #              call redout             # redirect STDOUT if necessary
+                call putrun(linptr, nlines, linbuf, STDOUT)
+                return
+                }
+            else
+                call fsetup                     # set up temporary files
+        }
+    else
+        nlines = 0
+    if (sum(d, TAPENO-1) > 0 | nlines > 0)
+        {
+        call stape
+        if (a(tape) > 1)
+            call puteor(unit(tape))
+        call putrun(linptr, nlines, linbuf, unit(tape))
+        }
+    }
+ until (sum(d, TAPENO-1) == 0 & status == EOI)
+
+ #      open files for merge
+
+ for (i=1; i < TAPENO; i=i+1)
+    {
+    t(i) = i
+    call close(unit(i))         #change from WRITE to READ access
+    unit(i) = open(file(1,i), READ)
+    if (unit(i) == ERR)
+        call cant(file(1,i))
+    }
+ unit(TAPENO) = create(file(1,TAPENO), WRITE)
+ if (unit(TAPENO) == ERR)
+    call cant(file(1,TAPENO))
+ t(TAPENO) = TAPENO
+
+ #      now merge runs
+
+ repeat
+    {
+    outfil = t(TAPENO)
+    if (level == 1)
+        {
+        sunit = unit(outfil)            # save scratch unit
+ #      call redout                     # redirect STDOUT if necessary
+        unit(outfil) = STDOUT           # copy sorted file directly to STDOUT
+        }
+    repeat
+        {
+        call mrgrun(ieof)
+        if (ieof == 0)
+            call puteor(unit(outfil))
+        }
+    until(ieof > 0)             # one of the units terminated on EOF
+    if (level == 1)
+        {
+        unit(outfil) = sunit    # restore scratch unit
+        break                   # stop loop, sorted file already on STDOUT
+        }
+    i = t(ieof)
+    j = t(TAPENO)
+    call close(unit(i))         #change file accesses
+    unit(i) = open(file(1,i), WRITE)
+    if (unit(i) == ERR)
+        call cant(file(1,i))
+    call close(unit(j))
+    unit(j) = open(file(1,j), READ)
+    if (unit(j) == ERR)
+        call cant(file(1,j))
+    t(TAPENO) = i
+    t(ieof) = j
+    level = level - 1
+    }
+ until (level == 0)             # sorted results on t(ieof)
+
+ #      eliminate temporary files
+
+ call cleans
+ return
+ end

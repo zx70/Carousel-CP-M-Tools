@@ -1,0 +1,25 @@
+ subroutine stape
+
+ integer i, z
+
+ include select
+
+ if (d(tape) < d(tape+1))
+    tape = tape + 1
+ else
+    {
+    if (d(tape) == 0)           # bump one Fibonacci level
+        {
+        level = level + 1
+        z = a(1)
+        for (i=1; i < TAPENO; i=i+1)
+            {
+            d(i) = z + a(i+1) - a(i)
+            a(i) = z + a(i+1)
+            }
+        }
+    tape = 1
+    }
+ d(tape) = d(tape) - 1
+ return
+ end

@@ -1,0 +1,31 @@
+ subroutine fsetup
+
+ character temp(4)
+ integer i, n, itoc
+ filedes create
+
+ include select
+
+ tape = 1
+ level = 1
+ for (i=1; i <= TAPENO; i=i+1)
+    {
+    a(i) = 1
+    d(i) = 1
+    temp(1) = LETS
+    n = itoc(i, temp(2), 3)
+    call mkuniq(temp, file(1,i))
+    if (i < TAPENO)
+        {
+        unit(i) = create(file(1,i), WRITE)
+        if (unit(i) == ERR)
+            call cant(file(1,i))
+        }
+    else
+        unit(i) = 0
+    }
+ d(TAPENO) = 0
+ a(TAPENO) = 0
+
+ return
+ end

@@ -1,0 +1,83 @@
+  #----------------------------------------------------------------- 
+  
+ ## compar - compare lin(lp1) with lin(lp2) 
+    integer function compar(lp1, lp2, lin) 
+  
+    character lin(ARB) 
+    integer i, j, lp1, lp2 
+    character type
+    character ct
+    character c1,c2
+    character clower
+    include sortcom 
+  
+    i = lp1 
+    j = lp2 
+  
+  if (blanks == YES)      # ignore leading blanks 
+       { 
+       while (lin(i) == BLANK)  i = i + 1 
+       while (lin(j) == BLANK)  j = j + 1 
+       } 
+ else if (subf == YES)
+    {
+    while (lin(i) != EOS) i = i + 1
+    while (lin(j) != EOS) j = j + 1
+    if (i > lp1 + cofset)
+        i = lp1 + cofset
+    if (j > lp2 + cofset)
+        j = lp2 + cofset
+    }
+  
+  repeat 
+     { 
+     if (lin(i) == EOS) 
+         { 
+         compar = 0 
+         return 
+         } 
+     if (noprt == YES)     #ignore non-printing characters 
+         { 
+         while ((lin(i) > 0 & lin(i) < 32) | 
+                lin(i) == 127)  i = i + 1 
+         while ((lin(j) > 0 & lin(j) < 32) | 
+                lin(j) == 127)  j = j + 1 
+         } 
+     if (dict == YES)      #dictionary order--only letters & digits & blanks 
+         { 
+         repeat 
+            { 
+            ct = type (lin(i)) 
+            if (ct == LETTER | ct == DIGIT | ct== BLANK | ct == EOS)  break 
+            i = i + 1 
+            } 
+         repeat 
+            { 
+            ct = type (lin(j)) 
+            if (ct == LETTER | ct == DIGIT | ct == BLANK | ct == EOS)  break 
+            j = j + 1 
+            } 
+         } 
+     if (fold == YES) 
+          { 
+          c1 = clower (lin(i)) 
+          c2 = clower(lin(j)) 
+          } 
+      else 
+          { 
+          c1 = lin(i) 
+          c2 = lin(j) 
+          } 
+  
+       if (c1 != c2)  break 
+       i = i + 1 
+       j = j + 1 
+       } 
+    if (c1 < c2 ) 
+       compar = -1 
+    else 
+       compar = +1 
+    if (revers == YES)
+        compar = -compar
+    return 
+    end 

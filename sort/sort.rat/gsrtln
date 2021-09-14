@@ -1,0 +1,48 @@
+ integer function gsrtln(buf)
+
+ character buf(MAXLINE)
+ integer getlin, init, level, fopen, open, infile
+
+ include flist
+
+ data init/0/
+
+ if (init == 0)
+    {
+    level = 0
+    if (flevel == 0)
+        {
+        flevel = 1
+        call scopy('-', 1, ffiles(1,1), 1)
+        }
+    init = 1
+    fopen = NO
+    }
+ if (fopen == NO & level == flevel)
+    gsrtln = EOI
+ else
+    {
+    if (fopen == NO)
+        {
+        fopen = YES
+        level = level + 1
+        if (ffiles(1, level) == MINUS)
+            infile = STDIN
+        else
+            {
+            infile = open(ffiles(1, level), READ)
+            if (infile == ERR)
+                call cant(ffiles(1, level))
+            }
+        }
+    gsrtln = getlin(buf, infile)
+    if (gsrtln == EOF)
+        {
+        fopen = NO
+        if (infile != STDIN)
+            call close(infile)
+        }
+    }
+
+ return
+ end

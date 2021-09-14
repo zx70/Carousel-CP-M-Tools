@@ -1,0 +1,19 @@
+  #-------------------------------------------------------------------- 
+  
+ ## reheap - propagate linbuf(linptr(1)) to proper place in heap 
+    subroutine reheap(linptr, nf, linbuf) 
+    character linbuf(MAXTEXT) 
+    integer compar 
+    integer i, j, nf, linptr(ARB) 
+  
+    for (i = 1; 2 * i <= nf; i = j) { 
+       j = 2 * i 
+       if (j < nf)      # find smaller child 
+          if (compar(linptr(j), linptr(j+1), linbuf) > 0) 
+             j = j + 1 
+       if (compar(linptr(i), linptr(j), linbuf) <= 0) 
+          break      # proper position found 
+       call exchan(linptr(i), linptr(j), linbuf)   # percolate 
+       } 
+    return 
+    end 
