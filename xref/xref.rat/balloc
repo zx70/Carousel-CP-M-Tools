@@ -1,0 +1,10 @@
+# balloc - allocate n words in storage array buf; return index
+   integer function balloc(n)
+   integer n
+   include cxref
+
+   nextbf = nextbf + n
+   if (nextbf > MAXBUF)
+      call error("out of storage.")
+   return(nextbf - n)
+   end

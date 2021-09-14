@@ -1,0 +1,26 @@
+# pentry - print name and list of references
+   subroutine pentry(name, list)
+   character name(ARB)
+   integer list
+   integer i, len, j
+   include cxref
+
+   j = (-MAXTOKEN - 1)
+   call putstr (name, j, STDOUT)
+#   call putstr(name, -MAXTOKEN - 1, STDOUT)
+   len = MAXTOKEN + 1
+   for (i = list; i ^= 0; i = buf(i+LINK)) {
+      if (len > LINESIZE - MAXNUM) {
+         call putc(NEWLINE)
+         j = (-MAXTOKEN - 1)
+         call putstr (EOS, j, STDOUT)
+#         call putstr(EOS, -MAXTOKEN - 1, STDOUT)
+         len = MAXTOKEN + 1
+         }
+      call putint(buf(i+LINENUM), MAXNUM, STDOUT)
+      len = len + MAXNUM
+      }
+   if (len <= LINESIZE)
+      call putc(NEWLINE)
+   return
+   end

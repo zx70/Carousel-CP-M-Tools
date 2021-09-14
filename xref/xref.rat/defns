@@ -1,0 +1,23 @@
+ # include ratdef
+
+# layout of tree nodes
+define(LLINK,0)   # pointer to left subtree
+define(RLINK,1)   # pointer to right subtree
+define(LNLIST,2)  # pointer to list of references
+define(LAST,3)    # pointer to last reference entered
+define(ENTRY,4)   # name (string)
+define(TNODESIZE,5)# size of node = TNODESIZE + length(name) + 1
+
+# layout of linked list nodes
+define(LINENUM,0) # line number
+define(LINK,1)    # pointer to next line number
+define(LNODESIZE,2)
+
+#define(MAXBUF,12000) 
+define(MAXBUF,6000)
+define(LINESIZE,80) # length of output lines (see pentry)
+define(MAXTOKEN,15) # maximum token size (see pentry)
+define(MAXNUM,5)  # size of line number entry (see pentry)
+
+		# avoid conflict with CP/M rtn of same name
+ifdef(CPM, define(gettok,gxtok) )

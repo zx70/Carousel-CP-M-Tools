@@ -1,0 +1,41 @@
+# gettok - get text token from file fd
+   character function gettok(token, size, fd)
+   character token(ARB)
+   integer size, fd
+   character getch, type
+   integer i
+   character c, peek
+   data peek /EOS/
+ 
+   if (peek == EOS)    # check for lookahead
+      c = getch(c, fd)
+   else {
+      c = peek
+      peek = EOS
+      }
+   for (; c ^= EOF; c = getch(c, fd)) {
+      gettok = type(c)
+      if (gettok == LETTER) {   # start of name
+         token(1) = c
+         for (i = 2; getch(c, fd) ^= EOF; i = i + 1)
+            if (type(c) == LETTER | type(c) == DIGIT) {
+               if (i < size)
+                  token(i) = c
+               }
+            else
+               break
+         peek = c   # went one too far
+         if (i <= size)
+            token(i) = EOS
+         else
+            token(size) = EOS
+         return(LETTER)
+         }
+      else if (gettok == NEWLINE) {  # newline must be returned
+         peek = EOS
+         return(NEWLINE)
+         }
+      }
+   peek = EOS
+   return(EOF)
+   end

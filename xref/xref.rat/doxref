@@ -1,0 +1,26 @@
+# doxref-generate cross reference list for file fd; fold if fflag = YES
+   subroutine doxref(fd, fflag)
+   integer fd, fflag
+   integer t, root, lineno
+   character gettok
+   character token(MAXTOKEN)
+   include cxref
+
+   root = 0
+   nextbf = 1
+   lineno = 1
+   repeat {
+      t = gettok(token, MAXTOKEN, fd)
+      if (t == EOF)
+         break
+      if (t == LETTER) {
+         if (fflag == YES)
+            call fold(token)
+         call instl(token, lineno, root)
+         }
+      else if (t == NEWLINE)
+         lineno = lineno + 1
+      }
+   call tprint(root)
+   return
+   end

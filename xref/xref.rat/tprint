@@ -1,0 +1,31 @@
+# tprint - destructively print tree, left subtree first
+   subroutine tprint(tree)
+   integer tree
+   integer p, q, sp
+   character temp(MAXNAME)
+   include cxref
+
+   sp = 0
+   p = tree
+   repeat {
+      while (p ^= 0)
+         if (buf(p+LLINK) ^= 0) {
+            q = buf(p+LLINK)
+            buf(p+LLINK) = sp
+            sp = p
+            p = q
+            }
+         else {
+            call icopys (buf, p+ENTRY, temp, 1)
+            call pentry(temp, buf(p+LNLIST))
+            p = buf(p+RLINK)
+            }
+      if (sp == 0)
+         return
+      call icopys (buf, sp+ENTRY, temp, 1)
+      call pentry(temp, buf(sp+LNLIST))
+      p = buf(sp+RLINK)
+      sp = buf(sp+LLINK)
+      }
+   return
+   end
