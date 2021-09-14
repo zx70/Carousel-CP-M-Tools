@@ -1,0 +1,33 @@
+ ## uniq -strip adjacent duplicate lines
+ DRIVER
+ character buf(MAXLINE)
+ integer open, getarg
+ integer i, int, count
+ 
+ data count /NO/
+ for (i=1; getarg(i, buf, MAXLINE) != EOF; i=i+1)
+        {
+        if (buf(1) == QMARK & buf(2) == EOS)
+                call error ('usage:  uniq [-c] [file].')
+        else if (buf(1) == MINUS & (buf(2) == LETC | buf(2) == BIGC))
+                {
+                count = YES
+                next
+                }
+        else if (buf(1) == MINUS & buf(2) == EOS)
+                int = STDIN
+        else
+                {
+                int = open(buf,READ)
+                if (int == ERR)
+                        call cant(buf)
+                }
+        call unik (int, count)
+        if (int != STDIN)
+                call close(int)
+        }
+ 
+ if (i == 1 | (i == 2 & count == YES))  #read from STDIN
+        call unik (STDIN, count)
+ DRETURN
+ end
