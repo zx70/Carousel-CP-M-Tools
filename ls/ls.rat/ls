@@ -1,0 +1,42 @@
+ ## ls - list contents of directory
+ DRIVER(ls)
+ 
+ character dir(FILENAMESIZE)
+ character file(FILENAMESIZE)
+ integer fmatch, gdrprm, opendr
+ ifdef(CPM, integer getnde, dsget)
+ DS_DECL(Mem, 1)
+
+ include cls
+
+ call initls (dir)
+ if (dir(1) == EOS)
+	call gwdir (dir, LOCAL)
+ if (opendr (dir, fd) == ERR)
+	call cant (dir)
+
+				#Get space for names (CPM only)
+ ifdef(CPM, maxptr = getnde(dir)
+	maxtxt = FILENAMESIZE * maxptr
+	linp = dsget (maxptr)
+	bufp = dsget (maxtxt/2) )
+ repeat
+	{
+	len = gdrprm (fd, file)
+	if (len == EOF)
+		break
+ 	file(len+1) = NEWLINE	#necessary for pattern matching
+	file(len+2) = EOS
+	ifdef(CASE_INDEP, call fold(file))
+	if (fmatch(file) == YES)
+		{
+		file(len+1) = EOS	#get rid of NEWLINE
+		call holdf (file)
+		}
+	}
+ call closdr (fd)
+ if (sortit == YES)
+	call quick (Mem(linp), nlines, Mem(bufp) )	#quicksort
+ call outls(dir)
+ DRETURN
+ end
