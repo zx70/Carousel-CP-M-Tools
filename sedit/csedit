@@ -1,0 +1,16 @@
+ ## common block for csedit tool
+ #  put on a file called 'csedit'
+ #  (used only by csedit)
+ 
+ common /csedit/ aq, iq, buf(MAXBUF), lastbf, nlines, line1, line2,
+   pat(MAXPAT), prevc, nflag
+   integer aq		# end of append queue
+   integer iq		# end of insert queue
+   integer buf          # buf for commands
+   integer lastbf	# next available character in buf
+   integer nlines	# number of line number expressions
+   integer line1	# line number 1 or index to pattern
+   integer line2	# line number 2 or index to pattern
+   character pat	# current pattern during compilation
+   integer prevc	# index of previous command
+   integer nflag	# YES to print result of "p" commands only
