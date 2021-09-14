@@ -1,0 +1,44 @@
+ ## doman - print man file
+ integer function doman (fd)
+ integer fd, nl, wait
+ integer getlin, isatty, prompt
+ character buf(MAXLINE), savlin(MAXLINE)
+ string pr "Hit <CR> to continue, q to quit: "
+ data savlin(1) /EOS/
+ data wait /NO/
+ data nl /22/
+ 
+ repeat
+        {
+        if (wait == YES)
+                {
+		if (isatty (STDOUT) == YES)
+			if (prompt (pr, buf, STDIN) == EOF)
+				call endst (OK)
+                if (buf(1) == LETQ | buf(1) == BIGQ)
+                        {
+                        wait = NO
+			savlin(1) = EOS
+                        return
+                        }
+                }
+         wait = YES
+	if (savlin(1) != EOS)		# put out read-ahead line
+		{
+		call putlin (savlin, STDOUT)
+		j = 2
+		}
+	else
+		j = 1
+         for (; j<=nl; j=j+1)
+                {
+                if (getlin(buf, fd) == EOF)
+                        return
+                call putlin(buf, STDOUT)
+                }
+				# check for impending EOF
+	if (getlin (savlin, fd) == EOF)
+		wait = NO
+        }
+ return
+ end
