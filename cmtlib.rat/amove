@@ -1,0 +1,42 @@
+ ## amove - move name1 to name2
+ integer function amove (name1, name2)
+ character name1(ARB), name2(ARB)
+ integer create, open, remov$
+ integer renam$
+ integer fd1, fd2
+ byte i
+ character fcb1(FCBSIZE), fcb2(FCBSIZE)
+ character packnm, n1, n2
+ amove = ERR
+ n1 = packnm (name1, fcb1)
+ n2 = packnm (name2, fcb2)
+ if (n1 == ERR | n2 == ERR)
+	return
+ for (i=1; i<13; i=i+1)
+	if (fcb1(i) != fcb2(i))
+		break
+	if (i == 13)
+		return # source = dest, won't do
+ if (n2 == DISK)
+	{
+	call remov$ (fcb2)
+	if (fcb1(1) == fcb2(1))
+		{
+		amove = renam$ (fcb1, fcb2)
+		return
+		}
+	}
+ fd1 = open (name1, READ)
+ if (fd1 == ERR)
+	return
+ fd2 = create (name2, WRITE)
+ if (fd2 == ERR)
+	return
+ if (n1 == DISK & n2 == DISK)
+	call bcopy$ (fd1, fd2)
+ else
+	call fcopy (fd1, fd2)
+ call remov$ (fcb1)
+ call close (fd2)
+ return(OK)
+ end
