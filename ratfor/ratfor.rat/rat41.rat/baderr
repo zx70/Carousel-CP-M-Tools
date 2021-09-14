@@ -1,0 +1,7 @@
+##### error processing - routines in this group are baderr, synerr
+ 
+ subroutine baderr(msg)
+ character msg(ARB)
+ call synerr(msg)
+ call endst
+ end
