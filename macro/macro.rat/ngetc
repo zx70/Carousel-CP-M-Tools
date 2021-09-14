@@ -1,0 +1,24 @@
+# ngetc - get a (possibly pushed back) character
+   character function ngetc(c)
+   character getch
+   character c
+   include cdefio
+   include cfiles
+ 
+   if (bp > 0)
+      c = buf(bp)
+   else {
+      bp = 1
+      for (; level > 0; level = level - 1) {
+         if (getch(c, infile(level)) ^= EOF)
+            break
+         if (level > 1)
+            call close(infile(level))
+         }
+      buf(bp) = c
+      }
+   if (c ^= EOF)
+      bp = bp - 1
+   ngetc = c
+   return
+   end

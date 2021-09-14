@@ -1,0 +1,87 @@
+# domacr - expand macros with arguments; read from fd, qflag YES do []
+   subroutine domacr(fd, qflag)
+   integer fd, qflag
+   character gettok
+   character defn(MAXDEF), t, token(MAXTOKEN)
+   integer lookup, push
+   integer ap, argstk(ARGSIZE), callst(CALLSIZE), nlb, plev(CALLSIZE)
+   include cmacro
+   include cdefio
+   include cfiles
+   string balp "()"
+ 
+   cp = 0
+   ap = 1
+   ep = 1
+   bp = 0
+   level = 1
+   infile(1) = fd
+   for (t=gettok(token, MAXTOKEN); t ^= EOF; t=gettok(token, MAXTOKEN)) {
+      if (t == ALPHA) {
+         if (lookup(token, defn, st) == NO)
+            call puttok(token)
+         else {            # defined; put it in eval stack
+            cp = cp + 1
+            if (cp > CALLSIZE)
+               call error("call stack overflow.")
+            callst(cp) = ap
+            ap = push(ep, argstk, ap)
+            call puttok(defn)   # stack definition
+            call putchr(EOS)
+            ap = push(ep, argstk, ap)
+            call puttok(token)   # stack name
+            call putchr(EOS)
+            ap = push(ep, argstk, ap)
+            t = gettok(token, MAXTOKEN)   # peek at next
+            call pbstr(token)
+            if (t ^= LPAREN)   # add ( ) if not present
+               call pbstr(balp)
+            plev(cp) = 0
+            }
+         }
+      else if (t == LBRACK & (cp > 0 | qflag == YES)) {
+         nlb = 1               # strip one level of [ ]
+         repeat {
+            t = gettok(token, MAXTOKEN)
+            if (t == LBRACK)
+               nlb = nlb + 1
+            else if (t == RBRACK) {
+               nlb = nlb - 1
+               if (nlb == 0)
+                  break
+               }
+            else if (t == EOF)
+               call error("EOF in string.")
+            call puttok(token)
+            }
+         }
+      else if (cp == 0)         # not in a macro at all
+         call puttok(token)
+      else if (t == LPAREN) {
+         if (plev(cp) > 0)
+            call puttok(token)
+         plev(cp) = plev(cp) + 1
+         }
+      else if (t == RPAREN) {
+         plev(cp) = plev(cp) - 1
+         if (plev(cp) > 0)
+            call puttok(token)
+         else {            # end of argument list
+            call putchr(EOS)
+            call eval(argstk, callst(cp), ap-1)
+            ap = callst(cp)   # pop eval stack
+            ep = argstk(ap)
+            cp = cp - 1
+            }
+         }
+      else if (t == COMMA & plev(cp) == 1) {   # new arg
+         call putchr(EOS)
+         ap = push(ep, argstk, ap)
+         }
+      else
+         call puttok(token)      # just stack it
+      }
+   if (cp ^= 0)
+      call error("unexpected EOF.")
+   return
+   end

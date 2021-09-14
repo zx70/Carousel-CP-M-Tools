@@ -1,0 +1,15 @@
+# doexpr - evaluate infix expression
+   subroutine doexpr(argstk, i, j)
+   integer exptoi
+   integer argstk(ARGSIZE), i, j, k
+   include cmacro
+ 
+   k = argstk(i+2)
+   call pbnum(exptoi(evalst, k, 10))
+   if (evalst(k) ^= EOS) {
+      k = argstk(i+2)
+      call putlin(evalst(k), ERROUT)
+      call remark(": invalid infix expression.")
+      }
+   return
+   end

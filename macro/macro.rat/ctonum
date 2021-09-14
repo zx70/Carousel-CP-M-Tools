@@ -1,0 +1,34 @@
+# ctonum - string to number with radix control
+ integer function ctonum(buf,i,dradix)
+ character buf(ARB), tmp(MAXLINE)
+ integer ctoi
+ integer i, j, c, n, val, radix, dradix
+ string digits "0123456789abcdefABCDEF"
+
+ # while (buf(i) == BLANK | buf(i) == TAB)
+ #      i = i + 1       # skip blanks
+ for (n=0;;i=i+1)
+        {       #collect digits
+        c = index(digits,buf(i))
+        if (c==0) break
+        if (c > 16) c = c-6     # convert to lower case
+        n = n+1
+        tmp(n) = c-1            # save digit value
+        }
+ if (buf(i) == UNDERLINE)
+        {       # get new radix, radix radix is 10.
+        radix = 0
+        i = i+1
+        radix = ctoi(buf,i)
+        }
+ else radix = dradix
+ val = 0
+ for (j=1; j<=n; j = j+1)
+        {
+        c = tmp(j)
+        if (c >= radix)
+                call remark("number error")
+        val = val * radix + c
+        }
+ return(val)
+ end

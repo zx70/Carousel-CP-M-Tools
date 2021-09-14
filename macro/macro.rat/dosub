@@ -1,0 +1,24 @@
+# dosub - select substring
+   subroutine dosub(argstk, i, j)
+   integer ctoi, length
+   integer ap, argstk(ARGSIZE), fc, i, j, k, nc
+   include cmacro
+ 
+   if (j - i < 3)
+      return
+   if (j - i < 4)
+      nc = MAXTOKEN
+   else {
+      k = argstk(i+4)
+      nc = ctoi(evalst, k)      # number of characters
+      }
+   k = argstk(i+3)         # origin
+   ap = argstk(i+2)         # target string
+   fc = ap + ctoi(evalst, k) - 1   # first char of substring
+   if (fc >= ap & fc < ap + length(evalst(ap))) {   # subarrays
+      k = fc + min(nc, length(evalst(fc))) - 1
+      for ( ; k >= fc; k = k - 1)
+         call putbak(evalst(k))
+      }
+   return
+   end

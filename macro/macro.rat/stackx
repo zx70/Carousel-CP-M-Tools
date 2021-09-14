@@ -1,0 +1,16 @@
+ ## stackx - put next expression on arith evaluation stack
+ integer function stackx(tok, kind)
+ integer tok, kind
+ 
+ include cexp
+ 
+ if (top >= MAXSTACK)
+        {
+        call remark ("arith evaluation stack overflow.")
+        return (ERR)
+        }
+ top = top + 1
+ tokst(top) = tok
+ kindst(top) = kind
+ return(OK)
+ end

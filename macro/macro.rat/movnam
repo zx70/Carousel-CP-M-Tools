@@ -1,0 +1,18 @@
+ ## movnam - move in(i) to out(j) until non-alphanumeric found
+ subroutine movnam (in, i, out, j)
+ character in(ARB), out(ARB)
+ integer i, j, k1, k2
+ character type
+ character c
+ 
+ k1 = i
+ k2 = j
+ for(c=type(in(k1)); c == LETTER | c == DIGIT; c=type(in(k1)))
+        {
+        out(k2) = in(k1)
+        k1 = k1 + 1
+        k2 = k2 + 1
+        }
+ out(k2) = EOS
+ return
+ end

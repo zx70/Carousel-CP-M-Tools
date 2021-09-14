@@ -1,0 +1,10 @@
+# dolen - return length of argument
+   subroutine dolen(argstk, i, j)
+   integer length
+   integer argstk(ARGSIZE), i, j, k
+   include cmacro
+ 
+   k = argstk(i+2)
+   call pbnum(length(evalst(k)))
+   return
+   end

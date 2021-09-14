@@ -1,0 +1,20 @@
+# prec - return operator precedence
+character function prec(opkind)
+integer opkind
+character preced(MAXOP)
+ # precedence of respective operators
+ data preced(1), preced(2), preced(3), preced(4), preced(5),
+      preced(6), preced(7), preced(8), preced(9), preced(10),
+      preced(11), preced(12), preced(13), preced(14), preced(15),
+      preced(16), preced(17), preced(18),
+      preced(19), preced(20), preced(21) / 0,  0,   # EOS, start_expr
+        1,  1,          # (  )
+        2,  2,          # |  &
+        3,              # ! (or ^ or ~)
+        4,4,4,4,4,4,    # == != > >= < <=
+        5,  5,          # +  -
+        6,  6,          # *  /
+        8,  6,  7, 8      /# neg, mod, expon, plus
+ 
+return(preced(opkind))
+end

@@ -1,0 +1,58 @@
+# minit - initialize symbol table with built-in macros
+   subroutine minit
+
+   integer mktabl
+
+   integer deftyp(2)
+   integer inctyp(2)
+   integer subtyp(2)
+   integer iftyp(2)
+   integer exptyp(2)
+   integer icltyp(2)
+   integer lentyp(2)
+ 
+   DS_DECL(Mem,4)
+ 
+   include cmacro
+ 
+   string defnam "define"
+   string incnam "incr"
+   string subnam "substr"
+   string ifnam "ifelse"
+   string expnam "expr"
+   string iclnam "includ"
+   string lennam "len"
+   data deftyp(1) /DEFTYPE/, deftyp(2) /EOS/
+   data inctyp(1) /INCTYPE/, inctyp(2) /EOS/
+   data subtyp(1) /SUBTYPE/, subtyp(2) /EOS/
+   data iftyp(1) /IFTYPE/, iftyp(2) /EOS/
+   data exptyp(1) /EXPTYPE/, exptyp(2) /EOS/
+   data icltyp(1) /ICLTYPE/, icltyp(2) /EOS/
+   data lentyp(1) /LENTYPE/, lentyp(2) /EOS/
+ 
+   ifnotdef(CPM, call dsinit(MEMSIZE))
+   st = mktabl (CHAR_DEFN)
+                        #install both upper and lower cases
+   call enter(defnam, deftyp, st)
+   call upper(defnam)
+   call enter(defnam, deftyp, st)
+   call enter(incnam, inctyp, st)
+   call upper(incnam)
+   call enter(incnam, inctyp, st)
+   call enter(subnam, subtyp, st)
+   call upper(subnam)
+   call enter(subnam, subtyp, st)
+   call enter(ifnam, iftyp, st)
+   call upper(ifnam)
+   call enter(ifnam, iftyp, st)
+   call enter(expnam, exptyp, st)
+   call upper(expnam)
+   call enter(expnam, exptyp, st)
+   call enter(iclnam, icltyp, st)
+   call upper(iclnam)
+   call enter(iclnam, icltyp, st)
+   call enter(lennam, lentyp, st)
+   call upper(lennam)
+   call enter(lennam, lentyp, st)
+ return
+   end

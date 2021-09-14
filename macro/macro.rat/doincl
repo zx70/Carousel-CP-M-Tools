@@ -1,0 +1,19 @@
+# doincl - include named file
+   subroutine doincl(argstk, i, j)
+   integer argstk(ARGSIZE), i, j
+   integer k, open
+   include cfiles
+   include cmacro
+
+   if (level + 1 > NFILES)
+      call error("includs nested too deeply.")
+   k = argstk(i+2)
+   infile(level+1) = open(evalst(k), READ)
+   if (infile(level+1) == ERR) {
+      call putlin(evalst(k), ERROUT)
+      call remark(": can't includ.")
+      }
+   else
+      level = level + 1
+   return
+   end

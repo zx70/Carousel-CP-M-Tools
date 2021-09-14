@@ -1,0 +1,10 @@
+# push - push ep onto argstk, return new pointer ap
+   integer function push(ep, argstk, ap)
+   integer ap, argstk(ARGSIZE), ep
+ 
+   if (ap > ARGSIZE)
+      call error("arg stack overflow.")
+   argstk(ap) = ep
+   push = ap + 1
+   return
+   end

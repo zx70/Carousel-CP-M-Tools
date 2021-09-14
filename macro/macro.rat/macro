@@ -1,0 +1,33 @@
+# macro - expand macros in named files or standard input
+ DRIVER(macro)
+   character arg(MAXLINE)
+   integer open, getarg
+   integer fd, i, nfiles, qflag
+   data qflag /NO/   # default is no quoting at level 0
+
+   call query ("usage:  macro [-0] [files].")
+   call minit
+   nfiles = 0
+   for (i = 1; getarg(i, arg, MAXNAME) ^= EOF; i = i + 1)
+      if (arg(1) == MINUS & arg(2) == DIG0)
+         qflag = YES
+      else if (arg(1) == MINUS & arg(2) ^= EOS) 
+         call error("usage: macro [-0] [files].")
+      else {
+         nfiles = nfiles + 1
+         if (arg(1) == MINUS)
+            fd = STDIN
+         else
+            fd = open(arg, READ)
+         if (fd == ERR) {
+            call putlin(arg, ERROUT)
+            call error(": can't open.")
+            }
+         call domacr(fd, qflag)
+         if (fd ^= STDIN)
+            call close(fd)
+         }
+   if (nfiles <= 0)     # no args, do STDIN
+      call domacr(STDIN, qflag)
+   DRETURN
+   end

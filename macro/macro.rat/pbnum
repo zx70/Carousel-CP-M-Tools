@@ -1,0 +1,10 @@
+# pbnum - convert number to string, push back on input
+   subroutine pbnum(n)
+   integer itoc
+   character buf(MAXCHARS)
+   integer junk
+ 
+  junk = itoc(n, buf, MAXCHARS)
+   call pbstr(buf)
+   return
+   end

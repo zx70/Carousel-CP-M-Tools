@@ -1,0 +1,15 @@
+# dodef - install definition in table
+   subroutine dodef(argstk, i, j)
+   integer a2, a3, argstk(ARGSIZE), i, j, c
+   character ngetc
+   include cmacro
+ 
+   if (j - i > 2) {
+      a2 = argstk(i+2)
+      a3 = argstk(i+3)
+      call enter(evalst(a2), evalst(a3), st)   # subarrays
+      }
+   if (ngetc(c) ^= NEWLINE)
+      call putbak(c)
+   return
+   end

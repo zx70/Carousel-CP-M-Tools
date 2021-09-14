@@ -1,0 +1,14 @@
+# doincr - increment argument by 1
+   subroutine doincr(argstk, i, j)
+   integer ctoi, index
+   integer argstk(ARGSIZE), i, j, k, m
+   include cmacro
+ 
+   k = argstk(i+2)
+   m = index(evalst(k), MINUS)
+   if (m == 0)
+        call pbnum(ctoi(evalst,k) + 1)
+   else
+        call pbnum(1-ctoi(evalst,k + m))
+   return
+   end

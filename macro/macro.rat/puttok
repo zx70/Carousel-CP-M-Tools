@@ -1,0 +1,9 @@
+ ## puttok-put token into eval stack  /*/sor/macror/puttok
+    subroutine puttok(str)
+    character str(MAXTOKEN)
+    integer i
+ 
+    for (i = 1; str(i) != EOS; i = i + 1)
+       call putchr(str(i))
+    return
+    end

@@ -1,0 +1,15 @@
+# putchr - put single char on output or into evaluation stack
+   subroutine putchr(c)
+   character c
+   include cmacro
+ 
+   if (cp == 0)
+      call putc(c)
+   else {
+      if (ep > EVALSIZE)
+         call error("evaluation stack overflow.")
+      evalst(ep) = c
+      ep = ep + 1
+      }
+   return
+   end

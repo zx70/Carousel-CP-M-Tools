@@ -1,0 +1,24 @@
+# gettok - get alphanumeric string or single non-alpha for define
+   character function gettok(token, toksiz)
+   character ngetc, type
+   integer i, toksiz
+   character token(toksiz)
+ 
+   gettok = type(ngetc(token(1)))
+   if (gettok ^= LETTER) {
+      token(2) = EOS
+      return
+      }
+   for (i = 2; i < toksiz; i = i + 1) {   # alphanumeric token
+      gettok = type(ngetc(token(i)))
+      if (gettok ^= LETTER & gettok ^= DIGIT & gettok ^= PERIOD &
+          gettok ^= UNDERLINE)
+         break
+      }
+   if (i >= toksiz)
+      call error("token too long.")
+   call putbak(token(i))
+   gettok = ALPHA
+   token(i) = EOS
+   return
+   end

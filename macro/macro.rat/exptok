@@ -1,0 +1,115 @@
+ ## exptok - get expression token for evaluation
+ integer function exptok(exp, k, tok, kind, radix)
+ character exp(ARB), defn(MAXTOKEN), name(MAXTOKEN)
+ integer k      #index, updated unless EOS
+ integer tok    #return value, token found
+ integer kind   #return value, kind of token
+ integer radix  #default radix for numbers
+ integer ctonum, lookup
+ character type
+ character c, cn
+ string digits "0123456789abcdefABCDEF"
+ include cexp
+ include cmacro
+ 
+ c = type(exp(k))
+ if (radix > 10)
+        {
+        if (index(digits,exp(k)) > 0) c = DIGIT
+        }
+ if (c == DIGIT)
+        {
+        tok = ctonum(exp, k, radix)
+        kind = OPND
+        return(YES)
+        }
+ else if (c == LETTER)
+        {               #found stored variable name
+        call movnam(exp, k, name, 1)
+        k = k + length(name)
+        if (lookup(name, defn, st) == YES)
+                {
+                i = 1
+                tok = ctonum(defn, i, radix)
+                kind = OPND
+                return(YES)
+                }
+        else
+                return(NO)
+        }
+ else           #c is symbol
+        {
+        cn = exp(k+1)
+        kind = OP
+        switch(c)
+                {
+                case TILDE:  if (cn == EQUALS)
+                                {
+                                tok = OPNE
+                                k = k + 1
+                                }
+                         else tok = OPNOT
+                case CARET:  if (cn == EQUALS)
+                                {
+                                tok = OPNE
+                                k = k + 1
+                                }
+                         else tok = OPNOT
+                case BANG:  if (cn == EQUALS)
+                                {
+                                tok = OPNE
+                                k = k + 1
+                                }
+                         else tok = OPNOT
+                case LESS:  if (cn == EQUALS)
+                                {
+                                tok = OPLE
+                                k = k + 1
+                                }
+                         else tok = OPLT
+                case GREATER:  if (cn == EQUALS)
+                                {
+                                tok = OPGE
+                                k = k + 1
+                                }
+                         else tok = OPGT
+                case EQUALS:  if (cn == EQUALS)
+                                {
+                                tok = OPEQ
+                                k = k + 1
+                                }
+                         else tok = OPERR
+                case BAR:  tok = OPOR
+                case AMPER: tok  = OPAND
+                case PLUS:  tok = OPADD
+                case MINUS: tok = OPSUB
+                case STAR:  if (cn == STAR)
+                                {
+                                tok = OPEXP
+                                k = k + 1
+                                }
+                            else tok = OPMUL
+                case SLASH: tok = OPDIV
+                case PERCENT: tok = OPMOD
+                case LPAREN: {
+                             kind = SEP
+                             tok = OPLP
+                             }
+                case RPAREN: {
+                             kind = SEP
+                             tok = OPRP
+                             }
+                case EOS:    {
+                             kind = SEP
+                             tok = OPDONE
+                             }
+                default:     tok = OPERR
+                }
+ 
+ if (tok == OPERR)
+        return(NO)
+ if (tok != OPDONE)
+        k = k + 1
+ return(YES)
+ }
+ end
