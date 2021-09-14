@@ -1,0 +1,41 @@
+# rm - remove (delete) files
+ DRIVER
+   character arg(MAXLINE)
+   integer i, j, vflag, aflag, ttyin, ttyout, len
+   integer getarg, open, getlin, kill
+   string trmin TERMINAL_IN
+   string trmout TERMINAL_OUT
+
+   vflag = NO
+   aflag = NO
+   for (i = 1; getarg(i, arg, MAXLINE) ^= EOF; i = i + 1)
+      {
+      if (arg(1) == MINUS & (arg(2) == LETV | arg(2) == BIGV))
+         vflag = YES
+      else if (arg(1) == MINUS & (arg(2) == LETA | arg(2) == BIGA))
+        {
+         aflag = YES
+        call termin(arg)         #open users terminal for prompting
+        ttyin = open(trmin, READ)    #open users terminal for prompting
+        ttyout = open(trmout, WRITE)
+        if (ttyin == ERR | ttyout == ERR)
+                call error ("can't open users terminal.")
+        }
+      else if (arg(1) == QMARK & arg(2) ==EOS)
+           call error ("usage:  rm [-v] [-a] [files].")
+      else if (arg(1) == MINUS & arg(2) == EOS)
+        {
+        for (len=getlin(arg,STDIN); len!=EOF; len=getlin(arg,STDIN))
+                {
+                arg(len) = EOS       # remove NEWLINE char
+                if ( kill (arg, aflag, vflag, ttyin, ttyout) == EOF)
+                        break
+                }
+        }
+      else 
+        if ( kill (arg, aflag, vflag, ttyin, ttyout) == EOF)
+                 break
+         }
+ 
+    DRETURN
+   end
