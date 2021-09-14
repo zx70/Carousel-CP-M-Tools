@@ -1,0 +1,31 @@
+ ## kill - remove file; asking permission if requested
+ integer function kill (name, aflag, vflag, ttyin, ttyout)
+ character name(ARB), line(MAXLINE)
+ integer aflag, vflag, ttyin, ttyout
+ integer getlin, remove
+ 
+ if (aflag == YES) {
+        call putlin(name, ttyout)
+        call putch(BLANK, ttyout)
+        call putch(QMARK, ttyout)
+        call putch(BLANK, ttyout)
+        call flush (ttyout)
+        if (getlin(line, ttyin) == EOF)
+                return(EOF)
+       if (line(1) == LETG | line(1) == BIGG)
+               aflag = NO
+       else if (line(1) == LETQ | line(1) == BIGQ)    # quit 
+               return(EOF)
+       else if ((line(1) ^= LETY) & (line(1) ^= BIGY))
+               return(OK)
+      }
+  if (remove(name) == ERR) {
+            call putlin(name, ERROUT)
+            call remark(": can't remove.")
+            }
+   else if (vflag == YES) {
+            call putlin(name, ERROUT)
+            call putch(NEWLINE, ERROUT)
+            }
+ return(OK)
+ end
