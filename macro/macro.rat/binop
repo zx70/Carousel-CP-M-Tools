@@ -1,0 +1,41 @@
+ ## binop - evaluates top 3 items on eval stack
+ subroutine binop
+ 
+ integer l, r, result, op
+ include cexp
+ 
+ r = tokst(top)
+ op = tokst(top-1)
+ l = tokst(top-2)
+ top = top - 2
+ switch (op) {
+        case OPOR: if (l != 0 | r != 0) result = 1
+                   else result = 0
+        case OPAND:if (l != 0 & r != 0) result = 1
+                   else result = 0
+        case OPNOT: if (r == 0) result = 1
+                    else result = 0
+        case OPEQ:  if (l == r) result = 1
+                    else result = 0
+        case OPNE:  if (l != r) result = 1
+                    else result = 0
+        case OPGT:  if (l > r) result = 1
+                    else result = 0
+        case OPGE:  if (l >= r) result = 1
+                    else result = 0
+        case OPLT:  if (l < r) result = 1
+                    else result = 0
+        case OPLE:  if (l <= r) result = 1
+                    else result = 0
+        case OPADD: result = l + r
+        case OPSUB:  result = l - r
+        case OPNEG:  result = (-r)
+        case OPMUL:  result = l * r
+        case OPDIV:  result = l / r
+        case OPMOD:  result = mod(l,r)
+        case OPEXP:  result = l**r
+        case OPPLUS: result = (+r)
+        }
+ tokst(top) = result
+ return
+ end
