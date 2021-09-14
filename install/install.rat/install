@@ -1,0 +1,46 @@
+## install - compres or expand tool, set default drive for env
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+DRIVER
+ character buf(FILENAMESIZE)
+ character clower
+ integer getarg, getlin
+ integer i, j
+ common /genv$/ gotenv
+ logical gotenv		# for expanding, need getenv connection
+ include config
+ include cinstl
+ byte oldend
+
+ call initin
+ if (setdef == YES)
+	{
+	call newdef
+	call endst(ERR)	# NO continue with new defaults!!!
+	}
+
+ gotenv = .FALSE.
+ oldend = atend(1)
+ atend(1) = EOS
+# scan input file list
+ for (i=1; getarg(i, buf, FILENAMESIZE) != EOF; i=i+1)
+	{
+	if (buf(1) == MINUS & buf(2) == EOS)
+		{
+		repeat
+			{
+			j = getlin(buf,STDIN)
+			if (j == EOF)
+				break
+			buf(j) = EOS
+			call instal (buf)
+			}
+		}
+	else
+		call instal (buf)
+	}
+ gotenv = .TRUE.
+ atend(1) = oldend
+ DRETURN
+ end
