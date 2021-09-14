@@ -1,0 +1,23 @@
+## defns -- symbol definitions for sh.tol
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+define(ESCAPE,ATSIGN)
+define(EXECUTABLE,1)
+define(SHELL,2)
+define(SCRIPT,3)
+define(BUFSIZE,arith(MAXLINE,*,2))
+define(MAXSHLINE,500)	# max size of shell command line (includes expansion
+                        # of pipes, path names, etc.
+define(NBRARGS,9)	# nbr arguments allowed for arg substitution
+define(MAX_LEVELS,5)	# level of script nestings allowed
+define(COMMENT,SHARP)	# command sign (#)
+define(BACKGROUND,"backgr")
+define(SHPROGRAM,"sh.tol")
+define(OLDSHCMD,"shprev")
+define(EOC,-5)		# end-of-command marker
+			# must not conflict with EOF, EOS, or valid character
+define(FOLD,)		# ignore case distinctions in commands
+			# remove the definition if this isn't desired
+define(CHAIN,)		# flag to indicate that system is set up to chain,
+			# rather than directly execute, commands

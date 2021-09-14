@@ -1,0 +1,90 @@
+## clean - clean up shell line and look for obvious errors
+
+integer function clean (line)
+
+character line(ARB)
+character c
+integer i, j
+short_int in, out, errout, pipe
+integer isin
+
+
+i = 1				# remove leading blanks and tabs
+call skipbl (line, i)
+call stdel (line, 1, i-1)
+if (line(1) == EOS)		# ignore blank lines
+	return (NO)
+
+in = NO
+out = NO
+errout = NO
+pipe = NO
+for (i=1; line(i) != EOS; i=i+1)
+	{
+	c = line(i)
+	if (c == ESCAPE)	# skip escaped characters
+		i = i + 1
+	else if (c == DQUOTE | c == SQUOTE)
+		{
+		j = isin(line(i+1), c)
+		if (j == 0)	# bad quotes
+			{
+			call remark ("unbalanced quotes.")
+			return (NO)
+			}
+		i = i + j
+		}
+	else if (c == NEWLINE)
+		{
+		call stdel (line, i, 1)
+		i = i - 1
+		}
+	else if ( (c == LESS | c == GREATER | c == QMARK) & line(i-1) == BLANK)
+		{
+		if (line(i+1) == c)
+			i = i + 1
+		j = i + 1
+		call skipbl (line, j)
+		call stdel (line, i+1, j-i-1)
+		switch (c)
+			{
+			case LESS:
+				if (in ==YES | pipe == YES)
+					{
+					call remark ("doubly defined input.")
+					return (NO)
+					}
+				in = YES
+			case GREATER:
+				if (out == YES)
+					{
+					call remark ("doubly defined output.")
+					return (NO)
+					}
+				out = YES
+			case QMARK:
+				if (errout == YES)
+					{
+					call remark ("doubly defined error output.")
+					return (NO)
+					}
+				errout = YES
+			}
+		}
+
+	else if (c == BAR | c == CARET)
+		{
+		line(i) = BAR
+		if (out == YES)
+			{
+			call remark ("doubly defined output.")
+			return (NO)
+			}
+		pipe = YES
+		in = NO
+		out = NO
+		errout = NO
+		}
+	}
+return (YES)
+end

@@ -1,0 +1,13 @@
+## pwdir - print working directory name
+subroutine pwdir (args)
+character args(ARB), sbuf(FILENAMESIZE)
+
+if (args(1) == MINUS &
+    (args(2) == LETL | args(2) == BIGL))
+	call gwdir (sbuf, LOCAL)
+else
+	call gwdir (sbuf, PATH)
+call putlin (sbuf, STDOUT)
+call putch (NEWLINE, STDOUT)
+return
+end

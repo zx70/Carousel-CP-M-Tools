@@ -1,0 +1,112 @@
+## initsh - initialize for shell
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+subroutine initsh
+
+pointer maklst
+integer getarg, isin, open, loccom, remove
+filedes sc
+integer i, altenv
+character arg(MAXLINE)
+include shcom
+include shcmd
+include cdefio
+include config
+include "cshstuff"
+
+string back BACKGROUND
+string shprog SHPROGRAM
+string oldcmd OLDSHCMD
+# shok is stored in the "shcmd" variable in /config/
+
+				# initialize shell commands
+data logout /LETL, LETO, LETG, LETO, LETU, LETT, EOS/
+data reset /LETR, LETE, LETS, LETE, LETT, EOS/
+data cd /LETC, LETD, EOS/
+data rm /LETR, LETM, EOS/
+data pwd /LETP, LETW, LETD, EOS/
+data echo /LETE, LETC, LETH, LETO, EOS/
+data crt /LETC, LETR, LETT, EOS/
+data shell /LETS, LETH, EOS/
+
+call query ("usage: sh [-xvn] [-c command args] [script_file].")
+xeq = YES
+bp = 0
+buf(1) = EOS
+level = 1
+fd(level) = STDIN
+call mkuniq (back, bfile)	# get name for background file
+call mkuniq (oldcmd, ofile)
+call ctoc(shcmd, cfile, FILENAMESIZE) # get name for command file
+if (atend(1) == EOS)
+	{
+	if (loccom(shprog, sfile) != BINARY)
+		call error ("cannot locate sh.")
+	call mklocl (sfile, atend)
+	altenv = YES
+	vbose = NO
+	list = NO
+	}
+else
+	{
+	call ctoc (atend, sfile, FILENAMESIZE)
+	altenv = NO
+	}
+bg = ERR
+ls = maklst (CHAR_DEFN)
+				# initialize stacks
+for (i=1; i <= MAX_LEVELS; i = i + 1)
+	{
+	redfil(1,i) = EOS
+	param (1,i) = EOS
+	}
+
+call amove (cfile, ofile)
+call shdel$	# remove shok and shbad files, CP/M version 1.20
+for (i=1; getarg(i,arg,MAXLINE) != EOF; i=i+1)
+	{
+	if (arg(1) == MINUS)
+		{
+		call fold (arg)
+		if (isin(arg,LETV) > 0)		# print during parse
+			{
+			vbose = YES
+			altenv = YES
+			}
+		if (isin(arg, LETN) > 0)	# don't execute
+			xeq = NO
+		if (isin(arg, LETX) > 0)	# print before execution
+			{
+			list = YES
+			altenv = YES
+			}
+		if (isin(arg, LETC) > 0)	# use c.l. as input
+						# (push back onto input)
+			{
+			call putbak (EOF)
+			call putbak (EOC)
+			call pbstr (logout)
+			call putbak (EOC)
+			call getcl (i+1, arg)	# get rest of line
+			call pbstr (arg)
+			break
+			}
+		}
+	else					# use (script) file as input
+		{
+		fd(level) = open(arg, READ)
+		if (fd(level) == ERR)
+			call cant (arg)
+		call getcl (i+1, param(1,level))
+		break
+		}
+	}
+verbos = vbose
+printx = list
+if (altenv == YES)
+	call setenv
+# omit in present version, CP/M 1.2
+#call readst (shcmd)			# read command stack (if OK)
+return
+end

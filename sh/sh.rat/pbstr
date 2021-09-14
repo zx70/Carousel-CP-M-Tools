@@ -1,0 +1,20 @@
+## pbstr - push back string into input buffer
+subroutine pbstr (str)
+character str(ARB)
+integer length
+
+include cdefio
+
+if ( (bp + length(str) + 1) > BUFSIZE)
+	{
+	call putlin (str, ERROUT)
+	call remark (":  too many characters pushed back.")
+	}
+else
+	{
+	buf(bp+1) = EOS			# assure EOS
+	call stins (buf, str, 1)
+	bp = length(buf)
+	}
+return
+end

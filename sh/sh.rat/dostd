@@ -1,0 +1,64 @@
+## dostd - add standard file substitutions to command line (for scripts)
+subroutine dostd (comand, sub)
+character comand(ARB), sub(ARB)
+character buf(MAXLINE)
+integer getwrd
+integer length, isin
+integer i, j, k, ipipe
+
+string stdout ">"
+string stderr "?"
+
+if (sub(1) == EOS)
+	return
+
+ipipe = isin (comand, BAR)
+if (ipipe > 0)
+	comand(ipipe) = EOS
+buf(1) = EOS
+i = length(comand)
+if (isin(comand, LESS) == 0)		# substitute STDIN (first line only)
+	{
+	j = isin(sub, LESS)
+	if (j > 0)
+		{
+		buf(1) = BLANK
+		l = getwrd (sub, j, buf(2))
+		call stdel (sub, j-l, l)
+		}
+	}
+if (ipipe > 0)
+	{
+	comand(ipipe) = BAR
+	i = ipipe
+	}
+call stins (comand, buf, i)
+
+i = length (comand)
+if (isin(comand, GREATER) == 0)		# add STDOUT substitution
+	{
+	j = isin (sub, GREATER)
+	if (j > 0)
+		{
+		comand(i+1) = BLANK
+		l = getwrd (sub, j, comand(i+2))
+		k = j - l
+		if (sub(k+1) != GREATER)	# add append sign
+			call stins (sub, stdout, k)
+		}
+	}
+i = length (comand)
+if (isin(comand, QMARK) == 0)		# add ERROUT substitution
+	{
+	j = isin (sub, QMARK)
+	if (j > 0)
+		{
+		comand(i+1) = BLANK
+		l = getwrd (sub, j, comand(i+2))
+		k = j-l
+		if (sub(k+1) != QMARK)	# add append sign
+			call stins (sub, stderr, k)
+		}
+	}
+return
+end

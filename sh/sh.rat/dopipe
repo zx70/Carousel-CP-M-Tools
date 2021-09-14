@@ -1,0 +1,66 @@
+## dopipe - process pipeline
+subroutine dopipe (line, queue)
+character line(ARB)
+pointer queue, prvnod
+character name(FILENAMESIZE)
+integer i, isin
+pointer inject, junk
+
+include shcom
+
+ifnotdef(CPM, string in " <")
+ifdef(CPM, string in " <!") # special signal to delete file after reading it
+string out   " >"
+string blank " "
+string pipe "p"
+ifnotdef(CPM, string rm(arith(FILENAMESIZE,+,3)) "rm " )
+
+name(1) = EOS
+ifnotdef(CPM, rm(4) = EOS)
+repeat					# loop thru all pipes
+	{
+	i = 1
+	call skipbl (line, i)
+	call stdel (line, 1, i-1)	# get rid of leading blanks
+	if (name(1) != EOS)		# insert input redirection
+		{			# (from previous pipe)
+		i = isin(line, BAR)
+		if (i <= 0)
+			i = length(line) + 1
+		call stins (line, in, i)
+		ifdef(CPM, call stins (line, name, i+3))
+		ifnotdef (CPM, call stins (line, name, i+2)
+			call ctoc (name, rm(4), FILENAMESIZE) )
+		}
+	i = isin(line, BAR)
+	if (i == 1)
+		{
+		call remark ("invalid pipe sign.")
+		errcnt = errcnt + 1
+		return
+		}
+	if (i == 0)			# finish up end of line
+		{
+		junk = inject (line, prvnod(queue), ls)
+		break
+		}
+					# else, process pipe sign
+	call nextnm (pipe, name)
+	call stdel (line, i, 1)		# remove pipe sign
+	call stins (line, out, i)	# add output redirection sign
+	call stins (line, name, i+2)	# add pipe name
+	i = i + length(name) + 2
+	call stins (line, blank, i)	# mark end of command
+	line(i) = EOS			# overwrite blank with EOS
+	junk = inject (line, prvnod(queue), ls)
+	line(i) = BLANK			# Change EOS back to BLANK
+					# (necessary for stdel)
+	call stdel (line, 1, i)
+					# remove previous pipe
+	ifnotdef(CPM, if (rm(4) != EOS)
+		junk = inject (rm, prvnod(queue), ls) )
+	}
+ifnotdef(CPM, if (rm(4) != EOS)
+	junk = inject (rm, prvnod(queue), ls) )
+return
+end

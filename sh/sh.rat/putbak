@@ -1,0 +1,10 @@
+## putbak - push back character into input buffer
+subroutine putbak (c)
+character c
+character cbuf(2)
+data cbuf(2) /EOS/
+
+cbuf(1) = c
+call pbstr (cbuf)
+return
+end

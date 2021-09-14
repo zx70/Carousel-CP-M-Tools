@@ -1,0 +1,67 @@
+## parse - parse input lines for shell
+integer function parse (junk)
+character line(MAXSHLINE)
+integer junk
+pointer xtract, nxtnod, prvnod
+pointer curptr, preptr, replac
+integer getcom, cwdir, equal, docd
+
+include shcom
+include shcmd
+include cmdbuf
+
+errcnt = 0
+call gwdir (wdir, PATH)		# save name of working directory
+call parsit (ls)		# parse first level of input
+
+				# now, get full path names & parse
+				# script files
+for (curptr=nxtnod(ls); xtract(line,MAXSHLINE,curptr,ls) != EOF;
+     curptr = nxtnod(curptr) )
+	{
+	if (getcom (line, comand, args, type) == ERR)
+		{
+		call putlin (line, ERROUT)
+		call remark (": invalid task.")
+		errcnt = errcnt + 1
+		next
+		}
+	if (equal (comand, cd) == YES)	# do 'cd's immediately,
+					# to assure proper search paths
+		{
+		if (docd(args) == ERR)
+			{
+			errcnt = errcnt + 1
+			next
+			}
+		}
+	preptr = prvnod(curptr)		# get previous pointer 
+					# (for relinking)
+	if (type == SCRIPT)
+		{
+		call remnod (curptr)	# remove script file line
+		call script (comand, args, preptr)  # parse script file
+		curptr = preptr
+		}
+	else
+		{
+		call packl (line, MAXSHLINE, comand, args, type)
+		curptr = replac (line, curptr, preptr, ls)
+		}
+	}
+
+junk = cwdir (wdir)		# get back to where we started
+if (errcnt > 0)
+	{
+	if (equal (comand, logout) == YES)	# have to leave
+		call leave
+	else
+		{
+		call frelst (ls)		# remove all commands
+		ls = maklst (CHAR_DEFN)		# set up new list
+		return (ERR)
+		}
+	}
+else
+	return (OK)
+end

@@ -1,0 +1,31 @@
+## doshel - execute shell command
+subroutine doshel (comand, args)
+character comand(ARB), args(ARB)
+filedes open
+integer equal, cwdir, length, remove, isin
+integer junk, docd
+
+include shcom
+include shcmd
+
+
+if (equal (comand, logout) == YES)
+	call leave
+if (xeq == NO)
+	return
+if (equal (comand, cd) == YES)
+	junk = docd (args)
+else if (equal (comand, pwd) == YES)
+	call pwdir (args)
+else if (equal (comand, echo) == YES)
+	call doecho (args)
+else if (equal (comand, rm) == YES)
+	 call dorm (args)
+else if (equal (comand, crt) == YES)
+	call docrt (args)
+else if (equal (comand, reset) == YES)
+	call dorset (args)
+else
+	call remark ("invalid shell command.")
+return
+end

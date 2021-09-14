@@ -1,0 +1,30 @@
+## trshl - translate shell commands to tasks
+subroutine trshl (line)
+character line(ARB), cmd(FILENAMESIZE)
+integer isin, loccom
+
+include shcom
+include shcmd
+
+string mc " -c "
+
+i = isin (line, BLANK)
+if (i > 0)
+	line(i) = EOS
+j = loccom (line, cmd)
+if (i > 0)
+	line(i) = BLANK		# restore blank
+if (j == BINARY)
+	{
+	if (i <= 0)
+		i = length(line) + 1
+	call stdel (line, 1, i-1)
+	call stins (line, cmd, 1)
+	}
+else
+	{
+	call stins (line, mc, 1)
+	call stins (line, sfile, 1)
+	}
+return
+end

@@ -1,0 +1,27 @@
+## getnl - get next line for shell to parse
+integer function getnl (line)
+character line (ARB)
+integer i
+integer length
+integer shline, popl
+
+include shcom
+include cdefio
+
+if (bp <= 0)
+	{
+	if (shline (line) == EOF)
+		return (EOF)
+	else if (verbos == YES)		# user wants to see line
+		{
+		call putlin (line, STDOUT)
+		i = length(line)
+		if (line (i) != NEWLINE)
+			call putch (NEWLINE, STDOUT)
+		}
+	}
+else
+	return (popl (line) )		# pop line off input stack
+
+return (OK)
+end

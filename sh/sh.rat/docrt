@@ -1,0 +1,25 @@
+## docrt - crt in the shell
+subroutine docrt (args)
+character args(ARB)
+integer open, fd, getwrd, i, crt, stat, tty
+string ttin TERMINAL_IN
+character name(FILENAMESIZE)
+
+tty = open (ttin, READ)
+for (i=1; getwrd(args, i, name) > 0; )
+	{
+	fd = open (name, READ)
+	if (fd == ERR)
+		{
+		call putlin (name, ERROUT)
+		call remark (": can't open.")
+		next
+		}
+	stat = crt (fd, tty)
+	call close (fd)
+	if (stat == EOF)
+		break
+	}
+call close (tty)
+return
+end

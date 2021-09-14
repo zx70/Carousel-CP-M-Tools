@@ -1,0 +1,39 @@
+## cleans - separate command line into items; strip escapes
+subroutine cleans (line, comand, args, type)
+character line(ARB), comand(ARB), args(ARB)
+integer type
+
+string shchar(11) "$|;&<>?#'"
+data shchar (10) /DQUOTE/
+data shchar (11) /EOS/
+
+type = line(1)
+call stdel (line, 1, 1)		# get rid of type
+for (i=1; line(i) != EOS; i=j+1)
+	{
+	j = index (line(i), ESCAPE)
+	if (j == 0)
+		break
+	j = j + i
+	for (k=1; k <= 11; k=k+1)
+		{
+		if (line(j) == shchar(k))
+			{
+			call stdel (line, j-1, 1)
+			break
+			}
+		}
+	}
+i = isin (line, BLANK)
+if (i <= 0)
+	{
+	call ctoc (line, comand, HUGE)
+	args(1) = EOS
+	}
+else
+	{
+	call ctoc (line, comand, i)	# includes room for EOS
+	call ctoc (line(i+1), args, HUGE)
+	}
+return
+end

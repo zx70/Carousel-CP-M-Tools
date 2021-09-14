@@ -1,0 +1,26 @@
+## leave - log out of shell
+subroutine leave
+integer open, remove, junk
+
+include shcom
+include config
+include "cshstuff"
+
+			# see if any background commands need to be done
+bg = open (bfile, READ)
+if (bg != ERR)
+	{
+	level = 1
+	fd(1) = bg
+	call parse (junk)	# parse background commands
+	call close (bg)
+	bg = ERR
+	junk = remove (bfile)
+	call execut
+	}
+junk = remove (shcmd)		# remove shell command file
+junk = remove (ofile)		# remove previous junk
+atend(1) = EOS			# zero out return to shell
+call setenv
+call endst (OK)
+end

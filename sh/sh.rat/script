@@ -1,0 +1,45 @@
+## script - process script files
+subroutine script (path, args, where)
+character path(ARB), args(ARB)
+integer i, j, k, m
+pointer where
+integer isin, slstr, ctoc
+integer open
+pointer nxtnod
+include shcom
+
+string stdsub "<>?"
+
+level = level + 1
+fd(level) = open(path, READ)
+if (fd(level) == ERR)
+	{
+	call putlin (path, ERROUT)
+	call remark (": can't open.")
+	level = level - 1
+	return
+	}
+			# save file subst info & args
+ k = 1
+ for (m=1; m <= 3; m = m + 1)
+	{
+	i = isin (args, stdsub(m))
+	if (i <= 0)
+		next
+	j = isin (args(i), BLANK)	# note end of argument
+	if (j <= 0)
+		j = HUGE
+	k = slstr (args, redfil(k, level), i, j) + k - 1
+	redfil(k+1, level) = BLANK
+	k = k + 2
+	call stdel (args, i, j)
+	}
+ redfil (k, level) = EOS
+j = ctoc (args, param(1, level), MAXLINE)
+call parsit (nxtnod(where))
+call close (fd(level))
+redfil(1, level) = EOS
+param(1, level)  = EOS
+level = level - 1
+return
+end

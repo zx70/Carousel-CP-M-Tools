@@ -1,0 +1,44 @@
+## getcom - split line into command (full path), arguments, and type
+integer function getcom (line, comand, args, type)
+character line(ARB), comand(ARB), args(ARB)
+integer type
+integer i, junk
+integer loccom, isin, ishell, equal, ctoc
+include shcmd
+include config
+
+i = isin (line, BLANK) 
+if (i > 0)
+	line(i) = EOS	# mark end of command
+ifdef(FOLD, call fold(line))	# fold command to single case
+junk = ctoc (line, comand, FILENAMESIZE)
+if (i > 0)
+	junk = ctoc (line(i+1), args, MAXSHLINE-i)
+else
+	args(1) = EOS
+if (ishell (comand, args) == YES)
+	{
+	if (equal(comand,shell) == YES)
+		{
+		type = BINARY
+		junk = ctoc (atend, comand, FILENAMESIZE)
+		}
+	else
+		type = SHELL
+	}
+else
+	type = loccom (line, comand)
+if (i > 0)
+	line(i) = BLANK			# restore original blank
+if (type == ASCII | type == LOCAL)
+	type = SCRIPT
+else if (type == BINARY)
+	type = EXECUTABLE
+else if (type != SHELL)		# else, ERR
+	{
+	comand(1) = EOS
+	type = ERR
+	return (ERR)
+	}
+return (OK)
+end

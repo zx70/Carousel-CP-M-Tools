@@ -1,0 +1,27 @@
+## parsit - parse one level of commands
+subroutine parsit (queue)
+pointer queue
+character line(MAXSHLINE)
+integer getnl, clean, doampr, isin
+pointer inject, junk, prvnod
+
+include shcom
+
+while (getnl(line) != EOF)
+	{
+	call dosemi (line)
+	if (clean(line) == NO)
+		next				# syntax error
+	call argsdo (line, param(1,level))	# perform arg substitution
+	call dohere (line)			# process here-docs
+	if (doampr (line) == YES)		# save background lines
+		next
+	call dostd (line, redfil(1,level))	# add standard file redirection
+						# (for scripts)
+	if (isin(line, BAR) > 0)
+		call dopipe (line, queue)
+	else
+		junk = inject (line, prvnod(queue), ls)
+	}
+ return
+ end

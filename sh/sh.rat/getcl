@@ -1,0 +1,21 @@
+## getcl - starting at "i", get command line into array
+#  (handles standard I/O escapes)
+subroutine getcl (i, array)
+integer i
+character array(ARB)
+integer getarg, j, k, length
+
+k = 1
+for (j=i; getarg(j, array(k), HUGE) != EOF; j=j+1)
+	{
+	if (array(k) == ESCAPE &
+	    (array(k+1) == LESS | array(k+1) == GREATER | array(k+1) == QMARK))
+			call stdel (array, k, 1)
+	k = length (array) + 1
+	array(k) = BLANK
+	k = k + 1
+	}
+if (k != 1)		# strip trailing blank
+	array(k-1) = EOS
+return
+end

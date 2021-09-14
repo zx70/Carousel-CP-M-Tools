@@ -1,0 +1,28 @@
+## doampr - deal with line containing background sign (&)
+integer function doampr (line)
+character line(ARB)
+integer isin, open, create
+integer i
+
+include shcom
+
+i = isin (line, AMPER)
+if (i <= 0)
+	return (NO)
+line(i) = BLANK
+if (bg != ERR)		# am already reading the background file
+	return (NO)	# (ignore)
+bg = open (bfile, APPEND)
+if (bg == ERR)
+	{
+	bg = create (bfile, WRITE)
+	if (bg == ERR)
+		call error ("cannot open background file.")
+	}
+call putlin (line, bg)
+if (isin(line, NEWLINE) <= 0)
+	call putch (NEWLINE, bg)
+call close (bg)
+bg = ERR
+return (YES)
+end

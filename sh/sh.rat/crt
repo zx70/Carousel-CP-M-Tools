@@ -1,0 +1,33 @@
+## crtx - look at file "fd", stopping after each screenful (inner routine)
+ integer function crt (fd, tty)
+ filedes fd, tty
+ integer nl, wait
+ integer getlin, isatty, prompt
+ character buf(MAXLINE), what(MAXLINE)
+ string pr "Hit <CR> to continue, q to quit: "
+ data nl /23/
+ 
+ crt = OK
+ if (getlin(buf,fd) == EOF)
+	return
+ j = 1
+ repeat
+        {
+	call putlin (buf, STDOUT)
+	if (getlin (buf, fd) == EOF)
+		return
+	j = j+1
+	if (j > nl)
+		{
+		if (isatty (STDOUT) == YES)
+			{
+			if (prompt (pr, what, tty) == EOF)
+				return(EOF)
+			if (what(1) == LETQ | what(1) == BIGQ)
+				return
+			}
+		j = 1
+		}
+        }
+ return
+ end

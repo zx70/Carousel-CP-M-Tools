@@ -1,0 +1,51 @@
+## shline - get next shell input line
+integer function shline (line)
+character line(ARB)
+integer i, j
+integer prompt, isatty, open
+
+include shcom
+include shcmd
+
+string prmpt "% "
+string prmpt2 "%_"
+string tty TERMINAL_IN
+
+repeat
+	{
+	i = prompt (prmpt, line, fd(level))
+	j = 1
+	call skipbl (line, j)
+	if (line(j) == NEWLINE)
+		next
+	if (line(j) != COMMENT)
+		break
+	}
+if (i == EOF)
+	{
+	if (level == 1 & fd(1) == 1)
+		{
+		if (isatty(1) == YES)
+			{
+			call ctoc (logout, line, BUFSIZE)
+			call putbak (EOF)
+			}
+		else
+			{
+			call close (1)
+			fd(1) = open (tty, READ)
+			return(EOF)
+			}
+		}
+	else
+		return(EOF)
+	}
+while (i != EOF & line(i-1) == ESCAPE & line(i) == NEWLINE)	
+	{
+	line(i-1) = BLANK
+	i = prompt (prmpt2, line(i), fd(level)) + i - 1
+	}
+if (i == EOF | isatty (fd(level)) == YES)
+	call putbak (EOF)
+return (OK)
+end

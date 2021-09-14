@@ -1,0 +1,12 @@
+## dosemi - split lines containing semicolons
+subroutine dosemi (line)
+character line(ARB)
+integer isin, loc
+
+loc = isin(line, SEMICOL)
+if (loc <= 0) return
+line(loc) = EOS
+call putbak (EOC)
+call pbstr (line(loc+1))
+return
+end

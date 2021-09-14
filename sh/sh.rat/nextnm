@@ -1,0 +1,14 @@
+## nextnm - get next (scratch) file name, based on seed
+subroutine nextnm (seed, name)
+character name(ARB), seed(ARB)
+character temp(FILENAMESIZE)
+integer ctoc, itoc
+integer i, count
+data count /1/
+
+i = ctoc (seed, temp, FILENAMESIZE)
+i = itoc (count, temp(i+1), FILENAMESIZE-i)
+call mkuniq (temp, name)
+count = count + 1
+return
+end

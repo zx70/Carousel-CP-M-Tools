@@ -1,0 +1,18 @@
+## main - main driver for shell
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+common /shret$/ shret
+logical shret
+shret = .TRUE.
+DRIVER(sh)
+integer parse, junk
+
+call initsh
+repeat
+	{
+	if (parse(junk) != ERR)
+		call execut
+	}
+return				# never gets here - exits through 'logout'
+end

@@ -1,0 +1,17 @@
+## dorm - do shell built-in "rm"
+subroutine dorm (args)
+ character args(ARB)
+ character name(FILENAMESIZE)
+ integer remove, getwrd
+
+ for (i = 1; getwrd(args, i, name) > 0; )
+	{
+	if (remove(name) == ERR)
+		{
+		call putlin (name, ERROUT)
+		call remark (":  can't remove.")
+		}
+	}
+
+ return
+ end

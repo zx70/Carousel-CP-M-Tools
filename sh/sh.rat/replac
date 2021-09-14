@@ -1,0 +1,9 @@
+## replac - replace line pointed to by 'curptr' with new 'line'
+pointer function replac (line, curptr, preptr, ls)
+character line(ARB)
+pointer curptr, preptr, ls, inject
+
+call remnod (curptr)		# remove current line
+replac = inject (line, preptr, ls)	# relink new line
+return
+end

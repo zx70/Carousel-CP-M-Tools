@@ -1,0 +1,38 @@
+## execut - execute first command on stack
+subroutine execut
+integer pop
+character line(MAXLINE)
+string xprmpt "+ "
+
+include shcom
+include cmdbuf
+
+while (pop(line, MAXLINE, ls) != EOF)
+	{
+	call cleans (line, comand, args, type)	# get items
+	if (printx == YES)		# print command before executing
+		{
+		call putlin (xprmpt, ERROUT)
+		call putlin (comand, ERROUT)
+		call putch (BLANK, ERROUT)
+		call putlin (args, ERROUT)
+		call putch (NEWLINE, ERROUT)
+		}
+	if (type == SHELL)
+		call doshel (comand, args)
+	else if (type == EXECUTABLE)
+		{
+		if (xeq == YES)
+			{
+			ifdef(CHAIN, call savstk)
+			call exec(comand, args)
+			}
+		}
+	else
+		{
+		call putlin (comand, ERROUT)
+		call remark (":  invalid task.")
+		}
+	}
+return
+end

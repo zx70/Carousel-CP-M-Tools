@@ -1,0 +1,12 @@
+ subroutine dorset (args)
+ character args(ARB)
+ string pmpt "'return' when ready "
+
+ if (args(1) != EOS)
+	{
+	call doecho (args)
+	call prompt (pmpt, args, STDIN)
+	}
+ call bdos$d (13, 0)
+ return
+ end

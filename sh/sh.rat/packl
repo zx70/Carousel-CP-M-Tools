@@ -1,0 +1,16 @@
+## packl - pack command, args, and type into line for inserting into queue
+subroutine packl (line, max, comand, args, type)
+character line(ARB), comand(ARB), args(ARB)
+integer type, max
+
+line(1) = type
+call ctoc (comand, line(2), max-1)
+if (args(1) != EOS)
+	{
+	i = length (line)
+	line(i+1) = BLANK
+	line (i+2) = EOS
+	call ctoc (args, line(i+2), max-i-2)
+	}
+return
+end

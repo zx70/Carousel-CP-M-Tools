@@ -1,0 +1,40 @@
+## dohere - process here-documents
+subroutine dohere (line)
+character line(ARB)
+character name(FILENAMESIZE), lbuf(MAXLINE), char
+filedes hd
+integer i, j
+integer create, getlin, isin
+
+include shcom
+
+string doc "doc"
+
+for (i=1; ; i=i+1)
+	{
+	j = isin (line(i), LESS)
+	if (j <= 0)
+		return
+	i = i + j
+	if (line(i) != LESS)
+		next
+	line(i) = BANG		# special symbol to indicate file
+				# should be removed after reading
+	i = i + 1
+	char = line(i)
+	call nextnm (doc, name)
+	call stdel (line, i, 1)		# strip off character
+	call stins (line, name, i)	# insert file name
+	hd = create (name, WRITE)
+	if (hd == ERR)
+		call error ("can't open 'here document'.")
+	while (getlin (lbuf, fd(level)) != EOF)
+		{
+		if (lbuf(1) == char)
+			break
+		call putlin (lbuf, hd)
+		}
+	call close (hd)
+	}
+return
+end

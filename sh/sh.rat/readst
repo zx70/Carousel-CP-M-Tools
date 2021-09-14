@@ -1,0 +1,25 @@
+## readst - read shell command stack into memory (if OK)
+subroutine readst (shok)
+character shok(ARB)
+integer open, getlin
+integer fi, i
+pointer inject, junk, prvnod
+character sbuf (MAXLINE)
+include shcom
+
+fi = open (shok, READ)
+if (fi == ERR)
+	return
+sbuf(1) = EXECUTABLE
+repeat
+	{
+	i = getlin (sbuf(2), fi)
+	if (i == EOF)
+		break
+	sbuf(i+1) = EOS
+	junk = inject (sbuf, prvnod(ls), ls)
+	}
+# call close (fi)
+call remove (shok)
+return
+end

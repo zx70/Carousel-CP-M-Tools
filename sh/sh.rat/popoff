@@ -1,0 +1,12 @@
+## popoff -  pop off and through away 'count' lines from stack "ls"
+subroutine popoff (count, ls)
+integer count
+pointer ls
+character line(1)
+integer i, pop
+
+for (i=1; i <= count; i=i+1)
+	if (pop(line, 1, ls) == EOF)
+		break
+return
+end

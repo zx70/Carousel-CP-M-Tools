@@ -1,0 +1,19 @@
+## docd -- do shell built-in "cd"
+
+integer function docd (args)
+
+ character args(ARB)
+ integer cwdir, i
+
+ i = 1
+ call skipbl (args, i)
+ if (args(i) == EOS)
+	call getdir (HOME_DIRECTORY, args)
+ docd = cwdir(args)
+ if (docd == ERR)
+	{
+	call putlin (args, ERROUT)
+	call remark (":  does not exist.")
+	}
+ return
+ end

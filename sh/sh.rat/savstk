@@ -1,0 +1,55 @@
+## savstk - save shell command stack on file
+subroutine savstk
+integer pop, length, ctoc
+filedes create, sc
+pointer prvnod
+integer type
+character cmd(FILENAMESIZE)
+character line(MAXSHLINE)
+# CP/M only next two lines
+common /shret$/ shret
+logical shret
+
+include shcom
+
+# CP/M version, omit next few lines...
+# string vb " -v"
+# string px " -x"
+# 
+# line(1) = EXECUTABLE
+# i = ctoc (sfile, line(2), MAXSHLINE) + 2
+# if (verbos == YES)
+# 	{
+# 	call stins (line, vb, i)
+# 	i = length (line) + 1
+# 	}
+# if (printx == YES)
+# 	call stins (line, px, i)
+# call inject (line, prvnod(ls), ls)	# inject shell onto end of stack
+
+call readst (ofile)  # tack pre-existing command file onto end of new.
+if (pop (line, MAXLINE, ls) != EOF)
+	{
+	shret = .FALSE.
+	sc = create (cfile, WRITE)
+	if (sc != ERR)
+		{
+		repeat
+			{
+			call cleans (line, cmd, line, type)
+			if (type == SHELL)
+				call trshl (cmd)
+			call putlin (cmd, sc)
+			call putch (BLANK, sc)
+			call putlin (line, sc)
+			call putch (NEWLINE, sc)
+			} until (pop(line, MAXLINE, ls) == EOF)
+		call close (sc)
+		}
+	else
+		call remark ("can't save command stack.")
+	}
+else
+	shret = .TRUE.
+return
+end

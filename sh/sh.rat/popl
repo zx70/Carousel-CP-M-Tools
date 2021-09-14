@@ -1,0 +1,23 @@
+## popl - pop (shell) line off input stack
+integer function popl (line)
+character line(ARB)
+integer i
+
+include cdefio
+
+for (i=1; i <= bp; i=i+1)
+	{
+	line(i) = buf(i)
+	if (line(i) == EOF)
+		{
+		bp = 0
+		return (EOF)
+		}
+	if (line(i) == EOC | line(i) == EOS)
+		break
+	}
+line(i) = EOS			# strip EOC marker
+call stdel (buf, 1, i)
+bp = bp - i
+return (OK)
+end

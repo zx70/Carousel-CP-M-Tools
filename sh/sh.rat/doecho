@@ -1,0 +1,8 @@
+## doecho - execute shell built-in "echo"
+subroutine doecho (args)
+character args(ARB)
+
+call putlin (args, STDOUT)
+call putlin (NEWLINE, STDOUT)
+return
+end
