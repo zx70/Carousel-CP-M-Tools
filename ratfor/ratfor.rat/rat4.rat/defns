@@ -1,0 +1,87 @@
+ # include ratdef
+ 
+  # Definitions used by the ratfor preprocessor
+
+ #
+ #---------------------------------------------------------------
+ # The definition STDEFNS defines the file which contains the
+ # standard definitions to be used when preprocessing a file.
+ # It is opened and read automatically by the ratfor preprocessor.
+ # Set STDEFNS to the name of the file in which the standard
+ # definitions reside.  If you don't want the preprocessor to
+ # automatically open this file, set STDENFS to "".
+ #
+ #---------------------------------------------------------------
+ #    If you want the preprocessor to output upper case only,
+ #    set the following definition:
+ #
+ #              define(UPPERC,)
+ #
+ #---------------------------------------------------------------
+ #  Some of the buffer sizes and other symbols might have to be
+ #  changed.  Especially check the following:
+ #
+ #        MAXDEF         (number of characters in a definition)
+ #        SBUFSIZE       (nbr string declarations allowed per module)
+ #        MAXSTRTBL      (size of table to buffer string declarations)
+ #        MAXSWITCH      (max stack for switch statement)
+ #
+ #-----------------------------------------------------------------
+ #
+ #
+  define(STDEFNS,"ratdef")  #name of file containing standard defns
+  ifdef(VAX_VMS, define(STDEFNS,"symbols"))
+  ifdef(DEC10, define(UPPERC,))
+  define(gettok,xxgtok)		#*** for new library
+ 
+  define(RADIX,PERCENT)     # % indicates alternate radix
+  define(TOGGLE,PERCENT)    # toggle for literal lines
+  define(BUFSIZE,250)       # pushback buffer for ngetch and putbak
+  define(SBUFSIZE,400)      # buffer for string statements
+  define(DEFTYPE,-4)
+  define(MAXDEF,250)       # max chars in a defn
+  define(MAXFORSTK,200)     # max space for for reinit clauses
+  define(NFILES,arith(MAXOFILES,-,3))
+  define(MAXFNAMES, arith(NFILES,*,FILENAMESIZE))
+  define(MAXSTACK,100)      # max stack depth for parser
+  define(MAXSWITCH,200)    # max stack for switch statement
+  define(MAXTOK,80)        # max chars in a token
+  define(MAXNBRSTR,20)      #max nbr string declarations per module
+  define(CUTOFF,3)          # min nbr of cases to generate branch table
+                            # (for switch statement)
+  define(DENSITY,2)         # reciprocal of density necessary for 
+                            # branch table
+  define(LEXBREAK,-8)
+  define(LEXCASE,-25)
+  define(LEXDEFAULT,-26)
+  define(LEXDIGITS,-9)
+  define(LEXDO,-10)
+  define(LEXELSE,-11)
+  define(LEXEND,-21)
+  define(LEXFOR,-16)
+  define(LEXIF,-19)
+  define(LEXLITERAL,-27)
+  define(LEXNEXT,-13)
+  define(LEXOTHER,-14)
+  define(LEXREPEAT,-17)
+  define(LEXRETURN,-20)
+  define(LEXSTOP,-22)
+  define(LEXSTRING,-23)
+  define(LEXSWITCH,-24)
+  define(LEXUNTIL,-18)
+  define(LEXWHILE,-15)
+  define(LSTRIPC,-10)
+  define(RSTRIPC,-11)
+ 
+ #   definitions for the macro processor
+ define(CALLSIZE,50)
+ define(ARGSIZE,100)
+ define(ARGFLAG,DOLLAR)
+ define(MACTYPE,-10)
+ define(IFTYPE,-11)
+ define(INCTYPE,-12)
+ define(SUBTYPE,-13)
+ define(ARITHTYPE,-14)
+ define(IFDEFTYPE,-15)
+ define(IFNOTDEFTYPE,-16)
+ define(EVALSIZE,500)

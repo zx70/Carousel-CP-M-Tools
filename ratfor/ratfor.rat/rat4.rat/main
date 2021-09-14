@@ -1,0 +1,67 @@
+##### main driving routine for ratfor preprocessor
+ DRIVER(ratfor)
+ 
+ integer getarg, open, isflag
+ character buf(FILENAMESIZE)
+ integer i, n
+ 
+ # include commonblocks
+ include cline		#needed to set input file
+ 
+ string defns STDEFNS	#set name of standard definitions file
+ string nodef "-d"	#flag to suppress standard definitions file
+ string list  "-l"	#flag to produce output listing
+ 
+ call query ("usage: [-l] [-d] [files] >fortran_file.")
+ 
+ call initkw		#initialize variables
+ ratlst = isflag (list)
+ 
+ # Read file containing standard definitions
+ # If this isn't desired, define(STDEFNS,"")
+ if (isflag (nodef) == NO & defns(1) != EOS)
+	{
+        call scopy(defns, 1, buf, 1)
+        ifdef(VAX_VMS,
+              call getdir(BINDIRECTORY, buf)
+	      call concat(buf, defns, buf)
+              )
+        ifdef(RSX_11M,
+              call getdir(BINDIRECTORY, buf)
+              call concat(buf, defns, buf)
+              )
+	infile(1) = open(buf, READ)
+    	if (infile(1) == ERR)
+		call remark ("can't open standard definitions file.")
+	else
+		{
+		call parse
+		call close (infile(1))
+		}
+	}
+ 
+ n = 1
+ for (i=1; getarg(i, buf, FILENAMESIZE) != EOF; i=i+1)
+	{
+	if (buf(1) == MINUS & buf(2) == EOS)
+		infile(1) = STDIN
+	else if (buf(1) == MINUS)	#skip flags
+		next
+	else
+		{
+		infile(1) = open(buf, READ)
+		if (infile(1) == ERR)
+			call cant(buf)
+		}
+	call parse
+	n = n + 1
+	if (infile(1) != STDIN)
+		call close(infile(1))
+	}
+ if (n == 1)
+    {
+    infile(1) = STDIN
+    call parse
+    }
+ DRETURN
+ end
