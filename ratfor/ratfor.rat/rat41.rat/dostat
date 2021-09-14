@@ -1,0 +1,9 @@
+ # dostat - generate code for end of do statement
+    subroutine dostat(lab)
+    integer lab
+  
+ 
+  call outcon(lab)
+  call outcon(lab+1)
+  return
+  end

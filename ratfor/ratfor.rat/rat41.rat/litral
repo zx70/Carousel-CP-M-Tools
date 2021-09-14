@@ -1,0 +1,17 @@
+##### litral - process literal ratfor line
+  subroutine litral 
+  character ngetch
+ # include commonblocks
+ include coutln 
+ include cline
+  
+ # Finish off any left-over characters 
+ if (outp > 0)  call outdon 
+  
+ for(outp = 1; ngetch(outbuf(outp), infile(level)) != NEWLINE; 
+     outp = outp + 1)
+	;
+ outp = outp - 1
+ call outdon
+  return 
+  end 

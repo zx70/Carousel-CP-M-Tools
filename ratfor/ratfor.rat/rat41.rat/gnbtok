@@ -1,0 +1,11 @@
+# gnbtok - get nonblank token
+   character function gnbtok(token, toksiz)
+   integer toksiz
+   character token(MAXTOK), gettok
+   # include commonblocks
+   include cline
+
+   call skpblk(infile(level))
+   gnbtok = gettok(token, toksiz)
+   return
+   end

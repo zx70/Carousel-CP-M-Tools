@@ -1,0 +1,23 @@
+# fors - process end of for statement
+   subroutine fors(lab)
+   integer length
+   integer i, j, lab
+   # include commonblocks
+   include cfor
+   include cgoto
+
+   xfer = NO
+   call outnum(lab)
+   j = 1
+   for (i = 1; i < fordep; i = i + 1)
+      j = j + length(forstk(j)) + 1
+   if (length(forstk(j)) > 0) {
+      call outtab
+      call outstr(forstk(j))
+      call outdon
+      }
+   call outgo(lab-1)
+   call outcon(lab+1)
+   fordep = fordep - 1
+   return
+   end

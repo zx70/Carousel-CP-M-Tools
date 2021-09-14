@@ -1,0 +1,12 @@
+# ifgo - generate "if(.not.(...))goto lab"
+   subroutine ifgo(lab)
+   integer lab
+   string ifnot "if(.not."
+ 
+   call outtab         # get to column 7
+   call outstr(ifnot)      # " if(.not. "
+   call balpar         # collect and output condition
+   call outch(RPAREN)      # " ) "
+   call outgo(lab)      # " goto lab "
+   return
+   end

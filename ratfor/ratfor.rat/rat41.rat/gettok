@@ -1,0 +1,101 @@
+##### lexical analyzer
+##### routines in this group are gettok, gnbtok, gtok, lex, ngetch,
+##### pbstr, putbak, relate
+
+
+# deftok - get token; process macro calls and invocations
+# this routine has been disabled to allow defines with parameters to be added
+# see deftok for the code for deftok
+#   character function deftok(token, toksiz, fd)
+#   character gtok
+#   integer fd, toksiz
+#   character defn(MAXDEF), t, token(MAXTOK)
+#   integer lookup
+# 
+#   for (t=gtok(token, toksiz, fd); t^=EOF; t=gtok(token, toksiz, fd)) {
+#      if (t ^= ALPHA)   # non-alpha
+#         break
+#      if (lookup(token, defn) == NO)   # undefined
+#         break
+#      if (defn(1) == DEFTYPE) {   # get definition
+#         call getdef(token, toksiz, defn, MAXDEF, fd)
+#         call instal(token, defn)
+#         }
+#      else
+#         call pbstr(defn)   # push replacement onto input
+#      }
+#   deftok = t
+#   if (deftok == ALPHA)   # convert to single case
+#      call fold(token)
+#   return
+#   end
+ 
+# gettok - get token. handles file inclusion and line numbers
+   character function gettok(token, toksiz)
+   integer equal, open, length
+   integer  i, toksiz, f, len
+   character t
+   character deftok
+   character name(MAXNAME), token(MAXTOK)
+   # include commonblocks
+   include cline
+   include cfname
+   string fncn "function"
+   string incl "include"
+
+   for ( ; level > 0; level = level - 1) 
+      {
+      f = infile(level)
+      for (gettok = deftok(token, toksiz, f); gettok ^= EOF;
+         gettok = deftok(token, toksiz, f)) {
+         if (equal(token, fncn) == YES) {
+            call skpblk(infile(level))
+            t = deftok(fcname, MAXNAME, f)
+            call pbstr(fcname)
+            if (t ^= ALPHA)
+               call synerr("missing function name.")
+            call putbak(BLANK)
+            return
+            }
+         else if (equal(token, incl) == NO)
+            return
+                                   #process includes
+         call skpblk(infile(level))
+	t = deftok(name, MAXNAME, infile(level))
+	if (t == SQUOTE | t == DQUOTE)
+	    {
+	    len = length(name) - 1
+	    for (i=1; i < len; i=i+1)
+		name(i) = name(i+1)
+	    name(i) = EOS
+	    }
+	i = length(name) + 1
+         if (level >= NFILES)
+            call synerr("includes nested too deeply.")
+         else {
+            infile(level+1) = open(name, READ)
+            linect(level+1) = 1
+            if (infile(level+1) == ERR)
+               call synerr("can't open include.")
+            else {
+               level = level + 1
+               if (fnamp + i <= MAXFNAMES) {
+                  call scopy(name, 1, fnames, fnamp)
+                  fnamp = fnamp + i    # push file name stack
+                  }
+               f = infile(level)
+               }
+            }
+         }
+      if (level > 1) {      # close include and pop file name stack
+         call close(infile(level))
+         for (fnamp = fnamp - 1; fnamp > 1; fnamp = fnamp - 1)
+            if (fnames(fnamp-1) == EOS)
+               break
+         }
+      }
+   token(1) = EOF   # in case called more than once
+   token(2) = EOS
+   gettok = EOF
+   return
+   end

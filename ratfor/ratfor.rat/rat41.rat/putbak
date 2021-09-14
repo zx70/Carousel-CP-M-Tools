@@ -1,0 +1,15 @@
+# putbak - push character back onto input
+   subroutine putbak(c)
+   character c
+   # include commonblocks
+   include cdefio
+   include cline
+ 
+   bp = bp + 1
+   if (bp > BUFSIZE)
+      call baderr("too many characters pushed back.")
+   buf(bp) = c
+   if (c == NEWLINE)
+	linect(level) = linect(level) - 1
+   return
+   end

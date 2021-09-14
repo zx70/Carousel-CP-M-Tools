@@ -1,0 +1,125 @@
+##### routines needed for full macro capability
+##### routines in this group include deftok, doarth, doif, doincr,
+##### dosub, valr, ifparm, bpnum, push, putchr, puttok, domac
+ # if macro capability is not wanted, replace this entire set
+ # of routines with the commented-out version of deftok in
+ # the "lex" section
+ 
+ ## deftok - get token; process macro calls and invocations 
+   character function deftok(token, toksiz, fd) 
+
+ character token(MAXTOK)			# formal parameters
+ integer toksiz, fd				#    "       "
+ character gtok					# external function
+ integer lookup, push, ifparm			#     "       "
+ character t, c, defn(MAXDEF), balp(3), mdefn(MAXDEF)   # local
+ integer ap, argstk(ARGSIZE), callst(CALLSIZE), #   "       "
+	 nlb, plev(CALLSIZE), ifl
+
+ include cmacro
+ include crat4
+
+ data balp/LPAREN, RPAREN, EOS/
+
+
+ cp = 0
+ ap = 1
+ ep = 1
+ for (t=gtok(token,toksiz,fd); t != EOF; t=gtok(token,toksiz,fd))
+    {
+    if (t == ALPHA)
+	if (lookup(token, defn, st) == NO)
+	    if (cp == 0)
+		break
+	    else
+		call puttok(token)
+	else if (defn(1) == DEFTYPE)	# process defines directly
+	    {
+	    call getdef(token, toksiz, defn, MAXDEF, fd)
+	    call enter(token, defn, st)
+	    }
+	else if(defn(1) == IFDEFTYPE | defn(1) == IFNOTDEFTYPE)
+	    {
+	    c = defn(1)
+	    call getdef(token, toksiz, defn, MAXDEF, fd)
+	    ifl = lookup(token, mdefn, st)
+	    if ((ifl == YES & c == IFDEFTYPE) |
+		(ifl == NO & c == IFNOTDEFTYPE))
+		call pbstr(defn)
+	    }
+	else
+	    {
+	    cp = cp +  1
+	    if (cp > CALLSIZE)
+		call baderr("call stack overflow.")
+	    callst(cp) = ap
+	    ap = push(ep, argstk, ap)
+	    call puttok(defn)
+	    call putchr(EOS)
+	    ap = push(ep, argstk, ap)
+	    call puttok(token)
+	    call putchr(EOS)
+	    ap = push(ep, argstk, ap)
+	    t = gtok(token, toksiz, fd)
+	    call pbstr(token)
+	    if (t != LPAREN)
+		call pbstr(balp)
+	    else if (ifparm(defn) == NO)
+		call pbstr(balp)
+	    plev(cp) = 0
+	    }
+    else if (t == LSTRIPC)
+	{
+	nlb= 1
+	repeat
+	    {
+	    t = gtok(token, toksiz, fd)
+	    if (t == LSTRIPC)
+		nlb = nlb + 1
+	    else if (t == RSTRIPC)
+		{
+		nlb = nlb - 1
+		if (nlb == 0)
+		    break
+		}
+	    else if (t == EOF)
+		call baderr("EOF in string.")
+	    call puttok(token)
+	    }
+	}
+    else if (cp == 0)
+	break
+    else if (t == LPAREN)
+	{
+	if (plev(cp) > 0)
+	    call puttok(token)
+	plev(cp) = plev(cp) + 1
+	}
+    else if (t == RPAREN)
+	{
+	plev(cp) = plev(cp) - 1
+	if (plev(cp) > 0)
+	    call puttok(token)
+	else
+	    {
+	    call putchr(EOS)
+	    call evalr(argstk, callst(cp), ap-1)
+	    ap = callst(cp)
+	    ep = argstk(ap)
+	    cp =  cp - 1
+	    }
+	}
+    else if (t == COMMA & plev(cp) == 1)
+	{
+	call putchr(EOS)
+	ap = push(ep, argstk, ap)
+	}
+    else
+	call puttok(token)
+    }
+ deftok = t
+ if (t == ALPHA)
+    call fold(token)
+
+ return
+ end

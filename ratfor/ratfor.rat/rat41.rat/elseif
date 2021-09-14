@@ -1,0 +1,8 @@
+# elseif - generate code for end of if before else
+   subroutine elseif(lab)
+   integer lab
+
+   call outgo(lab+1)
+   call outcon(lab)
+   return
+   end

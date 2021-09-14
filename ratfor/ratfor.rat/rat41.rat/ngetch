@@ -1,0 +1,24 @@
+# ngetch - get a (possibly pushed back) character
+   character function ngetch(c, fd)
+   character getch
+   character c
+   integer fd
+   # include commonblocks
+   include cdefio
+   include cline
+ 
+   if (bp > 0) {
+      c = buf(bp)
+      bp = bp - 1
+      }
+   else
+      {
+      c = getch(c, fd)
+      if (ratlst == YES)
+          call putch(c, ERROUT)
+      }
+   ngetch = c
+   if (c == NEWLINE)
+	linect(level) = linect(level) + 1
+   return
+   end

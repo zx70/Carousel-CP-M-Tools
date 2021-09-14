@@ -1,0 +1,62 @@
+# lex - return lexical type of token
+   integer function lex(lexstr)
+   character gnbtok
+   character lexstr(MAXTOK)
+   integer equal
+   # include commonblocks
+   string sif "if"
+   string selse "else"
+   string swhile "while"
+   string sdo "do"
+   string sbreak "break"
+   string snext "next"
+   string sfor "for"
+   string srept "repeat"
+   string suntil "until"
+   string sret "return"
+   string sstr "string"
+   string sswtch "switch"
+   string scase "case"
+   string sdeflt "default"
+ 
+   for (lex = gnbtok(lexstr, MAXTOK); lex == NEWLINE;
+      lex = gnbtok(lexstr, MAXTOK))
+         ;
+   if (lex == EOF | lex == SEMICOL | lex == LBRACE | lex == RBRACE)
+      return
+   if (lex == DIGIT)
+      lex = LEXDIGITS
+   else if (lex == TOGGLE)
+     lex = LEXLITERAL
+   else if (equal(lexstr, sif) == YES)
+      lex = LEXIF
+   else if (equal(lexstr, selse) == YES)
+      lex = LEXELSE
+   else if (equal(lexstr, swhile) == YES)
+      lex = LEXWHILE
+   else if (equal(lexstr, sdo) == YES)
+      lex = LEXDO
+   else if (equal(lexstr, sbreak) == YES)
+      lex = LEXBREAK
+   else if (equal(lexstr, snext) == YES)
+      lex = LEXNEXT
+   else if (equal(lexstr, sfor) == YES)
+      lex = LEXFOR
+   else if (equal(lexstr, srept) == YES)
+      lex = LEXREPEAT
+   else if (equal(lexstr, suntil) == YES)
+      lex = LEXUNTIL
+   else if (equal(lexstr, sret) == YES)
+      lex = LEXRETURN
+   else if (equal(lexstr, sstr) == YES)
+      lex = LEXSTRING
+   else if (equal(lexstr, sswtch) == YES)
+      lex = LEXSWITCH
+   else if (equal(lexstr, scase) == YES)
+      lex = LEXCASE
+   else if (equal(lexstr, sdeflt) == YES)
+      lex = LEXDEFAULT
+   else
+      lex = LEXOTHER
+   return
+   end

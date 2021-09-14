@@ -1,0 +1,30 @@
+##### do statement - routines in this group are docode, dostat
+
+
+# docode - generate code for beginning of do
+   subroutine docode(lab)
+   integer labgen
+   integer lab
+ character gnbtok
+ character lexstr(MAXTOK)
+   # include commonblocks
+   include cgoto
+   string sdo "do"
+ 
+   xfer = NO
+   call outtab
+   call outstr(sdo)
+   call outch(BLANK)
+   lab = labgen(2)
+   if (gnbtok(lexstr, MAXTOK) == DIGIT)	#check for fortran DO
+	call outstr(lexstr)
+   else
+	{
+	call pbstr(lexstr)
+   	call outnum(lab)
+	}
+   call outch(BLANK)
+   call eatup
+   call outdon
+   return
+   end

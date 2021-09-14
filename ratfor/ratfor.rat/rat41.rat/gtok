@@ -1,0 +1,132 @@
+# gtok - get token for Ratfor
+   character function gtok(lexstr, toksiz, fd)
+   character ngetch, type
+   integer fd, i, b, n, toksiz, itoc
+   character c, lexstr(MAXTOK)
+   # include commonblocks
+   include cline
+ 
+   c = ngetch(lexstr(1), fd)
+   if (c == BLANK | c == TAB) {
+      lexstr(1) = BLANK
+      while (c == BLANK | c == TAB)    # compress many blanks to one
+         c = ngetch(c, fd)
+      if (c == SHARP)
+         while (ngetch(c, fd) ^= NEWLINE)   # strip comments
+            ;
+      if (c ^= NEWLINE)
+         call putbak(c)
+      else
+         lexstr(1) = NEWLINE
+      lexstr(2) = EOS
+      gtok = lexstr(1)
+      return
+      }
+   i = 1
+   gtok = type(c)
+   if (gtok == LETTER) {	# alpha
+      for (i = 1; i < toksiz - 2; i = i + 1) {
+         gtok = type(ngetch(lexstr(i+1), fd))
+         if (gtok ^= LETTER & gtok ^= DIGIT & gtok ^= UNDERLINE
+             & gtok ^= PERIOD)
+               break
+         }
+      call putbak(lexstr(i+1))
+      gtok = ALPHA
+      }
+   else if (gtok == DIGIT) {	# digits
+      b = c - DIG0	# in case alternate base number
+      for (i = 1; i < toksiz - 2; i = i + 1) {
+         if (type(ngetch(lexstr(i+1), fd)) ^= DIGIT)
+            break
+         b = 10*b + lexstr(i+1) - DIG0
+         }
+      if (lexstr(i+1) == RADIX & b >= 2 & b <= 36) {   #n%ddd...
+         for (n = 0;; n = b*n + c - DIG0) {
+            c = ngetch(lexstr(1), fd)
+            if (c >= LETA & c <= LETZ)
+               c = c - LETA + DIG9 + 1
+            else if (c >= BIGA & c <= BIGZ)
+               c = c - BIGA + DIG9 + 1
+            if (c < DIG0 | c >= DIG0 + b)
+               break
+            }
+         call putbak(lexstr(1))
+         i = itoc(n, lexstr, toksiz)
+         }
+      else
+         call putbak(lexstr(i+1))
+      gtok = DIGIT
+      }
+   else if (c == LBRACK) {   # allow [ for {
+      lexstr(1) = LBRACE
+      gtok = LBRACE
+      }
+   else if (c == RBRACK) {   # allow ] for }
+      lexstr(1) = RBRACE
+      gtok = RBRACE
+      }
+#   else if (c == DOLLAR) {   # allow $( and $) for { and }
+#      if (ngetch(lexstr(2), fd) == LPAREN) {
+#         lexstr(1) = LBRACE
+#         gtok = LBRACE
+#         }
+#      else if (lexstr(2) == RPAREN) {
+#         lexstr(1) = RBRACE
+#         gtok = RBRACE
+#         }
+#      else
+#         call putbak(lexstr(2))
+#      }
+# the above code has been disabled in order to allow $( and $) to 
+# surround strings to be copied directly to the evaluation stack within
+# macros.  This is done by returninig dummy character values when these
+# digraphs are seen
+   else if (c == DOLLAR) {   
+      if (ngetch(lexstr(2), fd) == LPAREN) {
+	 i = 2
+         gtok = LSTRIPC
+         }
+      else if (lexstr(2) == RPAREN) {
+	 i = 2
+         gtok = RSTRIPC
+         }
+      else
+         call putbak(lexstr(2))
+      }
+   else if (c == SQUOTE | c == DQUOTE) {
+      for (i = 2; ngetch(lexstr(i), fd) ^= lexstr(1); i = i + 1) {
+         if (lexstr(i) == UNDERLINE)
+            if (ngetch(c, fd) == NEWLINE) {
+               while (c == NEWLINE | c == BLANK | c == TAB)
+                  c = ngetch(c, fd)
+               lexstr(i) = c
+               }
+            else
+               call putbak(c)
+         if (lexstr(i) == NEWLINE | i >= toksiz-1) {
+            call synerr("missing quote.")
+            lexstr(i) = lexstr(1)
+            call putbak(NEWLINE)
+            break
+            }
+         }
+      }
+   else if (c == SHARP) {   # strip comments
+      while (ngetch(lexstr(1), fd) ^= NEWLINE)
+         ;
+      gtok = NEWLINE
+      }
+   else if (c == GREATER | c == LESS | c == NOT | c == BANG |
+       c == TILDE | c == CARET | c == EQUALS | c == AND | c == OR)
+      call relate(lexstr, i, fd)
+   if (i >= toksiz-1)
+      call synerr("token too long.")
+   lexstr(i+1) = EOS
+# the following lines have been disabled, since line accounting is now
+# done in ngetch.  This eliminates the nagging problem of incorrect
+# line numbers
+#   if (lexstr(1) == NEWLINE)
+#      linect(level) = linect(level) + 1
+   return
+   end

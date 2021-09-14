@@ -1,0 +1,12 @@
+# ifcode - generate initial code for if
+   subroutine ifcode(lab)
+   integer labgen
+   integer lab
+   # include commonblocks
+   include cgoto
+
+   xfer = NO
+   lab = labgen(2)
+   call ifgo(lab)
+   return
+   end
