@@ -1,0 +1,85 @@
+## initin - init install program default env path
+subroutine initin
+include cinstl
+character buf(FILENAMESIZE), lbuf(FILENAMESIZE)
+character c, clower
+ integer ctoc, getarg
+ integer src
+ integer length
+# below are declarations for overlay control
+ common /shenv$/ idorig(120)
+ character idorig
+  common /idstuf/ shstuf(51),ldaddr,copyrt(68)
+  byte ldaddr
+  character shstuf, copyrt
+ string usage "install:  [-d] | [-c dest] [-e dest]  [-s src] list."
+ 
+# get flags and paths
+ call query(usage)
+ src = NO
+ cpress = NO
+ expand = NO
+ setdef = NO
+ dest(1) = EOS
+ source(1) = EOS
+ for (i=1; getarg(i, buf, FILENAMESIZE) != EOF; i=i+1)
+	{
+	if (buf(1) != MINUS | buf(3) != EOS)
+		next
+	c = clower(buf(2))
+	if (c == LETC)
+		{
+		cpress = YES
+		call delarg(i)
+		if (getarg(i, dest, FILENAMESIZE) == EOF)
+			call error(usage)
+		call delarg(i)
+		i = i-1
+		}
+	else if (c == LETE)
+		{
+		expand = YES
+		call delarg(i)
+		if (getarg(i, dest, FILENAMESIZE) == EOF)
+			call error(usage)
+		call delarg(i)
+		i = i-1
+		}
+	else if (c == LETD)
+		{
+		setdef = YES
+		call delarg(i)
+		}
+	else if (c == LETS)
+		{
+		src = YES
+		call delarg(i)
+		if (getarg(i, source, FILENAMESIZE) == EOF)
+			call error(usage)
+		call delarg(i)
+		i = i-1
+		}
+	}
+ if (src == NO)
+	{
+	call gwdir (source, PATH)
+	i = length (source)
+	source(i+1) = SLASH
+	source(i+2) = EOS
+	}
+ if (cpress == YES & expand == YES)
+	call error("use -c or -e, not both.")
+ if (setdef == NO & cpress == NO & expand == NO)
+	{
+	cpress = YES
+	junk = ctoc (source, dest, FILENAMESIZE)
+	}
+ if (setdef == YES & (cpress == YES | expand == YES))
+	call error("-d must be called without expansion/compression.")
+ call lower (source)
+ call lower (dest)
+ call movb$ (idorig, shstuf, 120)
+ skip = ldaddr -1
+ skip = skip + skip
+ return
+ end

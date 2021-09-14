@@ -1,0 +1,14 @@
+## build - make full filename from parts
+ subroutine build (prefix,base,sufix,name)
+ character prefix(ARB), base(ARB), sufix(ARB), name(ARB)
+ integer ctoc, i
+ i = 1 + ctoc (prefix, name, FILENAMESIZE)
+ i = i + ctoc (base, name(i), FILENAMESIZE-i)
+ if (i < FILENAMESIZE & sufix(1) != EOS)
+	{
+	name(i) = PERIOD
+	i = i+1
+	}
+ call ctoc (sufix, name(i), FILENAMESIZE-i)
+ return
+ end

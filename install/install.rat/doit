@@ -1,0 +1,39 @@
+## doit - do copy or set defaults
+ subroutine doit (ifd, ofd)
+ integer equal, readf
+ integer i, ifd, ofd, base, pos(2)
+ include cinstl
+ byte buf(128)
+# below are declarations for overlay control
+  common /idstuf/ shstuf(51),ldaddr,copyrt(68)
+  byte ldaddr
+  character shstuf, copyrt
+
+ if (readf ( buf, 128, ifd) < 128)
+ 	 call error (" ** can't read.")
+ if (equal (buf(55),ldaddr) != YES)
+ 	call error (" tool and install not same version!.")
+ call writef ( buf, 128, ofd)
+ if (expand == YES)
+ 	{
+ 	base = 256
+ 	for (i=1; i<skip; i=i+1)
+ 		{
+ 		base = base + 128
+ 		call movmc$ (base, buf, 128)
+ 		call writef (buf, 128, ofd)
+ 		}
+ 	}
+ if (cpress == YES)
+ 	{
+ 	pos(1) = 0
+ 	pos(2) = skip
+ 	call seek (pos, ifd)
+ 	}
+ if (cpress == YES | expand == YES)
+ 	{
+ 	while (readf(buf,128,ifd) == 128)
+ 		call writef (buf,128,ofd)
+ 	}
+ return
+ end

@@ -1,0 +1,50 @@
+ subroutine instal (given)
+ character given(ARB)
+ character iname(FILENAMESIZE), oname(FILENAMESIZE), cmd(FILENAMESIZE)
+ integer loccom, open, create
+ integer i, ifd, ofd
+ include cinstl
+ string tol "tol"
+ string com "com"
+ string gomsg "begin: "
+ string cmsg "compress "
+ string emsg "expand "
+ string omsg " onto "
+
+ call basenm (given, cmd)
+ call putlin (gomsg, ERROUT)
+ if (cpress == YES)
+ 	{
+	call putlin (cmsg, ERROUT)
+ 	call build (source,cmd,com,iname)
+ 	call build (dest,cmd,tol,oname)
+	ofd = create (oname, WRITE)
+ 	}
+ else if (expand == YES)
+ 	{
+	call putlin (emsg, ERROUT)
+ 	call build (source,cmd,tol,iname)
+ 	call build (dest,cmd,com,oname)
+	ofd = create (oname, WRITE)
+ 	}
+ call putlin (iname, ERROUT)
+ ifd = open (iname, READ)
+ if (ifd == ERR)
+	{
+	call remark (" *** not found ***.")
+	return
+	}
+ call putlin (omsg, ERROUT)
+ call putlin (oname, ERROUT)
+ if (ofd == ERR)
+	{
+	call remark ("*** can't write ***.")
+	return
+	}
+ call flush (ERROUT)
+ call doit (ifd, ofd)
+ call close (ifd)
+ call close (ofd)
+ call remark (" done.")
+ return
+ end

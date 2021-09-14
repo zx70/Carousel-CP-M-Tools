@@ -1,0 +1,102 @@
+## newdef - set new default directory for tools
+ subroutine newdef
+ string runcom "run.com"
+ string shcom  "sh.com"
+ string msg2   "Please enter new user number: "
+ string msg3   "Please enter new disk drive: "
+ string msg4   "Select new directory for Tool defaults"
+ string msg1   "The default Tools directory will be changed to /"
+ string ok     "Is this OK? "
+ character clower
+ byte   buf(256)
+ integer fd, i, prompt
+ byte   user, disk
+ integer ctoi
+ integer offset, addrs$
+ byte fcbusr, user1, user2, diskno
+ integer open, readf
+ include "cshstuff"
+
+ call remark(msg4)
+ repeat
+	{
+	i = prompt(msg3,buf,STDIN)
+	if (i <= 0)
+		next
+	i = 1
+	call skipbl(buf,i)
+	disk = clower(buf(i))
+	}
+ until (disk >= LETA & disk <= LETP)
+ repeat
+	{
+	i = prompt(msg2,buf,STDIN)
+	if (i <= 0)
+		next
+	i = 1
+	user = ctoi(buf,i)
+	}
+ until (user >= 0 & user < 16)
+ call putlin(msg1,STDOUT)
+ i = user
+ call putdec(i,1)
+ call putc(SLASH)
+ call putc(disk)
+ call putc(NEWLINE)
+ i = prompt(ok,buf,STDIN)
+ call lower(buf)
+ i = 1
+ call skipbl(buf,i)
+ if (buf(i) != LETY)
+	call exit
+ disk = clower(disk) - LETA
+ fcbusr = 16*user + disk
+ diskno = disk + BIGA
+ if (user > 9)
+	{
+	user1 = DIG1
+	user2 = DIG0 + (user-10)
+	}
+ else
+	{
+	user1 = BLANK
+	user2 = DIG0 + user
+	}
+ fd = open(runcom,READWRITE)
+	if (fd == ERR)
+		call cant(runcom)
+ if (readf(buf,256,fd) != 256)
+	call error("Cant read run.com.")
+ offset = 1
+ buf(offset+3) = user1
+ buf(offset+4) = user2
+ buf(offset+5) = diskno
+ buf(offset+6) = fcbusr
+ buf(offset+22) = fcbusr
+ buf(offset+38) = fcbusr
+ offset = addrs$ (resume) - 256
+ buf(offset+2) = diskno
+ offset = addrs$ (shcmd) - 256
+ buf(offset+1) = user1
+ buf(offset+2) = user2
+ buf(offset+3) = diskno
+ offset = addrs$ (envfil) - 256
+ buf(offset+1) = user1
+ buf(offset+2) = user2
+ buf(offset+3) = diskno
+ call seek(BEGINNING_OF_FILE,fd)
+ call writef(buf,256,fd)
+ call close(fd)
+ fd = open(shcom,READWRITE)
+ if (fd == ERR)
+	call cant(shcom)
+ if (readf(buf,256,fd) != 256)
+	call error("Can't read sh COM file.")
+ buf(235) = fcbusr
+ call seek(BEGINNING_OF_FILE,fd)
+ call writef(buf,256,fd)
+ call close(fd)
+
+ call remark("New default directory installed.")
+ return
+ end

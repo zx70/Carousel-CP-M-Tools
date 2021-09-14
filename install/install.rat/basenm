@@ -1,0 +1,16 @@
+## basenm - get basename from filename
+ subroutine basenm (given, name)
+ character given(ARB), name(ARB)
+ character work(FILENAMESIZE)
+ integer i, j, index
+ call mklocl (given, work)
+ j = 1
+ for (i = index(work,COLON)+1; work(i) != EOS & work(i) != PERIOD; i=i+1)
+	{
+	name(j) = work(i)
+	j = j+1
+	}
+ name(j) = EOS
+ call lower (name)
+ return
+ end
