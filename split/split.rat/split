@@ -1,0 +1,89 @@
+# split - split file into n-line pieces or at specified patterns
+DRIVER(split)
+   character line(MAXLINE), prefix(NAMESIZE), from(MAXPAT), to(MAXPAT)
+   integer getarg, open, maknam, getlin, ctoi, getpat, copyp, copyl
+   integer fn, fin, fout, nl, i, ccase
+   string x "x"
+
+   nl = NLINES
+   call scopy(x, 1, prefix, 1)
+   fin = STDIN
+   ccase = 1
+   i = 1
+   if (getarg(i, line, MAXLINE) ^= EOF)
+      {
+      if (line(1) == QMARK & line(2) == EOS)   #user needs help
+         call error ("usage:  split [-n or +from [-to]] [file [out]].")
+      else if (line(1) == MINUS & line(2) ^= EOS) {
+         i = 2
+         nl = ctoi(line, i)
+         if (nl <= 0 | line(i) ^= EOS) {
+            call remark("bad argument.")
+            call error("usage: split [-n | +from [-to]] [file [name]].")
+            }
+         i = 2
+         }
+      else if (line(1) == PLUS) {
+         ccase = 2
+         if (getpat(line(2), from) == ERR)
+            call error("illegal from pattern.")
+         i = 2
+         if (getarg(i, line, MAXLINE) ^= EOF)
+            if (line(1) == MINUS & line(2) ^= EOS) {
+               ccase = 3
+               if (getpat(line(2), to) == ERR)
+                  call error("illegal to pattern.")
+               i = 3
+               }
+         }
+   if (getarg(i, line, MAXLINE) ^= EOF) {
+      if (line(1) == MINUS & line(2) == EOS)
+         fin = STDIN
+      else
+         fin = open(line, READ)
+      if (fin == ERR)
+         call cant(line)
+      }
+     }
+   if (getarg(i+1, line, MAXLINE) ^= EOF)
+      call scopy(line, 1, prefix, 1)
+   if (ccase == 1) {    # split [-n] [file [name]]
+      for (fn = 1; getlin(line, fin) ^= EOF; fn = fn + 1) {
+         fout = maknam(prefix, fn - 1)
+         call putlin(line, fout)
+         if (fn >= MAXFILES)    # copy everything if last file
+            call fcopy(fin, fout)
+        else if (copyl(fin, fout, nl-1) == EOF)
+            break
+         call close(fout)
+         }
+      }
+   else if (ccase == 2) {       # split +from [file [name]]
+      nl = copyp(fin, -1, line, from)
+      for (fn = 1; nl ^= EOF; fn = fn + 1) {
+         fout = maknam(prefix, fn - 1)
+         call putlin(line, fout)
+         if (fn >= MAXFILES)
+            call fcopy(fin, fout)
+         nl = copyp(fin, fout, line, from)
+         call close(fout)
+         }
+      }
+   else if (ccase == 3) {       # split +from -to [file [name]]
+      for (fn = 1; copyp(fin, -1, line, from) ^= EOF; fn = fn + 1) {
+         fout = maknam(prefix, fn - 1)
+         call putlin(line, fout)
+         if (fn >= MAXFILES)
+            call fcopy(fin, fout)
+         else
+            if (copyp(fin, fout, line, to) ^= EOF)
+               call putlin(line, fout)
+         call close(fout)
+         }
+      }
+   else
+      call error("split: can't happen.")
+   if (fin ^= STDIN)
+      call close(fin)
+   DRETURN
+   end
