@@ -1,0 +1,219 @@
+                          Carousel MicroTools, Inc.
+
+                                      aaarrr
+
+                           aaarrrccchhhiiivvveee fffiiillleee mmmaaaiiinnntttaaaiiinnneeerrr
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  ar {-{u|x|t|d|p}[v][r]} ____________archive-file [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  ar collects text files into one big file and maintains that file as an
+  archive.  Files can be extracted from, added to, deleted from, or replaced
+  in the archive, and information about the contents can be listed. 
+
+  Archives are useful for keeping collections of related files together.
+  They provide an easy way to make and maintain backups.  In addition, a
+  collection of files in an archive takes less disk space that is used by the
+  individual files. 
+
+  Files that are added to archives can, of course, be archive files
+  themselves.  Theoretically, there is no limit to the number of files that
+  can be nested this way.  Thus, ar provides the utility necessary to
+  maintain tree-structured file directories. 
+
+  The optional file names in the ar statement line specify individual files
+  that are to participate in the action.  If no files are named, the ar
+  command is performed on all of the files in the archive; but if any files
+  are explicitly named, they are the only files upon which the command is
+  performed.  The exception is the delete (d) option for which all of the
+  files to be deleted must be specified.  Therefore, if you wish to delete
+  all of the files in an archive, it is easiest to remove the whole archive
+  using rm. 
+
+  Files that are to be added to an archive must exist as and be stored as
+  files with the name given.  Files that are extracted from an archive will
+  be put onto files with the name given. 
+
+  If a dash (-) is given as a file name, further file names are read from the
+  standard input, one per line. 
+
+  ______Option _______Summary       
+  -u Create, update or add to an archive.  Creates a new archive if
+    archive-file does not exist, replaces files that already exist in the
+    archive with updated versions or adds new files to the end of the
+    archive.  In all cases the file name(s) referenced in the ar statement
+    and the name(s) of the regular file(s) must be the same.  If the verbose
+    (v) option is also used, the file names will be printed on the standard
+    output as they are written to the archive file. 
+
+  -x Extract file(s) from an archive.  The specified file(s) are copied from
+    the archive onto regular files using the name referenced in the ar
+    statement.  If the verbose (v) option is added, the file names will be
+    printed on the standard output as they are extracted. 
+
+  -d Delete file(s) from an archive.  Only the file(s) specified in the ar
+    statement will be deleted.  If the verbose (v) option is added, the file
+    names will be printed on the standard output as they are deleted from the
+    archive. 
+
+  -p Print file(s) on standard output.  Using the verbose (v) option will
+    cause the file name to be printed before the file. 
+
+  -t Print an archive table of contents.  Normally, the table will contain
+    only the file name(s).  If the verbose (v) option is added, the table
+    will also contain each file's length, type, and date and time of last
+    change. 
+
+  -r Read a (possibly) damaged archive.  This option causes the archiver to
+    try harder than usual to read a spoiled archive.  (Editing an archive can
+    spoil its format.  Some other archivers create archives in formats that
+    this archiver has trouble reading.)  Archives created or updated by this
+    archiver will not need this special handling unless they are later
+    spoiled. 
+
+  -v Make output verbose.  This option may be concatenated to any of the
+    above option and will cause the archiver to print additional
+    information--generally file names--on the standard output.  Its specific
+    action when concatenated with each option has already been described. 
+
+CCCPPP///MMM---888000 SSSPPPEEECCCIIIFFFIIICCC IIINNNFFFOOORRRMMMAAATTTIIIOOONNN      
+  This latest version of ar creates archives having headers and trailers.
+  Each header records the file size in terms of seek offsets in a format
+  peculiar to this archiver and to the CP/M-80 implementation of the tools.
+  Other archivers attempting to read these archives should ignore the file
+  sizes and use only the header-trailer pairs to delimit the elements. 
+
+  This version uses the file size (if any) recorded in the header, and
+  reports resulting discrepancies.  The -r option forces it to ignore
+  recorded sizes and to rely strictly on header-trailer matchups to delimit
+  elements when reading an archive.  In any event, it is assumed that either
+  ALL or NONE of the elements in an archive carry a trailer, and exceptions
+  are treated as format errors. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  ar -u book chap1 chap2 chap3
+    Create or update an archive file called book and insert or update 3
+    members in it -- chap1, chap2, and chap3
+
+  ar -xv source rtnA rtnB
+    From the archive file source, extract the members rtnA and rtnB and put
+    them onto files with the same name.  Print the member names as they are
+    extracted. 
+
+  ar -t library
+    List all the members of library. 
+
+  ar -p book | format
+    Send all members of the archive book to the formatter. 
+
+  ar -uv somefile a b c | rm -
+    Add or update in archive somefile members a, b and c, and then delete a,
+    b and c from the file system (but not from somefile). 
+
+  ls | ar -uv /a/archive -
+    Updates and/or adds all of the files in the current working directory to
+    archive in drive a.  The file names are displayed on standard output as
+    the files are processed. 
+
+  ar -uvr arc one
+    Insert one into archive file arc while ignoring (and correcting) some of
+    the (possibly invalid) archive format information in arc. 
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  arctemp.$$$ is created and subsequently deleted for each run. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  oldar - old archive file maintainer
+  ________Software _____Tools pages 85-103
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  archive not in proper format
+    ar did not find a header line where one was expected.  Typical reasons
+    include misspelling the file name, using an existing file not in archive
+    format on a creation run, and referencing an archive file that has been
+    modified directly (say with the editor).  For the latter case try again
+    using the -r option, or try reading the archive with the old archiver,
+    oldar. 
+
+  archive integrity in doubt - missing trailer
+    Some archives (including all those produced by this version of the
+    archiver) terminate each file by a special line called a "trailer".  This
+    message is caused by the lack of a trailer line when one was expected.
+    This archiver can read old-style archives which lack trailers.  However,
+    if any archive element is found to have a trailer, then this archiver
+    reports an error unless all elements have a proper trailer. 
+
+  binary element, can't handle
+  binary file, can't handle
+    This version of the archiver isn't built to handle binary files, and it
+    distrusts archive elements marked "binary". 
+
+  can't rename/move temp file
+    The scratch file named was successfully generated but could not be
+    renamed or copied to its final destination.  Possibly there isn't enough
+    room for the new file, or there is some other file system problem. 
+
+  ctosek:  invalid seek offset
+    This indicates a logical error in the portion of code which extracts seek
+    offsets from header records. 
+
+  delete by name only
+    For user protection files are allowed to be deleted from an archive only
+    by specifying each file name to be deleted. 
+
+  duplicate file name
+    A file was listed more than once when calling ar. 
+
+  error in main:  can't happen
+    This indicates a logical error in the portion of code in the main program
+    that parses the command line. 
+
+  fatal errors -- archive not altered
+    This message is generated whenever one or more of the other errors have
+    been detected.  An archive is never altered unless everything has run
+    properly. 
+
+  too many file names
+    ar may not be called with more than the number of files specified by
+    MAXFILES in the source code. 
+
+  unexpected end of archive file
+    The last element in the archive had a size recorded, but the archive
+    ended before the whole element was read.  This may reflect a truncated
+    archive or an incorrect notation of file size.  Try the -r option to aid
+    reading the archive:  if it works, then the cause was the latter. 
+
+  filename: can't add
+    The file specified by filename does not exist or cannot be opened (e.g.,
+    is locked). 
+
+  filename: can't create
+    The archiver could not generate a local file by the name of filename.
+    Probably the archiver's internal file buffer space has been exceeded. 
+
+  filename: can't position new header
+  filename: inconsistent seek offsets
+    The archiver was navigating around an existing archive or the scratch
+    file using seek offsets, and detected a mistake.  This is a profound
+    malfunction, probably reflecting a coding error. 
+
+  filename: missing size
+    After processing an archive element without a trailer, this archiver
+    insists that all elements in this archive must lack trailers, and
+    therefore that they must have proper sizes recorded.  But now it has
+    found an element with no size recorded.  This can result from
+    concatenating archives of differing styles, or from otherwise monkeying
+    with archive internals. 
+
+  filename: not in archive
+    ar could not locate the file indicated by filename in the specified
+    archived file. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  Only text file (i.e. not binary files such as .com and .tol files) can be
+  archived. 
+
+  When the update (-u) and (-p) options are used the files are updated or
+  printed in the order they appear on the archived file, not the order listed
+  on the ar statement line. 
