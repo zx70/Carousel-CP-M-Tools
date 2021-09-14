@@ -1,0 +1,9 @@
+ ## common block to hold macro evaluation stack
+ #  put on a file called 'cmacro'
+ #  used by ratfor and by the macro tool
+ 
+ common /cmacro/ cp, ep, evalst(EVALSIZE), st
+   integer cp         # current call stack pointer
+   integer ep         # next free position in evalst
+   character evalst      # evaluation stack
+   integer st            # pointer to symbol table
