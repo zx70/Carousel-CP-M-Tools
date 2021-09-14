@@ -1,4 +1,0 @@
-##script1 NAME = extract NAME.doc from archive doc.ar & pipe it through crt
-# put in correct directory for doc.ar, if not the current directory
-ar.tol -p doc.ar $1.doc | crt
-
