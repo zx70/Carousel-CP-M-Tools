@@ -1,0 +1,4 @@
+# this file fetches ratfor in 3 parts.
+include rat41.rat
+include rat42.rat
+include rat43.rat
