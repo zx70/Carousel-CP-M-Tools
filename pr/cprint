@@ -1,0 +1,16 @@
+ ## common block to hold info for pr tool
+ #  put on a file called 'cprint'
+ #  used only by the pr tool
+ 
+ common /cprint/  mar1, mar2, bmar, dohead, dotail, plen
+        integer mar1    #distance between top of page and header
+                        #(default = 3)
+        integer mar2    #distance between header and text
+                        #(default = 2)
+        integer bmar    #distance between text and bottom of page
+                        #(default = 6)
+        integer dohead  #flag to cause/suppress printing of header
+                        # (default = YES)
+        integer dotail  #flag to cause/suppress printing of bottom 
+                        #margin  (default = YES)
+        integer plen    #page length (default = 66)
