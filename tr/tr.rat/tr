@@ -1,0 +1,50 @@
+ ## tr - transliterate characters on a file
+ DRIVER
+ 
+    character getc
+    character arg(MAXLINE), c, from(MAXSET), to(MAXSET)
+    integer getarg, length, makset, xindex
+    integer allbut, collap, i, lastto
+ 
+    call query ("usage:  tr from to.")
+    if (getarg(1, arg, MAXLINE) == EOF)
+       call error('usage: tr from to.')
+    else if (arg(1) == NOT) {
+       allbut = YES
+       if (makset(arg, 2, from, MAXSET) == NO)
+          call error('from: too large.')
+       }
+    else {
+       allbut = NO
+       if (makset(arg, 1, from, MAXSET) == NO)
+          call error('from: too large.')
+       }
+    if (getarg(2, arg, MAXLINE) == EOF)
+       to(1) = EOS
+    else if (makset(arg, 1, to, MAXSET) == NO)
+          call error('to: too large.')
+ 
+    lastto = length(to)
+    if (length(from) > lastto | allbut == YES)
+       collap = YES
+    else
+       collap = NO
+    repeat {
+       i = xindex(from, getc(c), allbut, lastto)
+       if (collap == YES & i >= lastto & lastto > 0) {  # collapse
+          call putc(to(lastto))
+          repeat
+             i = xindex(from, getc(c), allbut, lastto)
+             until (i < lastto)
+          }
+       if (c == EOF)
+          break
+       if (i > 0 & lastto > 0)   # translate
+          call putc(to(i))
+       else if (i == 0)      # copy
+          call putc(c)
+                   # else delete
+       }
+ 
+    DRETURN
+    end
