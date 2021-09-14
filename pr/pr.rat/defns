@@ -1,0 +1,5 @@
+  # include ratdef
+ define(MARGIN1,3)
+ define(MARGIN2,2)
+ define(BMARGIN,3)
+ define(PAGELEN,66)
