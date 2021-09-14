@@ -1,0 +1,40 @@
+ ## gnum - get numbers for pl tool
+ integer function gnum (arg, list)
+ integer list(ARB), lp, j
+ integer u, l
+ character arg(ARB)
+ integer ctoi
+ 
+ lp = 0
+ for (j=1; arg(j) ^= EOS;  )
+	{
+	lp = lp + 1
+        if (lp > MAXLINES)
+		call error ("too many numbers.")
+	list(lp) = ctoi(arg, j)
+	if (list(lp) <= 0)
+		call error ("bad number.")
+      if (arg(j) == MINUS) {	# have l-u specification
+         j = j + 1
+         u = ctoi(arg, j)
+         l = list(lp)
+         if ( u < l)
+            call error("bad range.")
+         for (l = l + 1; l <= u; l = l + 1)
+	    {
+            lp = lp + 1
+	    if (lp > MAXLINES)
+		call error ("too many numbers.")
+	    list(lp) = l
+	    }
+         }
+      while (arg(j) == COMMA | arg(j) == BLANK | arg(j) == TAB)
+         j = j + 1
+      }
+ if (lp+1 > MAXLINES)
+	call error ("too many numbers.")
+ list(lp+1) = EOL
+   call shell (list, lp)
+ gnum = lp
+ return
+ end

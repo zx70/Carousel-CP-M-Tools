@@ -1,0 +1,17 @@
+# skip - skip n lines on fd
+   integer function skip(n, fd)
+   integer n, fd
+   integer m
+   character getch, c
+
+   for (m = n; m > 0; m = m - 1) {
+      while (getch(c, fd) ^= EOF)
+         if (c == NEWLINE)
+            break
+      if (c == EOF)
+         break
+      }
+   if (c == EOF)
+      return(EOF)
+   return(n)
+   end

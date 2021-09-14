@@ -1,0 +1,21 @@
+# plines - print pages from fd as specified in sorted list.
+   subroutine plines(fd, list, pagsiz)
+   integer fd, list(MAXLINES), pagsiz
+   integer i, j, n, get, skip, len, junk
+   character buf(MAXBUF)
+
+   n = 0
+   for (i = 1; list(i) ^= EOL; ) {
+      if (skip(pagsiz*(list(i) - n - 1), fd) == EOF)
+         return
+      len = get(pagsiz, buf, fd)
+      for (j = i; list(j) == list(i); i = i + 1)
+         call putlin(buf, STDOUT)
+      if (len == EOF)
+         return
+      n = list(j)
+      }
+   if (fd == STDIN)	# must flush standard input
+      junk = skip(HUGE, fd)
+   return
+   end

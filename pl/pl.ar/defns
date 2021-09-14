@@ -1,0 +1,5 @@
+ # include ratdef
+ define(MAXBUF,3000)
+ define(MAXLINES,200)
+ define(EOL,-1)
+ define(PAGESIZE,23)	# default page size

@@ -1,0 +1,25 @@
+# get - get next n lines from fd into buf
+   integer function get(n, buf, fd)
+   integer n, fd
+   character buf(MAXBUF)
+   integer i
+   character getch, c
+
+   i = 1
+   for (m = n; m > 0; m = m - 1) {
+      while (getch(c, fd) ^= EOF) {
+         if (i < MAXBUF) {
+            buf(i) = c
+            i = i + 1
+            }
+         if (c == NEWLINE)
+            break
+         }
+      if (c == EOF)
+         break
+      }
+   buf(i) = EOS
+   if (c == EOF)
+      return(EOF)
+   return(n)
+   end

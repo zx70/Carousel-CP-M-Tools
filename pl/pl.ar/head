@@ -1,0 +1,21 @@
+ # head - print top of page header
+    subroutine head(name, pageno)
+    integer name(ARB)
+    integer now(7), form
+    character date(9), time(9)
+    integer pageno
+    string page " Page  "
+  
+    call putlin(name, STDOUT)
+    call putlin(page, STDOUT)
+    call putdec(pageno, 1)
+    form = 0
+    call getnow (now)
+    call fmtdat (date, time, now, form)
+    call putc (BLANK)
+    call putlin (date, STDOUT)
+    call putc (BLANK)
+    call putlin (time, STDOUT)
+    call putc(NEWLINE)
+    return
+    end

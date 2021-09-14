@@ -1,0 +1,20 @@
+ ## doflag - process flags for pl tool
+ subroutine doflag (arg, pflag, pagsiz)
+ character arg(ARB)
+ integer pflag, pagsiz
+ integer ctoi
+ 
+ if (arg(2) == LETP | arg(2) == BIGP)	  # print pages
+      {
+      pflag = YES
+      j = 3
+      pagsiz = ctoi(arg, j)
+      if (pagsiz < 0 | arg(j) ^= EOS)
+         call error("bad page size.")
+      if (pagsiz == 0)
+         pagsiz = PAGESIZE	#default
+      }
+else
+	call remark ("ignoring invalid argument.")
+ return
+ end

@@ -1,0 +1,17 @@
+ ## shell - Shell sort v(1)...v(n) increasing
+ subroutine shell (v, n)
+ integer gap, i, j, jg, k, n, v(ARB)
+ 
+ for (gap=n/2; gap>0; gap=gap/2)
+        for (i=gap+1; i<=n; i=i+1)
+                for (j=i-gap; j>0; j=j-gap)
+                        {
+                        jg = j + gap
+                        if (v(j) <= v(jg))      #compare
+                                break
+                        k = v(j)                #exchange
+                        v(j) = v(jg)            #
+                        v(jg) = k               #
+                        }
+ return
+ end
