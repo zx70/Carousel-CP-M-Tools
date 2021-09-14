@@ -1,0 +1,53 @@
+# wc - count lines, words, and characters in named files or STDIN
+DRIVER
+   character arg(MAXLINE)
+   integer open, getarg
+   integer fd, i, j, words, lines, chars, nfiles
+   integer nl, nw, nc, tl, tw, tc
+   string total "total"
+   data words /YES/, lines /YES/, chars /YES/   # -lwc is default
+   data tl /0/, tw /0/, tc /0/
+
+   call query ("usage:  wc [-lwc] [files].")
+   nfiles = 0
+   for (i = 1; getarg(i, arg, MAXNAME) ^= EOF; i = i + 1)
+      if (arg(1) == MINUS & arg(2) ^= EOS) {
+         lines = NO
+         words = NO
+         chars = NO
+         for (j = 2; arg(j) ^= EOS; j = j + 1)
+            if (arg(j) == LETL | arg(j) == BIGL)
+               lines = YES
+            else if (arg(j) == LETW | arg(j) == BIGW)
+               words = YES
+            else if (arg(j) == LETC | arg(j) == BIGC)
+               chars = YES
+            else
+               call error("usage: wc [-lwc] files.")
+         }
+      else {
+         nfiles = nfiles + 1
+         if (arg(1) == MINUS)
+            fd = STDIN
+         else
+            fd = open(arg, READ)
+         if (fd == ERR)
+		call cant (arg)
+         else {
+            call dowc(fd, nl, nw, nc)
+            call printc(arg, nl, nw, nc, lines, words, chars)
+            tl = tl + nl
+            tw = tw + nw
+            tc = tc + nc
+            if (fd ^= STDIN)
+               call close(fd)
+            }
+         }
+   if (nfiles == 0) {   # no args, do STDIN
+      call dowc(STDIN, nl, nw, nc)
+      call printc(EOS, nl, nw, nc, lines, words, chars)
+      }
+   else if (nfiles > 1)
+      call printc(total, tl, tw, tc, lines, words, chars)
+   DRETURN
+   end
