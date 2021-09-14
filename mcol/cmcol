@@ -1,0 +1,9 @@
+ ## common block to hold line buffers for mcol tool
+ #  put on a file called 'cmcol'
+ #  used only by the mcol tool
+
+   common /ccol/ col, nextbf, linbuf(MAXBUF), linptr(MAXPTR)
+      integer col       # current column number on formatted page
+      integer nextbf    # next available slot in linbuf
+      character linbuf  # holds a formatted page
+      integer linptr    # points to lines
