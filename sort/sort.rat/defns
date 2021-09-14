@@ -1,0 +1,11 @@
+ # include ratdef
+ # definitions for sort tool
+ # used only by the sort tool
+ 
+ define(LOGPTR,20)
+ define(MAXPTR,750)
+ define(MAXTEXT,12000)
+ define(TAPENO,6)
+ define(CTRLD,4)
+ define(FLMAX,25)
+ define(EOI,ERR)
