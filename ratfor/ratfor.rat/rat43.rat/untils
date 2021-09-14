@@ -1,0 +1,19 @@
+# untils - generate code for until or end of repeat
+   subroutine untils(lab, token)
+   character ptoken(MAXTOK)
+   integer lex
+   integer junk, lab, token
+   # include commonblocks
+   include cgoto
+
+   xfer = NO
+   call outnum(lab)
+   if (token == LEXUNTIL) {
+      junk = lex(ptoken)
+      call ifgo(lab-1)
+      }
+   else
+      call outgo(lab-1)
+   call outcon(lab+1)
+   return
+   end

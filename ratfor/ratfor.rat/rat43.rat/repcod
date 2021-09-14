@@ -1,0 +1,14 @@
+##### repeat statement - routines in this group are repcod, untils
+
+
+# repcod - generate code for beginning of repeat
+   subroutine repcod(lab)
+   integer labgen
+   integer lab
+ 
+   call outcon(0)   # in case there was a label
+   lab = labgen(3)
+   call outcon(lab)
+   lab = lab + 1   # label to go on next's
+   return
+   end

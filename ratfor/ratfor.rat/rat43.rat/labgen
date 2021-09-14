@@ -1,0 +1,10 @@
+# labgen - generate  n  consecutive labels, return first one
+   integer function labgen(n)
+   integer n
+   # include commonblocks
+   include clabel
+ 
+   labgen = label
+   label = label + n
+   return
+   end

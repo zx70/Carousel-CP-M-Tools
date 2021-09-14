@@ -1,0 +1,89 @@
+# parse - parse Ratfor source program
+   subroutine parse
+   character lexstr(MAXTOK)
+   integer lex
+   integer lab, labval(MAXSTACK), lextyp(MAXSTACK), sp, token, i
+   include cgoto
+   include cfor
+   include cfname
+   include cline
+   include csbuf
+   include clabel
+   include cdefio
+   include coutln
+ 
+   call init
+   sp = 1
+   lextyp(1) = EOF
+   for (token = lex(lexstr); token ^= EOF; token = lex(lexstr)) 
+      {
+      if (token == LEXIF)
+         call ifcode(lab)
+      else if (token == LEXDO)
+         call docode(lab)
+      else if (token == LEXWHILE)
+         call whilec(lab)
+      else if (token == LEXFOR)
+         call forcod(lab)
+      else if (token == LEXREPEAT)
+         call repcod(lab)
+      else if (token == LEXSWITCH)
+         call swcode(lab)
+      else if (token == LEXCASE | token == LEXDEFAULT) 
+	 {
+         for (i = sp; i > 0; i = i - 1)   # find for most recent switch
+            if (lextyp(i) == LEXSWITCH)
+               break
+         if (i == 0)
+            call synerr("illegal case or default.")
+         else
+            call cascod(labval(i), token)
+         }
+      else if (token == LEXDIGITS)
+         call labelc(lexstr)
+      else if (token == LEXELSE) 
+         {
+         if (lextyp(sp) == LEXIF)
+            call elseif(labval(sp))
+         else
+            call synerr("illegal else.")
+         }
+      else if (token == LEXLITERAL)
+	call litral
+      if (token == LEXIF | token == LEXELSE | token == LEXWHILE
+        | token == LEXFOR | token == LEXREPEAT | token == LEXSWITCH
+        | token == LEXDO | token == LEXDIGITS | token == LBRACE) {
+         sp = sp + 1         # beginning of statement
+         if (sp > MAXSTACK)
+            call baderr("stack overflow in parser.")
+         lextyp(sp) = token      # stack type and value
+         labval(sp) = lab
+         }
+      else if (token ^= LEXCASE & token ^= LEXDEFAULT) {
+         if (token == RBRACE) {
+            if (lextyp(sp) == LBRACE)
+               sp = sp - 1
+            else if (lextyp(sp) == LEXSWITCH) {
+               call swend(labval(sp))
+               sp = sp - 1
+               }
+            else
+               call synerr("illegal right brace.")
+            }
+         else if (token == LEXOTHER)
+            call otherc(lexstr)
+         else if (token == LEXBREAK | token == LEXNEXT)
+            call brknxt(sp, lextyp, labval, token)
+         else if (token == LEXRETURN)
+            call retcod
+         else if (token == LEXSTRING)
+            call strdcl
+         token = lex(lexstr)      # peek at next token
+         call pbstr(lexstr)
+         call unstak(sp, lextyp, labval, token)
+         }
+      }
+   if (sp ^= 1)
+      call synerr("unexpected EOF.")
+   return
+   end

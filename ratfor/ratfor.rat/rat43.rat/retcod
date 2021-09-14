@@ -1,0 +1,28 @@
+##### return statement
+
+
+# retcod - generate code for return
+   subroutine retcod
+   character token(MAXTOK), gnbtok, t
+   # include commonblocks
+   include cfname
+   include cgoto
+   string sret "return"
+
+   t = gnbtok(token, MAXTOK)
+   if (t ^= NEWLINE & t ^= SEMICOL & t ^= RBRACE) {
+      call pbstr(token)
+      call outtab
+      call outstr(fcname)
+      call outch(EQUALS)
+      call eatup
+      call outdon
+      }
+   else if (t == RBRACE)
+      call pbstr(token)
+   call outtab
+   call outstr(sret)
+   call outdon
+   xfer = YES
+   return
+   end

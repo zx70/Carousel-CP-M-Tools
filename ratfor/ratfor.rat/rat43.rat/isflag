@@ -1,0 +1,18 @@
+## isflag - looks for flag on command line
+#  temporary version -- should be made more general
+
+integer function isflag(flag)
+character flag(ARB)
+integer getarg, equal, i
+character buf(4), fflag(4)
+
+call scopy (flag, 1, fflag, 1)
+call fold (fflag)
+for (i=1; getarg(i,buf,4) != EOF; i=i+1)
+	{
+        call fold (buf)
+	if (equal(fflag,buf) == YES)
+		return(YES)
+	}
+return(NO)
+end

@@ -1,0 +1,8 @@
+# swvar - output switch variable Innn, where nnn = lab
+   subroutine swvar(lab)
+   integer lab
+
+   call outch(BIGI)
+   call outnum(lab)
+   return
+   end

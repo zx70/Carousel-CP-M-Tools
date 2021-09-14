@@ -1,0 +1,14 @@
+##### while statement - routines involved are whilec, whiles
+
+
+# whilec - generate code for beginning of while
+   subroutine whilec(lab)
+   integer labgen
+   integer lab
+ 
+   call outcon(0)    # unlabeled continue, in case there was a label
+   lab = labgen(2)
+   call outnum(lab)
+   call ifgo(lab+1)
+   return
+   end

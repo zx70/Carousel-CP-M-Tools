@@ -1,0 +1,8 @@
+# whiles - generate code for end of while
+   subroutine whiles(lab)
+   integer lab
+ 
+   call outgo(lab)
+   call outcon(lab+1)
+   return
+   end

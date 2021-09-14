@@ -1,0 +1,10 @@
+# skpblk - skip blanks and tabs in file  fd
+   subroutine skpblk(fd)
+   integer fd
+   character c, ngetch
+
+   for (c = ngetch(c, fd); c == BLANK | c == TAB; c = ngetch(c, fd))
+      ;
+   call putbak(c)
+   return
+   end

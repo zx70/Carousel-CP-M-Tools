@@ -1,0 +1,25 @@
+ # init - initialize for each input file
+   subroutine init
+   # include commonblocks
+   include coutln
+   include cline
+   include cdefio
+   include cfor
+   include cfname
+   include clabel
+   include csbuf
+   include cswtch
+ 
+   outp = 0		# output character pointer
+   level = 1		# file control
+   linect(1) = 1
+   sbp  = 1
+   fnamp = 2
+   fnames(1) = EOS
+   bp = 0		# pushback buffer pointer
+   fordep = 0		# for stack
+   fcname(1) = EOS	# current function name
+   swtop = 0		# switch stack
+   swlast = 1
+   return
+   end

@@ -1,0 +1,12 @@
+## install both lower and upper case versions of name
+ subroutine ulstal(name, defn)
+
+ character name(ARB), defn(ARB)
+ include crat4
+
+ call enter(name, defn, st)
+ call upper(name)
+ call enter(name, defn, st)
+
+ return
+ end

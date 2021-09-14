@@ -1,0 +1,28 @@
+# unstak - unstack at end of statement
+   subroutine unstak(sp, lextyp, labval, token)
+   integer labval(MAXSTACK), lextyp(MAXSTACK), sp, token
+ 
+   for ( ; sp > 1; sp = sp - 1) {
+      if (lextyp(sp) == LBRACE | lextyp(sp) == LEXSWITCH)
+         break
+      if (lextyp(sp) == LEXIF & token == LEXELSE)
+         break
+      if (lextyp(sp) == LEXIF)
+         call outcon(labval(sp))
+      else if (lextyp(sp) == LEXELSE) {
+         if (sp > 2)
+            sp = sp - 1
+         call outcon(labval(sp)+1)
+         }
+      else if (lextyp(sp) == LEXDO)
+         call dostat(labval(sp))
+      else if (lextyp(sp) == LEXWHILE)
+         call whiles(labval(sp))
+      else if (lextyp(sp) == LEXFOR)
+         call fors(labval(sp))
+      else if (lextyp(sp) == LEXREPEAT)
+         call untils(labval(sp), token)
+      }
+   return
+   end
+

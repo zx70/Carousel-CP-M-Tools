@@ -1,0 +1,32 @@
+# caslab - get one case label
+   integer function caslab(n, t)
+   integer n, t
+   character tok(MAXTOK)
+   integer i, s
+   character gnbtok
+   integer ctoi
+
+   t = gnbtok(tok, MAXTOK)
+   while (t == NEWLINE)
+      t = gnbtok(tok, MAXTOK)
+   if (t == EOF)
+      return (t)
+   if (t == MINUS)
+      s = -1
+   else
+      s = +1
+   if (t == MINUS | t == PLUS)
+      t = gnbtok(tok, MAXTOK)
+   if (t ^= DIGIT) {
+      call synerr("invalid case label.")
+      n = 0
+      }
+   else {
+      i = 1
+      n = s*ctoi(tok, i)
+      }
+   t = gnbtok(tok, MAXTOK)
+   while (t == NEWLINE)
+      t = gnbtok(tok, MAXTOK)
+   return
+   end
