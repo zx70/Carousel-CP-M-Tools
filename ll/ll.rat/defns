@@ -1,0 +1,2 @@
+ # include ratdef
+define(HUGE,10000)      # bigger than longest possible line
