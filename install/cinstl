@@ -1,0 +1,5 @@
+## common block for install
+
+ integer cpress, expand, setdef, skip
+ character dest(FILENAMESIZE), source(FILENAMESIZE)
+ common /cinstl/ cpress, expand, setdef, dest, source, skip
