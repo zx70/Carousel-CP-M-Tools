@@ -1,0 +1,37 @@
+# subst - substitute sub for occurrences of pat in txt
+   subroutine subst(txt, pat, sub, gflag, pflag)
+   character txt(MAXLINE), pat(ARB), sub(ARB)
+   integer gflag, pflag
+   character new(MAXLINE)
+   integer addset, amatch
+   integer j, junk, k, lastm, m, subbed
+ 
+   j = 1
+   subbed = NO
+   lastm = 0
+   for (k = 1; txt(k) ^= EOS; ) {
+      if (gflag == YES | subbed == NO)
+         m = amatch(txt, k, pat)
+      else
+         m = 0
+      if (m > 0 & lastm ^= m) {   # replace matched text
+         subbed = YES
+         call catsub(txt, k, m, sub, new, j, MAXLINE)
+         lastm = m
+         }
+      if (m == 0 | m == k) {   # no match or null match
+         junk = addset(txt(k), new, j, MAXLINE)
+         k = k + 1
+         }
+      else            # skip matched text
+         k = m
+      }
+   if (subbed == YES) {
+      if (addset(EOS, new, j, MAXLINE) == NO)
+         return
+      call scopy(new, 1, txt, 1)
+      if (pflag == YES)
+         call putlin(txt, STDOUT)
+      }
+   return
+   end

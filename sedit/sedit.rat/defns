@@ -1,0 +1,58 @@
+ # include ratdef
+define(NLINES,0)        # number of line numbers
+define(NEXT,1)          # index of next command
+define(LINE1,2)         # line number 1 or index of pattern
+define(LINE2,3)         # line number 2 or index of pattern
+define(COMMAND,4)       # command
+define(LIST,5)          # next command on insert/append list
+define(TEXT,6)          # text for insert/append or file name for read
+define(APPENDCOM,LETA)  # append command
+define(CHANGECOM,LETC)  # change command
+define(DELETECOM,LETD)  # delete command
+define(INSERTCOM,LETI)  # insert command
+define(PRINTCOM,LETP)   # print command
+define(READCOM,LETR)    # read command
+define(SUBSTCOM,LETS)   # substitute command
+# define(SUBSTGFLAG,COMMAND+1) # YES for global replacement
+define(SUBSTGFLAG,5)
+# define(SUBSTPFLAG,COMMAND+2) # YES for print
+define(SUBSTPFLAG,6)
+# define(SUBSTPAT,COMMAND+3)   # index of pattern
+define(SUBSTPAT,7)
+# define(SUBSTNEW,COMMAND+4)   # index of replacement
+define(SUBSTNEW,8)
+define(WRITECOM,LETW)   # write command
+# define(WRITEFD,COMMAND+1)    # file descriptor for opened file or 0
+define(WRITEFD,5)
+define(EQUALCOM,EQUALS) # print line number command
+define(INSERTLIST,1)    # location of list of inserts
+# define(FIRSTFREE,APPENDLIST+TEXT)    # first free location in buf
+define(FIRSTFREE,12)
+define(COMMANDLIST,1)
+define(MAXBUF,5000)     # size of command buffer
+define(LASTLINE,DOLLAR)
+define(OKYES,YES)          # to be compatible with addset/addstr
+define(GLOBAL,LETG)     # for getrhs
+define(PRINT,LETP)      # for ckp
+define(DITTO,(-3))
+# define(APPENDLIST,LIST+1)	# location of list of appends
+define(APPENDLIST,6)
+define(NOFILE,ERR)
+define(PATEND,-77)	# EOS marker for patterns (which may contain
+			# zeroes)
+
+# ------------------------------------------------------------------------
+#
+# NOTE: The version of sedit distributed by the Software Tools Users
+# group had some peculiarities -- it stored characters and integers
+# in the same arrays.  On CP/M this limited these integers to 8 bits,
+# which was not enough.  Also, regular expressions, which are coded
+# by 'getpat' into special pattern arrays, may contain zeroes.
+# On CP/M EOS is also zero.  Thus these pattern arrays could not be
+# properly moved around.  
+#
+# Thus sedit had to undergo considerable alterations to make it
+# work on CP/M.  The code now is not pretty, and should be reworked
+# for clarity, but at least it works...
+#
+# ---------------------------------------------------------------------

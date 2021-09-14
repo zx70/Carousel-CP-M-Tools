@@ -1,0 +1,92 @@
+# sedit - stream editor
+DRIVER(sedit)
+   character arg(MAXLINE), linbuf(MAXLINE)
+   integer i, j, nfiles, fd, k
+   integer length, getarg, open, getlin
+   include csedit
+
+   call query ("usage: sedit [-n] [[-e script | -f sfiles] | script] [files].")
+   prevc = COMMANDLIST  # initialize lists
+#   buf(COMMANDLIST+NEXT) = 0
+   k = COMMANDLIST + NEXT
+   buf(k) = 0
+   lastbf = FIRSTFREE
+   nflag = NO
+   nfiles = 0
+   i = 1
+   if (getarg (i, arg, MAXLINE) == EOF |
+       arg(i) == QMARK & arg(2) == EOS)
+      call usage
+   if (arg(1) == MINUS & (arg(2) == LETN | arg(2) == BIGN)) {
+      nflag = YES
+      i = i + 1
+      }
+   for (; getarg(i, arg, MAXLINE) ^= EOF; i = i + 2)
+      if (arg(1) == MINUS & (arg(2) == LETF | arg(2) == BIGF)) { # -f filename
+         if (getarg(i + 1, arg, MAXLINE) == EOF)
+            call usage
+         fd = open(arg, READ)
+         if (fd == ERR)
+            call cant(arg)
+         while (getlin(arg, fd) ^= EOF)
+            call compil(arg, fd)
+         call close(fd)
+         }
+      else if (arg(1) == MINUS & (arg(2)==LETE | arg(2)==BIGE)) { # -e script
+         if (getarg(i + 1, arg, MAXLINE) == EOF)
+             call usage
+         j = length(arg)
+         arg(j+1) = NEWLINE
+         arg(j+2) = EOS
+         call compil(arg, NOFILE)
+         }
+      else      # no flags
+         break
+   if (lastbf == FIRSTFREE) {   # use argument as script
+      if (getarg(i, arg, MAXLINE) == EOF)
+          call usage
+      j = length(arg)
+      arg(j+1) = NEWLINE
+      arg(j+2) = EOS
+      call compil(arg, NOFILE)
+      i = i + 1
+      }
+   linbuf(1) = EOS
+   lineno = 0
+   call docmds(linbuf, 0)       # do line 0 commands
+   for (; getarg(i, arg, MAXLINE) ^= EOF; i = i + 1) {
+      if (arg(1) == MINUS & arg(2) == EOS)
+         fd = STDIN
+      else
+         fd = open(arg, READ)
+      if (fd == ERR)
+         call cant(arg)
+      call sed(linbuf, lineno, fd)
+      if (fd ^= STDIN)
+         call close(fd)
+      nfiles = nfiles + 1
+      }
+   if (nfiles == 0)
+      call sed(linbuf, lineno, STDIN)
+   if (linbuf(1) ^= EOS) {      # set last line number and do last line
+      lineno = lineno + 1
+#      for (i = buf(COMMANDLIST+NEXT); i > 0; i = buf(i+NEXT)) {
+      k = COMMANDLIST + NEXT
+      for (i = buf(k); i > 0; i = buf(i+NEXT)) {
+         if (buf(i+LINE1) == -HUGE)
+            buf(i+LINE1) = -lineno
+         if (buf(i+LINE2) == -HUGE)
+            buf(i+LINE2) = -lineno
+         if (buf(i+COMMAND) == CHANGECOM) #clean unsatisfied c commands
+            {
+            if (buf(i+NLINES) == 2)
+               buf(i+NLINES) = 1    # insures changed text is output
+            if (buf(i+NLINES) == 3 & (buf(i+LINE2) > 0 |
+               -buf(i+LINE2) >= lineno))
+               buf(i+LINE2) = -lineno
+            }
+         }
+      call docmds(linbuf, lineno)
+      }
+   DRETURN
+   end

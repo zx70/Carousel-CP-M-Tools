@@ -1,0 +1,88 @@
+# docmds-execute commands in buf on linbuf, which contains line lineno
+   subroutine docmds(linbuf, lineno)
+   character linbuf(MAXLINE), temp(MAXPAT)
+   integer lineno
+   integer i, n, j
+   integer match
+   include csedit
+
+   aq = APPENDLIST      # initialize append and insert queues
+   buf(aq+LIST) = 0
+   iq = INSERTLIST
+   buf(iq+LIST) = 0
+   j = COMMANDLIST + NEXT
+   for (i = buf(j); i ^= 0; i = buf(i+NEXT)) {
+      nlines = buf(i+NLINES)
+      line1 = buf(i+LINE1)
+      line2 = buf(i+LINE2)
+     if (nlines == 0)
+         call docom(i, linbuf, lineno)
+      else if (nlines == 1) {
+         if (-line1 == lineno)
+            call docom(i, linbuf, lineno)
+         else if (line1 > 0)
+		{
+#                 andif (match(linbuf, buf(line1)) > 0)
+		call gpat (buf(line1), 1, temp, 1)
+		if (match(linbuf, temp) > 0)
+                    call docom(i, linbuf, lineno)
+		}
+         }
+      else if (nlines == 2) {   # 2 line numbers, searching for line1
+         if (-line1 == lineno) {
+            buf(i+NLINES) = 3   # found it, change state
+            call docom(i, linbuf, lineno)
+            }
+         else if (line1 > 0)
+#                 andif (match(linbuf, buf(line1)) > 0) {
+		{
+		call gpat (buf(line1), 1, temp, 1)
+		if (match(linbuf, temp) > 0) {
+                    buf(i+NLINES) = 3
+                    call docom(i, linbuf, lineno)
+                    }
+		}
+         }
+      else if (nlines == 3) {   # 2 line numbers, searching for line2
+         if (line2 <= 0) {
+            if (lineno >= -line2)
+               buf(i+NLINES) = 2        # found it, change state
+            if (lineno <= -line2)
+               call docom(i, linbuf, lineno)
+            }
+         else if (line2 > 0) {
+#            if (match(linbuf, buf(line2)) > 0)
+             call gpat (buf(line2), 1, temp, 1)
+              if (match(linbuf, temp) > 0)
+                 buf(i+NLINES) = 2
+              call docom(i, linbuf, lineno)
+            }
+         }
+      else
+         call error("in docmds: can't happen.")
+      if (linbuf(1) == EOS & lineno > 0)
+         break
+      }
+                                           # output inserts
+   j = INSERTLIST + LIST
+   for (i = buf(j); i > 0; i = buf(i+LIST))
+#      call putlin(buf(i+TEXT), STDOUT)
+	{
+	call icopys (buf(i+TEXT), 1, temp, 1)
+	call putlin (temp, STDOUT)
+	}
+   if (nflag == NO)
+      call putlin(linbuf, STDOUT)
+                                      # output appends
+   j = APPENDLIST + LIST
+   for (i = buf(j); i > 0; i = buf(i+LIST))  
+      if (buf(i+COMMAND) == READCOM)
+         call fcopy(buf(i+TEXT), STDOUT)        # do r command
+      else
+#         call putlin(buf(i+TEXT), STDOUT)
+	{
+	call icopys (buf(i+TEXT), 1, temp, 1)
+	call putlin (temp, STDOUT)
+	}
+   return
+   end

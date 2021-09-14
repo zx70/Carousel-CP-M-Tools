@@ -1,0 +1,43 @@
+# getone - evaluate one line number expression, increment i
+   integer function getone(lin, i, num)
+   character lin(MAXLINE)
+   integer i, istart, num
+   integer addpat, ctoi, optpat
+   include csedit
+ 
+   getone = OKYES
+   call skipbl(lin, i)
+   istart = i
+   if (lin(i) >= DIG0 & lin(i) <= DIG9) {
+      num = ctoi(lin, i)
+      i = i - 1   # move back; to be advanced at the end
+      if (num < 0)
+         getone = ERR
+      num = -num
+      }
+   else if (lin(i) == LASTLINE)
+      num = -HUGE
+   else if (lin(i) == SLASH) {
+      if (optpat(lin, i) == ERR)   # build the pattern
+         getone = ERR
+      else if (lin(i) == SLASH) {
+         num = lastbf
+#         junk = addis(pat, buf, lastbf, MAXBUF)
+#         if (addi(EOS, buf, lastbf, MAXBUF) == NO)
+			# insert pattern (special
+			# problem with EOS marker)
+	if (addpat(pat, buf, lastbf, MAXBUF) == NO)
+            getone = ERR
+         }
+      }
+   else
+      getone = EOF
+   if (getone == OKYES)
+      i = i + 1   # point at next character to be examined
+   call skipbl(lin, i)
+   if (i <= istart)
+      getone = EOF
+   else
+      getone = OKYES
+   return
+   end

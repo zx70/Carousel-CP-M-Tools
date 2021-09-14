@@ -1,0 +1,57 @@
+# docom - execute a single command at buf(i) on linbuf and lineno
+   subroutine docom(i, linbuf, lineno)
+   character linbuf(MAXLINE)
+   character temp1(MAXLINE), temp2(MAXLINE)
+   integer i, lineno
+   character cmd
+   integer k1, k2, junk
+   include csedit
+
+   cmd = buf(i+COMMAND)
+   if (cmd == APPENDCOM) {
+      buf(aq+LIST) = i
+      aq = i
+      buf(i+LIST) = 0
+      }
+   else if (cmd == CHANGECOM) {
+      linbuf(1) = EOS
+      if (buf(i+NLINES) <= 2) {
+         buf(aq+LIST) = i
+         aq = i
+         buf(i+LIST) = 0
+         }
+      }
+   else if (cmd == DELETECOM)
+      linbuf(1) = EOS
+   else if (cmd == INSERTCOM) {
+      buf(iq+LIST) = i
+      iq = i
+      buf(i+LIST) = 0
+      }
+   else if (cmd == PRINTCOM)
+      call putlin(linbuf, STDOUT)
+   else if (cmd == READCOM) {
+      buf(aq+LIST) = i
+      aq = i
+      buf(i+LIST) = 0
+      }
+   else if (cmd == SUBSTCOM) {
+      k1 = buf(i+SUBSTPAT)
+      k2 = buf(i+SUBSTNEW)
+	call gpat (buf(k1), 1, temp1, 1)
+	call icopys (buf(k2), 1, temp2, 1)
+	call subst (linbuf, temp1, temp2,
+#      call subst(linbuf, buf(k1), buf(k2),
+                buf(i+SUBSTGFLAG), buf(i+SUBSTPFLAG))
+      }
+   else if (cmd == WRITECOM) {
+      if (buf(i+WRITEFD) ^= 0)
+         call putlin(linbuf, buf(i+WRITEFD))
+      }
+   else if (cmd == EQUALCOM) {
+      call putdec(lineno, 1)
+      call putc(NEWLINE)
+      }
+   # else ignore command
+   return
+   end

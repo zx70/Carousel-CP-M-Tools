@@ -1,0 +1,19 @@
+# getfn - get file name from lin(i)...
+   integer function getfn(lin, i, file)
+   character lin(MAXLINE), file(MAXLINE)
+   integer i, j, k
+ 
+   getfn = ERR
+   if (lin(i + 1) == BLANK | lin(i + 1) == TAB) {
+      j = i + 2      # get new file name
+      call skipbl(lin, j)
+      for (k = 1; lin(j) ^= NEWLINE; k = k + 1) {
+         file(k) = lin(j)
+         j = j + 1
+         }
+      file(k) = EOS
+      if (k > 1)
+         getfn = OKYES
+      }
+   return
+   end

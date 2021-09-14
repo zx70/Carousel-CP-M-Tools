@@ -1,0 +1,17 @@
+ ## gpat - copy pattern out of integer array (terminated by PATEND marker)
+ # The endoding of patterns may include zero, which is often the EOS marker.
+ # Thus a special routine is needed for moving patterns around.
+ subroutine gpat (from, i, to, j)
+ integer from(ARB), i, j
+ character to(ARB)
+ integer k1, k2
+
+ k2 = j
+ for (k1 = i; from(k1) != PATEND; k1 = k1 + 1)
+	{
+	to(k2) = from(k1)
+	k2 = k2 + 1
+	}
+ to(k2) = EOS
+ return
+ end

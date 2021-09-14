@@ -1,0 +1,15 @@
+# dotext - append text in file fd onto buf
+   integer function dotext(fd)
+   integer fd
+   integer getlin, addi, addis
+   character lin(MAXLINE)
+   include csedit
+
+   while (getlin(lin, fd) ^= EOF) {
+      if (lin(1) == PERIOD & lin(2) == NEWLINE)
+         break
+      junk = addis(lin, buf, lastbf, MAXBUF)
+      }
+   dotext = addi(EOS, buf, lastbf, MAXBUF)
+   return
+   end

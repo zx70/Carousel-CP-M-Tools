@@ -1,0 +1,94 @@
+# compil - "compile" command in lin(i) from file fd, increment i
+   subroutine compil(lin, fd)
+   character lin(MAXLINE)
+   integer fd
+   character file(MAXNAME), sub(MAXPAT), c
+   integer i, gflag, pflag, status, fdw, j
+   integer addi, addis, create, getrhs, getfn, ckp, optpat, dotext,
+      getlst, patlen
+   integer addpat
+   character clower
+   include csedit
+
+   status = ERR
+   i = 1
+   if (getlst(lin, i, status) == ERR) {
+      call putlin(lin, ERROUT)
+      call error("bad line numbers.")
+      }
+   call skipbl(lin, i)
+   buf(prevc+NEXT) = lastbf     # link in new command
+   prevc = lastbf
+   status = addi(nlines, buf, lastbf, MAXBUF)
+   status = addi(0, buf, lastbf, MAXBUF)
+   status = addi(line1, buf, lastbf, MAXBUF)
+   status = addi(line2, buf, lastbf, MAXBUF)
+                                    #fold commands to lower case
+   c = clower(lin(i))
+   j = c
+   status = addi (j, buf, lastbf, MAXBUF)
+   if (clower(lin(i)) == APPENDCOM & lin(i+1) == NEWLINE & fd ^= NOFILE) {
+      status = addi(0, buf, lastbf, MAXBUF)
+      status = dotext(fd)
+      }
+   else if (clower(lin(i)) == CHANGECOM & lin(i+1) == NEWLINE & fd ^= NOFILE) {
+      status = addi(0, buf, lastbf, MAXBUF)
+      status = dotext(fd)
+      }
+   else if (clower(lin(i)) == DELETECOM & lin(i+1) == NEWLINE)
+      status = OKYES
+   else if (clower(lin(i)) == INSERTCOM & lin(i+1) == NEWLINE & fd ^= NOFILE) {
+      status = addi(0, buf, lastbf, MAXBUF)
+      status = dotext(fd)
+      }
+   else if (clower(lin(i)) == PRINTCOM & lin(i+1) == NEWLINE)
+      status = OKYES
+   else if (clower(lin(i)) == READCOM) {
+      status = addi(0, buf, lastbf, MAXBUF)
+      status = getfn(lin, i, file)
+      if (status == OKYES) {
+         status = addis(file, buf, lastbf, MAXBUF)
+         status = addi(EOS, buf, lastbf, MAXBUF)
+         }
+      }
+   else if (clower(lin(i)) == SUBSTCOM) {
+      i = i + 1
+      if (optpat(lin, i) == OKYES)
+         andif (getrhs(lin, i, sub, gflag) == OKYES)
+            status = ckp(lin, i + 1, pflag, status)
+      if (status == OKYES) {
+         status = addi(gflag, buf, lastbf, MAXBUF)
+         status = addi(pflag, buf, lastbf, MAXBUF)
+         status = addi(lastbf + 2, buf, lastbf, MAXBUF)
+         status = addi(lastbf + patlen(pat) + 2, buf, lastbf, MAXBUF)
+#         status = addis(pat, buf, lastbf, MAXBUF)
+#         status = addi(EOS, buf, lastbf, MAXBUF)
+				# insert pattern (special problem
+				# with the EOS marker)
+         status = addpat(pat, buf, lastbf, MAXBUF)
+         status = addis(sub, buf, lastbf, MAXBUF)
+         status = addi(EOS, buf, lastbf, MAXBUF)
+         }
+      }
+   else if (clower(lin(i)) == WRITECOM) {
+      status = getfn(lin, i, file)
+      if (status == OKYES) {
+         fdw = create(file, WRITE)
+         if (fdw == ERR)
+            call cant(file)
+         }
+      status = addi(fdw, buf, lastbf, MAXBUF)
+      }
+   else if (clower(lin(i)) == EQUALCOM & lin(i+1) == NEWLINE)
+      status = OKYES
+   else
+      status = ERR
+   if (status ^= OKYES) {
+      call putlin(lin, ERROUT)
+      if (lastbf > MAXBUF)
+         call error("too many commands.")
+      else
+         call error("invalid command.")
+      }
+   return
+   end

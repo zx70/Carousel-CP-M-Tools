@@ -1,0 +1,16 @@
+## addis - add character string to integer array(j); increment j
+   integer function addis(s, str, j, maxsiz)
+   character s(ARB)
+   integer str(ARB)
+   integer j, maxsiz
+   integer i
+
+   for (i = 1; s(i) ^= EOS; i = i + 1)
+	{
+	if (j > maxsiz)
+		return (NO)
+	str(j) = s(i)
+	j = j + 1
+	}
+ return (YES)
+   end

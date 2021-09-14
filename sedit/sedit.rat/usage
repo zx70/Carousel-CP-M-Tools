@@ -1,0 +1,7 @@
+# usage - print usage message
+  subroutine usage
+
+  call error(_
+   "usage: sedit [-n] [[-e script | -f sfiles] | script] [files].")
+   return
+   end

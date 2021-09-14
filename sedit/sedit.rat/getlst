@@ -1,0 +1,23 @@
+# getlst - get a list of line numbers starting at lin(i), increment i
+   integer function getlst(lin, i, status)
+   character lin(MAXLINE)
+   integer i
+   integer status    # ignored
+   integer num
+   integer getone
+   include csedit
+ 
+   nlines = 0
+   if (getone(lin, i, num) == EOF)
+      return(OKYES)
+   line1 = num
+   nlines = nlines + 1
+   if (lin(i) ^= COMMA)
+      return(OKYES)
+   i = i + 1
+   if (getone(lin, i, num) ^= OKYES)
+      return(ERR)
+   line2 = num
+   nlines = nlines + 1
+   return(OKYES)
+   end

@@ -1,0 +1,30 @@
+# sed-execute all commands for file fd, use linbuf and increment lineno
+   subroutine sed(linbuf, lineno, fd)
+   character linbuf(MAXLINE)
+   integer lineno, fd
+   character buf1(MAXLINE), buf2(MAXLINE)
+   integer getlin
+   include csedit
+
+   if (getlin(buf1, fd) == EOF)
+      return
+   if (lineno > 0) {    # do previous last line
+      lineno = lineno + 1
+      call docmds(linbuf, lineno)
+      }
+   repeat {
+      if (getlin(buf2, fd) == EOF) {    # buf1 contains last line
+         call scopy(buf1, 1, linbuf, 1)
+         break
+         }
+      lineno = lineno + 1
+      call docmds(buf1, lineno)
+      if (getlin(buf1, fd) == EOF) {    # buf2 contains last line
+         call scopy(buf2, 1, linbuf, 1)
+         break
+         }
+      lineno = lineno + 1
+      call docmds(buf2, lineno)
+      }
+   return
+   end

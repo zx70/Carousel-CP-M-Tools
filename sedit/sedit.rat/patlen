@@ -1,0 +1,9 @@
+ ## patlen - get length of pattern
+
+ integer function patlen (pat)
+ character pat(ARB)
+
+ for (patlen = 0; pat(patlen+1) != PATEND; patlen=patlen+1)
+	;
+ return
+ end
