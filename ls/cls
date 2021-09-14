@@ -1,0 +1,25 @@
+ ## cls - common block for ls
+ integer verbos		#flag for verbose listing (-v)
+ integer sortit		#flag for sorted listing  (-s)
+ integer packit		#flag for columnated listing
+ integer except		#flag for locating all patterns
+			#except those noted (-x)
+ integer andpat		#flag for matching all patterns (-a)
+ integer system		#flag for listing "hidden" files (-h)
+ integer lspath		#flag for listing full path of files (-p)
+ character pat		#holds patterns
+ integer elevel		#count of patterns
+ integer linp		#pointer (into Mem) for line pointers
+ integer bufp		#pointer (into Mem) for filename buffer
+ integer maxptr		#max number of filenames allowed
+ integer maxtxt		#max size of filename buffer
+ integer nlines		#number of lines being used in buffer
+ integer nextl		#next place in buffer to use
+ integer col		#current output character column
+ integer fd		#file descriptor for directory
+ 
+ common /cls/ verbos, sortit, packit,
+	      except, andpat, system, lspath,
+	      pat(MAXPAT, NEXPR), elevel,
+	      linp, bufp, maxptr, maxtxt,
+	      nlines, nextl, col, fd
