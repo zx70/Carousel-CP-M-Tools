@@ -1,0 +1,82 @@
+ ## ptail - print last 'n' lines of file 'fd'
+# original version, see below for CP/M version.
+#  subroutine ptail (nlins, fd)
+#  integer n, fd, nlins
+#  character buf(MAXBUF)
+#  character getch
+#  integer head, tail, i
+#  
+#    head = 1
+#    tail = 1
+#    n = nlins
+#    while (getch(buf(tail), fd) ^= EOF) {
+#       tail = mod(tail, MAXBUF) + 1
+#       if (tail == head)
+#          head = mod(head, MAXBUF) + 1
+#       }
+#    for (i = tail; i ^= head; ) {
+#       i = i - 1
+#       if (i == 0)
+#          i = MAXBUF
+#       if (buf(i) == NEWLINE) {
+#          n = n - 1
+#          if (n < 0) {
+#             i = mod(i, MAXBUF) + 1
+#             break
+#             }
+#          }
+#       }
+#    for (head = i; head ^= tail; head = mod(head, MAXBUF) + 1)
+#       call putch(buf(head), STDOUT)
+#  
+#  return
+#  end
+#
+# CP/M version
+ subroutine ptail (nlins, fd)
+ integer n, fd, nlins
+ character buf(MAXBUF)
+ character getch
+ integer head, tail, i
+ 
+   head = 1
+   tail = 1
+   n = nlins
+   call rseek (-(n+MAXBUF),2,fd)
+   while (getch(buf(tail), fd) ^= EOF)
+	{
+	tail = tail + 1
+	if (tail == MAXBUF)
+		tail = 1
+	if (tail == head)
+		{
+		head = head + 1
+		if (head == MAXBUF)
+			head = 1
+		}
+	}
+   for (i = tail; i ^= head; )
+	{
+	i = i - 1
+	if (i == 0)
+		i = MAXBUF
+	if (buf(i) == NEWLINE)
+		{
+		n = n - 1
+		if (n < 0)
+			{
+			i = i+1
+			if (i == MAXBUF)
+				i = 1
+			break
+			}
+		}
+	}
+   for (head = i; head ^= tail; head = head + 1)
+	{
+	if (head == MAXBUF)
+		head = 1
+	call putch(buf(head), STDOUT)
+	}
+ return
+ end
