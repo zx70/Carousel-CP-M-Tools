@@ -1,0 +1,239 @@
+# General Symbols - include in every tool
+  # CP/M environment
+  define(CPM,)		# CP/M version
+  define(NEGDEF,)
+
+  # ASCII control character definitions:
+#  define(NUL,8%00)
+#  define(SOH,8%01)
+#  define(STX,8%02)
+#  define(ETX,8%03)
+#  define(EOT,8%04)
+#  define(ENQ,8%05)
+#  define(ACK,8%06)
+#  define(BEL,8%07)
+#  define(BS,8%10)
+#  define(HT,8%11)
+#  define(LF,8%12)
+#  define(VT,8%13)
+#  define(FF,8%14)
+#  define(CR,8%15)
+#  define(SO,8%16)
+#  define(SI,8%17)
+#  define(DLE,8%20)
+#  define(DC1,8%21)
+#  define(DC2,8%22)
+#  define(DC3,8%23)
+#  define(DC4,8%24)
+#  define(NAK,8%25)
+#  define(SYN,8%26)
+#  define(ETB,8%27)
+#  define(CAN,8%30)
+#  define(EM,8%31)
+#  define(SUB,8%32)
+#  define(ESC,8%33)
+#  define(FS,8%34)
+#  define(GS,8%35)
+#  define(RS,8%36)
+#  define(US,8%37)
+#  define(SP,8%40)
+#  define(DEL,8%177)
+
+  # general symbols
+  define(ACCENT,96)
+  define(ALPHA,-9)
+  define(AMPER,38)           # ampersand 
+  define(AMPERSAND,38)
+  define(AND,38)             # same as ampersand
+  define(APPEND,4) 
+  define(ARB,100) 
+  define(ASCII,12)          # flag for ascii character file
+  define(ATSIGN,64) 
+  define(BACKSLASH,92) 
+  define(BACKSPACE,8) 
+  define(BANG,33)            # exclamation mark 
+  define(BAR,124) 
+  define(BEGINNING_OF_FILE,-3)  # flag to seek for positioning at
+                             # the beginning of a file
+  define(BIGA,65) 
+  define(BIGB,66) 
+  define(BIGC,67) 
+  define(BIGD,68) 
+  define(BIGE,69) 
+  define(BIGF,70) 
+  define(BIGG,71) 
+  define(BIGH,72) 
+  define(BIGI,73) 
+  define(BIGJ,74) 
+  define(BIGK,75) 
+  define(BIGL,76) 
+  define(BIGM,77) 
+  define(BIGN,78) 
+  define(BIGO,79) 
+  define(BIGP,80) 
+  define(BIGQ,81) 
+  define(BIGR,82) 
+  define(BIGS,83) 
+  define(BIGT,84) 
+  define(BIGU,85) 
+  define(BIGV,86) 
+  define(BIGW,87) 
+  define(BIGX,88) 
+  define(BIGY,89) 
+  define(BIGZ,90) 
+  define(BINARY,60)          # flag for indicating binary file
+  define(BLANK,32) 
+  define(CARET,94)
+  define(CHAR_DEFN,-1)	   # flag for mktabl character data
+  define(COLON,58) 
+  define(COMMA,44) 
+  define(COOKED,1)
+  define(DASH,45)            #same as MINUS
+  define(DIG0,48) 
+  define(DIG1,49) 
+  define(DIG2,50) 
+  define(DIG3,51) 
+  define(DIG4,52) 
+  define(DIG5,53) 
+  define(DIG6,54) 
+  define(DIG7,55) 
+  define(DIG8,56) 
+  define(DIG9,57) 
+  define(DIGIT,2) 
+  define(DIRECTORY,2)
+  define(DOLLAR,36) 
+  define(DQUOTE,34) 
+                            # DRIVER is defined as those things
+                            # you need to do to start a software
+                            # tools program running.
+  define(DRIVER,
+    call initst
+    ifelse($1,,	call main,	call $1)
+    call endst(OK)
+    end
+    ifelse($1,,	subroutine main,	subroutine $1)
+    )
+  define(DRETURN,return)   # this is the return statement from the
+                           # subroutine defined in DRIVER
+  define(END_OF_FILE,-2)    # flag to seek for positioning at
+                          # end of file
+  define(EOF,-1)
+  define(EOS,0)
+  define(EQUALS,61) 
+  define(ERR,-3)
+  define(ERROUT,3)           #standard error file 
+  define(ESCAPE,ATSIGN)      #escape character for ch, find, tr, ed,
+                             # and sh
+  define(FILENAME,1)
+  define(FILENAMESIZE,20)    #max characters in file name
+                             # (including EOS)
+  define(FORMFEED,11)
+  define(GREATER,62) 
+  define(HOME_DIRECTORY,1)   #
+  define(HUGE,30000)         #some arbitrarily large number
+  define(LBRACE,123) 
+  define(LBRACK,91) 
+  define(LESS,60) 
+  define(LETA,97) 
+  define(LETB,98) 
+  define(LETC,99) 
+  define(LETD,100) 
+  define(LETE,101) 
+  define(LETF,102) 
+  define(LETG,103) 
+  define(LETH,104) 
+  define(LETI,105) 
+  define(LETJ,106) 
+  define(LETK,107) 
+  define(LETL,108) 
+  define(LETM,109) 
+  define(LETN,110) 
+  define(LETO,111) 
+  define(LETP,112) 
+  define(LETQ,113) 
+  define(LETR,114) 
+  define(LETS,115) 
+  define(LETT,116) 
+  define(LETTER,1) 
+  define(LETU,117) 
+  define(LETV,118) 
+  define(LETW,119) 
+  define(LETX,120) 
+  define(LETY,121) 
+  define(LETZ,122) 
+  define(LOCAL,6)          # flag for local-type character file and pathnames
+  define(LPAREN,40) 
+  define(MAXARG,128)         # max size of strings to be encoded
+                             # for pattern matching
+  define(MAXCHARS,20)        # max nbr of chars when converting
+                             # from integers to characters
+                             # (used by putint, outnum, etc.)
+  define(MAXLINE,128)        #normal size of line buffers;
+                             #must be at least 1 more than MAXCARD
+  define(MAXNAME,FILENAMESIZE)  #max size of file name
+  define(MAXOFILES,10)        #max nbr opened files allowed at a time
+  define(MAXPAT,64)         #max size of encoded patterns
+  define(MAXPATH,50)	# max chars in path pre- or suffix list
+                             # (used in string matching)
+  define(MAXTOK,25)
+  define(MINUS,45) 
+  define(NCHARS,33)          # number of special characters 
+  define(NEWLINE,10)         # character used to mark end-of-line
+  define(NO,0) 
+  define(NOERR,0)            #flag for successful completion
+  define(NOT,BANG)           #choose your favorite:  ! ^ or ~
+                             #(used in pattern matching)
+  define(NULL,0)	     #empty pointer
+  define(OK,0)               # success flag
+  define(OR,BAR)
+  define(PATH,2)	   # flag for UNIX-style pathnames
+  define(PERCENT,37) 
+  define(PERIOD,46) 
+  define(PLUS,43) 
+  define(QMARK,63) 
+  define(RARE,2)
+  define(RAW,3)
+  define(RBRACE,125) 
+  define(RBRACK,93) 
+  define(READ,1)             # flag to open file at read access
+  define(READWRITE,3)        #flag to open file at read/write access 
+  define(RPAREN,41) 
+  define(SEMICOL,59) 
+  define(SHARP,35) 
+  define(SLASH,47) 
+  define(SQUOTE,39) 
+  define(STDERR,ERROUT)
+  define(STDIN,1)            #standard input file 
+  define(STDOUT,2)           #standard output file 
+  define(STAR,42) 
+  define(TAB,9) 
+  define(TERMINAL_IN,"CON:")  #name of input channel to users console
+  define(TERMINAL_OUT,"CON:") #name of output channel to users console
+  define(TILDE,126)
+  define(UNDERLINE,95) 
+  define(WRITE,2)            # flag to open file at write access 
+  define(YES,1) 
+
+
+ #  Definitions of language extensions
+  define(character,byte)
+  define(CHARACTER,character)
+  define(short_int,byte)
+  define(pointer,integer)
+  define(POINTER,pointer)
+  define(max,max0)
+  define(min,min0)
+  define(MAX,max)
+  define(MIN,min)
+  define(andif,if)
+  define(DS_DECLARE,integer Mem(5);common /cdsmem/Mem)
+  define(DS_DECL,integer $1(5);common /cdsmem/$1)
+  define(ABS,IABS)
+  define(abs,iabs)
+  define(filedes,integer)
+  define(IS_DIGIT,(DIG0<=$1&$1<=DIG9))   # valid only for ASCII!
+  define(IS_LETTER,(IS_UPPER($1)|IS_LOWER($1)))
+  define(IS_LOWER,(LETA<=$1&$1<=LETZ))
+  define(IS_UPPER,(BIGA<=$1&$1<=BIGZ))
+  define(MAX_INTEGER,32767)
+#******* end of symbols *******
