@@ -1,0 +1,43 @@
+# pl - print specified lines or pages of given files
+ DRIVER
+   character arg(MAXLINE)
+   integer getarg, open, ctoi, addset, gnum
+   integer fd, i, j, l, u, lp, list(MAXLINES), pagsiz, pflag, junk
+
+   call query ("usage:  pl [-pn] numbers [file].")
+   pflag = NO
+   i = 1
+   pagsiz = 1
+   list(1) = EOL
+ for (i=1; getarg(i, arg, MAXLINE) != EOF; i=i+1)
+   {
+   if (arg(1) == MINUS & arg(2) != EOS)        # pick up flags
+	{
+	call doflag(arg, pflag, pagsiz)
+	next
+	}
+    if (list(1) == EOL)	      # need some numbers
+    	lp = gnum (arg, list)     # break out numbers
+     else
+	{
+      if (arg(1) == MINUS & arg(2) == EOS)
+         fd = STDIN
+      else
+         fd = open(arg, READ)
+      if (fd == ERR)
+         call cant(arg)
+      if (list(1) == EOL)     # need some numbers
+		call error ("usage:  pl [-pn] numbers [file].")
+      call plines(fd, list, pagsiz)
+      if (fd ^= STDIN)
+         call close(fd)
+      }
+    }
+ 
+   if (list(1) == EOL)
+	call error ("usage:  pl [-pn] numbers [file].")
+   if (fd == ERR) 
+           # no files specified
+      call plines(STDIN, list, pagsiz)
+    DRETURN
+   end
