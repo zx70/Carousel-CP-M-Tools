@@ -1,0 +1,14 @@
+# nalloc - allocate n words in top part of buf
+   integer function nalloc(n)
+   integer n
+   integer hash		# hash table headers
+   integer nxtsym	# next symbol structure
+   integer nxtfre	# next free word at bottom of buf
+   integer buf		# free storage
+ common /ctsort/ hash(128), nxtsym, nxtfre, buf(MAXBUF)
+
+   nxtfre = nxtfre - n
+   if (nxtfre < nxtsym)
+      call error("out of storage.")
+   return (nxtfre + 1)
+   end

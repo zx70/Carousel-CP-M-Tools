@@ -1,0 +1,19 @@
+# symalc - allocate a symbol structure for symbol s
+   integer function symalc(s)
+   integer s
+   integer p
+   integer hash		# hash table headers
+   integer nxtsym	# next symbol structure
+   integer nxtfre	# next free word at bottom of buf
+   integer buf		# free storage
+ common /ctsort/ hash(128), nxtsym, nxtfre, buf(MAXBUF)
+
+   p = nxtsym
+   nxtsym = nxtsym + SYMSIZE
+   if (nxtsym > nxtfre)
+      call error("out of storage.")
+   buf(p+NAME) = s
+   buf(p+COUNT) = 0
+   buf(p+TOP) = 0
+   return (p)
+   end

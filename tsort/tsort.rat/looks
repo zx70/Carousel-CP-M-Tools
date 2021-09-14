@@ -1,0 +1,27 @@
+ ## looks - lookup symbol s, insert if necessary
+   integer function looks(s)
+   character s(MAXSYMBOL), lin(MAXSYMBOL)
+   integer j
+   integer i
+   integer length, nalloc, equal, symalc
+   integer hash		# hash table headers
+   integer nxtsym	# next symbol structure
+   integer nxtfre	# next free word at bottom of buf
+   integer buf		# free storage
+ common /ctsort/ hash(128), nxtsym, nxtfre, buf(MAXBUF)
+
+   j = s(1) + 1
+   for (i = hash(j); i > 0; i = buf(i+NEXT))
+      {
+      call icopys (buf, i+CHARS, lin, 1)  # convert from int to char
+      if (equal(s, lin) == YES)                 # got it
+         return (buf(i+SYMBOL))
+     }
+   i = nalloc(CHARS + 1 + length(s) + 1)        # must make new entry
+   j = s(1) + 1
+   buf(i+NEXT) = hash(j)   # add onto proper hash chain
+   hash(j) = i
+   buf(i+SYMBOL) = symalc(i+CHARS)
+   call scopyi(s, 1, buf, i + CHARS)
+   return (buf(i+SYMBOL))
+   end

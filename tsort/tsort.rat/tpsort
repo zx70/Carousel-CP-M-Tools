@@ -1,0 +1,52 @@
+ ## tpsort - topological sort file 'fd'
+ subroutine tpsort (fd)
+   character linbuf(MAXLINE), symbuf(MAXSYMBOL)
+   integer i, j, f, r, n, fd
+   integer getwrd, getlin, looks
+   integer hash		# hash table headers
+   integer nxtsym	# next symbol structure
+   integer nxtfre	# next free word at bottom of buf
+   integer buf		# free storage
+ common /ctsort/ hash(128), nxtsym, nxtfre, buf(MAXBUF)
+
+   nxtsym = 1   # initialize
+   nxtfre = MAXBUF
+   for (i = 1; i <= 128; i = i + 1)
+      hash(i) = 0
+   while (getlin(linbuf, fd) ^= EOF) {
+      i = 1
+      if (getwrd(linbuf, i, symbuf) <= 0)       # ignore blank lines
+         next
+      j = looks(symbuf)
+      while (getwrd(linbuf, i, symbuf) > 0)
+         call entprc(j, looks(symbuf))          # insert a relation
+      }
+   f = 0        # build list of symbols with 0 counts
+   for (i = 1; i < nxtsym & f == 0; i = i + SYMSIZE)    # find first 0
+      if (buf(i+COUNT) == 0)
+         f = i
+   for (r = f; i < nxtsym; i = i + SYMSIZE)     # find rest of 0 counts
+      if (buf(i+COUNT) == 0) {
+         buf(r+COUNT) = i
+         r = i
+         }
+   n = nxtsym   # will be 0 if non-circular
+   for (; f > 0; f = buf(f+COUNT)) {    # print in topological order
+#      call putlin(buf(buf(f+NAME)), STDOUT)
+       call icopys (buf, buf(f+NAME), linbuf, 1)
+       call putlin(linbuf, STDOUT)
+      call putch(NEWLINE, STDOUT)
+      for (i = buf(f+TOP); i > 0; i = buf(i+LINK)) {
+         j = buf(i+SUCC)
+         buf(j+COUNT) = buf(j+COUNT) - 1
+         if (buf(j+COUNT) == 0) {       # add more onto list
+            buf(r+COUNT) = j
+            r = j
+            }
+         }
+      n = n - SYMSIZE
+      }
+   if (n > 1)
+      call error("circular.")
+   return
+   end

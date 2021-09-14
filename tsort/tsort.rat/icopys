@@ -1,0 +1,14 @@
+ ## icopys - copy integer string at from(i) to char string at to(j)
+    subroutine icopys(from, i, to, j)
+    integer from(ARB)
+    character to(ARB)
+    integer i, j, k1, k2
+ 
+    k2 = j
+    for (k1 = i; from(k1) != EOS; k1 = k1 + 1) {
+       to(k2) = from(k1)
+       k2 = k2 + 1
+       }
+    to(k2) = EOS
+    return
+    end

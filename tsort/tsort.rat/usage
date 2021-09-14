@@ -1,0 +1,5 @@
+ subroutine usage
+ 
+ call error ("usage:  tsort [files].")
+ return
+ end

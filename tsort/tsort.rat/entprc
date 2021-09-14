@@ -1,0 +1,18 @@
+# entprc - enter the relation a < b
+   subroutine entprc(a, b)
+   integer a, b
+   integer p
+   integer nalloc
+   integer hash		# hash table headers
+   integer nxtsym	# next symbol structure
+   integer nxtfre	# next free word at bottom of buf
+   integer buf		# free storage
+ common /ctsort/ hash(128), nxtsym, nxtfre, buf(MAXBUF)
+
+   buf(b+COUNT) = buf(b+COUNT) + 1
+   p = nalloc(NODESIZE)
+   buf(p+LINK) = buf(a+TOP)
+   buf(p+SUCC) = b
+   buf(a+TOP) = p
+   return
+   end
