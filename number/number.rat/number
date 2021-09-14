@@ -1,0 +1,50 @@
+#number - echo the standard input to standard output, with line #'s
+DRIVER(number)
+character array(MAXLINE)
+integer getlin
+integer ii, jj, i, k
+integer work
+character name(FILENAMESIZE)
+integer ctoi
+integer getarg
+integer fd
+integer open
+integer space
+data space /1/         #default is single spacing
+
+call query ("usage:  number [-sn] [files].")
+
+work = NO
+ii=1
+if(getarg(ii,name,FILENAMESIZE)^=ERR) {
+        if(name(1)==MINUS & (name(2)==LETS | name(2)==BIGS)){
+#               space=ctoi(name(3),1)
+                i = 1
+                space = ctoi (name(3), i)
+                if(space<1 | space>10) space=1
+                ii=ii+1
+                }
+        }
+for (jj = ii; getarg (jj, name, FILENAMESIZE) != EOF; jj = jj + 1) {
+        work = YES
+        if (name (1) == MINUS & name (2) == EOS)  fd = STDIN
+        else fd = open (name, READ)
+        if (fd == ERR) call cant (name)
+        for (i=1; getlin(array,fd)^=EOF; i=i+1) {
+                call putdec(i,NUMBER_WIDTH)
+                call putc(BLANK)
+                call putlin(array,STDOUT)
+                for(k=1; k<space; k=k+1) call putc(NEWLINE)
+                }
+        if (fd != STDIN)
+        call close (fd)
+        }
+if (work == NO)         #no files specified, read STDIN
+        for (i=1; getlin(array,STDIN)^=EOF; i=i+1) {
+                call putdec(i,NUMBER_WIDTH)
+                call putc(BLANK)
+                call putlin(array,STDOUT)
+                for(k=1; k<space; k=k+1) call putc(NEWLINE)
+                }
+DRETURN
+end
