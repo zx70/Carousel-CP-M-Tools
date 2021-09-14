@@ -1,4 +1,0 @@
-##script2 NAME = use crt to put NAME.doc on the terminal
-# put in correct directory name if needed
-crt $1.doc
-
