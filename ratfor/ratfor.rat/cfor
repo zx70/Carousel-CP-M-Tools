@@ -1,0 +1,7 @@
+ ## Preprocessor common block to hold info about 'for' statement
+ #  Put on a file named 'cfor'
+ #  Used by ratfor preprocessor
+ 
+ common /cfor/ fordep, forstk(MAXFORSTK)
+   integer fordep   # current depth of for statements
+   character forstk   # stack of reinit strings

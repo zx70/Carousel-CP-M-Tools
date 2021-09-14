@@ -1,0 +1,8 @@
+ ## Preprocessor common block used to hold switch info
+ #  Put on a file named 'cswtch'
+ #  Used only by ratfor preprocessor
+ 
+ common /cswtch/ swtop, swlast, swstak(MAXSWITCH)
+   integer swtop	# current switch entry; init = 0
+   integer swlast	# next available position; init = 1
+   integer swstak	# switch information

@@ -1,0 +1,6 @@
+ ## Preprocessor common block used to hold statement label
+ #  Put on a file called 'clabel'
+ #  Used by ratfor preprocessor
+ 
+ common /clabel/ label
+   integer label    # next label returned by labgen

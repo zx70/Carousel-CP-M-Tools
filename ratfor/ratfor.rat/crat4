@@ -1,0 +1,3 @@
+# rat4 symbol table pointer
+common /crat4/ st
+pointer st

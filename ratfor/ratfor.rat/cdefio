@@ -1,0 +1,7 @@
+  ## Preprocessor common block to hold input characters
+  # Put on a file called 'cdefio'
+  # Used by ratfor preprocessor, macro, roff, form, and shell tools
+  
+ common /cdefio/ bp, buf(BUFSIZE)
+    integer bp      # next available character; init = 0
+    character buf   # pushed-back characters

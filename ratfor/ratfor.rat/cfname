@@ -1,0 +1,6 @@
+ ## Preprocessor common block used to hold current function name
+ #  Put on a file named 'cfname'
+ #  Used by ratfor preprocessor
+ 
+ common /cfname/ fcname(MAXNAME)
+   character fcname   # text of current function name

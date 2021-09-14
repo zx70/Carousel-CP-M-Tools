@@ -1,0 +1,6 @@
+ ## Preprocessor common block used to hold 'goto' flag
+ #  Put on a file named 'cgoto'
+ #  Used by ratfor preprocessor
+ 
+ common /cgoto/ xfer
+   integer xfer      # YES if just made transfer, NO otherwise

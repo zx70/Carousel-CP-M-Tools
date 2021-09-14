@@ -1,0 +1,7 @@
+ ## preprocessor common block for holding string statement info
+ #  Put on a file called 'csbuf'
+ #  Used only by ratfor preprocessor
+ 
+ common /csbuf/ sbp, sbuf(SBUFSIZE)
+   integer sbp      # next available character position; init = 1
+   character sbuf   # saved for data statements

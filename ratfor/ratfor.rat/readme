@@ -1,0 +1,22 @@
+The rat4 compiler is constructed from and documented in this archive.
+The file "build.tmp" contains a list of all primary archive members.
+These consist of rat4.doc, readme, several lists of sub-archive file
+members, include files, and rat4 in four parts.  The first part,
+"rat4.rat" contains the defns and include commands to fetch the
+three main blocks of code (which are in "rat4x.rat", x=1,2,3).
+The corresponding .lst files are used to build the three main chunks.
+The "list" file is a list of all members that are needed to make rat4.
+a complete sequence might be:
+ar xv rat4.ar
+ar xv rat4.rat
+ar xv rat41.rat
+ar xv rat42.rat
+ar xv rat43.rat
+; this leaves all files extracted
+; make changes desired
+; then put it all back
+ar uv rat4.rat - <rat4.lst
+ar uv rat41.rat - <rat41.lst
+ar uv rat42.rat - <rat42.lst
+ar uv rat43.rat - <rat43.lst
+ar uv rat4.ar - <build.tmp

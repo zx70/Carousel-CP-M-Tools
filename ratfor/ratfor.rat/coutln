@@ -1,0 +1,7 @@
+ ## Preprocessor common block used to hold output characters
+ #  Put on a file named 'coutln'
+ #  Used only by ratfor preprocessor
+ 
+ common /coutln/ outp, outbuf(74)
+   integer outp      # last position filled in outbuf; init = 0
+   character outbuf   # output lines collected here

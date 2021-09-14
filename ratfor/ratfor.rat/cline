@@ -1,0 +1,13 @@
+ ## Preprocessor common block used to hold info about lines
+ #  and included files
+ #  Put on a file named 'cline'
+ # Used only by ratfor preprocessor
+ 
+ common /cline/ ratlst, level, linect(NFILES), infile(NFILES),
+   fnamp, fnames(MAXFNAMES)
+   integer ratlst  # whether to list input files on ERROUT; init = NO
+   integer level   # level of file inclusion; init = 1
+   integer linect   # line count on input file(level); init = 1
+   integer infile   # file number(level); init infile(1) = STDIN
+   integer fnamp    # next free slot in fnames; init = 2
+   character fnames # stack of include names; init fnames(1) = EOS
