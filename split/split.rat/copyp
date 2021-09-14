@@ -1,0 +1,13 @@
+# copyp - copy lines from fdi to fdo until line matching pat is found
+   integer function copyp(fdi, fdo, buf, pat)
+   integer fdi, fdo
+   character buf(MAXLINE), pat(MAXPAT)
+   integer n, match, getlin
+
+   for (n = 0; getlin(buf, fdi) ^= EOF; n = n + 1)
+      if (match(buf, pat) == YES)
+         return (n)
+      else if (fdo >= 0)        # fdo < 0 causes skips
+         call putlin(buf, fdo)
+   return (EOF)
+   end

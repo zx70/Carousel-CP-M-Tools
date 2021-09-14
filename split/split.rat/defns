@@ -1,0 +1,5 @@
+ # include standard symbol definitions
+ #    include ratdef
+define(NLINES,100)      # default lines/file
+define(MAXFILES,676)    # maximum number of files; 676 = aa...zz
+define(NAMESIZE,FILENAMESIZE)

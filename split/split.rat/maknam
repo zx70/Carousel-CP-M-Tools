@@ -1,0 +1,17 @@
+# maknam - create file n using prefix
+   integer function maknam(prefix, n)
+   character prefix(ARB)
+   integer n
+   character name(NAMESIZE)
+   integer length, mod, create
+
+   call scopy(prefix, 1, name, 1)
+   i = length(name)
+   name(i+1) = n/26 + LETA      # add aa, ab, etc.
+   name(i+2) = mod(n, 26) + LETA
+   name(i+3) = EOS
+   maknam = create(name, WRITE)
+   if (maknam == ERR)
+      call cant(name)
+   return
+   end

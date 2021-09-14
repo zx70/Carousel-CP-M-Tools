@@ -1,0 +1,13 @@
+# copyl - copy n lines from fdi to fdo
+   integer function copyl(fdi, fdo, n)
+   integer fdi, fdo, n, i
+   character line(MAXLINE)
+   integer getlin
+
+   for (i = 1; i <= n; i = i + 1)
+      if (getlin(line, fdi) == EOF)
+        return(EOF)
+      else
+         call putlin(line, fdo)
+   return(i-1)
+   end
