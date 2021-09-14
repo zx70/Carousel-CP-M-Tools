@@ -1,0 +1,10 @@
+ ## exchan - exchange linbuf(lp1) with linbuf(lp2) 
+    subroutine exchan(lp1, lp2, linbuf) 
+    character linbuf(ARB) 
+    integer k, lp1, lp2 
+  
+    k = lp1 
+    lp1 = lp2 
+    lp2 = k 
+    return 
+    end 

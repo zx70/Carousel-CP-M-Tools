@@ -1,0 +1,29 @@
+## outbuf - dump buffer to formatted page
+   subroutine outbuf(pagsiz, linsiz, gutsiz)
+   integer pagsiz, linsiz, gutsiz
+   integer i, j, k, l
+   include cls
+   DS_DECL(Mem, 1)
+
+   col = 0
+   for (i=1; i<=nlines; i=i+1)
+	{
+	k = linp + i - 1
+	if (Mem(k) == 0)  break
+	l = Mem(k)
+	call outlin (Mem(bufp), l)
+	Mem(k) = 0		#zero-out line pointer
+	for (j=i+pagsiz; j<=nlines; j=j+pagsiz)
+		{
+		k = linp + j - 1
+		if (Mem(k) == 0)  break
+		l = (linsiz + gutsiz) * max( (j-1)/pagsiz, 1)
+		call outtab (l)
+		l = Mem(k)
+		call outlin (Mem(bufp), l)
+		Mem(k) = 0		#zero line pointer
+         	}
+      	call outch(NEWLINE)
+      	}
+   return
+   end

@@ -1,0 +1,67 @@
+## initls - initialize and parse command line for ls
+ subroutine initls (dir)
+ character dir (ARB)
+ integer getarg, index, isatty
+ integer fntype
+ integer i
+ character buf(MAXLINE)
+ string defpat "%"	#use if no patterns given
+ 
+ include cls
+ DS_DECL(Mem,1)
+ 
+ call query ("usage: ls [-ahpsxv] [directory] [patterns].")
+ system = NO
+ lspath = NO
+ verbos = NO
+ except = NO
+ andpat = NO
+ packit = isatty (STDOUT)
+ sortit = SORTBYDEFAULT
+ elevel = 0
+ dir(1) = EOS
+ for (i=1; getarg(i, buf, MAXLINE) != EOF; i=i+1)
+	{
+	if (buf(1) == MINUS)	#it's a flag
+		{
+		call fold (buf)
+		if (index(buf, LETV) > 0)
+			{ verbos = YES; packit = NO }
+		if (index(buf, LETH) > 0)
+			system = YES
+		if (index(buf, LETP) > 0)
+			lspath = YES
+		if (index(buf, LETS) > 0)
+			sortit = YES
+		if (index(buf, LETX) > 0)
+			except = YES
+		if (index(buf, LETA) > 0)
+			andpat = YES
+		}
+	else if (elevel==0 & fntype(buf) == DIRECTORY)
+		call scopy (buf, 1, dir, 1)
+	else				#it's a pattern
+		{
+		elevel = elevel + 1
+		ifdef(CASE_INDEP, call fold(buf) )
+		if (getpat (buf, pat(1, elevel)) == ERR)
+			call error ("illegal pattern.")
+		}
+	}
+ if (elevel == 0)
+	{
+	elevel = 1
+	if (getpat (defpat, pat(1,elevel)) == ERR)
+		call error ("illegal default pattern.")
+	}
+ 				# get space for the filenames
+				# (NOTE: CPM needs the directory name,
+				# so its space will be retrieved late
+ nlines = 0
+ nextl = 1
+ ifnotdef(CPM, maxptr = MAX_POINTERS
+		maxtxt = FILENAMESIZE*maxptr
+		linp = dsget(maxptr)
+		bufp = dsget(maxtxt) )
+ return
+ end

@@ -1,0 +1,10 @@
+define(MAXPAT,25)	#max size of a pattern/expression
+define(MAX_POINTERS,50)	#max filenames allowed
+define(NEXPR,15)	#max command line expressions
+define(LOGPTR,20)	#Smallest integer at least as big
+			#as log(2) of max nbr lines to be sorted
+define(LINESIZE,13)	#output name width
+define(COLUMNS,5)	#nbr output columns
+define(GUTTER,2)	#white space between names
+define(CASE_INDEP,)	#set if case (upper/lower) is to be ignored
+define(SORTBYDEFAULT,YES)

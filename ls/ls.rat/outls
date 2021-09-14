@@ -1,0 +1,52 @@
+ ## outls - output filenames for ls
+ subroutine outls(dir)
+ integer i, j, k, pagsiz
+ integer length
+ character dir(FILENAMESIZE)
+ character file(FILENAMESIZE)
+ character dirpth(FILENAMESIZE)
+ character info(MAXLINE)
+ ifdef(CPM, character date(1))
+ ifnotdef(CPM, character date(MAXLINE))
+ include cls
+ DS_DECL(Mem, 1)
+
+ if (nlines <= 0) return
+ call mkpath(dir,dirpth)
+ call lower(dirpth)
+ i = length(dirpth)
+ if (dirpth(i) != SLASH)
+	{
+	dirpth(i+1) = SLASH
+	dirpth(i+2) = EOS
+	}
+ if (packit == NO | lspath == YES)
+	{
+	for (i=1; i<= nlines; i=i+1)
+		{
+		k = linp + i - 1
+		j = Mem(k)
+		call scopy (Mem(bufp), j, file, 1)
+		if (lspath == YES)
+			call putlin (dirpth, STDOUT)
+		call putlin (file, STDOUT)
+		if (verbos == YES)	#print auxilliary info
+			{
+			n = LINESIZE - length(file)
+			for (m=1; m <= n; m=m+1)
+				call putch(BLANK, STDOUT)
+			call gdraux (fd, file, info, date)
+			call putlin (info, STDOUT)
+			}
+		call putch (NEWLINE, STDOUT)
+		}
+	}
+ else
+	{
+      	pagsiz = nlines/COLUMNS
+	if (mod(nlines, COLUMNS) != 0)
+         	pagsiz = pagsiz + 1
+      	call outbuf(pagsiz, LINESIZE, GUTTER)
+	}
+ return
+ end

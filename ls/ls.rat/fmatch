@@ -1,0 +1,13 @@
+## fmatch - see if filename matches patterns
+ integer function fmatch (file)
+ character file(ARB)
+ integer gmatch, matchd
+ 
+ include cls
+ matchd = gmatch (file, pat, elevel, andpat)
+ if ( (matchd == YES & except == NO) |
+      (matchd == NO  & except == YES) )
+	return (YES)
+ else
+	return (NO)
+ end

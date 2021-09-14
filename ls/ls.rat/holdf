@@ -1,0 +1,19 @@
+ ## holdf - save filename for later output
+ subroutine holdf (file)
+ character file(ARB)
+ integer length, len
+ integer i
+ include cls
+ DS_DECL(Mem,1)
+
+ len = length(file) + 1
+ nlines = nlines + 1
+ if (len > (maxtxt-nextl) | nlines > maxptr) 
+	call error ("out of buffer space.")
+ call scopy (file, 1, Mem(bufp), nextl)
+ i = linp + nlines - 1
+ Mem(i) = nextl
+ nextl = nextl + len
+ 
+ return
+ end

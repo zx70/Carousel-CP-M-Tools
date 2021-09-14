@@ -1,0 +1,8 @@
+## compar - compare linbuf(lp1) with linbuf(lp2)
+ integer function compar (lp1, lp2, linbuf)
+ character linbuf(ARB)
+ integer strcmp
+ 
+ compar = strcmp (linbuf(lp1), linbuf(lp2))
+ return
+ end

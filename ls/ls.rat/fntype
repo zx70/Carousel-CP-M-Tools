@@ -1,0 +1,12 @@
+## fntype - find file name type, directory or file
+# CPM version
+integer function fntype(fn)
+character fn(FILENAMESIZE)
+byte packnm
+character tmp(16)
+if (packnm(fn,tmp) == ERR)
+	return(ERR)
+if (tmp(2) == BLANK & tmp(10) == BLANK)
+	return(DIRECTORY)
+return(FILENAME)
+end

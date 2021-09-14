@@ -1,0 +1,12 @@
+## outch - output c to formatted page
+   subroutine outch(c)
+   character c
+   include cls
+
+   call putc(c)
+   if (c == NEWLINE)
+      col = 0
+   else
+      col = col + 1
+   return
+   end

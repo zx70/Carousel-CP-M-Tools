@@ -1,0 +1,9 @@
+## outlin - output str to formatted page
+   subroutine outlin(str, l)
+   character str(ARB)
+   integer i, l
+
+   for (i = l; str(i) ^= EOS; i = i + 1)
+      call outch(str(i))
+   return
+   end

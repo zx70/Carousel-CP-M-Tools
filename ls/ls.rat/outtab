@@ -1,0 +1,9 @@
+## outtab - tab to column n on formatted page
+   subroutine outtab(n)
+   integer n
+   include cls
+
+   while (col < n)
+      call outch(BLANK)
+   return
+   end
