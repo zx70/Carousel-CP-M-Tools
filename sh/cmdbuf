@@ -1,0 +1,5 @@
+## common cmdbuf - holds command, arguments, and type for shell
+common /cmdbuf/ comand(FILENAMESIZE), args(MAXSHLINE), type
+character comand
+character args
+integer type

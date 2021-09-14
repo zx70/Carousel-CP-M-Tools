@@ -1,0 +1,27 @@
+ ## shcom - common block for shell
+
+ common /shcom/ ls, fd(MAX_LEVELS), level,
+		verbos, xeq, printx,
+                redfil (arith(arith(FILENAMESIZE,*,3),+,3), MAX_LEVELS),
+                param  (MAXLINE, MAX_LEVELS),
+		bg, bfile (FILENAMESIZE),
+		cfile (FILENAMESIZE),
+		ofile (FILENAMESIZE),
+		sfile (FILENAMESIZE), errcnt, wdir(FILENAMESIZE)
+
+ pointer ls		# pointer to list of commands
+ filedes fd		# file descriptors (for STDIN & script files)
+ integer level		# pointer to input file descriptor; init = 1
+ integer verbos		# flag to cause printing during parsing
+ integer xeq		# flag to suppress command execution
+ integer printx		# flag to cause printing just before execution
+ character redfil	# stack of redirected file names (for scripts)
+ character param	# stack of arguments for parameter substitution 
+                        # (in scripts)
+ filedes bg		# file descriptor for background file
+ character bfile	# name of file holding background commands
+ character ofile	# name of file holding previous command stack
+ character cfile	# name of file holding shell command stack
+ character sfile	# name of shell executable file "sh"
+ integer errcnt		# running count of errors; init = 0
+ character wdir		# holds name of (starting) working directory

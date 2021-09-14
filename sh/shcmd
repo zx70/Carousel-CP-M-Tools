@@ -1,0 +1,12 @@
+## shcmd - common file holding list of shell built-in commands
+
+common /shcmd/ logout, cd, rm, pwd, echo, crt, reset, shell
+
+character logout(7)
+character cd(3)
+character rm(3)
+character pwd(4)
+character echo(5)
+character crt(4)
+character reset(6)
+character shell(3)
