@@ -88,3 +88,4 @@
  define(CPM_READ,33)
  define(CPM_WRITE,40)
  define(CPM_GETSIZE,35)
+
