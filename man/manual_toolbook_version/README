@@ -1,0 +1,59 @@
+Version 2.0                  CAROUSEL TOOLKIT(tm)                      CP/M-80
+
+                       Disk-MAN, MAN ADD-A-TOOLKIT(tm)
+
+Files  on  this  diskette  are  copyrighted (c), 1983, by Carousel MicroTools,
+Inc., and may be used  only  in  accordance  with  a  duly  executed  software
+license from Carousel MicroTools, Inc. 
+
+The  man-Tool  is  an  Add-a-ToolKit(tm) to the Carousel Use-a-ToolKit and can
+operate only under the control of the Carousel shell Tool. 
+
+The Man ToolBook diskette contains files that allow you to  read  descriptions
+of  Tools  at  your  terminal.   It  consists  of  an archive file doc.ar that
+contains the format output for  all  the  Tools,  and  tools  to  extract  the
+individual  descriptions.  The Tool descriptions have been formatted for a CRT
+with 80 columns.  They appear slightly different from the printed  manual  but
+contain exactly the same text. 
+
+FILES
+
+man.tol
+   is  the  man  Tool  described  in  the accompaning printed manual page.  It
+   looks for the Tool descriptions in files named toolname.doc in the  current
+   directory. 
+
+script1
+   is  a  script  to  extract  toolname.doc  files  from  the archive file and
+   display them at the terminal.  It is useful if you leave  the  descriptions
+   in archive format. 
+
+script2
+   is  a  script that just uses the crt Tool to display a toolname.doc file at
+   the terminal.  It is an alternative to man.tol. 
+
+doc.ar
+   is  the  archive  file  with  the  Tool  descriptions  in   members   named
+   toolname.doc and a list of all the .doc files in an member named list. 
+
+man.ar
+   is  an archive file containing the ratfor source for the man Tool.  You can
+   change the MAN_DIRECTORY definition to name the  directory  containing  the
+   toolname.doc files if you have the Carousel Build-a ToolKit(tm). 
+
+INSTALLATION
+
+1) Make a copy of the diskette. 
+
+2) Deside  if  you  are going to keep the descriptions in archive format or in
+   individual files.  The archive takes at least 223Kb of disk space;  the  65
+   .doc files take about 272Kb. 
+
+3) If you want individual files, copy doc.ar to a directory and then enter
+      ar -pt doc.ar list | ar -x doc.ar
+   to extract all the .doc files. 
+
+4) Modify  one  of  the  scripts or the man Tool as necessary to reference the
+   directory containing the descriptions.   Copy  the  selected  one  to  your
+   resident  Tool  directory.   If  you are using one of the scripts rename it
+   (to manual for example). 
