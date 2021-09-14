@@ -1,0 +1,36 @@
+ # fprint - print file "name" from  fd
+    subroutine fprint(name, fd)
+    integer line(MAXLINE), name(ARB)
+    integer getlin
+    integer fd, lineno, pageno
+  
+    include cprint
+ 
+    pageno = 0
+    lineno = 0
+    while (getlin(line, fd) ^= EOF) {
+       if (lineno == 0)
+          {
+          pageno = pageno + 1
+          if (dohead == YES)
+		{
+          	call skip(mar1)
+          	call head(name, pageno)
+          	call skip(mar2)
+                lineno = mar1 + mar2 + 1
+                }
+          }
+       call putlin(line, STDOUT)
+       lineno = lineno + 1
+       if (lineno + bmar >= plen)
+          {
+          call skip(bmar)
+          lineno = 0
+          }
+       }
+    if (lineno > 0)
+       {
+       call skip(plen-lineno)
+	}
+    return
+    end

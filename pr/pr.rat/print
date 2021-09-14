@@ -1,0 +1,48 @@
+ ## print - print files with headings
+ DRIVER
+    character name(FILENAMESIZE)
+    integer getarg, open, ctoi
+    integer fd, i, j
+    include cprint
+    string null ""
+  
+    call query ("usage:  pr [-ln] [file].")
+    mar1 = MARGIN1		#set defaults
+    mar2 = MARGIN2
+    bmar = BMARGIN
+    dohead = YES
+    plen = PAGELEN
+    fd = ERR
+    for (i = 1; getarg(i, name, FILENAMESIZE) ^= EOF; i = i + 1) 
+	{
+       if (name(1) == MINUS & name(2) != EOS)
+                {                  #it is anticipated that more
+                                   #options may be added in the future
+		if (name(2) == LETL | name(2) == BIGL) #set page length
+			{
+                         j = 3
+                         plen = ctoi(name, j)
+                         if ((plen-mar1-mar2-bmar-2) <= 0)
+                              call error ("page too small.")
+			}
+		else
+			call remark ("ignoring invalid argument.")
+		}
+        else if (name(1) == MINUS & name(2) == EOS)
+	        {
+		fd = STDIN
+		call fprint(null,fd)
+		}
+	else
+		{
+       		fd = open(name,READ)
+		if (fd == ERR)
+			call cant(name)
+		call fprint(name,fd)
+		call close(fd)
+		}
+       }
+    if (fd ==ERR)    # no input file specified
+       call fprint(null, STDIN)
+   DRETURN
+    end
