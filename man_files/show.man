@@ -1,0 +1,38 @@
+                          Carousel MicroTools, Inc.
+
+                                     ssshhhooowww
+
+         ssshhhooowww aaallllll ccchhhaaarrraaacccttteeerrrsss (((iiinnncccllluuudddiiinnnggg cccooonnntttrrrooolll ccchhhaaarrraaacccttteeerrrsss))) iiinnn fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  show [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  show copies the named files to the standard output, replacing control
+  characters by "^c", where c is the ASCII character used to enter the
+  control character when depressing the "control" key on most terminals.
+  More precisely, c is the ASCII character whose value is 100 octal plus the
+  value of the control character. 
+
+  Control characters are those ASCII characters with values between 0 and 31,
+  inclusive.  Newline characters are displayed as usual, however. 
+
+  If no file names are given or a dash (-) is entered in place of a file
+  name, show will read from the standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  show file1
+    point out all the control characters in file1. 
+
+  crypt key file | show
+    encrypt a file and then look at all the characters that have been
+    generated. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  cat - join and copy input to output
+  crt - copy files to the terminal
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  Parity bits are ignored. 
+
+  CTRL-Z is treated as end of file. 

@@ -1,0 +1,51 @@
+                          Carousel MicroTools, Inc.
+
+                                      fffccc
+
+                       FFFooorrrtttrrraaannn cccooommmpppiiillleee,,, llliiinnnkkk,,, aaannnddd llloooaaaddd
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  fc ____file
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  fc is a script which takes the file named, sends it to the Fortran compiler
+  (which the user must supply), and links it with the system library and the
+  Software Tools library. 
+
+  The name of the file to be processed must end in .for but the .for should
+  not appear when calling fc.  For example,
+
+    fc program
+
+  would compile program.for, and link it, leaving the output on program.com. 
+
+  It is assumed that, if necessary, the file has already been processed by
+  the ratfor and fsort tools. 
+
+  fc will usually need to be tailored by the user to fetch the files from the
+  directories in which they reside. 
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  Assuming file is the name of the file passed:
+
+  file.for  - Fortran input
+  file.rel  - Fortran output sent to linker
+  file.com  - executable output
+  Microsoft F80 Fortran compiler (supplied by the user)
+  Microsoft L80 linker (supplied by the user)
+  ratlib.rel - Software Tools library file
+  runsys.rel - Software Tools runtime system
+  forlib.rel - Microsoft Fortran library (supplied by the user)
+
+SSSEEEEEE AAALLLSSSOOO       
+  fsort - sort Fortran specification statements
+  ld - link and load
+  ratfor - ratfor preprocessor
+  rc - ratfor compile, Fortran compile, link, and load
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  Any diagnostics received will be from the individual tools in the script
+  file (the Fortran compiler, linker, etc.)
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  A more elaborate script could be made which handles multiple input files. 

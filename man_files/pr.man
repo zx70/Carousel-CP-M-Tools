@@ -1,0 +1,46 @@
+                          Carousel MicroTools, Inc.
+
+                                      ppprrr
+
+                      pppaaagggiiinnnaaattteee fffiiillleeesss tttooo ssstttaaannndddaaarrrddd ooouuutttpppuuuttt
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  pr [-lN] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  pr paginates the named files to standard output.  Each file is printed as a
+  sequence of pages.  Each page is 66 lines long:  a 6-line header, 57 lines
+  from file, and a 3-line footer.  The header includes the file name (if the
+  input is not from a pipe), the date, and the page number. 
+
+  The -l flag sets the page length to N lines; the default is 66 lines.  If a
+  dash (-) is entered in place of a file name or no file names are given, the
+  standard input is read. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  pr file1 
+    paginates file1 to the terminal
+
+  pr file1 file2 >yourprinter
+    paginates file1 and file2 and prints them on your printer, each file
+    starting a new page. 
+
+  cat file1 file2 file3 | pr >yourprinter
+    paginates file1, file2, and file3 to the printer.  The files do not
+    necessarily start on a new page. 
+
+  # number lines of, and print, specified file
+  number $1 | pr > /lst
+    The contents of a script file commonly used at Carousel to print a file. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  cat - join and copy input to output
+  detab - convert tabs to spaces
+  format - text formatter
+  mcol - put text in multiple columns
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  ignoring invalid argument
+    An option flag was specified that pr did not understand. 
+
+  A message is printed if an input file could not be opened. 

@@ -1,0 +1,29 @@
+                          Carousel MicroTools, Inc.
+
+                                    cccrrryyypppttt
+
+                        eeennncccrrryyypppttt aaannnddd dddeeecccrrryyypppttt ttteeexxxttt fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  crypt ___key
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  crypt encrypts characters on the standard input by using key.  The file can
+  eventually be decrypted by running it back through crypt with the same
+  key.  Multiple encryption (encrypting a file with first one key and then
+  another) is allowable. 
+
+  The size of the encryption key is limited by the MAXKEY definition in the
+  source code. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  crypt <loveletters some-weird-key >safe
+  rm loveletters
+    encrypt loveletters using the key some-wierd-key, saving the output on
+    safe.  The original file is then removed. 
+
+  crypt <mail key1 | crypt key2 >safemail
+    encrypt mail twice, with 2 different keys, for extra safety. 
+
+  crypt <safemail key2 | crypt key1 >mail
+    de-crypt the previous example. 

@@ -1,0 +1,31 @@
+                          Carousel MicroTools, Inc.
+
+                                     ttteeeeee
+
+           cccooopppyyy iiinnnpppuuuttt tttooo ssstttaaannndddaaarrrddd ooouuutttpppuuuttt aaannnddd tttooo ttthhheee ssspppeeeccciiifffiiieeeddd fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  tee [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  tee copies its standard input to the standard output and makes copies in
+  the named files.  It is useful for making copies of or seeing what is being
+  transmitted through a pipeline, viz.,
+
+    prog1 | tee file /tty | prog2
+
+  causes the output of prog1 to be saved in file, displayed on the terminal,
+  and input to prog2. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  format document | tee out | crt
+    format a document, saving the output on out and also looking at it on the
+    terminal. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  cat - join and copy input to output
+  crt - copy files to the terminal
+  sh - shell (command line interpreter)
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is issued if one of the named files cannot be created. 

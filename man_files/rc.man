@@ -1,0 +1,55 @@
+                          Carousel MicroTools, Inc.
+
+                                      rrrccc
+
+               rrraaatttfffooorrr cccooommmpppiiillleee,,, FFFooorrrtttrrraaannn cccooommmpppiiillleee,,, llliiinnnkkk,,, aaannnddd llloooaaaddd
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  rc ____file
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  rc is a script which takes the file named, preprocesses it with the ratfor
+  tool, sorts it into appropriate Fortran order with fsort, sends it to the
+  Fortran compiler (which the user must supply), and links it with the system
+  library and the Software Tools library. 
+
+  The name of the file to be processed must end in .rat, but the .rat should
+  not appear when calling rc.  For example,
+
+    rc program
+
+  would preprocess program.rat, compile and link it, leaving the output on
+  program.tol.  If a standalone program.com version is desired, install must
+  be used. 
+
+  rc will usually need to be tailored by the user to fetch the files from the
+  directories in which they reside. 
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  Assuming file is the name of the file passed:
+
+  file.rat - ratfor input
+  file.tmp - ratfor output, sent to fsort
+  file.for - fsort output sent to Fortran compiler
+  file.rel - Fortran output sent to linker
+  file.com - executable output
+  ratdef- the file containing ratfor symbol definitions
+  Microsoft F80 compiler (supplied by the user)
+  Microsoft L80 linker (supplied by the user)
+  ratlib.rel - Software Tools library
+  runsys.rel - Software Tools run time system
+  forlib.rel - Microsoft Fortran library (supplied by the user)
+
+SSSEEEEEE AAALLLSSSOOO       
+  fc - Fortran compile, link, and load
+  fsort - sort Fortran specification statements
+  ld - link and load
+  ratfor - ratfor preprocessor
+  Ratfor Primer in the Tutorial Section of this manual
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  Any diagnostics received will be from the individual tools in the script
+  file (ratfor, Fortran, etc.)
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  A more elaborate script could be made which handles multiple input files. 

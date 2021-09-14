@@ -1,0 +1,94 @@
+                          Carousel MicroTools, Inc.
+
+                                      fffbbb
+
+                ssseeeaaarrrccchhh fffooorrr bbbllloooccckkksss ooofff llliiinnneeesss wwwiiittthhh ttteeexxxttt pppaaatttttteeerrrnnnsss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  fb [-[a|x][c]] [-lN] [-sexpr' [-sexpr]]' ____expr [____expr ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  fb (find block) searches for blocks or groups of lines in a file that
+  contain specified text patterns.  It is similar to find except that if a
+  pattern is found, the entire block of lines is copied to standard output,
+  rather than simply the line in which the pattern occurred.  Thus, it is
+  useful for searching mailing lists, bibliographies, and similar files where
+  several lines are grouped together to form cohesive units. 
+
+  The search patterns may be any regular expression as described in the ed
+  writeup. 
+
+  fb assumes the blocks of lines are separated by an empty line or a line
+  containing only blanks.  When fb is called without any options or flags,
+  standard input is read and each line is checked to see if it matches any of
+  the regular expressions given as arguments.  If any matches are found, the
+  entire block is written to standard output. 
+
+  Care should be taken when using the characters % $ [ ] ! * @ and any shell
+  characters in the text pattern.  It is often necessary (and never hurts) to
+  enclose the entire substitution pattern in quotes. 
+
+  _______Options _______Summary       
+  -a Print block only if all test expressions are matched. 
+
+  -x Print block only if none of the test expressions are matched. 
+
+  -c Print only the number of blocks that match (-a) or do not match (-x) the
+    test expressions. 
+
+  -s expr 
+    Use the expression following the -s as the block separator.  If two -s
+    flags are specified the first is the beginning of the block (e.g.,
+    -ssubroutine), and the second is the end of the block (e.g., -send). 
+
+  -lN Prints only the first N lines of the block.  If the block contains less
+    than N lines, the block written will be padded out with blank lines. 
+
+  The commands -a and -x may be specified with c (e.g., -ac). 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  fb <phonelist George Harry
+    Locate the blocks containing the names George and/or Harry in phonelist. 
+
+  fb <address -l9 % >yourprinter
+    Locates all addresses in address which contain a beginning-of-line (i.e.
+    all addresses) and prints them in blocks of 9 lines.  This might be used
+    for producing mailing labels. 
+
+  fb <program -ssubroutine -send "call abort" >rtns
+    Searches program for all subroutines (but not functions), that call abort
+    and saves them in rtns. 
+
+  find < prog.ar #-h- error | fb -s#-h- error | pr >/lst
+    Assuming you have an archive file prog.ar that has each routine as one
+    member of the archive, find all archive headers ("#-h-" - the name of the
+    file is on the same line) and all lines with the word error, and print
+    the archive header line and line(s) with error.  Archive header lines
+    that are not followed by a line with error will not be printed. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  e(ed) - text editor
+  find - search lines for text patterns
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  fbt.$$$ is used if the internal line buffer becomes full
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  Error messages are given if:
+
+    1) One of the patterns given is illegal
+
+    2) More than 2 separators are given with -s
+
+    3) More than 9 expressions are specified
+
+    4) There are problems opening the scratch file
+
+  The following messages indicate something is dreadfully wrong:
+
+    1) Illegal default separator
+
+    2) Block buffer overflow
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  An expression may not start with a dash (-). 

@@ -1,0 +1,64 @@
+                          Carousel MicroTools, Inc.
+
+                                      lllsss
+
+                        llliiisssttt ttthhheee fffiiillleeesss iiinnn aaa dddiiirrreeeccctttooorrryyy
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  ls [-[a|x][p][v]] [[/___________user-number]{/_________disk-name}[/]] [_______pattern]
+  ls [-[a|x][p][v]] [[___________user-number]{_________disk-name:}] [_______pattern]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  ls lists files in a directory.  When no directory argument is given, the
+  current directory is listed.  If another directory is desired, it must be
+  given as the first (non-flag) argument and must include at least one slash
+  (/) (e.g. /dir) or be in CP/M format (e.g. dir:).  Any other arguments
+  given are considered to be patterns to match.  These arguments may include
+  any of the legal regular expressions described in the manual entry for the
+  ed tool. 
+
+  If the standard output is a terminal or printer, the list of files is
+  columnated.  If standard output is a disk file (or a pipeline), the files
+  are listed one per line. 
+
+  The files are sorted before listing. 
+
+  _______Options _______Summary       
+  -p list the files in the directory with the full pathname concatenated with
+    them
+
+  -v list additional information about the files
+
+  -a list only those files which contain all pattterns given
+
+  -x list only those files which contain none of the patterns given
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  ls lists the files in the current directory
+
+  ls -p > scr
+    lists the full pathname of the files in the current directory and puts
+    the output on file scr. 
+
+  ls -v /a
+    lists the files in directory a, along with additional information about
+    them (size, etc.). 
+
+  ls this that theother
+    lists filenames containing the patterns this, that, or theother. 
+
+  ls -x temp
+    lists all filenames except those containing temp. 
+
+  ls "a?*z"
+    lists all filenames that contain an a, any other characters, (or none),
+    and a z.  (The quotes are necessary when using the shell since the
+    question mark (?) is a special shell character.)
+
+  ls -a test rat
+    lists all filenames containing both test and rat in their names (e.g.,
+    test1.rat, etc.). 
+
+  ls | rm -a -
+    for each file in the current directory, rm asks the user if it is to be
+    deleted. 

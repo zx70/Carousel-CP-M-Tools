@@ -1,0 +1,43 @@
+                          Carousel MicroTools, Inc.
+
+                                      rrrmmm
+
+                            rrreeemmmooovvveee (((dddeeellleeettteee))) fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  rm [-av] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  rm removes (deletes) the specified files.  The verbose (-v) option causes
+  rm to print the name of each file as it is removed. 
+
+  The ask ( -a') option causes rm to print the message
+
+    name ?
+
+  for each file name that is to be removed and to read one line from the
+  user's terminal.  If the line begins with "y", the file is removed.  If the
+  line begins with "q", no further files in the list are removed.  If the
+  line begins with "g", the file and all subsequent files in the list are
+  removed, and the ask ( -a') option is turned off.  If the line begins with
+  anything else, the file is not removed. 
+
+  If a dash (-) is entered as an argument, the names of files to be removed
+  will be read from standard input, one per line. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  rm file1 file2 file3
+    delete file1, file2, and file3
+
+  ls | rm -a -
+    loop through the list of files in the current directory, asking the user
+    which ones are to be removed. 
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  name: can't remove
+    The named file did not exist or could not be removed. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  Watch out for the "g" response when using the ask ( -a') flag and a list
+  from standard input of files to be removed -- it will cause all  of the
+  files left on the list to be deleted without prompting. 

@@ -1,0 +1,35 @@
+                          Carousel MicroTools, Inc.
+
+                                    cccppprrreeessssss
+
+                             cccooommmppprrreeessssss iiinnnpppuuuttt fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  cpress [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  cpress compresses sequences of repeated characters in the input files.  The
+  output file can be expanded with the tool expand. 
+
+  If no input files are given or a dash (-) is input in place of a file name,
+  input will be taken from the standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  cpress data >smalldata
+    compresses data and saves the results on smalldata. 
+
+  entab document | cpress >newdoc
+    changes spaces to tabs and then further compresses document, storing the
+    results on newdoc. 
+
+  cpress file | expand >samefile
+    compresses file and then re-expands it with the expand tool. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  detab - convert tabs to spaces
+  entab - convert spaces to tabs and spaces
+  expand - uncompress compressed files
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is printed if an input file cannot be opened; further processing
+    is terminated. 

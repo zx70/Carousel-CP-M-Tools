@@ -1,0 +1,40 @@
+                          Carousel MicroTools, Inc.
+
+                                     uuunnniiiqqq
+
+                  ssstttrrriiippp aaadddjjjaaaccceeennnttt rrreeepppeeeaaattteeeddd llliiinnneeesss fffrrrooommm aaa fffiiillleee
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  uniq [-c] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  uniq reads the input file(s), comparing adjacent lines.  Second and
+  succeeding copies of repeated lines are removed; the remainder is written
+  to standard output. 
+
+  If the -c flag is given, each line is preceded by a count of the number of
+  occurrences of that line. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  uniq file >list
+    strip adjacent duplicate lines from file and save on list. 
+
+  find <program include | sort | uniq
+    makes a list of all the include files in a program. 
+
+  tr <doc A-Z a-z |@
+  tr !a-z "@n" |@
+  sort |@
+  uniq -c |@
+  sort -r >histogram
+    converts letters in file doc to lower case, discards numbers, punctuation
+    and spaces and puts every word on a line by itself, sorts them, counts
+    the number of occurrences of each word, and finally sorts the
+    occurrences, thus producing a simple histogram of word usage. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  comm - print lines common to two files
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is printed if an input file cannot be opened and processing is
+  terminated. 

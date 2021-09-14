@@ -1,0 +1,35 @@
+                          Carousel MicroTools, Inc.
+
+                                     tttaaaiiilll
+
+                        ppprrriiinnnttt ttthhheee lllaaasssttt llliiinnneeesss ooofff aaa fffiiillleee
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  tail [-N] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  tail prints the last N lines of the indicated file.  If N is omitted, the
+  last 23 lines are printed. 
+
+  If no file name is specified or a dash (-) is entered in place of a file
+  name, tail reads the standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  tail file1 file2
+    print the last 23 lines of file1 and of file2. 
+
+  program | tail -100 | crt
+    display the last 100 lines of the output from program in 23-line segments
+    on the terminal. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  pl - print specified lines or pages in files
+  sedit - stream editor
+  split - split a file into pieces
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  An internal buffer of MAXBUF characters is kept.  If the value of N would
+  require buffering more characters than the buffer can hold, tail prints the
+  last MAXBUF characters of the file.  In this case, the first line of output
+  may not be an entire line.  MAXBUF is a definition in the source code which
+  may be adjusted. 

@@ -1,0 +1,26 @@
+                          Carousel MicroTools, Inc.
+
+                                      llllll
+
+                              ppprrriiinnnttt llliiinnneee llleeennngggttthhhsss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  ll [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  ll prints the lengths of the shortest and longest lines in the named
+  files.  If no files are given or a dash (-) is entered in place of a file
+  name, ll will read the standard input. 
+
+  Newline characters are not counted as part of the length of a line. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  ll file1 file2
+    print the lengths of the longest and shortest lines in file1 and file2
+
+  ls | ll
+    print the length of the longest and shortest file names in the current
+    directory
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is issued if a file cannot be opened. 

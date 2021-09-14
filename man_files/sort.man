@@ -1,0 +1,69 @@
+                          Carousel MicroTools, Inc.
+
+                                     sssooorrrttt
+
+                         sssooorrrttt aaannnddd///ooorrr mmmeeerrrgggeee ttteeexxxttt fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  sort [-bdfi[m|r]] [+sN] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  sort sorts lines from all the named files together and writes the result on
+  the standard output.  If no files are given or a dash (-) is entered in
+  place of a file name, standard output is read. 
+
+  The sort key is an entire line.  Default ordering is alphabetic by
+  characters as they are represented in ASCII format.  The ordering is
+  affected by the following flags, one or more of which may appear. 
+
+  -b Leading blanks are not included in keys. 
+
+  -d "Dictionary" order: only letters, digits and blanks are significant in
+    comparisons. 
+
+  -f Consider all letters to be a single case. 
+
+  -i Ignore all nonprinting nonblank characters. 
+
+  -m Merge only, the input files are already sorted. 
+
+  -r Reverse the sense of the sort. 
+
+  +sN Sort according to the subfield starting on column N. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  sort file1 file2 >sorted
+    sort file1 and file2 together, placing the output on sorted. 
+
+  sort -d wordlist dict >newdict
+    sort wordlist together with dict, with only letters, digits, and blanks
+    being significant.  Save the output on newdict. 
+
+  ar -t archfile | sort -f
+    sort the member names of an archive file, folding all letters to a single
+    case.  Send output to the user's terminal. 
+
+  sort +s10 data
+    in data, sort on the field which begins in column 10. 
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  sN.$$$ - scratch files (N is a sequence number)
+
+SSSEEEEEE AAALLLSSSOOO       
+  tsort - sort symbols topologically
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  file:  can't open
+    This message is printed if either an input file or a scratch file cannot
+    be opened; execution ceases. 
+
+  too many arguments
+    printed if too many files are specified on the command line.  The limit
+    is determined by the FLMAX definition in the source code. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  The merge phase is performed with a polyphase merge/sort algorithm, which
+  requires an end-of-run delimiter on the scratch files.  The one chosen is a
+  bare ^D (ASCII code 4) on a line.  If this is in conflict with your data
+  files, the symbol CTRLD in the sort symbol definitions should be
+  redefined. 

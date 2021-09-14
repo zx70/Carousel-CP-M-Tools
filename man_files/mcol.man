@@ -1,0 +1,77 @@
+                          Carousel MicroTools, Inc.
+
+                                     mmmcccooolll
+
+                            mmmuuullltttiiicccooollluuummmnnn fffooorrrmmmaaattttttiiinnnggg
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  mcol [-cN] [-lN] [-wN] [-gN] [-dN] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  mcol reads the named files and formats them into multicolumn output on the
+  standard output.  If no file names are given or a dash (-) is entered in
+  place of a file name, the standard input is used. 
+
+  _______Options _______Summary       
+  (All options are specified by the option flag followed by N, where N is a
+  number.) 
+
+  -cN Format the output into the specified number of columns.  The default is
+    2. 
+
+  -lN Set the page length to the spcified number of lines.  mcol produces its
+    output in pages, but does not place separators between the pages on the
+    assumption that some subsequent processor will do that.  The default page
+    length is 55.  -l57 would be appropriate for use with pr. 
+
+  -wN Set the column width to the specified number of characters.  Lines
+    longer than the specified length are truncated.  The default column width
+    is 60. 
+
+  -gN Set the gutter width (the white space between columns) to the specified
+    number of spaces.  The default gutter width is 8 spaces. 
+
+  -dN Set various options for displaying a file on the terminal.  The page
+    size is set to 24 lines.  The number of columns and gutter width are
+    computed to maximize the amount of information on a single screen.  If
+    the column width is not specified, 10 is used -- this is useful for
+    displaying lists of file names. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  mcol -c3 -l22 -w20 document | crt
+    prints document on the terminal.  The output is formatted into 3
+    20-character columns, 22 lines to a page. 
+
+  ar -t archfile | mcol -d
+    list the table-of-contents for archfile on the terminal.  The output is
+    formatted for the terminal. 
+
+  mcol -c5 -l57 -w10 -g5 file | pr > /lst
+    creates a five-column, 57-line page, with columns 10 characters wide and
+    gutters 5 spaces wide.  The result is then piped through pr, which
+    inserts headers and footer margins, and printed on the printer. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  format - text formatter
+  pr - put the text in files on pages
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  invalid column count
+  invalid page size
+  invalid column width
+  invalid gutter width
+    The value of one of the option flags is invalid or exceeds the
+    limitations of mcol. 
+
+  ignoring invalid flag
+    A command line option flag was given which mcol did not recognize. 
+
+  insufficient buffer space
+    mcol could not buffer an entire page.  This is usually the result of
+    options that specify a large page size or many columns.  The buffer size
+    is set by the MAXBUF definition in the source code. 
+
+  too many lines
+    The number of lines per page times the number of columns exceeded the
+    line buffer space allotted to mcol.  The maximum number of lines allowed
+    is set by the MAXPTR definition in the source code. 

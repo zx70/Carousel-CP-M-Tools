@@ -1,0 +1,46 @@
+                          Carousel MicroTools, Inc.
+
+                                    uuunnnrrrooottt
+
+                        uuunnnrrroootttaaattteee llliiinnneeesss rrroootttaaattteeeddd bbbyyy kkkwwwiiiccc
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  unrot [-N] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  unrot processes the rotated output of kwic to generate a keyword-in-context
+  index. 
+
+  The -N flag may be used to specify the width of the output lines.  The
+  default is 80. 
+
+  If no input files are given or a dash (-) is entered in place of a file
+  name, lines will be read from the standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  kwic sentence | sort | unrot -55
+    this is the common way to prepare a keyword-in-context index.  If the
+    file sentence contained the line "unrotate lines rotated by kwic", the
+    output would be as follows:
+
+         unrotate lines rotated  by kwic
+               lines rotated by  kwic              unrotate
+                       unrotate  lines rotated by kwic
+                 unrotate lines  rotated by kwic
+      kwic                       unrotate lines rotated by
+
+  unrot -65 rotated-lines > file
+    unrotate lines produced by kwic and write them in 65 character fields.
+    The output is redirected to file. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  kwic - prepare lines for keyword-in-context index
+  sort - sort and/or merge text files
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is printed if an input file cannot be opened; further processing
+  is terminated. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  A dollar sign ($) in an input line to kwic will cause unrot to mis-handle
+  the line. 

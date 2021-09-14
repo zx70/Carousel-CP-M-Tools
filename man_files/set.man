@@ -1,0 +1,106 @@
+                          Carousel MicroTools, Inc.
+
+                                     ssseeettt
+
+                     ppprrriiinnnttt,,, ssseeettt ooorrr uuunnnssseeettt ssshhheeellllll vvvaaarrriiiaaabbbllleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  set -v [________variable ...]
+  set variable {ON | OFF}
+  set ________variable _____value ... 
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  set is used to list, set, or unset certain variables that control how the
+  shell works.  The variables are maintained in the file sh.env which must be
+  on the shell default directory. 
+
+  The -v option prints the current value of the variable(s) listed, or all of
+  the variables if none are specified. 
+
+  Variable values may be set by specifying the variable name and the
+  value(s).  Flag variables may be set or unset by specifying the values ON
+  or OFF respectively.  The variable's names and values may be specified in
+  upper or lower case. 
+
+  The variables are discussed below.  The values shown are typical for a
+  system with two floppy disk drives, unless otherwise noted.  Directory
+  names for TEMP and PATH must be in a form suitable for prefixing to a file
+  name (e.g., /a/ or a: instead of /a.)
+
+  TAB  8
+    This is used to specify the tab character (Control-I) width to Tools that
+    write to character devices such as the printer (/lst), terminal (/tty),
+    punch, etc.  Tab characters are always replaced by an appropriate number
+    of blanks when writing to character devices.  This variable gives you a
+    way to change the width of tabs. 
+
+  DATE  1983    8   25    13   14   59    0
+    This is set only by the date Tool.  The value is used by Tools such as
+    __ar, ______format, __pr, etc.  The digits specify the year, month, day, hour,
+    minute, seconds, and fractional seconds of the day. 
+
+  MAXDEV B
+    The last disk drive on the system.  This is used by the Tools when
+    checking for errors in file names: if a directory name is beyond the
+    value specified for MAXDEV the Tool will give you a polite error instead
+    of letting the system say something nasty. 
+
+  TEMP /0/B/
+    The user number and disk where temporary files used by the Tools are to
+    be written.  Tool temporary files always have a file name extension of
+    .$$$. 
+
+  ATEND 0A:SH.TOL
+    The full pathname to the shell Tool if the shell is being used; otherwise
+    empty.  This is maintained by the shell. 
+
+  PATH 0A: . 
+  PATH /1/C/ /2/C/ . 
+    Directory names to be searched in the order specified for locating Tools
+    and other commands.  The lone period (.) indicates the current directory
+    is to be searched.  The names are prefixed to the specified command
+    name.  The first is appropriate for a two disk drive floppy system, the
+    second for a hard disk system. 
+
+  EXT .TOL .COM . 
+    File name extensions to be appended to any commands entered.  The lone
+    period (.) indicates no extension.  Each extension is tried in the order
+    specified in each directory in PATH before the next directory is
+    searched. 
+
+  CTRLC
+    If this variable is present the Tools are sensitive to Control-C being
+    entered.  (Entering Control-C will cause the executing program to stop.)
+
+  VERBOSE
+    Causes the shell to print each command line or line from a script as it
+    is read.  (This flag may also be set by the -v option to the shell.)
+
+  LIST
+    Causes the shell or other Tool, just as it finishes executing, to print
+    the next command to be executed in the actual format the system expects.
+    (This flag may also be set by the -x option to the shell.)
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  set -v path
+    Print the current set of directories that will be searched for any
+    commands entered. 
+
+  set list on
+    Have each command line printed just before it is executed. 
+
+  set temp /15/a/
+    Use user 15 on disk a for temporary files.  (That way they are not seen
+    unless you look for them.)
+
+  set maxdev b
+    Indicate that there are only 2 drives on the system. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  date - print or set the date and time
+  sh - shell (command line interpreter)
+  which - locate a command using the shell search path
+  The System Specific section of this manual
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  sh.env - the shell environment file

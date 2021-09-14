@@ -1,0 +1,20 @@
+
+
+prm  prints  a file in this directory using "pmacs" trm formats a
+file in this directory and sends it  to  the  terminal  wsm  does
+wordstar  on a file in this directory backup copies all the files
+to /2/b/
+
+OTHER FILES preface cpyrite tofc
+
+intro
+
+tut tutbeg tuted1 tuted2 tutin1 tutin2 tutrat
+
+ss ssknow sslimits sslimits.raw sst1 sst2 sst3
+
+td tddes tdlist tdlist.dat pi.n tdpi tdpi.hdr tdre
+
+lib libimpl libin liblist libpi libpi.dat libsup libsyms
+
+sect6 descript

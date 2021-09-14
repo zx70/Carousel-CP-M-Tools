@@ -1,0 +1,30 @@
+                          Carousel MicroTools, Inc.
+
+                                     rrruuunnn
+
+                         eeexxxeeecccuuuttteee aaa tttoooooolll fffrrrooommm ttthhheee CCCCCCPPP
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  run ____________command-name [________argument ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  run allows execution directly from the CP/M-80 CCP of a Tool which is
+  present in the compressed .tol format.  run uses the search PATH specified
+  in the environment file file sh.env to find the command.  It then loads the
+  command and starts it with the given arguments.  The command may in fact be
+  a Tool stored as a .tol or .com file, or any other command stored as a .com
+  file. 
+
+  Since run is executed by the CCP, all arguments are treated as upper case.
+  Use the "." escape to enter lower case arguments to Tools.  (This is
+  explained in the Tutorial "A Beginner's Introduction to the Software Tools
+  on CP/M-80.")
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  run format -po11 macros run.doc >lst:
+    formats this document without starting the shell. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  install - change default shell directory or tool form
+  sh - shell (command line interpreter)
+  Beginner's Introduction in the Tutorial section of this manual. 

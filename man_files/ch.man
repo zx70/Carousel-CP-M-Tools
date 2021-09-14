@@ -1,0 +1,84 @@
+                          Carousel MicroTools, Inc.
+
+                                      ccchhh
+
+                          mmmaaakkkeee ccchhhaaannngggeeesss iiinnn ttteeexxxttt fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  ch [-[a|x]] [____expr ...] _________from-expr [_______to-expr]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  ch copies each line of the standard input to the standard output, globally
+  substituting the text pattern to-expr for from-expr on each line that
+  satisfies matching criteria defined by the expr'(s) and the flags.  (The
+  expr are text patterns in the form of regular expressions -- see the ed
+  writeup for a complete description.)  Three possible courses of action are
+  taken depending upon the number of text patterns found in the command line:
+
+  One text pattern
+    The text pattern is assumed to be from-expr with a null to-expr; it is
+    equivalent to the ed command:
+
+      g/from-expr/s///g
+
+  Two text patterns
+    The first text pattern is from-expr the second is to-expr; it is
+    equivalent to the ed command:
+
+      g/from-expr/s//to-expr/g
+
+  Three or more text patterns
+    The next to last pattern is from-expr, the last is to-expr and all
+    preceding patterns are expr'(s) used to determine the lines upon which to
+    perform the substitution.  The default is that any line which matches any
+    one of the leading expression is eligible for substitution.  If the -a
+    flag is specified, only lines which match all leading expressions in any
+    order are eligible.  If the -x flag is specified, all lines which do not
+    satisfy the above criteria are eligible.  In particular, using three text
+    patterns:
+
+      ch expr from to
+
+    is equivalent to the ed command
+
+      g/expr/s/from/to/g
+
+  The substitution string to-expr may be a string of replacement characters,
+  null to effect a deletion, or it may include an ampersand (&) to put back
+  the from-expr string and thus effect an insertion.  If a deletion is
+  desired with the multiple leading test expressions, a to-expr of two double
+  quotes ("") may be used. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  ch <file this that
+    change all occurrences of this in file to that and display on the
+    terminal. 
+
+  ch <file >newfile "  *$"
+    delete trailing blanks in file and send the result to newfile. 
+
+  ch <file active "radio&"
+    change all occurrences of active to radioactive and display on the
+    terminal.  The quotes are necessary because the ampersand (&) is a
+    special character to the shell. 
+
+  ch <program -x # this that >newprog
+    In file program, on all lines except those containing a sharp sign (#),
+    change occurrences of this to that. 
+
+  ch <file -a %data "  *" "  *" "@t" | field -t ... 
+    On all lines that contain the word data at the beginning of a line and
+    that contain a string of two or more blanks, change the strings of blanks
+    to a tab (@t) character, then send the output to the field tool. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  e(ed) - text editor
+  find - search lines for text patterns
+  sedit - stream editor
+  tr - transliterate characters
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  An error message is printed if the pattern given is illegal. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  A minus sign (-) may not start an expression. 

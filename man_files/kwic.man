@@ -1,0 +1,54 @@
+                          Carousel MicroTools, Inc.
+
+                                     kkkwwwiiiccc
+
+                  ppprrreeepppaaarrreee llliiinnneeesss fffooorrr kkkeeeyyywwwooorrrddd---iiinnn---cccooonnnttteeexxxttt iiinnndddeeexxx
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  kwic [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  kwic rotates lines from the input files to put each word in the line at the
+  beginning of the line, with a dollar sign ($) marking the original position
+  of the end of the line.  The output from kwic is typically sorted with sort
+  and then unrotated with unrot to produce a keyword-in-context index.  See
+  unrot for an example of a keyword-in-context (rotated, sorted, then
+  unrotated) file. 
+
+  If no input files are given or a dash (-) is entered in place of a file
+  name, lines will be read from standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  kwic sentence
+    if file sentence contained the line "prepare lines for keyword-in-context
+    index", the output would be as follows:
+
+      prepare lines for keyword-in-context index$
+      lines for keyword-in-context index$prepare 
+      for keyword-in-context index$prepare lines 
+      keyword-in-context index$prepare lines for 
+      in-context index$prepare lines for keyword-
+      context index$prepare lines for keyword-in-
+      index$prepare lines for keyword-in-context 
+
+  kwic text > lines ; ed lines ; sort lines | unrot
+    the common way of producing a keyword-in-context index.  Usually editing
+    of the output from kwic is necessary to keep the number of lines in the
+    index from getting out of hand. 
+
+  find < prog ## | kwic | sort | unrot
+    A common convention among ratfor programmers is that they put a line at
+    the beginning of each routine containing two pound signs and a
+    description of the routine.  The above pipeline will extract these
+    descriptions and prepare a keyword-in-context index from them. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  unrot - unrotate lines rotated by kwic
+  sort - sort and/or merge text files
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is printed if an input file cannot be opened; further processing
+  is terminated. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  a dollar sign ($) in a line will cause unrot to mis-handle the line. 

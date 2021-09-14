@@ -1,0 +1,60 @@
+                          Carousel MicroTools, Inc.
+
+                                    tttsssooorrrttt
+
+                          sssooorrrttt sssyyymmmbbbooolllsss tttooopppooolllooogggiiicccaaallllllyyy
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  tsort [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  tsort topologically sorts the symbols in the named files.  That is, the
+  symbols are sorted according to the precedence or ordering relationship
+  specified in the input data.  If no files are specified or a dash (-) is
+  entered in place of a file name, tsort reads the standard input. 
+
+  A symbol is considered any string of characters delimited by blanks or
+  tabs.  It might represent a name, an action, an event, etc.  Each line of
+  the input is assumed to be of the form
+
+    a b c ...
+
+  which states that symbol a precedes symbol b, a precedes c, and so on.
+  Note that there is nothing implied about the ordering of b and c.  A line
+  consisting of a single symbol simply declares that symbol without
+  specifying any ordering relations about it.  The output is a topologically
+  sorted list of symbols, one per line. 
+
+  For example, suppose you have trouble getting up in the morning because you
+  can't quite remember what actions have to be performed in which order.
+  However, you do know that the first action in the following list precedes
+  all others on the line:
+
+    set_alarm   turn_off_alarm
+    wake_up    get_out_of_bed    turn_off_alarm
+    set_alarm     wake_up
+
+  Using tsort to sort the above list would produce the following set of
+  actions for getting out of bed:
+
+    set_alarm
+    wake_up
+    turn_off_alarm
+    get_out_of_bed
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  tsort routines >liborder
+    An obvious use of tsort is to prepare a sorted list of subroutine names
+    and their dependencies on routines and tsort them so that the library can
+    be properly ordered for the linker. 
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  circular
+    The input specifies two symbols that must preceed each other. 
+
+  out of storage
+    The input is too large.  The size of tsort''s buffer is determined by the
+    MAXBUF definition in the source code. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  sort - sort and/or merge text files

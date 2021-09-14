@@ -1,0 +1,46 @@
+                          Carousel MicroTools, Inc.
+
+                                     cccaaattt
+
+                       jjjoooiiinnn aaannnddd cccooopppyyy iiinnnpppuuuttt(((sss))) tttooo ooouuutttpppuuuttt
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  cat [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  cat reads each text file specified and writes it to standard output.  If no
+  file names are given or a dash (-) is entered in place of a file name, cat
+  will read the standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  cat file
+    print file on the terminal. 
+
+  cat file1 file2 > file3
+    concatenate file1 and file2 and write the result to file3. 
+
+  cat > xyz
+    put all following lines entered from the terminal, up to a line that
+    begins with an end-of-file character, onto file xyz.  This is an easy way
+    to create a short file. 
+
+  cat x.1 - x.2 > x.all
+    copy file x.1 then some lines from the terminal (terminated by a line
+    with just the end-of-file character) then file x.2 to the file x.all. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  crt - copy files to the terminal
+  cp - make a copy of a file (text or binary)
+  show - show all characters including control characters
+  ________Software _____Tools page 77
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is printed if a file cannot be opened; further processing is
+  terminated. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  Like most of the Software Tools, cat only works with text files.  Use the
+  cp Tool to copy any type of file. 
+
+  Using the same file for output as well as input will cause that file to be
+  emptied. 

@@ -1,0 +1,1028 @@
+                          Carousel MicroTools, Inc.
+
+                                    fffooorrrmmmaaattt
+
+                                ttteeexxxttt fffooorrrmmmaaatttttteeerrr
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  format [+N] [-N] [-s] [-poN] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  format formats text according to request lines embedded in the text of the
+  files to be formatted, or standard input if no files are given.  If
+  nonexistent filenames are encountered they are ignored. 
+
+  Input consists of intermixed text lines, which contain information to be
+  formatted, and request lines, which contain instructions about how to
+  format the text lines.  The requests are listed in the "Request Summary"
+  below.  Request lines begin with a distinguishing control character,
+  normally a period, in the first column.  Lines that begin with the control
+  character that are not recognized as requests are ignored. 
+
+  Output lines are normally filled; that is words from as many input lines as
+  necessary are accumulated on the output line until the next word will not
+  fit.  A filled output line may be justified by adding blanks between words
+  until the output line extends to the right margin.  Blanks on the input
+  lines, including blanks at the end, are always retained so the output line
+  will contain at least as many spaces between words as the input line.
+  However, input lines beginning with a space are output without
+  modification. 
+
+  Line breaks may be caused at specified places by certain commands, or by
+  the appearance of an empty input line or an input line beginning with a
+  space. 
+
+  Headers and footers may appear at the top and bottom of every page.  A
+  header or footer specification consists of a line with three distinct
+  fields: the first is text to be placed flush with the left margin, the
+  second centered, and the third flush with the right margin.  The first
+  non-blank character in the title will be used as the delimiter to separate
+  the three fields.  Any sharp (#) signs in a title  are replaced by the
+  current page number, and any percent (%) signs are replaced by the current
+  date.  For example,
+
+    .fo '%'page #'DRAFT'
+
+  will print a footer with the date in the left corner, "page" followed by
+  the page number in the center, and the word DRAFT in the right corner. 
+
+  The .nr request defines number registers; there are 26 registers, each
+  named with a letter of the alphabet.  The command
+
+    .nr x 3
+
+  sets number register x to 3;
+
+    .nr x +1
+
+  increments number register x by 1; and
+
+    .nr x -2
+
+  decrements x by 2.  The value of number register x is placed in the text by
+  the appearance of @n'x; a literal @ may be inserted using @@.  Number
+  registers can be used to hold, for example, the amount of indent to be used
+  in displays.  For example,
+
+    .nr i 3
+    ...
+    .in +@ni
+    ...
+    .in -@ni
+
+
+  Additional commands may be defined using .de xx, where xx is one or two
+  characters.  For example,
+
+    .de PG
+    .sp
+    .ti +3
+    .en
+
+  defines PG which may be specified on a line by itself as
+
+    .PG
+
+  to start an indented paragraph. 
+
+  Defined commands may also be invoked with arguments.  Arguments are
+  separated by blanks or tabs.  Within the definition of a defined command,
+  arguments are referenced using $1, $2, etc.  There is a maximum of 9
+  arguments.  Omitted arguments default to the null string.  $0 references
+  the command name itself.  For example, the following version of the
+  paragraph command uses the argument to determine the amount of
+  indentation. 
+
+    .de PG
+    .sp
+    .ti +$1
+    .en
+
+  This command could be invoked by
+
+    .PG 3
+
+  to get the same effect as the previous version. 
+
+  The .so file command causes the contents of file to be inserted in place of
+  the .so command; .so commands may be nested. 
+
+  _______Options _______Summary       
+  +N Starts printing at the first page numbered N.  (E.g., +5 would start on
+    page 5.)
+
+  -N Stops printing after the page numbered N.  (E.g., -5 would stop after
+    page 5.)
+
+  -s Causes format to stop printing before each page, including the first
+    page.  This is useful for paper manipulation.  The prompt "Type return to
+    begin a page" is given just once before the first page. 
+
+  -poN
+    Moves the entire document N spaces to the right.  The default value is
+    zero.  (E.g., -po10 would move the document 10 spaces to the right.)
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  format document
+    format document and send the output to the terminal. 
+
+  ar -p book | format -s > /lst
+    extract all the members of the archive book, format them, and send them
+    to the printer, stopping before each page to allow for paper insertion. 
+
+  format +7 file1 file2 file3 | crt
+    format the three files and, starting with page 7, send the output to the
+    terminal.  crt will stop it after every 23 lines. 
+
+  format doc > /lst
+    format doc and send it to the printer. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  ________Software _____Tools pages 219-250
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  invalid number register name
+    Names of number registers must be a single letter (a through z). 
+
+  missing name in command definition
+    A macro was defined using the .de request, but no name for it was given. 
+
+  so commands nested too deeply
+    The limit for nesting included source files is dependent upon the
+    MAXOFILES definition in the standard symbols definition file. 
+
+  too many characters pushed back
+    The buffer holding input characters has been exceeded; its size is
+    determined by the BUFSIZE definition in the source code. 
+
+RRREEEQQQUUUEEESSSTTT SSSUUUMMMMMMAAARRRYYY       
+  Numerical values are denoted by N and single characters by C.  Numbers may
+  be signed positive (+) or negative (-), in which case they signify relative
+  changes to a quantity; otherwise they signify an absolute setting.  Missing
+  N fields are ordinarily taken to be 1 and missing C fields shut off the
+  appropriate special interpretation. 
+
+  _______Request _______Initial _______Default _____Break   _______Meaning
+  .bd N           N=1     no      boldface the next N input lines
+  .bp N   N=1     N=+1    yes     begin new page and number it N
+  .br                     yes     break current output line
+  .cc C   C=.     C=.     no      control character becomes C
+  .ce N           N=1     yes     center each of the next N lines
+  .cu N           N=1     no      continuously underline text on the next N
+                                  input lines
+  .de XX                  no      define command XX; ends at .en
+  .ef /l/c/r/             no      footers on even pages (see .fo)
+  .eh /l/c/r/             no      headers on even pages (see .he)
+  .en                     no      terminate command definition
+  .fi     yes     yes     yes     begin filling output lines
+  .fo /l/c/r/             no      footer titles are l(eft), c(enter), and
+                                  r(ight)
+  .he /l/c/r/             no      header titles are l(eft), c(enter), and
+                                  r(ight)
+  .in N   N=0     N=0     yes     set left margin to column N+1
+  .ju     yes     yes     no      begin justifying filled lines
+  .ls N   N=1     N=1     no      set line spacing to N
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          Carousel MicroTools, Inc.
+
+  _______Request _______Initial _______Default _____Break   _______Meaning
+  .m1 N   N=3     N=3     no      space between top of page and header
+  .m2 N   N=2     N=2     no      space between header and text
+  .m3 N   N=2     N=2     no      space between text and footer
+  .m4 N   N=3     N=3     no      space between footer and bottom of page
+  .mc N string    N=0     yes     adds N spaces plus string to the right end
+                                  of each line (useful for change bars, etc.)
+  .ne N           N=0     yes/no  need N lines; break if new page is
+                                  necessary
+  .nf     no              yes     stop filling output lines
+  .nj     no              no      stop justifying output lines
+  .nr X M                 no      set number register X to M; -M for
+                                  decrement, +M for increment
+  .of /l/c/r/             no      footers on odd pages (see .fo)
+  .oh /l/c/r/             no      headers on odd pages (see .he)
+  .pl N   N=66    N=66    no      set page length to N lines
+  .po N   N=0     N=0     no      set page offset (left margin) to N spaces
+  .rm N   N=65    N=65    no      set line length to N characters
+  .so file                no      read input from file
+  .sp N           N=1     yes     space N lines, except at top of page
+  .st N           N=0     yes     space to line N relative to the .m1 and m2
+                                  settings; -N spaces to line N up from .m3
+                                  and .m4
+  .ti N           N=0     yes     temporarily indent next output line N
+                                  spaces; +N increments current indent, -N
+                                  decrements current indent
+  .ul N           N=1     no      underline words on the next N input lines

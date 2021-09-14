@@ -1,0 +1,433 @@
+                          Carousel MicroTools, Inc.
+
+                                    rrraaatttfffooorrr
+
+                             rrraaatttfffooorrr ppprrreeeppprrroooccceeessssssooorrr
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  ratfor [-dl] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  ratfor translates the ratfor programs in the named files into Fortran and
+  writes them to standard output.  If no input files are given or a dash (-)
+  is entered in place of a file name, the standard input will be read. 
+
+  The file ratdef, containing general purpose Software Tools definitions
+  (e.g., EOF, NEWLINE, EOS, etc.), will be processed automatically before any
+  of the files specified are read.  The reading of ratdef can be suppressed
+  by using the -d flag. 
+
+  The -l flag will make a listing, on the error output file, of the input
+  interspersed with any error messages that might occur. 
+
+  ______Syntax        
+  Ratfor statements have the following syntax:
+  prog:   stmt
+          prog stmt
+  stmt:   if (expr) stmt
+          if (expr) stmt else stmt
+          while (expr) stmt
+          repeat (expr) stmt
+          repeat stmt until (expr)
+          for (initial expr; test expr; increment expr) stmt
+          do expr stmt
+          do n expr stmt
+          break
+          break n
+          next
+          next n
+          return (expr)
+          switch (expr)
+            {
+            case expr:  stmt
+            ...
+            default: stmt
+            }
+          digits stmt
+          { prog }  or  [ prog ]
+          anything unrecognizable (i.e. Fortran)
+
+where stmt is any Fortran or ratfor statement and expr is an expression.  A
+statement is terminated by an end-of-line or a semicolon. 
+
+  _________Character ___________Translation       
+  The following character translations are performed:
+
+    <       .lt.
+    <=      .le.
+    ==      .eq.
+    !=      .ne.         (or ^= or ~=)
+    >=      .ge.
+    >       .gt.
+    |       .or.
+    &       .and.
+    !       .not.        (or ^ or ~)
+
+  ________Included _____files       
+  The statement
+
+    include file         or         include "file"
+
+  will insert the contents of the specified file into the ratfor input in
+  place of the include statement.  Quotes must surround the file name if it
+  contains characters other than alphanumerics, underscores, or dots. 
+
+  _____Macro ___________Definitions       
+  The statement
+
+    define(name,replacement text)
+
+  defines name as a macro which will be replaced with the indicated text when
+  encountered in the source files.  Any occurrences of the strings $N in the
+  replacement text, where 1 <= N <= 9, will be replaced with the Nth argument
+  when the macro is actually invoked.  For example:
+
+    define(bump, $1 = $1 + 1)
+
+  will cause the source line
+
+    bump(i)
+
+  to be expanded into
+
+    i = i + 1
+
+  The names of macros may contain letters, digits, periods and underline
+  characters, but must start with a letter (e.g., B.FLAG).  Upper case is not
+  equivalent to lower case in macro names. 
+
+  The replacement text is copied directly into the lookup table with no
+  intepretation of the arguments, which differs from the procedure used in
+  the macro Tool.  This deferred evaluation has the effect of eliminating the
+  need for bracketing strings to get them through the macro processor
+  unchanged.  A side effect of the deferred evaluation is that defined names
+  cannot be forced through ratfor - i.e., the define will never be output
+  from ratfor.  The inequivalence of upper and lower case in macro names may
+  be used in this case to force the name of a user defined macro onto the
+  output - i.e., if the user has defined a macro named mymac, the replacement
+  text may contain the string MYMAC, which is not defined, and will pass
+  through ratfor. 
+
+  (For compatibility, an "mdefine" macro call has been included which
+  interprets definitions before stacking them, as does the macro tool.  When
+  using this version, use "$(" and "$)" to indicate deferred evaluation,
+  rather than the "[" and "]" used by the macro tool.)
+
+  In addition to "mdefine" four other built-in macros are provided:
+
+  arith(x,op,y)
+    performs the "integer" arithmetic specified by op (+,-,*,/) on the two
+    numeric operands and returns the result as its replacement. 
+
+  incr(x)
+    converts the string x to a number, adds one to it, and returns the value
+    (as a character string) as its replacement. 
+
+  ifelse(a,b,c,d)
+    compares a and b as character strings:  if they are the same, c is pushed
+    back onto the input, otherwise d is pushed back. 
+
+  substr(s,m,N)
+    produces the substring of s which starts at position m (with origin 1) of
+    length N.  If N is omitted or too big, the rest of the string is used,
+    while if m is out of range the result is a null string. 
+
+  Note: the statement form
+
+    define name text
+
+  may also be used, but will not always perform correctly for macros with
+  parameters or multi-line replacement text.  It is suggested that the
+  functional form be used instead. 
+
+  ___________Conditional _____________Preprocessing       
+  The statement
+
+    ifdef(macro,text)
+
+  will process "text" if "macro" is defined, and
+
+    ifnotdef(macro,text)
+
+  will process text if "macro" has not been defined. 
+
+  ______String ____Data _____Types      
+  The statements
+
+    string name "character string"
+    string name(size) "character string"
+
+  declare name to be a character array long enough to accomodate the ASCII
+  codes for the given character string, one per array element.  The array is
+  then filled by data statements.  The last word of name is initialized to
+  the symbolic parameter EOS, and indicates the end of a string.  EOS must be
+  defined either in the standard definitions file or by the user.  If a size
+  is given, name is declared to be a character array of size elements.  If
+  several string declarations appear consecutively, the generated
+  declarations for the arrays will precede the data statements that
+  initialize them. 
+
+  ______String ________Literals       
+  Conversion of in-line quoted strings to hollerith constants is performed in
+  the following manner:
+
+    "str"         NHstr
+    'str'         NHstr
+
+  (where N is the number of characters in str).  String literals can be
+  continued across line boundaries by ending the line to be continued with an
+  underline.  The underline is not included as part of the literal.  Leading
+  blanks and tabs on the next line are ignored. 
+
+  _______Integer _________Constants       
+  Integer constants in bases other than decimal may be specified as N%dddd...
+  where N is a decimal number indicating the base and dddd...  are digits in
+  that base.  For bases greater than 10, letters are used in the constant for
+  digits above 9.  For example:  8%77 (=63), 16%2ff (=767), 2%0010011 (=19).
+  The number is converted to the equivalent decimal value using
+  multiplication; this may cause sign problems if the number has too many
+  digits. 
+
+  _____Lines ___and ____________Continuation      
+  Input is free-format; that is, statements may appear anywhere on a line,
+  and the end of the line is generally considered the end of the statement.
+  However, lines ending in special characters such as comma, +, -, and * are
+  assumed to be continued on the next line.  An exception to this rule is
+  within a condition; the line is assumed to be continued if the condition
+  does not fit on one line.  Explicit continuation is indicated by ending a
+  line with an underline character (_).  The underline character is not
+  copied to the output file. 
+
+  ________Comments        
+  Comments are preceded by '#' signs and extend to the end of the line.  They
+  may appear anywhere in the code. 
+
+  _______Literal (___________unprocessed) _____Lines      
+  Lines can be passed through ratfor without being processed by putting a
+  percent "%" as the first character on the line.  The percent will be
+  removed and the line shifted one position to the left, but otherwise will
+  be output without change. 
+
+CCCHHHAAANNNGGGEEESSS        
+  This ratfor preprocessor differs from the original (as released in Software
+  Tools in the following ways:
+
+  The code has been rewritten and reorganized for clarity. 
+
+  A hash table has been added for increased efficiency in searching the
+    definitions list. 
+
+  The 'string' data type has been included. 
+
+  The define processor has been augmented to support macros with arguments. 
+
+  Conditional preprocessing upon the definition (or lack therof) of a symbol
+    has been included. 
+
+  Many extraneous gotos have been avoided. 
+
+  Blanks have been included in the output for increased readability. 
+
+  Multi-level 'break' and 'next' statements have been included. 
+
+  The Fortran 'do' is allowed, as well as the ratfor one. 
+
+  The capability of specifying integer constants in bases other than decimal
+    has been added. 
+
+  Underscores and dots have been allowed in defined names. 
+
+  The 'define' syntax has been expanded to include the form:
+    define name value
+
+  The 'return(value)' feature has been added. 
+
+  Quoted file names following 'include' statements have been added to allow
+    for special characters in file names. 
+
+  A method for allowing lines to pass through un-processed has been added. 
+
+  The 'switch' control statement has been included. 
+
+  Continuation lines have been implemented. 
+
+  Brackets have been allowed to replace braces (but NOT $( and $) )
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  The generalized definition file ratdef is automatically read. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  ls rat | ratfor ? errs | fsort > pgm.for
+    This runs ratfor on all files, in the current directory, with ".rat" in
+    their names, puts the error messages on file err, and runs fsort to sort
+    the statements for the Fortran compiler. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  fsort - sort Fortran specification statements
+  includ - include contents of a file in another file
+  ld - link and load
+  macro - general-purpose macro processor
+  rc - ratfor compile, Fortran compile, link, and load
+  ________Software _____Tools
+  Ratfor Primer in the Tutorial Section of this manual
+  The Library Description Section of this manual
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  The errors marked by an asterisk (*) are fatal; all others are simply
+  warning messages. 
+
+  arg stack overflow *
+    The argument stack for the macro processor has been exceeded.  The size
+    of the stack is determined by the symbol ARGSIZE in the source
+    definitions file. 
+
+  buffer overflow *
+    One of the preprocessor's internal buffers overflowed; possibly, but not
+    necessarily, because the string buffers were exceeded.  The definition
+    SBUFSIZE in the preprocessor symbols file determines the size of the
+    string buffers. 
+
+  call stack overflow *
+    The call stack (used to store call frames) in the macro processor has
+    been exceeded.  The definition CALLSIZE in the source definition file
+    determines the size of this stack. 
+
+  can't open standard definitions file
+    The special file containing general purpose ratfor definitions could not
+    be opened, possibly because it did not exist or the user did not specify
+    the directory on which it resides. 
+
+  can't open include
+    File to be included could not be located, the user did not have privilege
+    to access it, or the file could not be opened due to some problem. 
+
+  definition too long *
+    The number of characters in the name to be defined exceeded ratfor's
+    internal array size.  The size is defined by the MAXTOK definition in the
+    preprocessor symbols file. 
+
+  EOF in string *
+    The macro processor detected an EOF in the current input file while
+    evaluating a macro. 
+
+  evaluation stack overflow *
+    The evaluation stack for the macro processor has been exceeded.  This
+    stack's size is determined by the symbol EVALSIZE in the source
+    definition file. 
+
+  for clause too long *
+    The internal buffer used to hold the clauses for the 'for' statement was
+    exceeded.  The size of this buffer is determined by the MAXFORSTK
+    definition in the preprocessor symbols file. 
+
+  getdef is confused *
+    There were horrendous problems when attempting to access the definition
+    table. 
+
+  illegal break
+    "break" did not occur inside a valid "while", "for", or "repeat" loop. 
+
+  illegal else
+    "else" clause probably did not follow an "if" clause. 
+
+  illegal next
+    "next" did not occur inside a valid "for", "while", or "repeat" loop. 
+
+  illegal right brace
+    A right brace was found without a matching left brace. 
+
+  includes nested too deeply
+    There is a limit to the level of nesting of included files.  It is
+    dependent upon the maximum number of opened files allowed at a time, and
+    is set by the NFILES definition in the preprocessor symbols file. 
+
+  invalid for clause
+    The "for" clause did not contain a valid initial, condition, and/or
+    increment section. 
+
+  invalid string size
+    The string format 'string name(size) "..."' was used, but the size was
+    given improperly. 
+
+  missing comma in define *
+    Definitions of the form 'define(name,defn)' must include the comma as a
+    separator. 
+
+  missing function name
+    There was an error in declaring a function. 
+
+  missing left paren
+    A parenthesis was expected, probably in an "if" statement, but was not
+    found. 
+
+  missing parenthesis in condition
+    A right parenthesis was expected, probably in an "if" statement, but not
+    found. 
+
+  missing quote
+    A quoted string was not terminated by a quote. 
+
+  missing right paren
+    A right parenthesis was expected in a Fortran (as opposed to ratfor)
+    statement but not found. 
+
+  missing string token
+    No array name was given when declaring a string variable. 
+
+  non-alphanumeric name *
+    Definitions may contain only alphanumeric characters, dots, and
+    underscores. 
+
+  stack overflow in parser *
+    Statements were nested at too deep a level.  The stack depth is set by
+    the MAXSTACK definition in the preprocessor symbols file. 
+
+  token too long
+    A token (word) in the source code was too long to fit into one of
+    ratfor's internal arrays.  The maximum size is set by the MAXTOK
+    definition in the preprocessor symbols file. 
+
+  too many characters pushed back *
+    The source code has illegally specified a ratfor command, or has used a
+    ratfor keyword in an illegal manner, and the parser has attempted but
+    failed to make sense out of it.  The size of the push-back buffer is set
+    by BUFSIZE in the preprocessor symbols file. 
+
+  unbalanced parentheses
+    Unbalanced parentheses detected in a Fortran (as opposed to ratfor)
+    statement. 
+
+  unexpected brace or EOF
+    A brace occurred after a Fortran (but not ratfor) statement or an
+    end-of-file was reached before the end of a statement. 
+
+  unexpected EOF
+    An end-of-file was reached before all braces had been accounted for.
+    This is usually caused by unmatched braces somewhere deep in the source
+    code. 
+
+  warning:  possible label conflict
+    This message is printed when the user has labeled a statement with a
+    label in the 23000-23999 range.  Ratfor statement labels are assigned in
+    this range and a user-defined one may conflict with a ratfor-generated
+    one. 
+
+  "file":  cannot open
+    Ratfor could not open an input file specified by the user on the command
+    line. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  Missing parentheses or braces may cause erratic behavior.  Ratfor should be
+  taught to terminate parentheses/braces checking at the end of each
+  subroutine. 
+
+  Although one bug was fixed which caused line numbers in error messages to
+  be incorrect, they still aren't quite right.  Use them only as a general
+  area in which to look for errors. 
+
+  Extraneous "continue" statements are generated within Fortran "do"
+  statements. 
+
+  Unlike most Tools, ratfor does not abort a script in which it is used if it
+  detects a non-fatal error.  Therefore, you must watch the error output
+  from  ratfor before trusting ratfor''s product. 

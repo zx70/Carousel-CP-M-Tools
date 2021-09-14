@@ -1,0 +1,22 @@
+                          Carousel MicroTools, Inc.
+
+                                     rrreeevvv
+
+                                rrreeevvveeerrrssseee llliiinnneeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  rev [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  rev copies the named files to the standard output, reversing the order of
+  the characters in every line.  If no files are given or a dash (-) is
+  entered in place of a file name, rev reads from the standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  rev file1 file2
+    reverse the lines in file1 and file2, printing the output on the user's
+    terminal. 
+
+  rev dictionary | sort | comm -3 dictionary
+    look through dictionary to see how many words there are that are valid
+    words when they are spelled backwards. 

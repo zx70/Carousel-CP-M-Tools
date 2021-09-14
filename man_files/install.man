@@ -1,0 +1,70 @@
+                          Carousel MicroTools, Inc.
+
+                                   iiinnnssstttaaallllll
+
+            ccchhhaaannngggeee ttthhheee ssshhheeellllll dddeeefffaaauuulllttt dddiiirrreeeccctttooorrryyy ooorrr ccchhhaaannngggeee tttoooooolll fffooorrrmmm
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  install -d
+  install [-{c|e} dest] [-s ______source] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  install is actually two Tools combined into one.  First it is used with the
+  -d flag to set the shell default directory information in the sh.com and
+  run.com Tools.  Second it is used with files made using the Carousel
+  runsys.rel library to build .tol files from .com files and to expand .tol
+  files to .com files.  These things are described in detail in the System
+  Specific section of the manual. 
+
+  ________Changing ___the _______Default _____Shell _________Directory    
+  To change the default shell directory specify the -d option and nothing
+  else.  install will ask at the terminal for the drive and user number of
+  the new default directory and record the information in the files run.com
+  and sh.com in the current directory.  If you are using user numbers, when
+  install is done you must copy sh.com to each user number you use.  This
+  needs to be done only on the disk containing the default shell directory.
+  See the System Specific section of the manual for more information. 
+
+  ___________Compressing .___com _____Files ___and _________Expanding .___tol _____Files  
+  Tools are distributed and used in the compressed .tol form.  This allows
+  faster loading by overlaying the previous Tool with the next Tool.  It also
+  saves disk space.  install is the only way to expand a file in .tol form to
+  the CP/M .com command form, or compress a .com file to .tol form. 
+
+  When expanding or compressing files install works on a list of files that
+  can either be explicitly given, or read from standard input if the dash (-)
+  flag is present.  If no flag options are specified the default is to
+  compress the named files in the current directory. 
+
+  The compress (-c) flag specifies compression from .com to .tol form.  The
+  destination directory for the compressed tool(s) must be given after the
+  -c.  If the files to be compressed are to come from a directory other than
+  the current one, the source directory name can be specified following the
+  -s flag. 
+
+  The expand (-e) flag specifies expansion from .tol to .com form.  As with
+  -c the destination directory must follow the -e, and the -s flag may be
+  used to specify a source directory for the files to be converted.  An
+  expanded file will be about 18K bytes larger than the compressed version. 
+
+  We recommend that you keep the Tools as .tol files since they take less
+  space and load faster in that form. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  run - execute a tool from the CCP
+  sh - shell (command line interpreter)
+  The System Specific section of this manual
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  install newtool
+    compress newtool in the current directory. 
+
+  install -c /2/b/ -s /1/b/ newtool
+    compress a newly compiled tool in directory /1/b and put it in directory
+    /2/b. 
+
+  install -e /0/d/ -s /0/b/ tool
+    expand tool on directory /0/b and put it in directory /0/d/. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  install should be divided into two separate Tools. 

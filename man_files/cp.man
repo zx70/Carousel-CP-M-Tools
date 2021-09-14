@@ -1,0 +1,33 @@
+                          Carousel MicroTools, Inc.
+
+                                      cccppp
+
+                    cccooopppyyy fffiiillleee111 tttooo fffiiillleee222 (((ttteeexxxttt aaannnddd bbbiiinnnaaarrryyy)))
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  cp _____file1 _____file2
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  The first file is copied onto the second.  This tool is similar to:
+
+    cat file1 >file2
+
+  except that cp can handle binary files. 
+
+CCCPPP///MMM---888000 SSSPPPEEECCCIIIFFFIIICCC IIINNNFFFOOORRRMMMAAATTTIIIOOONNN      
+  The destination name, file2, may be a full file name or only a directory
+  name.  A lone period may be used to mean the current directory.  Thus to
+  copy the file data.bin from user 5, disk b to the current user, current
+  disk:
+
+    cp /5/b/data.bin .
+
+  or to user 3, disk a:
+
+    cp /5/b/data.bin /3/a/
+
+SSSEEEEEE AAALLLSSSOOO       
+  cat - join and copy input to output
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  cp will not copy to or from a terminal. 

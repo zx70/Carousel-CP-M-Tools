@@ -1,0 +1,160 @@
+                          Carousel MicroTools, Inc.
+
+                                    ssseeedddiiittt
+
+                                ssstttrrreeeaaammm eeedddiiitttooorrr
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  sedit [-n] {[-e _______command] [-f ___________script-file ... | _______command] }
+     [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  sedit copies the named input files to the standard output, performing
+  editing as directed by sedit commands specified by command or in
+  script-file.  The -e flag indicates that the next argument is to be
+  interpreted as a sedit command (described below).  The -f flag indicates
+  that the next argument is the name of a file in which sedit commands appear
+  one per line.  The -e and -f arguments may be intermixed in any order.  The
+  order of command execution is the order in which commands are read. 
+
+  If no -e or -f flags are given, the first non-flag argument is used as an
+  sedit command. 
+
+  Normally, sedit writes each line of input to the output after editing; the
+  -n option suppresses this action, causing the only output to be that
+  resulting from sedit commands. 
+
+  When the first argument not in the scope of a flag or command is
+  encountered, it and all succeeding arguments are taken as input files.  If
+  no files are given or a dash (-) is entered in place of a file name, the
+  standard input is read. 
+
+  ________Commands        
+  sedit commands have the general form
+
+    line1[,line2] command arguments
+
+  A line number (line1 or line2) is either a decimal number that refers to a
+  specific input line (input lines are counted cumulatively across files), or
+  a dollar sign ($) that refers to the last line of input, or a pattern in
+  the form of a regular expression as described in e.  Line number 0 may be
+  used to specify commands that should be executed before any input is read. 
+
+  A command without line1 or  line2 is applied to every line of input.  A
+  command with only line1 is applied to every line of input that matches the
+  specified line number.  A command with line1 and line2 is applied to every
+  line of input beginning with the first line that matches line1 through the
+  line that matches line2.  Thereafter, the process is repeated, looking
+  again for a line that matches line1. 
+
+  sedit accepts the following commands.  Each command may be used with 0, 1,
+  or 2 line numbers.  The a, c, and i commands may not appear on the command
+  line. 
+
+  Append
+      a
+      <text>
+      .
+    The <text> is placed on the output after each selected line.  The <text>
+    does not change the line number nor is it subject to subsequent sedit
+    commands. 
+
+  Change
+      c
+      <text>
+      .
+    The selected lines are deleted and <text> is placed on the output in
+    their place.  The <text> does not change the line number nor is it
+    subject to subsequent sedit commands. 
+
+  Delete
+      d
+    The selected lines are deleted. 
+
+  Insert
+      i
+      <text>
+      .
+    The <text> is placed on the output before each selected line.  The <text>
+    does not change the line number nor is it subject to subsequent sedit
+    commands. 
+
+  Print
+      p
+    The selected lines are printed on the standard output. 
+
+  Read file
+      r file
+    The contents of file are placed on the output after each selected line
+    exactly as if the contents were given as <text> in an 'a' command.  The
+    new lines do not change the line number nor are they subject to
+    subsequent sedit commands. 
+
+  Substitute
+      s/pat/new/gp
+    If g is not specified, the leftmost occurrence of pat in the selected
+    lines is changed to new.  If g is specified, all occurrences are
+    changed.  If p is specified, the resulting line is printed. 
+
+  Write file
+      w file
+    The selected lines are written to file.  Files mentioned in w commands
+    are created before processing begins.  The limit on the number of w
+    commands depends on the number of files that can be opened at the same
+    time. 
+
+  Print line number
+      =
+    The current line number is printed on the output as a line. 
+
+  Text appended by a', c', or r commands is placed on the output in the same
+  order as the execution of the commands.  Similar comments apply to text
+  inserted by i commands. 
+
+  sedit can accomodate commands totaling approximately 3000 characters
+  (including <text> arguments), and lines up to 120 characters in length. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  sedit s/this/that/ file1 file2 >newfile
+    copy file1 and file2 to newfile, changing the first occurrence of this in
+    each line to that.  This command is similar to:
+
+      cat file1 file2 | ch this that >newfile
+
+    except ch changes all occurrences. 
+
+  sedit /pat1/,/pat2/d file >newfile
+    copies all lines from file to newfile except for those between the
+    patterns pat1 and pat2. 
+
+  sedit -n -e /somepattern/p file
+    Prints only lines in file that contain somepattern.  Equivalent to:
+
+      find <file somepattern
+
+  sedit -f edcommands file >newfile
+    copies file to newfile, making the changes dictated in the file
+    edcommands. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  ch - change strings in text files
+  e(ed) - text editor
+  find - search lines for text patterns
+  tr - transliterate characters
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  In addition to the usual error messages resulting from file access failure,
+  sedit issues the following messages preceeding by the offending command
+  line. 
+
+  bad line numbers
+    indicates that the line number expressions are invalid. 
+
+  invalid command
+    indicates that the command preceeding the message is illegal.  This
+    message is issued for a', i', or c commands if they appear on the command
+    string. 
+
+  too many commands
+    indicates exhaustion of space to hold commands.  The size of the command
+    buffer is determined by the MAXBUF definition in the source code. 

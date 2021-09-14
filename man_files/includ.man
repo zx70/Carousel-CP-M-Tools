@@ -1,0 +1,46 @@
+                          Carousel MicroTools, Inc.
+
+                                    iiinnncccllluuuddd
+
+                  iiinnncccllluuudddeee cccooonnnttteeennntttsss ooofff aaa fffiiillleee iiinnn aaannnooottthhheeerrr fffiiillleee
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  includ [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  includ copies files to the standard output, except that any line that
+  begins with
+
+    include file
+  or
+    include "file"
+
+  is replaced by the entire contents of file.  File names which contain
+  non-alphanumeric characters must be inclosed in quotes.  If no files names
+  are given or a dash (-) is specified in place of a file name, includ reads
+  its standard input. 
+
+  An included  file may  contain further include's. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  includ file1 file2
+    sends the contents of file1 and file2 to the terminal.  Whenever a line
+    containing "include filename" is found, the contents of filename replace
+    the line. 
+
+  includ program | macro >newprog
+    includ may be used in a programming environment to include common blocks,
+    symbol definitions, or other programming constructs. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  macro - general-purpose macro processor
+  ratfor - ratfor preprocessor
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  includes nested too deeply
+    The allowed depth of included files was exceeded.  The depth is set by
+    the NFILES definitions in the source code and is dependent upon the
+    maximum number of opened files allowed on the particular system. 
+
+  name: can't include
+    The named file could not be opened; processing continues. 

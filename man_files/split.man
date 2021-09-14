@@ -1,0 +1,72 @@
+                          Carousel MicroTools, Inc.
+
+                                    ssspppllliiittt
+
+                           ssspppllliiittt aaa fffiiillleee iiinnntttooo pppiiieeeccceeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  split [-N] [____file] [____name]
+  split +____from [-__to] [____file] [____name]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  split splits a file into a number of small files.  Depending on the
+  arguments, file is split into files of N lines or according to specified
+  patterns. 
+
+  Normally, split outputs the pieces of file into files named xaa, xab, xac,
+  ..., xzz.  This convention permits up to 676 files.  If spliting file
+  requires more than 676 files to be created, the rest of file is placed in
+  xzz.  If the name argument is given, it is used as the prefix for the
+  output file names, instead of the letter "x".  For each output file, the
+  2-character sequence (i.e., aa, ab, etc.) is appended to name and the
+  result is used as the output file. 
+
+  If no file name is specified or a dash (-) is entered in place of the file
+  name, split reads the standard input.  Note that file (or -) must be given
+  in order to specify name. 
+
+  If -N is omitted, 100 is assumed. 
+
+  The command form
+
+    split +from file [name]
+
+  splits file into pieces that begin with the pattern from.  The command form
+
+    split +from -to file [name]
+
+  splits file into pieces that begin with the pattern from and end with the
+  pattern to.  Note that in this case, portions of file may not appear in the
+  output files. 
+
+  The from and to patterns may be any regular expression pattern as described
+  in ed. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  split +subroutine -end foo
+    extracts the subroutines (but not the functions) from foo. 
+
+  split bigfile part. 
+    splits bigfile into 100-line pieces and puts them onto files named
+    ____part.__aa, ____part.__ab etc. 
+
+  split -1000 bigfile
+    splits bigfile into 1000-line pieces and puts them on files names ___xaa,
+    ___xab, ___xac, etc. 
+
+  split +program "-% *end" library
+    extracts all main programs from library and puts them on files ___xaa, ___xab,
+    etc. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  e(ed) - text editor
+  pl - print specified lines or pages in files
+  sedit - stream editor
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  bad argument
+    The value of N is invalid. 
+
+  illegal from pattern
+  illegal to pattern
+    The specification for the indicated pattern is invalid. 

@@ -1,0 +1,29 @@
+                          Carousel MicroTools, Inc.
+
+                                     pppwwwddd
+
+                         ppprrriiinnnttt cccuuurrrrrreeennnttt dddiiirrreeeccctttooorrryyy nnnaaammmeee
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  pwd [-l]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  pwd prints the pathname of the working (current default) directory.  If the
+  -l flag is present, the directory name is printed out in the local format. 
+
+CCCPPP///MMM---888000 SSSPPPEEECCCIIIFFFIIICCC IIINNNFFFOOORRRMMMAAATTTIIIOOONNN      
+  The Tools path name format for CP/M is
+
+    /user-number/disk-name
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  pwd
+    prints the name of current directory is Tools format (e.g. /0/a). 
+
+  pwd -l
+    prints name of current directory in local format, which may be something
+    strange like "a:". 
+
+SSSEEEEEE AAALLLSSSOOO       
+  cd - change the current directory
+  ls - list the files in a directory

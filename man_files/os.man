@@ -1,0 +1,25 @@
+                          Carousel MicroTools, Inc.
+
+                                      ooosss
+
+             ooovvveeerrrssstttrrriiikkkeee:::  cccooonnnvvveeerrrttt bbbaaaccckkkssspppaaaccceeesss iiinnntttooo mmmuuullltttiiipppllleee llliiinnneeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  os [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  os (overstrike) looks for backspaces in the specified files and generates a
+  sequence of print lines with carriage control codes in IBM printer format
+  (a plus (+) in column 1) to reproduce the effect of the backspaces. 
+
+  If no files are given or a dash (-) is entered in place of a file name,
+  input is taken from the standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  os file1 file2 >yourprinter
+    convert backspace characters into carriage-control characters and send
+    file1 and file2 to the printer
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is printed if an input file cannot be opened; further processing
+  is terminated. 

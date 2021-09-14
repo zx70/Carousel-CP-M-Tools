@@ -1,0 +1,26 @@
+                          Carousel MicroTools, Inc.
+
+                                     eeeccchhhooo
+
+                        eeeccchhhooo wwwooorrrdddsss ooonnn ttthhheee cccooommmmmmaaannnddd llliiinnneee
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  echo [____word ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  echo writes its arguments as a line on the standard output file.  It is
+  useful for producing messages and diagnostics in command files and for
+  inserting single lines of text into files. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  echo Hi There
+    prints the line "Hi There" on the user's terminal. 
+
+  echo something to add to a file >>file
+    appends the line "something to add to a file" to the end of file.  (Be
+    sure to use two right arrows (>>); otherwise file will be deleted and
+    recreated.)
+
+  echo format -po11 macros $1.doc > prm
+    creates a shell script containing the format command to print one of
+    these Tool description pages. 

@@ -1,0 +1,41 @@
+                          Carousel MicroTools, Inc.
+
+                                     xxxrrreeefff
+
+                      mmmaaakkkeee aaa cccrrrooossssss rrreeefffeeerrreeennnccceee ooofff sssyyymmmbbbooolllsss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  xref [-f] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  xref produces a cross-reference list of the symbols in each of the
+  specified files on the standard output.  Each symbol is listed followed by
+  the number(s) of the line(s) on which it appears.  If no files are given or
+  a dash (-) is entered in place of a file name, xref reads the standard
+  input. 
+
+  A symbol is defined as a letter followed by letters, digits, underlines, or
+  periods. 
+
+  Normally, xref treats upper- and lower-case letters as different
+  characters.  The -f option causes all letters to be treated as lower-case. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  xref -f document >index
+    make an index for a document
+
+  xref -f p2.rat | pr
+    list all of the symbols in a program and format the output
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  out of storage
+    The file contains too many symbols or references to fit within the
+    current limitations of xref.  The size of the buffer is determined by the
+    MAXBUF definition in the source code. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  There should be a means of suppressing junk symbols such as "the", "a",
+  etc. 
+
+  Symbols exceeding an internal limit are truncated.  This limit is
+  determined by the MAXTOK definition in the source code. 

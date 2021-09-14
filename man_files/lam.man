@@ -1,0 +1,71 @@
+                          Carousel MicroTools, Inc.
+
+                                     lllaaammm
+
+                        mmmeeerrrgggeee llliiinnneeesss ooofff fffiiillleeesss tttooogggeeettthhheeerrr
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  lam [-______string | ____file] ... 
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  lam laminates the named file(s)  and writes the lines to the standard
+  output.  That is, the first output line is the result of concatenating the
+  first lines of each file, and so on.  If the files are different lengths,
+  null lines are used for the missing lines in the shorter files. 
+
+  The -string argument(s) may be used to place strings in each output line.
+  Each string is placed in the output lines at the point it appears in the
+  argument list.  For example,
+
+    lam "-file1: " foo1 "-, file2: " foo2
+
+  results in output lines that look like
+
+    file1: _________________a line from foo1, file2: ________________a line from foo2
+
+  The escape sequences described in ed are valid in string arguments.  Thus
+
+    lam foo1 -@n foo2
+
+  results in the lines from foo1 and foo2 being interleaved. 
+
+  Files and string specifications may appear in any order in the argument
+  list.  If no file arguments are given or a dash (-) is entered in place of
+  a file name, lam reads the standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  lam file1 file2 >laminate
+    takes lines from file1 and file2, joins them together and writes them to
+    laminate
+
+  lam file1 "-somewords " file2
+    produces the following on the terminal:
+
+      line_from_file1'somewords line_from_file2
+      ...
+
+  ls .doc | lam "-format macros " - "- > /lst" | sh -
+    construct a format command line for each file in the current directory
+    whose name contains .doc, and send it to the shell for execution. 
+
+  ls /b/ | lam "-cp " - "- . " | sh
+    copy all files in the current user number on disk b to the current
+    directory. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  comm - print lines common to two files
+  e(ed) - text editor
+  tail - print last lines of files
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  too many arguments
+    The maximum number of command line arguments allowed has been exceeded.
+    It is set by the MAXARGS definition in the source code. 
+
+  too many strings
+    The maximum number of characters in a string has been exceeded.  It is
+    set by the MAXBUF definition in the source code. 
+
+  output buffer exceeded
+    The size of the output line buffer has been exceeded.  It is set by the
+    MAXOBUF definition in the source code. 

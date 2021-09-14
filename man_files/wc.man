@@ -1,0 +1,35 @@
+                          Carousel MicroTools, Inc.
+
+                                      wwwccc
+
+                 cccooouuunnnttt llliiinnneeesss,,, wwwooorrrdddsss,,, aaannnddd ccchhhaaarrraaacccttteeerrrsss iiinnn fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  wc [-lwc] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  wc prints the number of lines, words, and characters in the named files.  A
+  total is also printed.  Entering a dash (-) in place of a file name
+  specifies that standard input is to be read.  A "word" is any sequence of
+  characters delimited by white space (tabs or blanks). 
+
+  The options -l, -w, and -c specify, respectively, that only the line, word,
+  or character count be printed.  For example,
+
+    wc -lc foo
+
+  prints the number of lines and characters in foo. 
+
+  If no files are given, wc reads its standard input and the total count is
+  suppressed. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  wc report
+    counts the number of lines, words, and characters in file report. 
+
+  ls | wc -l
+    counts the number of files in the current directory. 
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  name: can't open
+    Printed when an input file can't be opened; processing ceases. 

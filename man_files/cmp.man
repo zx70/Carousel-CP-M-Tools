@@ -1,0 +1,40 @@
+                          Carousel MicroTools, Inc.
+
+                                     cccmmmppp
+
+                              cccooommmpppaaarrreee tttwwwooo fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  cmp _____file1 _____file2
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  file1 is compared line-by-line with file2.  If any lines differ, cmp
+  announces the line number and prints each file's offending line.  If only
+  one filename is given, file2 will be taken from the standard input. 
+
+  cmp is the same as:
+
+    diff -cv file1 file2
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  cmp file1 file2
+    compare file1 with file2, printing any lines that differ
+
+  ar t archfile | cmp oldlist
+    compare the table of contents of archfile with a previously saved list of
+    contents, noting any differences (such as a change in size, differing
+    date, etc.)
+
+SSSEEEEEE AAALLLSSSOOO       
+  comm - print lines common to two files
+  diff - compare and list differences between files
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  If the end of one file is reached before the end of the  other, a message
+    is printed. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  If either file is binary, spurious results should be expected. 
+
+  cmp cannot handle offset lines:  line N of file1 is simply compared to line
+  N of file2.  Use diff if there may be offset lines. 

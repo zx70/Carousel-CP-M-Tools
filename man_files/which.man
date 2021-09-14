@@ -1,0 +1,43 @@
+                          Carousel MicroTools, Inc.
+
+                                    wwwhhhiiiccchhh
+
+                   lllooocccaaattteee aaa cccooommmmmmaaannnddd uuusssiiinnnggg ssshhheeellllll ssseeeaaarrrccchhh pppaaattthhh
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  which {- | _________________command-file-name ...}
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  With the shell's directory search path the Tools user need not know the
+  exact location of the command files being used.  Sometimes, however, this
+  information is necessary for debugging; it may be obtained using the which
+  tool. 
+
+  which takes, as an argument, one or more file names.  If a dash (-) is
+  entered as the only argument, the file names are read from the standard
+  input. 
+
+  Using the directory search path (specified in the shell's environment
+  file), which attempts to locate each of the given files.  When a file is
+  found its location is printed on standard output. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  which f80
+    /8/c/f80.com
+
+  which cd ls format
+    /2/a/cd.tol
+    /2/a/ls.tol
+    /0/b/format.tol
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  sh.env - the shell environment file
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  name: can't find
+    indicates a command file name which cannot be located within any of the
+    directories given in the shell search path. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  set - print, set or unset shell variables
+  sh - shell (command line interpreter)

@@ -1,0 +1,90 @@
+                          Carousel MicroTools, Inc.
+
+                                      tttrrr
+
+                          ccchhhaaarrraaacccttteeerrr tttrrraaannnsssllliiittteeerrraaatttiiiooonnn
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  tr ____from [__to]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  tr copies the standard input to the standard output substituting or
+  deleting selected characters.  Characters found in from are changed into
+  the corresponding characters of to.  Ranges of characters may be specified
+  by separating the extremes by a dash.  For example, a-z stands for the
+  string of characters whose ASCII codes run from character a through
+  character z. 
+
+  If the number of characters in from is the same as in to, each character in
+  from will be replaced by the character in the same relative position in
+  to.  For example,
+
+    tr 123 xyz
+
+  would change all occurences of 1 to x, 2 to y and 3 to z. 
+
+  If the number of characters in from is more than that in to, the last
+  character in to is to be replicated as often as necessary to make a string
+  as long as from, but the replicated characters will never appear twice in
+  succession in the output.  For example,
+
+    tr 1-9 N
+
+  would change each occurence of one or more digits into the single character
+  N.  (The range "1-9" is equivalent to entering "123456789".)
+
+  If to is missing or empty, tr will delete all occurrences of the characters
+  in from.  If to is longer than from, the extraneous characters are
+  ignored. 
+
+  tr differs from the tool ch in that tr deals only with single characters or
+  ranges of characters, while ch deals with character strings.  For example
+
+    tr xy yx
+
+  would change all x's into y's and all y's into x's, whereas
+
+    ch xy yx
+
+  changes all the patterns xy into yx. 
+
+  One of the most common functions of  tr is to translate upper case letters
+  to lower case, and vice versa.  Thus,
+
+    tr A-Z a-z
+
+  would change all upper case letters to lower case. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  tr <doc A-Z a-z >newdoc
+    translate all the upper case letters in doc to lower case and write the
+    new data in newdoc. 
+
+  tr <doc !a-zA-Z "@n" | sort | uniq
+    changes all non-alphabetic characters to a NEWLINE.  That is, it puts all
+    words in doc on a line by themselves.  The list is then sorted and
+    duplicates are stripped.  The result, a list of the words in doc, is then
+    printed on the terminal. 
+
+  tr <file !0-9@n
+    deletes everything but digits and NEWLINES from a file and prints the
+    result on the terminal. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  ch - change strings in text files
+  e(ed) - text editor
+  find - search lines for text patterns
+  sedit - stream editor
+  ________Software _____Tools pages 51-61
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  usage: tr from to. 
+    The command line is in error. 
+
+  from: too large. 
+    The string for from is too large.  The current limit is 100 characters
+    including the end-of-string indicator. 
+
+  to: too large. 
+    The string for to is too large.  The current limit is 100 characters
+    including the end-of-string indicator. 

@@ -1,0 +1,44 @@
+                          Carousel MicroTools, Inc.
+
+                                    fffsssooorrrttt
+
+                    sssooorrrttt FFFooorrrtttrrraaannn ssspppeeeccciiifffiiicccaaatttiiiooonnn ssstttaaattteeemmmeeennntttsss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  fsort [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  A number of Fortran compilers require that specification statements (such
+  as variable typing, common block declarations, data statements, etc.) be in
+  a certain prescribed order.  fsort takes Fortran input files (such as those
+  produced by ratfor) and arranges the specifications in the proper order. 
+
+  The arranged ordering is:
+    Type declaration statements
+    EXTERNAL
+    DIMENSION
+    IMPLICIT
+    COMMON statements
+    EQUIVALENCE statements
+    DATA initialization statements
+
+  fsort is normally called by the rc tool. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  fsort file1 file2 >output
+    copies file1 and file2 to output, with the specification statements in
+    the correct order. 
+
+  ratfor file | fsort >fortran_file
+    the normal way of preparing a ratfor source file for the Fortran
+    compiler. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  ratfor - ratfor preprocessor
+  rc - ratfor compile, Fortran compile, link, and load
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is printed if an input file cannot be opened. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  fsort requires a space after keywords such as common, data, etc. 

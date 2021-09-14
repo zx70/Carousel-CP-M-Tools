@@ -1,0 +1,45 @@
+                          Carousel MicroTools, Inc.
+
+                                     cccrrrttt
+
+                          cccooopppyyy fffiiillleeesss tttooo ttthhheee ttteeerrrmmmiiinnnaaalll
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  crt [-N] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  crt is used to show lines of input on the terminal, one screenful at a
+  time.  After each set of lines is printed, crt will wait for instructions
+  from the user.  Hitting a carriage-return will cause the next screenful of
+  lines to appear; typing "q" (quit) will cause crt to skip to the next file
+  (if any); and hitting an end-of-file character will cause crt to stop
+  immediately. 
+
+  The number of lines to be printed on the terminal can be changed by
+  utilizing the flag -N, where N is the number of lines desired, instead of
+  the default of 23 lines. 
+
+  crt will stop at the end of each file as well as after each screenful of
+  lines.  If no files are specified or a dash (-) is typed in place of a file
+  name, the files will be read from the standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  crt file
+    will print file on the terminal, 23 lines at a time. 
+
+  format document | crt
+    will send the formatted output of document to the screen, 23 lines at a
+    time. 
+
+  ls | crt -10
+    will list the files in the current directory, stopping after every 10
+    lines. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  cat - join and copy input to output
+  cp - make a copy of a file (text or binary)
+  show - show all characters including control characters
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is printed if an input file cannot be opened.  Further processing
+    is terminated. 

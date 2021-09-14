@@ -1,0 +1,434 @@
+                          Carousel MicroTools, Inc.
+
+                                      ssshhh
+
+                       ssshhheeellllll (((cccooommmmmmaaannnddd llliiinnneee iiinnnttteeerrrppprrreeettteeerrr)))
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  sh [-vnxc] [____file [________argument ...]]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  sh is a command line interpreter: it reads lines typed by you or from a
+  file and interprets them as requests to execute programs. 
+
+  To start the shell enter
+
+    sh
+
+  The shell will print a "%" prompt to indicate it is ready to accept
+  commands. 
+
+  Once the shell is running it is normally unnecessary for you to explicitly
+  enter an sh command again.  The exceptions to this are when you want to run
+  a script with some shell flag options set or when you want the shell to
+  read commands from standard input, as from a pipe. 
+
+  ________Commands        
+  In simplest form, a command line consists of the command name followed by
+  arguments to the command, all separated by spaces:
+
+    % command arg1 arg2 ... argn
+
+  The command may be the name of a Tool or other program or a script file.
+  The shell splits up the command name and the arguments into separate
+  strings.  Then a file named command is sought.  If command is found, it is
+  brought into memory and executed, and the arguments collected by the shell
+  are made accessible to it.  When command is finished, the shell resumes its
+  own execution and indicates its readiness to accept another command by
+  typing a prompt character (%). 
+
+  An example of a simple command is:
+
+    % sort list
+
+  The shell looks for the sort Tool; when it is found, sort is executed and
+  the contents of list are sorted and output at the terminal. 
+
+  When searching for the command, file name suffixes will be appended to the
+  command name.  These are specified by the EXT entry in the shell
+  environment file.  Normally the file sort.tol will be looked for first,
+  then file sort.com then file sort. 
+
+  If the command name is entered with a path prepended to it (e.g. /a/sort),
+  the command must be in the directory specified (with or without one of the
+  suffixes mentioned above).  If a path is not prepended to the command name,
+  the shell searches for command in the directories specified by the PATH
+  entry in sh.env. 
+
+  ________Standard _I/_O       
+  Software Tools programs in general have three files automatically available
+  to the users: standard input, standard output, and error output.  These are
+  the names assigned to the files used for normal data input and output and
+  error message output.  All three are assigned to the user's terminal unless
+  specifically redirected to or from a file or device.  This is done by
+  preceding the name of the file or device with one of the following special
+  characters:
+
+  < file
+    causes the standard input to be taken from file. 
+
+  > file
+    causes the standard output to be written onto file. 
+
+  >> file
+    causes standard output to be appended to the end of file.  If file does
+    not exist, it will be created. 
+
+  ? file
+    causes the error-output to be written onto file. 
+
+  ?? file
+    causes the error-output to be appended to the end of file.  The file will
+    be created if it does not exist. 
+
+  For example,
+
+    % find pattern < file > list
+
+  searches through file looking for lines that contain pattern and writes the
+  list of lines that match onto list. 
+
+  I/O redirection is actually performed by each Tool individually, not by the
+  shell.  This allows the Tools to be used from either the shell or the local
+  command line interpreter. 
+
+  Most Tools can read their input from a series of files as well.  In this
+  case, the list of files overrides reading from standard input.  Many of the
+  Tools even allow the user to read from both a list of files and from
+  standard input by entering a dash (-) in place of a file name.  For
+  example:
+
+    % format file1 - file2
+
+  would first take input from file1, then from the standard input, and last
+  from file2. 
+
+  _____Pipes ___and _______Filters      
+  The standard output from one Tool may be directed to the standard input of
+  another Tool to allow multiple operations to be done to data.  A sequence
+  of Tools separated by vertical bars (|) or carets (^) causes the shell to
+  send the standard output of each Tool to the standard input of the next
+  Tool in sequence.  Thus in the command line:
+
+    % sort list | uniq | crt
+
+  sort sorts the contents of list; its output is passed to uniq, which strips
+  out duplicate lines; and the resulting output is then sent to crt, which
+  puts the lines on the terminal for viewing, one screenful at a time. 
+
+  This connection of commands is called a pipe.  Programs such as sort, uniq
+  and crt, which copy standard input to standard output (making some changes
+  along the way) are called filters, and a sequence of filters as shown in
+  the example above is called a pipeline.  Most of the Software Tools are
+  filters. 
+
+  The tee Tool can be used to write the standard output of a Tool to a file
+  and to the standard input of another Tool.  For example,
+
+    % format doc | tee doc.f | crt
+
+  would format doc and, using tee, send the formatted output to crt for
+  output on the terminal and to the file doc.f. 
+
+  _______Command __________Separators       
+  Commands and pipelines need not be on different lines; instead they may be
+  separated by semicolons as follows:
+
+    % ar -x program rtn; e rtn
+
+  The above command will extract rtn from archive program, then enter the
+  editor with rtn. 
+
+
+  ________Comments        
+  Any line with a sharp sign (#) as the first character will be taken as a
+  comment and ignored by the shell. (The same is true for the editor.)
+
+  ______Script _____Files       
+  Commands given to the shell may be either executable programs or script
+  files - text files containing commands to the shell.  This is particularly
+  useful for creating new commands by combining existing commands in new
+  ways.  For example, if you created a file called login which contained:
+
+    echo Good Morning
+    date
+    crt reminder
+
+  Then, every day you might start your work by typing:
+
+    % login
+
+  which would print the message "Good Morning", the date, and any notes to
+  yourself which you were keeping in the file reminder. 
+
+  Script files can be used as filters in pipelines, just as regular commands
+  can.  For example, you could create a script file named npr:
+
+    ## number lines and format them on pages
+    number | pr
+
+  and then use npr with the find example above:
+
+    % find pattern < file | npr > /lst
+
+  (/lst specifies the printer in Tools pathname format.)
+
+  Arguments may also be passed to script files.  In scripts, character
+  sequences of the form $N, where N is a digit between 1 and 9, are replaced
+  by the Nth argument to the invocation of the script.  For instance, if you
+  created file get which contained:
+
+    ## get file from archive "program" and edit it
+    ar -x program $1
+    ed $1
+
+  You could type
+
+    % get rtn
+
+  to extract rtn from archive program and enter the editor to make changes on
+  rtn. 
+
+  ____Here _________Documents       
+  Commands in script files sometimes require in-line data to be available to
+  them on standard input.  A special input redirection notation of two
+  less-than signs (<<) followed immediately by a character is used to achieve
+  this.  For example, the editor normally takes its commands from the
+  standard input.  However, within a shell script, commands could be embedded
+  this way:
+
+    ed file <<!
+    # editing requests
+    ...
+    !
+
+  The lines between the exclamation points (!) are called a here document;
+  they are read by the shell and made available to the Tool as its standard
+  input.  The exclamation point (!) is arbitrary:  the here document is
+  terminated by a line that consists of whatever character followed the <<'s
+  (you should avoid using the shell characters:  > < & ? # $ ; |). 
+
+  ________Built-In ________Commands       
+  Some Tools are normally executed directly by the shell, rather than by
+  being executed as a separate task.  The tools ls, pwd, cd, echo, logout and
+  rm are implemented directly in the shell (as well as being available as
+  separate programs).  In most cases, whether a Tool is implemented as a
+  built-in or not is of no concern to the user.  It is only important if the
+  user is changing or enhancing a Tool normally run as a built-in.  In this
+  case, the user may have to use a different name to override use of the
+  built-in version. 
+
+  __________Background _________Processes       
+  The shell also allows commands to be executed "in the background."  If a
+  command is followed by an ampersand (&), the shell will not wait for it to
+  finish before prompting again; instead, it is ready immediately to accept a
+  new command.  For example:
+
+    % ratfor ambrose > george &
+
+  will run ratfor in the background. 
+
+  The ampersand must occur at the end of the command line (or before any
+  subsequent semicolons).  Of course, pipes are allowed within background
+  processes. 
+
+  On systems that allow multiple processes, background processes run
+  concurrently with other processes.  On other systems background processes
+  are simulated, as described in the system specific information below. 
+
+  _____Shell _______Options       
+  The shell accepts several options when it is invoked. 
+
+  -v Verbose:  causes the shell to print each line of a script on error
+    output when it is read.  This may also be set on or off with the set
+    Tool. 
+
+  -x Similar to -v except that the commands are printed immediately before
+    they are executed.  The commands will be printed in the actual format the
+    system expects when attempting to execute the program (pathnames will be
+    expanded, etc.).  This option may also be set on or off with the set
+    Tool. 
+
+  -n Suppresses execution of the command entirely (useful for debugging shell
+    scripts, particularly when used as -vxn'). 
+
+  -c Causes the remaining arguments to be executed as a shell command.  Any
+    standard I/O redirection not intended for the shell should be escaped (as
+    described below). 
+
+  -r Resume script processing.  Used internally by the shell when executing
+    non-Tool commands. 
+
+  ________Escaping _______Special __________Characters      
+  The characters discussed in the previous sections (> < & ? # $ ; |) have
+  special meaning to the shell.  However, the at sign (@) may be included
+  anywhere in a command line to cause the character following the @ to lose
+  any special meaning it may have (i.e., to be escaped).  Sequences of
+  characters enclosed in double (") or single (') quotes are also taken
+  literally.  For example,
+
+    % find "? file" < script
+    % find @<       < script
+
+  ___________Termination        
+  The shell may be left by typing logout or an end-of-file. 
+
+CCCPPP///MMM---888000 SSSPPPEEECCCIIIFFFIIICCC IIINNNFFFOOORRRMMMAAATTTIIIOOONNN      
+
+  ____Tool ___________Termination       
+  By typing a CONTROL-C during the execution of a Tool, you can stop the Tool
+  (and any remaining Tools if you are executing a script) and return to the
+  shell.  Typing CONTROL-C when a tool is taking input from the console or
+  when a non-Tool (.com) file is running will result in a return to the CP/M
+  CCP with a ">" prompt.  To return to the shell type:
+
+    "X:sh"
+
+  or use
+
+    "X:sh -r"
+
+  to resume an aborted script (X is the default shell disk). 
+
+  _________Executing _________Pipelines ___and _______Scripts     
+  Tool tasks are executed by overlaying the current image with the Tool to be
+  executed.  Non-Tools are executed by reading the entire task image into
+  memory.  Non-Tools return to the shell via a CP/M submit file containing
+  the command:  "X:sh -r".  (Where X is the directory name of the default
+  shell directory.)
+
+  If an error occurs during execution of a command (that is, the subroutine
+  endst is called from within a Tool with an error condition, or the task has
+  been aborted by the system), control is returned to the shell.  If a
+  non-Tool task quits with an error, the CP/M command interpreter is
+  started.  The shell script can then be continued by typing:  "X:sh -r" or
+  the shell can be restarted by typing:  "X:sh". 
+
+  _________Processes, __________Background _________Processes ___and _____Shell ___________Termination   
+  The CP/M operating system does not include the concept of process.  There
+  is simply no way for one task to spawn or execute another task and then
+  continue with its own execution.  Thus, the CP/M shell implements process
+  control as a series of chained tasks - one task runs to completion, then
+  causes another task to run, which eventually causes another task to run,
+  and so on.  When the user types a command line to the shell, the shell
+  parses the entire line (performing any I/O redirections for pipes, here
+  documents, etc.) and generates a stack of commands.  The first command is
+  then popped off, the remainder of the stack is saved on a file, and the new
+  command replaces the shell in memory.  After successful completion of the
+  command, the endst termination routine (used by all the Tools) pops another
+  command off the stack and causes it to be executed.  When the end of the
+  stack is reached, the shell is re-executed. 
+
+  Because CP/M does not allow multiple processes, there is no way of
+  correctly implementing background processes.  However, the CP/M shell
+  simulates them by saving all background commands on a file.  This file is
+  parsed and executed when the user logs out of the shell. 
+
+  _____Shell ___________Environment ____File, __sh.___env     
+  The shell maintains the environment file, sh.env, on the default shell
+  directory.  This file contains an assortment of information about the
+  user's system and needs, such as the date, tab settings, the search path
+  for locating commands, and the name of the command to execute when the
+  current command is finished (normally the shell).  The environment file is
+  read by all Tools (and altered by a few).  The format of each item in the
+  file is:
+
+    keyword  value [value ...]
+
+  Where there are multiple values, items are separated by blanks or tabs.
+  For example,
+
+    PATH . /0/C/ /1/C/
+
+  defines the directories to search for commands as first the current
+  directory, then user 0, directory C, then user 1, directory C. 
+
+  In addition to the directory search path, file extensions to try are also
+  specified in the environment file.  For example:
+
+    EXT .tol .com . .sub
+
+  To allow the shell to find the environment file (sh.env) and the run file
+  (run.com), the install program must be run.  This will define the "default
+  shell directory" where run.com and sh.env should be located.  (See the
+  System Specific section and install.)
+
+  The user is free to edit sh.env to his or her own needs.  Most keywords are
+  self-explanatory or are described in the information on the set Tool.
+  Reasonable defaults are used for any items accidentally removed from the
+  file.  The shell rewrites sh.env during the logout sequence so sh.env must
+  not be edited when using the shell.  Instead you should use the set Tool or
+  enter:
+
+    run NR:e NX:sh.env
+
+  from the CP/M command interpreter (where R is the directory in which e
+  resides, X is the default shell directory, and N are appropriate user
+  numbers). 
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  All scratch files for the shell and the Tools have an extension of .$$$ and
+  are created in the directory specified by the TEMP variable in the shell
+  environment file, sh.env.  The contents of this file may be viewed and/or
+  set by using the set Tool. 
+
+  backgrnd.$$$ - the file holding background commands
+  docN.$$$ - for here documents (where N is a digit)
+  pN.$$$ - for pipelines, where N is the number of the pipe on the command
+    line
+  sh.env - the shell environment file
+  shok.$$$ - the command stack
+  shbad.$$$ - the command stack after an error
+
+SSSEEEEEE AAALLLSSSOOO       
+  set - print, set or unset shell variables
+  tee - copy input to output and to files
+  which - locate a command using the shell search path
+  The System Specific and Tutorial sections of this manual
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  cannot execute process
+    The requested task could not be executed by exec.  Generally indicates
+    some sort of system problem. 
+
+  cannot open background file
+    The file to hold background commands could not be opened/accessed. 
+
+  can't open 'here document'
+    The shell creates a temporary file for each here document, and this file
+    could not be created for some reason. 
+
+  error injecting command
+    Something has gone terribly wrong with the linked-list support routines. 
+
+  filename: can't open
+    A file has been determined to exist and be a script file, but could not
+    be opened by the shell.  Perhaps the user does not have appropriate
+    privileges or the disk is full. 
+
+  invalid shell command
+    Part of the shell thought it had found a shell command, but another part
+    thought it hadn't. 
+
+  invalid task
+    A command could not be located in the various directories searched. 
+
+  syntax error
+    There was some sort of error in the syntax of the command line.
+    Sometimes a suggested reason is printed. 
+
+  too many characters pushed back
+    There were some horrible problems in attempting to read the input line
+    and put characters back onto a stack for re-reading.  Usually the user
+    has introduced some strange syntax error.  (The size of the stack is
+    determined by the BUFSIZE definition in the source code.)
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  The only capability of the Software Tools Users Group shell not included in
+  the CP/M shell is the ability to group commands with parentheses (where the
+  group can then be used as a filter). 
+
+  If when running a script file a non-Tool returns to the CCP (eg., by using
+  CONTROL-C) and you want to use run to run a tool from the CCP, you should
+  enter:  "run logout" first.  This will cleanup the remainder of the
+  partially executed script. 

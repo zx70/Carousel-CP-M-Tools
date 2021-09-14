@@ -1,0 +1,30 @@
+                          Carousel MicroTools, Inc.
+
+                                     man
+
+                  display a tool description from the manual
+
+SYNOPSIS        
+  man ________toolname ... 
+
+DESCRIPTION        
+  man displays the manual description for the specified Tool(s).  The
+  descriptions are formatted for a displaying on a CRT terminal. 
+
+  If standard output is a terminal, the manual pages are shown one screenful
+  at a time; press "carriage-return" to see the next screenful. 
+
+EXAMPLES        
+  man crt
+    displays the manual page for the crt Tool at your terminal. 
+
+SCRATCH AND SYSTEM DATA FILES    
+  The formatted Tool descriptions are kept in files named toolname.doc. 
+
+DIAGNOSTICS        
+  A message is printed if the file implied by toolname (that is,
+  toolname.doc) cannot be located. 
+
+  The directory containing the Tool descriptions is specified by the
+  MAN_DIRECTORY definition in the source code.  The default is the current
+  directory. 

@@ -1,0 +1,26 @@
+                          Carousel MicroTools, Inc.
+
+                                    nnnuuummmbbbeeerrr
+
+                          nnnuuummmbbbeeerrr ttthhheee llliiinnneeesss iiinnn fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  number [-sN] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  number copies input to output, prepending line numbers to each output
+  line.  number can be used as a filter with the pr tool, and is useful for
+  numbering archive listings for use with the xref tool to globally cross
+  reference sources. 
+
+  If no files are specified or a dash (-) is entered in place of a file name,
+  number will read the standard input. 
+
+  The -s option specifies the number of lines to be output for each input
+  line.  -s2 double spaces the output, -s3 triple spaces it, etc.  -s9 is the
+  maximum that may be specified. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  number file | pr >lst:
+    will prepend line numbers to the contents of file, use pr to format the
+    output on pages, and print the results on the printer. 

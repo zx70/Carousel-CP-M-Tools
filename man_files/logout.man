@@ -1,0 +1,31 @@
+                          Carousel MicroTools, Inc.
+
+                                    lllooogggooouuuttt
+
+           llleeeaaavvveee ttthhheee ssshhheeellllll aaannnddd rrreeetttuuurrrnnn tttooo ttthhheee hhhooosssttt ooopppeeerrraaatttiiinnnggg sssyyysssttteeemmm
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  logout
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  logout is the normal way to leave the shell.  It cleans up the environment
+  and exits the shell to the local operating system. 
+
+CCCPPP///MMM---888000 SSSPPPEEECCCIIIFFFIIICCC IIINNNFFFOOORRRMMMAAATTTIIIOOONNN      
+  logout executes any background commands (caused by an "&"  at the end of a
+  shell command line) and deletes any remaining, unexecuted script file
+  commands left after a command abort or a system reboot. 
+
+  logout exists both as a shell built-in command and a tool. 
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  backgrnd.$$$ - file in the TEMP directory containing background commands
+  shbad.$$$ - file in the TEMP directory containing uncompleted scripts. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  set - print, set or unset shell variables
+  sh - shell (command line interpreter)
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  logout and  the  shell  may leave some xxx..$$$ temporary files, located in
+  the TEMP directory, from script files that failed.  These may be removed. 

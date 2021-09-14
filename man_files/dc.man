@@ -1,0 +1,119 @@
+                          Carousel MicroTools, Inc.
+
+                                      dddccc
+
+                               dddeeessskkk cccaaalllcccuuulllaaatttooorrr
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  dc [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  dc evaluates integer expressions from the specified files, one expression
+  per input line.  If no input files are given or a dash (-) is entered in
+  place of a filename, dc reads from the standard input. 
+
+  Ordinarily dc operates on decimal integer arithmetic expressions, but the
+  user may specify an input base and output base other than decimal. 
+
+  Expressions may be simple arithmetic expressions or replacement
+  expressions.  The values of simple expressions are written on standard
+  output when they are evaluated.  Replacement expressions are used to hold
+  temporary values and are not automatically printed. 
+
+  A simple expression is a normal arithmetic expression using numbers,
+  variables, parentheses, and the following operators, listed in order of
+  precedence:
+
+    + -     unary plus and negation operators.  These may only appear at the
+            start of a simple expression or after an open parenthesis. 
+
+    **      exponentiation. 
+
+    * / %   multiply, divide, modulo (remainder). 
+
+    + -     add, subtract. 
+
+    == !=   relational operators:  equal to, not equal to (!=, ^=, ~= all are
+            treated as not equal),
+    > >=    greater than, greater than or equal to,
+    < <=    less than, less than or equal to. 
+
+    !       unary logical not (also ~ and ^). 
+
+    | &     logical or, and. 
+
+    The logical operators -- not (!), or (|), and (&) -- and the relational
+    operators result in the values 1 for true and 0 for false. 
+
+    A replacement expression is:
+
+    name = simple expression
+
+    where name is a character string of (virtually) any length, starting with
+    a letter and consisting of only letters and digits.  (The characters a
+    through f should not be considered letters when operating in hexadecimal
+    mode.) Variables are automatically declared when they first appear to the
+    left of an equal (=) sign, and they should not be used in a simple
+    expression until they have been declared. 
+
+    Radix control is available in 2 ways:
+
+    1) There are default radix values for both input and output which may be
+    changed by  setting the  predefined
+    variables  input  base (ibase) and output  base (obase)
+    Radix   10   is  always  used  to  evaluate  and/or  print  radix-defining
+    expressions.  For example,
+
+    ibase = 2
+    obase = 16
+
+    would accept input in binary and print results in hexadecimal. 
+
+    2) The radix of individual numbers may be explicitly given by following
+    the number with an underscore (_) and then the desired radix.  For
+    example,
+
+    100_16
+
+    would specify the hex number 100 (256 decimal). 
+
+  EEEXXXAAAMMMPPPLLLEEESSS        
+  10 + (-64 / 2**4)
+  would print the answer 6
+
+  temp = 101_2
+  temp == 5
+  would print the answer 1 (true)
+
+  ibase = 16
+  obase = 2
+  1a + f
+  would print the answer 101001
+
+  ibase = 16
+  numa = 100_10
+  numb = 100
+  numa + numb
+  would print the answer 356
+
+  SSSEEEEEE AAALLLSSSOOO       
+  macro - general-purpose macro processor
+  ratfor - ratfor preprocessor
+
+  DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  arith evaluation stack overflow
+  arithmetic expressions have been nested too deeply.  The size of the stack
+  is set by the MAXSTACK definition in the source code. 
+
+  number error
+  an input number has a number/character bigger than the current radix. 
+
+  expression error
+  invalid arithmetic expression. 
+
+  LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  dc only works with integers. 
+
+  The maximum value allowed depends on the host machine and is the largest
+  Fortran integer: 32767 on 8-bit machines and 2,147,483,647 (2**31 - 1) on
+  16-bit machines. 

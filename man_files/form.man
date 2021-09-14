@@ -1,0 +1,64 @@
+                          Carousel MicroTools, Inc.
+
+                                     fffooorrrmmm
+
+            ppprrroooddduuuccceee fffooorrrmmm llleeetttttteeerrrsss bbbyyy ppprrrooommmppptttiiinnnggg uuussseeerrr fffooorrr iiinnnfffooorrrmmmaaatttiiiooonnn
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  form ____file
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  form reads input files and writes them to the standard output.  Any time it
+  encounters characters surrounded by left and right arrows (< and >), it
+  prints the string between the characters as a prompt for information from
+  the user.  It then reads from the standard input and replaces the enclosed
+  string with what was read. 
+
+  Normally only one line is accepted from the standard input.  However, a
+  response can be continued on succeeding lines by terminating each line with
+  a dash (-). 
+
+  The prompts inside the file may also span line boundaries if so desired.
+  (No trailing minus is necessary here.)
+
+  The user's answers to prompts are remembered, so duplicate prompts are
+  replaced without repeating the prompt to the user. 
+
+  If the standard input is not a terminal, no prompts are issued. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  Prepare the file letter with the following:
+
+    MEMO
+
+    TO:    <Name>
+    FROM:  Your illustrious supervisor
+
+    I regret to inform you that your services are no longer
+    required as of <date>.
+    Your <years of service> years here have been appreciated.
+    You may pick up your final check on <date>.
+
+  Then, using form:
+
+    form letter >joe
+
+  would result in prompts to you for the name, date (only once), and _____years __of
+  _______service. 
+
+  You might want to read the answers to the prompts from a file, and you
+  might often want to embed formatting commands in your file.  Try form this
+  way:
+
+    form <info letter | format >joe
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  If an input file cannot be opened, a message is printed and execution is
+  terminated. 
+
+  A message is also printed if either the prompt or the response is too long
+  for form''s internal buffer. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  There should be a way for form to loop through a series of inputs (e.g.,
+  when generating the same form letter to a list of addressees). 

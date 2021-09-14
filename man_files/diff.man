@@ -1,0 +1,87 @@
+                          Carousel MicroTools, Inc.
+
+                                     dddiiiffffff
+
+                  cccooommmpppaaarrreee aaannnddd llliiisssttt dddiiiffffffeeerrreeennnccceeesss bbbeeetttwwweeeeeennn fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  diff [-[c|d|r|s][v]] _____file1 [_____file2]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  diff compares the contents of two files and reports on the differences
+  between them.  The default behavior is to describe the insert, delete, and
+  change operations that must be performed on file1 to convert its contents
+  into those of file2. 
+
+  file2 is optional.  If it is omitted, the standard input is read for the
+  text of file2. 
+
+  The following flags may be specified:
+
+  -c Perform a simple line-by-line comparison.  diff will compare successive
+    lines of the input files; if any corresponding lines differ, or if one
+    file is shorter than the other, diff prints the message "different" and
+    exits.  If the files are the same, diff produces no output.  When the
+    verbose (v) option is also specified, diff prints the lines that differ
+    along with their line number in the input file and notifies the user if
+    one file is shorter than the other. 
+
+  -d List the insertions, deletions, and changes that will convert file1 into
+    file2.  This is the default option.  If the verbose (v) option is also
+    specified, unchanged text will also be listed. 
+
+  -r Copy file2 to standard output with format requests inserted for revision
+    bars and deletion asterisks.  This option is particularly useful for
+    maintenance of large documents, like Tools reference manuals. 
+
+  -s Output a script of commands for the text editor that will enable ed to
+    convert file1 into file2.  This is handy for preparing updates to large
+    programs or data files, since generally the volume of changes required
+    will be much smaller than the new text in its entirety. 
+
+  -v Make output verbose.  This option may be used with the -c and -d options
+    discussed above to produce more information. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  diff myfile1 myfile2
+    Print on the terminal the differences between myfile1 and myfile2. 
+
+  diff -cv file file.old
+    Does a simple line-by-line comparison on the two files, printing lines
+    which differ.  Same as
+
+      cmp file file.old
+
+  diff -s old new | ed - old
+    Make an ed script which changes old into new. 
+
+  diff -s old new >> o-to-n
+    To keep a list of changes made to an original source file. 
+
+  diff -r old.doc new.doc | format > /lst
+    print a formatted copy of new.doc with revisions and deletions noted. 
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  <file>:  can't open
+    either file1 or file2 is not readable. 
+
+  file too large to handle
+    The size of the buffer is set by the MAXLINES definition in the source
+    code. 
+
+  <file> too many unique lines
+    The files are too dissimilar for diff to be able to list all the
+    differences. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  cmp - compare two files
+  e(ed) - text editor
+  format - text formatter
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  diff is based on the algorithm found in _A _________Technique ___for _________Isolating
+  ___________Differences _______Between _____Files by P. Heckel, ______________Communications __of ___the ___ACM, volume
+  21, issue 4 (April 1978), pages 264-268.  The algorithm used has one
+  quirk:  a line or a block of lines which is not unique within a file will
+  be labeled as an insertion (deletion) if its immediately adjacent neighbors
+  both above and below are labeled as insertions (deletions). 

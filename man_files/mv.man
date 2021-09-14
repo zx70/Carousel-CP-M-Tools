@@ -1,0 +1,43 @@
+                          Carousel MicroTools, Inc.
+
+                                      mmmvvv
+
+                             mmmooovvveee (((rrreeennnaaammmeee))) aaa fffiiillleee
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  mv _____file1 _____file2
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  mv changes the name of file1 to file2.  If file2 already exists, it is
+  overwritten.  mv usually performs a rename operation, but in cases where
+  this fails, it copies file1 to file2 and then deletes file1.  mv may be
+  used on text or binary files. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  mv oldname newname
+    change the name of oldname to newname
+
+  mv /a/xxx f
+    moves xxx from directory a to file f in the current directory. 
+
+CCCPPP///MMM---888000 SSSPPPEEECCCIIIFFFIIICCC IIINNNFFFOOORRRMMMAAATTTIIIOOONNN      
+  The destination name (file2) may be a file name or a directory name.  If it
+  is a directory name, the destination file will have the same name as the
+  source file.  A lone period (.) may be used to specify the current
+  directory.  For example, to move ________data.bin from user 5, disk b, to the
+  current user, current disk:
+
+    mv /5/b/data.bin .
+
+  or to user 3, disk a:
+
+    mv /5/b/data.bin /3/a/
+
+SSSEEEEEE AAALLLSSSOOO       
+  rm - remove (delete) files
+  cat - join and copy input to output
+  cp - make a copy of a file (text or binary)
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  If the terminal is specified as either file, the file being moved will be
+  lost. 

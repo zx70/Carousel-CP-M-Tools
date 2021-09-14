@@ -1,0 +1,51 @@
+                          Carousel MicroTools, Inc.
+
+                                     dddaaattteee
+
+                        ppprrriiinnnttt ooorrr ssseeettt ttthhheee dddaaattteee aaannnddd tttiiimmmeee
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  date [____date [____time]]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  When no argument is given, date prints the date and time recorded in the
+  shell environment file sh.env. 
+
+  date can be used to set the current date and time by passing them as
+  arguments.  The information will be stored in the DATE variable in sh.env
+  for use by other Tools. 
+
+  The date and time may be given in most of the normal forms.  In the formats
+  below, yyyy implies a 2- or 4-digit year number, mm a 1- or 2-digit month
+  number, mon represents a character string of 3 or more letters, dd a 1- or
+  2-digit day number, hh a 1- or 2-digit hour number, MM a 1- or 2-digit
+  minute number, and ss a 1- or 2-digit second number:
+
+    mon dd yyyy
+    mon yyyy
+    mm/dd/yy
+    yyyy mon dd
+    dd mon yyyy
+    ddmonyyyy
+    yyyy:mm:dd:hh:MM:ss
+    yyyy:mm:dd:hh:MM
+    yyyy:mm:dd:hh
+    yyyy:mm:dd
+    yyyy:mm
+    yyyy
+
+  White space (tabs and/or blanks) may be used where a (:) is shown.  If a
+  2-digit year is given, the year must be greater than 31. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  date
+    prints the current date and time
+
+  date July 31, 1983 13:30
+    sets the current date and time. 
+
+  date 7/15/83
+    sets the current date to July 15, 1983 and the current time to 00:00:00
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  sh.env - the shell environment file

@@ -1,0 +1,45 @@
+                          Carousel MicroTools, Inc.
+
+                                     iiisssaaammm
+
+               gggeeennneeerrraaattteee iiinnndddeeexxx---ssseeeqqquuueeennntttiiiaaalll aaacccccceeessssss llliiisssttt fffooorrr fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  isam [-d'dif] [-w'width] [-j[l|r]]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  isam is used to generate an index for a text file such that the index may
+  be used later to permit indexed-sequential access to the file.  isam reads
+  blocks (described below) from the standard input, noting the disk address
+  with a call to function note.  It uses function getwrd to retrieve the
+  first word from the first line of the block and uses this as the primary
+  key to the record.  This key is then output to standard output and left or
+  right adjusted in a field, according to the -j flag.  The two-word address
+  from note is then output as decimal integers before the index record is
+  appended to the line. 
+
+  _______Options _______Summary       
+  -dN Set block size: the default is 8. 
+
+  -wN Set the width of the field in which the key is printed. 
+
+  -j{l|r} Set index key justification: left (l) or right (r).  The default is
+    left (-jl). 
+
+CCCPPP///MMM---888000 SSSPPPEEECCCIIIFFFIIICCC IIINNNFFFOOORRRMMMAAATTTIIIOOONNN      
+  The original Software Tools implementation indexed on lines rather than
+  blocks.  However, since CP/M's notion of a file is a collection of blocks
+  (128-byte logical records) and since the CP/M primitives read files in
+  4-block sections, it is much more efficient for isam to index on blocks. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  isam <file >index
+    generate an isam index entry for every 8th block in file. 
+
+  isam -d1 -w10 -jr <file >index
+    generate an index entry for each block in file, right-justifying the key
+    in a 10-character field. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  isam only reads the standard input, and should be taught to read a list of
+  file names. 

@@ -1,0 +1,32 @@
+                          Carousel MicroTools, Inc.
+
+                                      cccddd
+
+                         ccchhhaaannngggeee ttthhheee cccuuurrrrrreeennnttt dddiiirrreeeccctttooorrryyy
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  cd [[/___________user-number]{/_________disk-name}[/]]
+  cd [[___________user-number]{_________disk-name:}]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  cd changes the current directory to the specified directory.  The new
+  directory may be specified in either Tools-style pathnames or local style. 
+
+  If no argument is given, cd changes the current directory to the directory
+  /0/a. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  cd /a
+    Set the current working directory to the directory named a; remain at the
+    same user number. 
+
+  cd
+    Set the current working directory to /0/a. 
+
+  cd /1/a
+    Set the current directory to the directory named a, and set the user
+    number to 1. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  pwd - print the current directory name
+  ls - list the files in a directory

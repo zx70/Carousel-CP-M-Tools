@@ -1,0 +1,186 @@
+                          Carousel MicroTools, Inc.
+
+                                    mmmaaacccrrrooo
+
+                       gggeeennneeerrraaalll---pppuuurrrpppooossseee mmmaaacccrrrooo ppprrroooccceeessssssooorrr
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  macro [-0] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  macro is a general-purpose macro processor.  macro reads the files and
+  writes onto the standard output a new file with the macro definitions
+  deleted and the macro references expanded.  If no files are given or a dash
+  (-) is entered in place of a file name, the standard input is read. 
+
+  Macros permit the definition of symbolic constants so that subsequent
+  occurrences of the constant are replaced by the defining string of
+  characters.  The general form of a macro definition is
+
+    define(name,replacement text)
+
+  All subsequent occurrences of name in the file will be replaced by
+  ___________replacement ____text.  The placement of blanks in definitions is significant;
+  they should only appear where desired in the replacement text.  Letter case
+  is also significant.  The replacement text may be more than one line long.
+  However, when an entire macro definition is followed immediately by a
+  newline, the newline is discarded.  This prevents extraneous blank lines
+  from appearing in the output. 
+
+  Nesting of definitions is allowed, as is recursion. 
+
+  An elementary example of a macro is:
+
+    define(EOF,-1)
+
+  Thereafter, all occurrences of EOF in the file would be replaced by -1. 
+
+  Macros with arguments may also be specified.  Any occurrence in the
+  replacement text of an argument "$N," where N is between 1 and 9, will be
+  replaced by the Nth argument when the macro is actually called.  For
+  example:
+
+    define(copen,$3 = open($1,$2)
+    if ($3 == ERR)
+      call cant($1)
+    )
+
+  would define a macro that, when called by
+
+    copen(name, READ, fd)
+
+  would expand into
+
+    fd = open(name,READ)
+    if (fd == ERR)
+      call cant(name)
+
+  If a macro definition refers to an argument that wasn't supplied, the
+  reference will be ignored.  Argument zero ($0) refers to the name of the
+  macro itself.  If any character other than a digit follows a dollar sign,
+  the dollar sign is taken literally. 
+
+  Macros may be nested, and any macros encountered during argument collection
+  are expanded immediately, unless they are surrounded by brackets ([]).
+  That is, input surrounded by brackets is left absolutely alone, except that
+  one level of brackets ([]) is stripped off.  Thus it is possible to write
+  the macro d as
+
+    define(d,[define($1,$2)])
+
+  The replacement text for d, protected by the brackets is literally
+  define($1,$2) so one could say
+
+    d(a,bc)
+
+  to define a as bc.  Brackets must also be used when it is desired to
+  redefine a macro, e.g. 
+
+    define(x,y)
+    define(x,z)
+
+  would define y in the second line, instead of redefining x.  To avoid
+  redefining y, the operation must be expressed as
+
+    define(x,y)
+    define([x],z)
+
+  Normally, brackets appearing outside any macro calls (level 0 brackets) are
+  not removed, unless the -0 option is specified. 
+
+
+  ________Built-in ______Macros       
+  define(a,b)
+    defines a to be b and returns the null string. 
+
+  ifelse(a,b,c,d)
+    returns c if a is identical to b and d otherwise. 
+
+  incr(a)
+    interprets a as an integer and returns a+1. 
+
+  substr(a,b,c)
+    returns a substring of a starting at character number b and extending for
+    c characters. 
+
+  len(a)
+    returns the length of a. 
+
+  includ(a)
+    returns the contents of a. 
+
+  expr(a)
+    returns the result of evaluating infix expression a.  Operators in
+    increasing order of precedence are as follows (parentheses may be used as
+    usual):
+
+    | &     logical OR and AND
+    !       unary logical NOT
+    == ^= <= < > >=
+            arithmetic comparison (!= and ~= are equivalent to ^=)
+    + -     addition and subtraction
+    * / %   multiplication, division, modulo (remainder)
+    **      exponentiation
+    + -     unary positive and negative
+
+    Logical operators return 0 for false or 1 for true. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  ratfor - ratfor preprocessor
+  ________Software _____Tools pages 251-283
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  arith evaluation stack overflow
+    The maximum level of nested arithmetic expressions has been exceeded.
+    The size is set by the MAXSTACK definition in the source code. 
+
+  arg stack overflow
+    The maximum number of total arguments has been exceeded.  The size is set
+    by the ARGSIZE definition in the source code. 
+
+  call stack overflow
+    The maximum nesting level of definitions has been exceeded.  The size is
+    set by the CALLSIZE definition in the source code. 
+
+  EOF in string
+    An end-of-file has been encountered before a bracketed string has been
+    terminated. 
+
+  evaluation stack overflow
+    The total number of characters permitted for the name, definition, and
+    arguments has been exceeded.  Set by the EVALSIZE definition in the
+    source code. 
+
+  unexpected EOF
+    An end-of-file was reached before the macro definition was terminated. 
+
+  filename: can't open
+    The indicated file could not be opened. 
+
+  filename: can't includ
+    The indicated file could not be included via the includ builtin. 
+
+  includs nested too deeply
+    includ builtins were nested deeper than the system would allow.  The
+    number is determined by the MAXOFILES definition in the general symbols
+    definition file. 
+
+  expression: invalid infix expression
+    There is a syntax error in the indicated infix expression as passed to
+    the expr builtin. 
+
+  too many characters pushed back
+    A macro expansion is too large to be rescanned.  The size is set by the
+    BUFSIZE definition in the source code. 
+
+  name: too many definitions
+    The table space for macro definitions has been exhausted; this occurred
+    upon the definition of the indicated macro. 
+
+  token too long
+    A name or symbol in the input was longer than the token buffer.  Size is
+    determined by the MAXTOK definition in the source code. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  This macro processor is incompatible with the one included in the ratfor
+  tool. 

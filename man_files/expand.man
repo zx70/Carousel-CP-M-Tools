@@ -1,0 +1,29 @@
+                          Carousel MicroTools, Inc.
+
+                                    eeexxxpppaaannnddd
+
+                         uuunnncccooommmppprrreeessssss cccooommmppprrreeesssssseeeddd fffiiillleeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  expand [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  expand expands files previously compressed by cpress.  If no input files
+  are given or a dash (-) is entered in place of a file name, the standard
+  input is read. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  expand compressed_file >newfile
+    expand a file previously compressed by cpress.  Save output on newfile. 
+
+  cpress file | expand >newfile
+    compress and then expand a file. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  cpress - compress input files
+  detab - convert tabs to spaces
+  entab - convert spaces to tabs and spaces
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  A message is printed if an input file cannot be opened; further processing
+    is terminated. 

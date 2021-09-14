@@ -1,0 +1,35 @@
+                          Carousel MicroTools, Inc.
+
+                                    eeennntttaaabbb
+
+                      cccooonnnvvveeerrrttt ssspppaaaccceeesss tttooo tttaaabbbsss aaannnddd ssspppaaaccceeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  entab [___tab ...] [+N] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  entab replaces strings of blanks with equivalent tabs (control-i) and
+  blanks.  It can be used to reduce file size.  The tab stops may be
+  indicated by column numbers and/or by a stop every + N positions.  The
+  default is a tab every 8 columns.  The command
+
+    entab 5 21 +5
+
+  would insert tab stops at columns 5, 21, 26, 31, etc. 
+
+  If no files are specified or a dash (-) is input in place of a file name,
+  the standard input is read. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  entab file >newfile
+    Replace strings of spaces with tabs whenever possible.  Assume tab stops
+    every 8 spaces. 
+
+  detab file | entab +4 >newfile
+    Remove tabs from file then reset them every 4 spaces and save output on
+    newfile. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  cpress - compress input files
+  detab - convert tabs to spaces
+  expand - uncompress compressed files

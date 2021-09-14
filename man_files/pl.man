@@ -1,0 +1,67 @@
+                          Carousel MicroTools, Inc.
+
+                                      ppplll
+
+                    ppprrriiinnnttt ssspppeeeccciiifffiiieeeddd llliiinnneeesss///pppaaagggeeesss iiinnn aaa fffiiillleee
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  pl [-pN] N[{,|-}N]...  [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  pl prints the specified lines from each of the named files on the standard
+  output.  If no files are given, or if a dash (-) is entered in place of a
+  file name, pl reads the standard input. 
+
+  The "numbers" argument is a list of line numbers separated by commas, for
+  example:
+
+    pl 4,5,26,55 foo bazrat
+
+  prints lines 4, 5, 26, and 55 in files foo and bazrat.  The line numbers
+  may be given in any order.  Repeated numbers cause the specified lines to
+  be printed once for each occurrence of the line number.  Line number ranges
+  can also be given, e.g., 4-15. 
+
+  The -p option causes pl to print pages instead of lines, and the numbers
+  refer to page numbers.  If an integer follows the -p, it is taken as the
+  page size; the default is 23.  Repeated numbers cause the specified pages
+  to be printed once for each occurrence of the page number. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  pl 1-5,37 file
+    print lines 1 through 5 and line 37 in file. 
+
+  ls doc | pl 1-10 | crt
+    print the top 10 lines of each file with doc in its name. 
+
+  format file | tee out | pl -p66 2-3
+    format a document,  put all the output on file out, then print pages 2
+    and 3 on the terminal. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  crt - copy files to the terminal
+  pr - put the text in files on pages
+  sedit - stream editor
+  tail - print last lines of files
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  bad page size
+    Invalid page size specified after -p flag. 
+
+  bad number
+    Invalid number given as argument. 
+
+  bad range
+    Invalid range given as argument. 
+
+  too many numbers
+    The number of lines/pages specified overflowed the buffer.  The maximum
+    number of lines is determined by the MAXLINES definition in the source
+    code. 
+
+  ignoring invalid argument
+    An invalid flag was specified.   Processing continues. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  There is a limit to the size of pages which can be buffered.  This is set
+  by the MAXBUF definition in the source code. 

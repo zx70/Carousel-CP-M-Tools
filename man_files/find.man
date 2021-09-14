@@ -1,0 +1,65 @@
+                          Carousel MicroTools, Inc.
+
+                                     fffiiinnnddd
+
+                        ssseeeaaarrrccchhh llliiinnneeesss fffooorrr ttteeexxxttt pppaaatttttteeerrrnnnsss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  find [-[a|x][c]] ____expr [____expr ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  find searches the standard input file for lines containing the expr(s) and
+  treats them according to the criteria specified by the flags.  Up to nine
+  expr may be specified.  An expr is a regular expression as described in the
+  writeup on ed.  By default a line which matches any one of the expressions
+  is considered a matching line and is printed on the standard output. 
+
+  The following may be used to alter what is done with matching lines:
+
+  -a only lines which match all given expressions in any order are considered
+    to match. 
+
+  -x all lines which dddooo nnnooottt satisfy the given expression(s) are considered
+    matching lines. 
+
+  -c matching lines are counted instead of being copied to the standard
+    output, and only the final count is written to standard output. 
+
+  The -c option may be specified with either the -a or -x commands (e.g.,
+  -cx). 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  find <program format
+    search through program and print all lines containing format
+
+  find <namelist Sm[iy]th Jones
+    search through namelist and print all lines containing _____Smith, _____Smyth or
+    Jones. 
+
+  find <namelist -a Sm?th Jones
+    search through namelist and print all lines containing Smith or Smyth (or
+    Smxth, Sm-th, etc.) and Jones. 
+
+  find <wordlist "%???$"
+    search through wordlist and find all lines that contain only three
+    characters. 
+
+  find <data "[!-][0-9][0-9]*" >numbers
+    look through data, writing any lines containing positive numbers to file
+    numbers. 
+
+  find <archive -a #@-h- abort
+    search through archive and print the lines which start with ____#-h- (archive
+    header lines) and are followed by any occurrence of the word abort.  This
+    is especially useful when searching program archives for calls to
+    particular functions, etc. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  ch - change strings in text files
+  e(ed) - text editor
+  fb - search for blocks of lines with text patterns
+  sedit - stream editor
+  tr - transliterate characters
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  An error message is printed if one of the patterns given is illegal. 

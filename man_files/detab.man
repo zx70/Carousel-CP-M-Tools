@@ -1,0 +1,36 @@
+                          Carousel MicroTools, Inc.
+
+                                    dddeeetttaaabbb
+
+                            cccooonnnvvveeerrrttt tttaaabbbsss tttooo ssspppaaaccceeesss
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  detab [___tab ...] [+N] [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  detab converts tab characters (control-i) to equivalent strings of blanks.
+  The tab stops may be indicated by column numbers and/or by a stop every +N'
+  positions.  The default is a tab every 8 columns.  Thus the command
+
+    detab 5 21 +5
+
+  supplies blanks for tabs terminating at column positions 5, 21, 26, 31,
+  etc.  If no files are specified or a dash (-) is entered in place of a file
+  name, the standard input is read. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  detab file >newfile
+    change tabs in file to spaces.  Assume tabs are set at every 8 spaces. 
+
+  detab +4 file >newfile
+    assuming tabs are set to every 4 spaces, convert all tabs to spaces and
+    save on newfile. 
+
+  detab file1 | entab >file2
+    change tabs in file1 to spaces, then change them back again to tabs.
+    file2 should look exactly like file1. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  cpress - compress input files
+  entab - convert spaces to tabs and spaces
+  expand - uncompress compressed files

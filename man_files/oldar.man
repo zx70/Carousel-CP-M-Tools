@@ -1,0 +1,162 @@
+                          Carousel MicroTools, Inc.
+
+                                    ooollldddaaarrr
+
+                         ooolllddd aaarrrccchhhiiivvveee fffiiillleee mmmaaaiiinnntttaaaiiinnneeerrr
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  oldar {-{u|x|t|d|p|s}[v]} ____________archive-file [____file ...]
+
+  This old version of ar is included for those people who may have archives
+  written with an earlier version of the Carousel Tools. 
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  oldar collects text files into one big file and maintains that file as an
+  archive.  Files can be extracted from, added to, deleted from, or replaced
+  in the archive, and information about the contents can be listed. 
+
+  Archives are useful for keeping collections of related files together.
+  They provide an easy way to make and maintain backups.  In addition, a
+  collection of files in an archive takes less disk space that is used by the
+  individual files. 
+
+  Files that are added to archives can, of course, be archive files
+  themselves.  Theoretically, there is no limit to the number of files that
+  can be nested this way.  Thus, oldar provides the utility necessary to
+  maintain tree-structured file directories. 
+
+  The optional file names in the oldar statement line specify individual
+  files that are to participate in the action.  If no files are named, the
+  oldar command is performed on all of the files in the archive; but if any
+  files are explicitly named, they are the only files upon which the command
+  is performed.  The exception is the delete (d) option for which all of the
+  files to be deleted must be specified.  Therefore, if you wish to delete
+  all of the files in an archive, it is easiest to remove the whole archive
+  using rm. 
+
+  If a dash (-) is given as a file name, further file names are read from the
+  standard input, one per line. 
+
+  ______Option _______Summary       
+  -u Create, update or add to an archive.  Creates a new archive if
+    archive-file does not exist, replaces files that already exist in the
+    archive with updated versions or adds new files to the end of the
+    archive.  In all cases the file name(s) referenced in the oldar statement
+    and the name(s) of the regular file(s) must be the same.  If the verbose
+    (v) option is also used, the file names will be printed on the standard
+    output as they are written to the archive file. 
+
+  -x Extract file(s) from an archive.  The specified file(s) are copied from
+    the archive onto regular files using the name referenced in the oldar
+    statement.  If the verbose (v) option is added, the file names will be
+    printed on the standard output as they are extracted. 
+
+  -d Delete file(s) from an archive.  Only the file(s) specified in the oldar
+    statement will be deleted.  If the verbose (v) option is added, the file
+    names will be printed on the standard output as they are deleted from the
+    archive. 
+
+  -p Print file(s) on standard output.  Using the verbose (v) option will
+    cause the file name to be printed before the file. 
+
+  -t Print an archive table of contents.  Normally, the table will contain
+    only the file name(s).  If the verbose (v) option is added, the table
+    will also contain each file's length, type, and date and time of last
+    change. 
+
+  -s Salvage a damaged archive.  This option may be used to recover a damaged
+    archive whose character counts do not reflect the correct number of
+    characters in the file.  This option extracts all files from the archive,
+    ignoring character counts, date and time stamps, etc. on the archive
+    header lines; it simply uses "#-h-", which begins each archive member,
+    and the file name which follows it.  The files are then replaced in the
+    archive, with corrected character counts.  Thus, this option is useful
+    for salvaging the contents of alien archive files and for saving damaged
+    archives.  However, it does not work on nested archives (i.e., archives
+    within archives). 
+
+  -v Make output verbose.  This option may be concatenated to any of the
+    above option and will cause the archiver to print additional
+    information--generally file names--on the standard output.  Its specific
+    action when concatenated with each option has already been described. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  ar -u book chap1 chap2 chap3
+    Create or update an archive file called book and insert or update 3
+    members in it -- chap1, chap2, and chap3
+
+  ar -xv source rtnA rtnB
+    From the archive file source, extract the members rtnA and rtnB and put
+    them onto files named rtnA and rtnB.  Print the member names as they are
+    extracted. 
+
+  ar -t library
+    List all the members of library. 
+
+  ar -p book | format
+    Send all members of the archive book to the formatter. 
+
+  ar -uv somefile a b c | rm -
+    Add or update in archive somefile members a, b and c, and then delete a,
+    b and c from the file system (but not from somefile). 
+
+  ls | ar -uv /a/archive -
+    Updates and/or adds all of the files in the current working directory to
+    archive in drive a.  The file names are displayed on standard output as
+    the files are processed. 
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  ___________arctemp.$$$ is created and subsequently deleted for each run
+
+SSSEEEEEE AAALLLSSSOOO       
+  ar - maintain archive files
+  ________Software _____Tools pages 85-103
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  archive not in proper format
+    oldar did not find a header line where one was expected.  Typical reasons
+    include misspelling the file name, using an existing file (not in archive
+    format) on a creation run, and referencing an archive file that has been
+    modified directly (say with the editor). 
+
+  delete by name only
+    For user protection files are allowed to be deleted from an archive only
+    by specifying each file name to be deleted. 
+
+  duplicate file name
+    A file was listed more than once when calling oldar. 
+
+  fatal errors -- archive not altered
+    This message is generated whenever one or more of the other errors have
+    been detected.  An archive is never altered unless everything has run
+    properly. 
+
+  too many file names
+    oldar may not be called with more than 25 files. 
+
+  usage: oldar statement line
+    The statement line passed to the archiver is in error.  Possibly the
+    command is wrong or the archived file name has not been given. 
+
+  filename: can't add
+    The file specified by filename does not exist or cannot be opened (e.g.,
+    is locked). 
+
+  filename: can't create
+    The archiver could not generate a local file by the name of filename.
+    Probably the archiver's internal file buffer space has been exceeded. 
+
+  filename: not in archive
+    oldar could not locate the file indicated by filename in the specified
+    archived file. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  Only text file (i.e. not binary files such as .com and .tol files) can be
+  archived. 
+
+  The salvage (-s) option works properly only on archives that are not
+  nested. 
+
+  When the update (-u) and (-p) options are used the files are updated or
+  printed in the order they appear on the archived file, not the order listed
+  on the oldar statement line. 

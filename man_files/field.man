@@ -1,0 +1,73 @@
+                          Carousel MicroTools, Inc.
+
+                                    fffiiieeelllddd
+
+                          mmmaaannniiipppuuulllaaattteee fffiiieeellldddsss ooofff dddaaatttaaa
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  field {-tC | _________fieldlist} ____________outputformat [____file ...]
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  field is used to manipulate data kept in formatted fields.  It selects data
+  from certain fields of the input files and copies it to certain places in
+  the standard output. 
+
+  The fieldlist parameter is used to specify the desired columns on the input
+  lines.  Fields are specified by naming the columns in which they occur
+  (e.g. 5-10) or the columns in which they start and an indication of their
+  length (e.g. 3+2, meaning a field which starts in column 3 and spans 2
+  columns).  When specifying more than one field, separate the specifications
+  with commas (e.g. 5-10,16,72+8).  Fields may overlap, and need not be in
+  ascending numerical order (e.g. 1-25,10,3 is OK). 
+
+  If input fields do not fall in certain columns, but rather are separated by
+  some character (such as a blank or a comma), describe the fields by using
+  the -tC flag, replacing C with the appropriate separator (a tab character
+  is the default if C is not specified). 
+
+  Once fields have been described with either the -tC flag or a fieldlist,
+  they are arranged on output by the outputformat argument.  This argument is
+  actually a picture of what the output line should look like.  Fields from
+  input are referred to as $1, $2, $3, etc., referring to the first, second,
+  third, etc. fields that were specified.  (Up to 9 fields are allowed, plus
+  the argument $0 which refers to the whole line.) These $n symbols are
+  placed in the output format wherever that field should appear, surrounded
+  by whatever characters desired.  For example, an outputformat of:
+
+    "$2 somewords $1"
+
+  would produce an output line such as:
+  
+    field2 somewords field1
+
+  If no input files are specified or a dash (-) is specified in place of a
+  filename, field will read from the standard input. 
+
+EEEXXXAAAMMMPPPLLLEEESSS        
+  field <program >newprogram 1-72 "$1"
+    strip everything past column 72 from program and save the output on
+    newprogram.  The quotes (") are necessary when running in the shell,
+    since the dollar sign ($) is a special shell character. 
+
+  field <file -t, "$5,$4,$3,$2,$1"
+    take a file that contains 5 fields separated by commas and reverse the
+    fields.  Print the output on the terminal. 
+
+  field <data 26+8 "$1 $0" | sort
+    extract the information in columns 26-33 of data, place it at the
+    beginning of the line followed by the line itself ($0), and sort. 
+
+  lam file "-                                       " | @ 
+  field 1-40 "$0" >newfile 
+    make all lines in file the same length (40 characters). 
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  illegal field specification
+    The fieldlist specification was in error, probably because it contained
+    letters or some other illegal characters. 
+
+SSSEEEEEE AAALLLSSSOOO       
+  lam - merge lines of files together
+  mcol - put text in multiple columns
+  pl - print specified lines or pages in files
+  sedit - stream editor

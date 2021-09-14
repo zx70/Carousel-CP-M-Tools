@@ -1,0 +1,49 @@
+                          Carousel MicroTools, Inc.
+
+                                      lllddd
+
+                                llliiinnnkkk aaannnddd llloooaaaddd
+
+SSSYYYNNNOOOPPPSSSIIISSS        
+  ld ____file
+
+DDDEEESSSCCCRRRIIIPPPTTTIIIOOONNN        
+  ld is a script which takes the named file and links it with the system
+  library and the Software Tools library.  ld results in a .tol file version
+  of the new Tool.  If a .com version is desired the install Tool must be
+  used. 
+
+  The name of the file to be processed must end in .rel, but the .rel should
+  not appear when calling ld.  For example,
+
+    ld program
+
+  would link program.rel', searching the appropriate system and Software
+  Tools libraries, leaving the output on program.com'. 
+
+  It is assumed that, if necessary, the file has already been processed by
+  ratfor, fsort, and the Fortran compiler. 
+
+  ld will usually need to be tailored by the user to fetch the files from the
+  directories in which they reside. 
+
+SSSCCCRRRAAATTTCCCHHH AAANNNDDD SSSYYYSSSTTTEEEMMM DDDAAATTTAAA FFFIIILLLEEESSS    
+  Assuming file is the name of the file passed:
+
+  file.rel - output from Fortran compiler
+  file.com - executable output
+  Microsoft L80 linker (supplied by the user)
+  ratlib.rel - the file containing the Software Tools library
+  runsys.rel - Software Tools run time system
+  forlib.rel - Microsoft Fortran library (supplied by the user)
+
+SSSEEEEEE AAALLLSSSOOO       
+  fc - Fortran compile, link, and load
+  ratfor - ratfor preprocessor
+  rc - ratfor compile, Fortran compile, link, and load
+
+DDDIIIAAAGGGNNNOOOSSSTTTIIICCCSSS        
+  Any diagnostics received will be from the linker itself. 
+
+LLLIIIMMMIIITTTAAATTTIIIOOONNNSSS AAANNNDDD DDDEEEFFFIIICCCIIIEEENNNCCCIIIEEESSS      
+  A more elaborate script could be made which handles multiple input files. 
