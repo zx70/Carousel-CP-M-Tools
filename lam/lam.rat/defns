@@ -1,0 +1,5 @@
+ # include ratdef
+define(MAXARGS,12)      # max nbr args (files and strings) allowed
+define(MAXBUF,200)	# buffer to hold strings
+define(MAXOBUF,500)	# output buffer
+
