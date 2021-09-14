@@ -1,0 +1,15 @@
+# printc - print count statistics for arg
+   subroutine printc(arg, nl, nw, nc, lines, words, chars)
+   character arg(ARB)
+   integer nl, nw, nc, lines, words, chars
+   if (lines == YES)
+      call putdec(nl, 8)
+   if (words == YES)
+      call putdec(nw, 8)
+   if (chars == YES)
+      call putdec(nc, 8)
+   call putc(BLANK)
+   call putlin(arg, STDOUT)
+   call putc(NEWLINE)
+   return
+   end

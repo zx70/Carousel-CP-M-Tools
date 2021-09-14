@@ -1,0 +1,24 @@
+# dowc - count lines, words, and characters in fd
+   subroutine dowc(fd, nl, nw, nc)
+   integer fd, nl, nw, nc
+   character getch
+   character c
+   integer inword
+ 
+   nl = 0
+   nw = 0
+   nc = 0
+   inword = NO
+   while (getch(c, fd) ^= EOF) {
+      nc = nc + 1
+      if (c == NEWLINE)
+         nl = nl + 1
+      if (c == BLANK | c == NEWLINE | c == TAB)
+         inword = NO
+      else if (inword == NO) {
+         inword = YES
+         nw = nw + 1
+         }
+      }
+   return
+   end
