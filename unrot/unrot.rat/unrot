@@ -1,0 +1,107 @@
+ ## definitions for kwic and unrot tools
+ 
+ define(FOLD,DOLLAR)    #character to indicate beginning of folded line
+ define(MAXOUT,80)      #width of index
+ #---------------------------------------------------------------------
+ ## unrot - unrotate lines rotated by kwic
+ DRIVER(unrot)
+ 
+ character buf(MAXLINE)
+ integer work
+ integer getarg, open, ctoi
+ integer i, int, width, j, n
+ 
+ data width /MAXOUT/
+ data work /NO/
+  
+ call query ("usage:  unrot [-n] [file].")
+ for (i=1; getarg(i,buf,MAXLINE)!=EOF; i=i+1)
+        {
+        if (buf(1) == MINUS & buf(2) != EOS)
+                {
+                j = 2
+                n = ctoi(buf,j)
+                if (n > 0)
+                        width = n
+                next
+                }
+        else if (buf(1) == MINUS)
+                int = STDIN
+        else
+                {
+                int = open(buf, READ)
+                if (int == ERR)
+                        call cant(buf)
+                }
+        call nrot (int, width)
+        work = YES
+        if (int != STDIN)
+                call close(int)
+        }
+ 
+ if (work == NO)
+        call nrot (STDIN, width)
+ DRETURN
+ end
+ ## nrot - unrotate lines from file -int-
+ subroutine nrot(int, width)
+ character inbuf(MAXLINE), outbuf(MAXLINE)
+ integer getlin, index
+ integer int, i, j, width, middle
+ 
+ middle = max(width/2, 1)
+ while (getlin(inbuf, int) != EOF)
+        {
+        for (i=1; i<width; i=i+1)               #blank line
+                outbuf(i) = BLANK
+        j = middle
+        for (i=1; inbuf(i)!=FOLD & inbuf(i)!=NEWLINE; i=i+1)
+                {
+                j = j + 1                       #copy up to FOLD
+                if (i>1 & inbuf(i-1) == BLANK)
+                        if (nextj(+1,inbuf,i,j) >= width - 1)
+                                j = 1
+                        if (j >= width - 1)
+                                j = 1
+                outbuf(j) = inbuf(i)
+                }
+        if (inbuf(i) == FOLD)                   #copy second half
+                {
+                j = middle                      #working backwards
+                for (i=index(inbuf,NEWLINE)-1; i>0; i=i-1)
+                        {
+                        if (inbuf(i) == FOLD)
+                                break
+                        j = j -1
+                        if (inbuf(i+1) == BLANK)
+                                if (nextj(-1,inbuf,i,j) <= 0)
+                                        j = width - 2
+                        if (j <= 0)
+                                j = width - 2
+                        outbuf(j) = inbuf(i)
+                        }
+                }
+        for (i=width-2; i > 0; i=i-1)
+                if (outbuf(i) != BLANK)         #delete trailing blanks
+                        break
+        outbuf(i+1) = NEWLINE                   #terminate line properly
+        outbuf(i+2) = EOS
+        call putlin(outbuf, STDOUT)
+        }
+ 
+ return
+ end
+        ## nextj - see if enough space for another word
+        integer function nextj(incmnt,buf,i,j)
+        character buf(ARB)
+        integer incmnt, i, j, k
+ 
+        nextj = j
+        for (k=i; k>0; k = k + incmnt)
+                {
+                if (buf(k) == BLANK | buf(k) == FOLD | buf(k) == NEWLINE)
+                        break
+                nextj = nextj + incmnt
+                }
+        return
+        end
