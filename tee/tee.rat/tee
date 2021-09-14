@@ -1,0 +1,24 @@
+# tee - copy standard input to named files and to standard output
+DRIVER
+   character c, getc, name(MAXNAME)
+   integer getarg, create, fdo(MAXFILES), i, nfiles
+
+   for (i = 1; getarg(i, name, MAXNAME) ^= EOF; i = i + 1) {
+      if (name(1) == QMARK & name(2) == EOS)
+                call error ("usage:  tee  files .")
+      if (i > MAXFILES)
+         call error("too many files.")
+      fdo(i) = create(name, WRITE)
+      if (fdo(i) == ERR)
+         call cant(name)
+      }
+   nfiles = i - 1
+   while (getc(c) ^= EOF) {
+      for (i = 1; i <= nfiles; i = i + 1)
+         call putch(c, fdo(i))
+      call putc(c)
+      }
+   for (i = 1; i <= nfiles; i = i + 1)
+      call close(fdo(i))
+   DRETURN
+   end
