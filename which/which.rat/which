@@ -1,0 +1,20 @@
+ ## which - print path
+ subroutine which (cmd)
+ character cmd(ARB)
+ character fullnm(FILENAMESIZE)
+ integer loccom
+ string notfnd " *** not found ***"
+
+ if (loccom(cmd,fullnm) == ERR)
+	{
+	call putlin (cmd, STDOUT)
+	call putlin (notfnd, STDOUT)
+	call putch (NEWLINE, STDOUT)
+	}
+ else
+	{
+	call putlin (fullnm, STDOUT)
+	call putch (NEWLINE, STDOUT)
+	}
+ return
+ end
