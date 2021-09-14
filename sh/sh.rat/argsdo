@@ -1,0 +1,52 @@
+## argsdo - perform argument substitution
+subroutine argsdo (line, args)
+character line(ARB), args(ARB)
+integer ctoi, isin
+integer i, j, k, m, n
+integer argloc (NBRARGS)
+
+for (i=1; i<= NBRARGS; i=i+1)
+	argloc(i) = 0
+j = 1
+call skipbl (args, j)
+for (i=1; args(j) != EOS; i=i+1)
+	{
+	argloc(i) = j
+	k = isin (args(j), BLANK)
+	if (k <= 0)
+		break
+	j = j + k
+	call skipbl (args, j)
+	}
+
+for (j = 1; line(j) != EOS; )
+	{
+	k = isin (line(j), DOLLAR)
+	if (k <= 0)
+		break
+	j = j + k - 1		# j points to the $
+	k = j + 1
+	n = ctoi (line, k)
+	if (n <= 0 | n > NBRARGS)	# some problem, leave as-is
+		{
+		j = k
+		next
+		}
+	call stdel (line, j, k-j)	# remove subst. sign
+	m = argloc(n)
+	if (m != 0)			# perform substitution
+		{
+		k = isin (args(m), BLANK)	# find end of arg
+		if ( k > 0)
+			{
+			i = m + k - 1
+			args(i) = EOS
+			}
+		call stins (line, args(m), j)
+		j = j + length (args(m))
+		if (k > 0)		# put back the blank
+			args(i) = BLANK
+		}
+	}
+return
+end
