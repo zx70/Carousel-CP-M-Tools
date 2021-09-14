@@ -1,0 +1,11 @@
+ ## addi - put i in set(j) if it fits; increment j
+ # similar to 'addset' only works with integers rather than characters
+ integer function addi (i, set, j, maxsiz)
+ integer i, set(maxsiz), j, maxsiz
+
+ if (j > maxsiz)
+	return (NO)
+ set(j) = i
+ j = j + 1
+ return (YES)
+ end
