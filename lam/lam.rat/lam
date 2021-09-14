@@ -1,0 +1,79 @@
+# lam - laminate named files
+ DRIVER
+   character lin(MAXLINE), buf(MAXBUF), obuf(MAXOBUF)
+   integer bp, obp, i, j, junk, nfiles, len, fd(MAXARGS)
+   integer open, getarg, getlin, addset
+   character esc
+
+   call query ("usage:  lam [file | -sstring].")
+   bp = 1
+   nfiles = 0
+   for (i = 1; getarg(i, lin, MAXLINE) ^= EOF; i = i + 1) {
+      if (i > MAXARGS)
+         call error("too many arguments.")
+      if (lin(1) == MINUS & lin(2) ^= EOS) {	# -string
+         fd(i) = -bp
+         for (j = 2; lin(j) ^= EOS; j = j + 1)
+            junk = addset(esc(lin, j), buf, bp, MAXBUF)
+         if (addset(EOS, buf, bp, MAXBUF) == NO)
+            call error("too many strings.")
+         }
+      else {
+         nfiles = nfiles + 1
+         if (lin(1) == MINUS)
+            fd(i) = STDIN
+         else
+            fd(i) = open(lin, READ)
+         if (fd(i) == ERR)
+            call cant(lin)
+         }
+      }
+ 
+   if (nfiles == 0) {
+      nfiles = 1
+      fd(i) = STDIN
+      }
+   else
+      i = i - 1
+   n = i
+ for (obp = 1; nfiles > 0; obp = 1) 
+   {
+   for (i = 1; i <= n; i = i + 1)
+      {
+      if (fd(i) < 0 )           # do string
+         {
+         for (j = -fd(i); buf(j) ^= EOS; j = j + 1)
+            {
+            if ( addset(buf(j), obuf, obp, MAXOBUF) == NO)
+                  call error ('output buffer exceeded.')
+            }
+         }
+      else if (fd(i) ^= EOF) 
+         {
+         len = getlin(lin, fd(i))
+         if (len == EOF) 
+            {
+            nfiles = nfiles - 1
+            if (fd(i) ^= STDIN)
+               call close(fd(i))
+            fd(i) = EOF
+            }
+         else
+            {
+            for (j = 1; j < len; j = j + 1)
+               {
+               if ( addset(lin(j), obuf, obp, MAXOBUF) == NO)
+                    call error ('output buffer exceeded.')
+               }
+            }
+         }
+      }       # end of second 'for' loop
+   if (nfiles > 0) 
+      {
+      for (j = 1; j < obp; j = j + 1)
+         call putch(obuf(j), STDOUT)
+      call putch(NEWLINE, STDOUT)
+      }
+   }           # end of main 'for' loop.
+  DRETURN
+end
