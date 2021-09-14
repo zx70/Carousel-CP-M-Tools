@@ -1,0 +1,40 @@
+ ## unik   - locate duplicate lines in file int
+ subroutine unik (int, count)
+ integer equal, getlin
+ integer t, count, k
+ character buf1(MAXLINE), buf2(MAXLINE)
+ 
+ t = getlin(buf1, int)
+ while (t != EOF)
+        {
+        k = 1
+        for (t=getlin(buf2,int); t!= EOF; t=getlin(buf2,int))
+                {
+                if (equal(buf1, buf2) == NO)
+                        break
+                k = k + 1
+                }
+        if (count == YES)
+                {
+                call putdec(k, 5)
+                call putc(BLANK)
+                }
+        call putlin(buf1, STDOUT)
+        if (t == EOF)
+                break
+        k = 1
+        for (t=getlin(buf1,int); t!= EOF; t=getlin(buf1,int))
+                {
+                if (equal(buf1,buf2) == NO)
+                        break
+                k = k + 1
+                }
+        if (count == YES)
+                {
+                call putdec(k, 5)
+                call putc(BLANK)
+                }
+        call putlin(buf2, STDOUT)
+        }
+ return
+ end
