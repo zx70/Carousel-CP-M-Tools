@@ -1,0 +1,3 @@
+ # include ratdef
+define(MAXFILES,16)
+define(MAXNAME,FILENAMESIZE)
