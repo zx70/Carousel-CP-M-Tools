@@ -1,0 +1,33 @@
+# xref - make cross reference list of named files
+DRIVER(xref)
+   character name(MAXTOKEN), arg(FILENAMESIZE)
+   integer fd, fflag, nfiles
+   integer open, getarg
+   data fflag /NO/
+   data nfiles /0/
+
+   call query ("usage: xref [-f] [files].")
+   for (i = 1; getarg(i, arg, FILENAMESIZE) ^= EOF; i = i + 1)
+	{
+      if (arg(1) == MINUS & (arg(2) == LETF | arg(2) == BIGF))
+         fflag = YES
+      else if (arg(1) == MINUS & arg(2) != EOS)
+         call error ("usage:  xref [-f] [files].")
+      else {
+         if (arg(1) == MINUS)
+            fd = STDIN
+         else
+            fd = open(arg, READ)
+         if (fd == ERR)
+            call cant(arg)
+         call putlin(arg, STDOUT)
+         call putc(COLON)
+         call putc(NEWLINE)
+         call doxref(fd, fflag)
+         nfiles = nfiles + 1
+         }
+	}
+   if (nfiles == 0)
+      call doxref(STDIN, fflag)
+   DRETURN
+   end
