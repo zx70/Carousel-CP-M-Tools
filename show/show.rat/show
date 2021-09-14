@@ -1,0 +1,35 @@
+## show - show what's in a file, displaying control characters
+DRIVER
+ 
+ character buf(MAXLINE)
+ integer getarg, open
+ integer i, files
+ data files /NO/
+ 
+ for (i=1; getarg(i, buf, MAXLINE) != EOF; i=i+1)
+        {
+        if (buf(1) == QMARK & buf(2) == EOS)    #user needs help
+                call error ("usage:  show [file].")
+        else if (buf(1) == MINUS & buf(2) == EOS) #read from STDIN
+                int = STDIN
+        else if (buf(1) == MINUS)               #process flags
+                {
+                call remark ('ignoring invalid argument.')
+                next
+                }
+        else
+                {
+                int = open(buf, READ)
+                if (int == ERR)
+                        call cant(buf)
+                }
+        call showc (int)
+        files = YES
+        if (int != STDIN)
+                call close(int)
+        }
+ 
+ if (files == NO)
+        call showc (STDIN)      #no files specified; read from STDIN
+ DRETURN
+ end

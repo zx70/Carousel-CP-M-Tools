@@ -1,0 +1,18 @@
+## showc - display all characters in file 'int'
+#  This routine assumes all characters are ASCII--it won't
+#  work if you have subverted this convention
+ subroutine showc (int)
+   character c, getch
+   integer int
+
+   while (getch(c, int) ^= EOF) {
+      if (c ^= NEWLINE & c < BLANK) {
+         call putc(CARET)
+         c = c + ATSIGN
+         }
+      if (c == NEWLINE)
+	call putc(DOLLAR)
+      call putc(c)
+      }
+   return
+   end
