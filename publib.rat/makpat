@@ -1,0 +1,42 @@
+ ## makpat - make pattern from arg(from), terminate at delim 
+    integer function makpat(arg, from, delim, pat) 
+    character esc 
+    character arg(MAXARG), delim, pat(MAXPAT) 
+    integer addset, getccl, stclos 
+    integer from, i, j, junk, lastcl, lastj, lj 
+  
+    j = 1      # pat index 
+    lastj = 1 
+    lastcl = 0 
+    for (i = from; arg(i) != delim & arg(i) != EOS; i = i + 1) { 
+       lj = j 
+       if (arg(i) == ANY) 
+          junk = addset(ANY, pat, j, MAXPAT) 
+       else if (arg(i) == BOL & i == from) 
+          junk = addset(BOL, pat, j, MAXPAT) 
+       else if (arg(i) == EOL & arg(i + 1) == delim) 
+          junk = addset(EOL, pat, j, MAXPAT) 
+       else if (arg(i) == CCL) { 
+          if (getccl(arg, i, pat, j) == ERR) 
+             break 
+          } 
+       else if (arg(i) == CLOSURE & i > from) { 
+          lj = lastj 
+          if (pat(lj)==BOL | pat(lj)==EOL | pat(lj)==CLOSURE) 
+             break 
+          lastcl = stclos(pat, j, lastj, lastcl) 
+          } 
+       else { 
+          junk = addset(CHAR, pat, j, MAXPAT) 
+          junk = addset(esc(arg, i), pat, j, MAXPAT) 
+          } 
+       lastj = lj 
+       } 
+    if (arg(i) != delim)   # terminated early 
+       makpat = ERR 
+    else if (addset(EOS, pat, j, MAXPAT) == NO)   # no room 
+       makpat = ERR 
+    else 
+       makpat = i 
+    return 
+    end 

@@ -1,0 +1,117 @@
+## atodat - convert ascii characters to integer dates
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function atodat (str, date)
+ character str(ARB)
+ integer date(7)
+ # date(1) = year
+ # date(2) = month
+ # date(3) = day
+ # date(4) = hour
+ # date(5) = minute
+ # date(6) = second
+ # date(7) = millisecond
+
+ integer ctoi, gmonth, chkdat, sktok
+ integer i, loc
+ character type
+ string tseps " 	.:,-"  # BLANK,TAB,.,:,-,,,
+
+define(Skipx, loc = sktok(str,loc,tseps))
+define(Nextx, i = ctoi(str, loc))
+define(get_month, date(2) = gmonth(str(loc))
+       if (date(2) == ERR) return (ERR)
+       while (type(str(loc)) == LETTER) loc = loc + 1  )
+
+ for (i=1; i<=7; i=i+1)		#zero date array
+	date(i) = 0
+
+ loc = 1
+ Skipx
+ Nextx
+ if (i == 0)			#mon d y
+	{
+	if (type(str(loc)) == LETTER)
+		{ get_month }
+	else			#string not date
+		return(ERR)
+	date(3) = 1
+	Skipx
+	if (type(str(loc)) == DIGIT)
+		{
+		Nextx
+		if (i <= 31)
+			{
+			date(3) = i		#day
+			Skipx
+			if (type(str(loc)) == DIGIT)
+				{
+				Nextx
+				date(1) = i	#year
+				}
+			}
+		else
+			date(1) = i		#year
+		}
+ }
+ else if (i > 31)			# y m d
+ 	{
+ 	date(1) = i			#year
+ 	date(2) = 1			#month
+ 	date(3) = 1			#day
+ 	Skipx
+ 	if (type(str(loc)) == DIGIT)
+ 		{
+ 		Nextx
+ 		date(2) = i		#month
+ 		}
+ 	else if (type(str(loc)) == LETTER)
+		{ get_month }
+ 	Skipx
+ 	if (type(str(loc)) == DIGIT)
+ 		{
+ 		Nextx
+ 		date(3) = i		#day
+ 		}
+ 	}
+ else if (str(loc) != SLASH)		#d mon y
+ 	{
+ 	date(3) = i			#day
+ 	Skipx
+ 	if (type(str(loc)) == LETTER)
+		{ get_month }
+ 	Skipx
+ 	Nextx
+ 	date(1) = i			#year
+ 	}
+ else					#m d y
+ 	{
+ 	date(2) = i			#month
+ 	if (str(loc) == SLASH)
+ 		loc = loc + 1
+ 	Nextx
+	date(3) = i			#day
+	if (str(loc) == SLASH)
+		loc = loc + 1
+	Nextx
+ 	date(1) = i			#year
+ 	}
+ Skipx
+ Nextx
+ date(4) = i				#hour
+ if (str(loc) == LETH | str(loc) == BIGH)
+ 	loc = loc + 1
+ Skipx
+ Nextx
+ date(5) = i				#minute
+ if (str(loc) == LETM | str(loc) == BIGM)
+ 	loc = loc + 1
+ Skipx
+ Nextx
+ date(6) = i				#second
+ if (str(loc) == LETS | str(loc) == BIGS)
+ 	loc = loc + 1
+ Skipx
+ Nextx
+ date(7) = i				#millisecond
+ return (chkdat (date))
+ end

@@ -1,0 +1,12 @@
+ ## cupper - change letter to upper case
+        character function cupper(c)
+
+        character c, k
+
+        if (c >= LETA & c <= LETZ)
+                cupper = c + (BIGA - LETA)
+        else
+            cupper = c
+
+        return
+        end

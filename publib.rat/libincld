@@ -1,0 +1,2 @@
+# include standard libdefs file
+	include "/1/c/libdefs"

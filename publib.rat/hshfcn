@@ -1,0 +1,19 @@
+  ## hshfcn - hash function
+ #
+ #   This is a portable version of the hash function.  It takes the 
+ #    first and last characters of the string, sums them, and then 
+ #     returns the (sum modulo n) + 1.
+ #
+  integer function hshfcn(strng, n)
+ 
+  character strng(ARB)
+  integer n, i, length, i1, i2
+ 
+  i = length(strng)
+  i = max(i, 1)
+  i1 = strng(1)
+  i2 = strng(i)
+  hshfcn = mod(i1+i2, n) + 1
+ 
+  return
+  end

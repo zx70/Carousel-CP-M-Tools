@@ -1,0 +1,10 @@
+ ## fcopy - copy file in to file out
+ subroutine fcopy (in, out)
+ character c
+ character getch
+ integer in, out
+ 
+ while (getch(c,in) != EOF)
+        call putch(c, out)
+ return
+ end

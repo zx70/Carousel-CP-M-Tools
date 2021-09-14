@@ -1,0 +1,13 @@
+## getdir - get associated directory name
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ subroutine getdir (type, buf)
+ integer type
+ character buf(ARB)
+ string homedr "/0/a/"
+ 
+ if (type == HOME_DIRECTORY)
+	call ctoc (homedr, buf, FILENAMESIZE)
+ else
+	buf(1) = EOS
+ return
+ end

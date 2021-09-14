@@ -1,0 +1,10 @@
+ ## getnow - get current time and date (in integers)
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ subroutine getnow (now)
+ integer now(7)
+ include config
+ 
+ for (i=1; i<=7; i=i+1)
+	now(i) = ddate(i)
+ return
+ end

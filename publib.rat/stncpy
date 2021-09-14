@@ -1,0 +1,17 @@
+## stncpy - copy n characters from in(i) to out(j)
+  subroutine stncpy(in, i, out, j, n)
+  character in(ARB), out(ARB)
+  integer i,j,n
+  integer k,l,m
+  character c
+  l = j + n
+  m = i
+  for (k=j; k<l; k=k+1)
+	{
+	c = in(m)
+	out(k) = c
+	if (c != EOS)
+		m = m+1
+	}
+  return
+  end

@@ -1,0 +1,13 @@
+ ## type - determine type of character
+ character function type (c)
+ 
+ character c
+ 
+ if ( (c >= LETA & c <= LETZ) | ( c >= BIGA & c <= BIGZ))
+        type = LETTER
+ else if (c >= DIG0 & c <= DIG9)
+        type = DIGIT
+ else
+        type = c
+ return
+ end

@@ -1,0 +1,14 @@
+ ## delarg - delete reference to specified command line argument
+ subroutine delarg (n)
+ integer n, i
+ integer nbrarg
+ integer ptr
+ character arg
+ common /args/ nbrarg, ptr(MAXARGS), arg(ARGBUFSIZE)
+ if (n > nbrarg)        #check for valid argument
+        return
+ for (i=n; i<nbrarg; i=i+1)
+        ptr(i) = ptr(i+1)
+ nbrarg = nbrarg - 1
+ return
+ end

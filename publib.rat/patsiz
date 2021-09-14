@@ -1,0 +1,19 @@
+ ## patsiz - returns size of pattern entry at pat(n) 
+    integer function patsiz(pat, n) 
+    character pat(MAXPAT) 
+    integer n 
+    character patn
+  
+    patn = pat(n)
+    if (patn == CHAR) 
+       patsiz = 2 
+    else if (patn == BOL | patn == EOL | patn == ANY) 
+       patsiz = 1 
+    else if (patn == CCL | patn == NCCL) 
+       patsiz = pat(n + 1) + 2 
+    else if (patn == CLOSURE)      # optional 
+       patsiz = CLOSIZE 
+    else 
+       call error('in patsiz: cant happen.') 
+    return 
+    end 

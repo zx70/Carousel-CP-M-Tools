@@ -1,0 +1,9 @@
+ ## gdate - get current date and time (in ascii)
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ subroutine gdate (date,time)
+ character date(ARB), time(ARB)
+ integer now (7), dummy
+ call getnow (now)
+ call fmtdat (date, time, now, dummy)
+ return
+ end

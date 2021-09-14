@@ -1,0 +1,10 @@
+ ## putint - output integer in specified field
+        subroutine putint(n, w, fd)
+        character chars(MAXCHARS)
+        integer itoc
+        integer n, w, fd, junk
+ 
+        junk = itoc(n,chars,MAXCHARS)
+        call putstr(chars, w, fd)
+        return
+        end

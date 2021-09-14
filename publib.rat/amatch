@@ -1,0 +1,35 @@
+ ## amatch  (non-recursive) - look for match starting at lin(from) 
+    integer function amatch(lin, from, pat) 
+    character lin(MAXLINE), pat(MAXPAT) 
+    integer omatch, patsiz 
+    integer from, i, j, offset, stack 
+  
+    stack = 0 
+    offset = from      # next unexamined input character 
+    for (j = 1; pat(j) != EOS; j = j + patsiz(pat, j)) 
+       if (pat(j) == CLOSURE) {      # a closure entry 
+          stack = j 
+          j = j + CLOSIZE      # step over CLOSURE 
+          for (i = offset; lin(i) != EOS; )   # match as many as 
+             if (omatch(lin, i, pat, j) == NO)   # possible 
+                break 
+          pat(stack+COUNT) = i - offset 
+          pat(stack+START) = offset 
+          offset = i      # character that made us fail 
+          } 
+       else if (omatch(lin, offset, pat, j) == NO) {   # non-closure 
+          for ( ; stack > 0; stack = pat(stack+PREVCL)) 
+             if (pat(stack+COUNT) > 0) 
+                break 
+          if (stack <= 0) {      # stack is empty 
+             amatch = 0      # return failure 
+             return 
+             } 
+          pat(stack+COUNT) = pat(stack+COUNT) - 1 
+          j = stack + CLOSIZE 
+          offset = pat(stack+START) + pat(stack+COUNT) 
+          } 
+       # else omatch succeeded 
+    amatch = offset 
+    return      # success 
+    end 

@@ -1,0 +1,18 @@
+## unpack - unpack characters from integers into character strings
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+#           CP/M version - change for different systems
+ integer function unpack (int, str)
+ character str(ARB)
+# integer int(ARB)
+ character int(ARB)		#fool CP/M and Microsoft Fortran
+
+ integer i
+ 
+ for (i=1; ; i=i+1)
+	{
+	str(i) = int(i)
+	if (str(i) == EOS)
+		break
+	}
+ return(i-1)
+ end

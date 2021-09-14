@@ -1,0 +1,75 @@
+## gitoc --- convert single precision integer to any radix string
+
+   integer function gitoc (int, str, size, base)
+   integer int, size, base
+   character str (size)
+
+   integer carry, d, i, radix, n
+
+   logical unsign
+
+   string digits "0123456789ABCDEF"
+
+   if (size <= 1)
+      return (0)
+   str (1) = EOS  # digit string is generated backwards, then reversed
+
+   radix = iabs (base)        # get actual conversion radix
+   if (radix < 2 | radix > 16)
+      radix = 10
+   unsign = (base < 0)      # negative radices mean unsign conversion
+   if (unsign) {
+			     # make pos. but keep high-order bits intact
+      n = (int/2 & MAX_INTEGER)
+#     n = and(int / 2,       # make pos. but keep high-order bits intact
+#           MAX_INTEGER)
+#     carry = and (int, 1)   # get initial carry
+      carry = int & 1
+      if (int == -1)
+              n = MAX_INTEGER   # the oddball case
+          else if (carry == 1 & int < 0)
+              n = n - 1      # division by 2 rounds up, so this
+                             #   corrects
+      }
+   else
+      n = int
+
+   i = 1
+   repeat {
+      d = iabs (mod (n, radix))  # generate next digit
+      if (unsign) {      # this is only half of actual digit value
+         d = 2 * d + carry    # get actual digit value
+         if (d >= radix) {    # check for generated carry
+            d = d - radix
+            carry = 1
+            }
+         else
+            carry = 0
+         }
+      i = i + 1
+      str (i) = digits (d + 1)   # convert to character and store
+      n = n / radix
+      } until (n == 0 | i >= size)
+
+   if (unsign) {
+      if (carry != 0 & i < size) {    # check for final carry
+         i = i + 1
+         str (i) = DIG1
+         }
+      }
+   else if (int < 0 & i < size) {     # add sign if needed
+      i = i + 1
+      str (i) = MINUS
+      }
+
+   gitoc = i - 1     # will return length of string
+
+   for (d = 1; d < i; d = d + 1) {     # reverse digits
+      carry = str (d)
+      str (d) = str (i)
+      str (i) = carry
+      i = i - 1
+      }
+
+   return
+   end

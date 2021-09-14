@@ -1,0 +1,14 @@
+ ## match - find match anywhere on line 
+    integer function match(lin, pat) 
+    character lin(MAXLINE), pat(MAXPAT) 
+    integer amatch 
+    integer i 
+  
+    for (i = 1; lin(i) != EOS; i = i + 1) 
+       if (amatch(lin, i, pat) > 0) { 
+          match = YES 
+          return 
+          } 
+    match = NO 
+    return 
+    end 

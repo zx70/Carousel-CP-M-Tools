@@ -1,0 +1,19 @@
+## stdel - delete substring of 'len' chars, starting at 'from'
+subroutine stdel (str, from, len)
+character str (ARB)
+integer from, len
+integer length, i, j
+
+j = length(str) + 1
+i = from + len
+if (j < i)
+	i = j
+for (j=from; i > j; j=j+1)
+	{
+	str(j) = str(i)
+	if (str(j) == EOS)
+		break
+	i = i + 1
+	}
+return
+end

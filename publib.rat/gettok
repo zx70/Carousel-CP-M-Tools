@@ -1,0 +1,22 @@
+## gettok - get token delimited by any of sep, return size
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+  integer function gettok (buf,i,tok,sep)
+  character buf(ARB), tok(ARB), sep(ARB)
+  integer i
+  integer j,k
+  character c
+  for (j = 1; buf(i) != EOS; i = i+1)
+	{
+	c = buf(i)
+	for (k = 1; sep(k) != EOS; k = k+1)
+		if (c == sep(k))
+			{
+			tok(j) = EOS
+			return(j-1)
+			}
+	tok(j) = c
+	j = j+1
+	}
+  tok(j) = EOS
+  return(j-1)
+  end

@@ -1,0 +1,15 @@
+ ## getcl - get all command line arguments
+ subroutine getcl (buf, maxlen)
+ character buf(ARB)
+ integer i, len, maxlen
+ integer getarg, length
+ 
+ len = 0
+ for (i=1; getarg(i, buf(len+1), maxlen-len) != EOF; i=i+1)
+	{
+	len = length(buf) + 1
+	buf(len) = BLANK
+	}
+ buf(len) = EOS
+ return
+ end

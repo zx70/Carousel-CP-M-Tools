@@ -1,0 +1,13 @@
+## linkq - link buffer into circular queue at head
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+  subroutine linkq(head,buf)
+  pointer head, buf
+  DS_DECLARE
+  pointer nxtp
+  nxtp = Mem(head+NEXTBUF)
+  Mem(buf+NEXTBUF) = nxtp
+  Mem(buf+PREVBUF) = head
+  Mem(head+NEXTBUF) = buf
+  Mem(nxtp+PREVBUF) = buf
+  return
+  end

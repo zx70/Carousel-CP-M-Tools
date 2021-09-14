@@ -1,0 +1,18 @@
+ ## concat - concatenate two strings together
+ subroutine concat (buf1, buf2, outstr)
+ character buf1(ARB), buf2(ARB), outstr(ARB)
+ 
+ integer len
+ integer length
+ 
+ call scopy(buf1, 1, outstr, 1)
+ len = length(outstr)
+ j = 1
+ for (i=len+1; buf2(j) != EOS; i=i+1)
+        {
+        call scopy(buf2, j, outstr, i)
+        j = j + 1
+        }
+ outstr(i) = EOS
+ return
+ end

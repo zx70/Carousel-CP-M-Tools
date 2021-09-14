@@ -1,0 +1,48 @@
+## enter - place a symbol in the symbol table, updating if already present
+
+   subroutine enter (symbol, info, st)
+   character symbol (ARB)
+   integer info(ARB)		#may actually by "character", but
+				#CP/M can be fooled
+   pointer st
+   integer nodsiz, j, i
+   integer stlu, ilen, pack
+
+   pointer node, pred
+   pointer dsget
+   DS_DECL(Mem, 1)
+
+   nodsiz = Mem (st)
+   if (nodsiz == CHAR_DEFN)
+	i = 1 + ilen(symbol) + ilen(info)
+   else
+	i = 1 + ilen(symbol) + nodsiz
+   while (stlu (symbol, node, pred, st) == YES)
+	call delete (symbol, st)
+
+				# insert symbol
+   node = dsget (i)
+   if (node == NULL)
+  	{
+  	call remark ("out of memory.")
+  	return
+  	}
+   Mem (node + ST_LINK) = LAMBDA
+   Mem (pred + ST_LINK) = node
+   j = node + ST_DATA
+   i = pack (symbol, Mem(j))
+   j = j + i
+
+			# save definition (for old or new symbol)
+   if (nodsiz == CHAR_DEFN)
+	i = pack (info, Mem(j))
+   else
+	{
+	for (i = 1; i <= nodsiz; i = i + 1) {
+		Mem (j) = info (i)
+		j = j + 1
+		}
+	}
+
+   return
+   end

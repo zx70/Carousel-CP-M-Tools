@@ -1,0 +1,17 @@
+ ## putlin - put out line by repeated calls to putch
+        subroutine putlin (line, fd)
+        character line(ARB)
+	integer fd
+	character c
+        integer i
+	for (i=1; ; i=i+1)
+		{
+		c = line(i)
+		if (c == EOS)
+			break
+		if (c == NEWLINE)
+			call putch$ (13,fd)
+		call putch$ (c,fd)
+		}
+        return
+        end

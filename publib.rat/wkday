@@ -1,0 +1,22 @@
+## wkday --- get day-of-week corresponding to month,day,year
+ # NOTE:  20th century is assumed, no matter what is passed
+
+   integer function wkday (month, day, year)
+   integer month, day, year
+
+   integer lmonth, lday, lyear
+
+   lmonth = month - 2
+   lday = day
+   lyear = mod (year, 100)
+
+   if (lmonth <= 0) {
+      lmonth = lmonth + 12
+      lyear = lyear - 1
+      }
+
+   wkday = mod (lday + (26 * lmonth - 2) / 10 + lyear + lyear / 4 - 34,
+       7) + 1
+
+   return
+   end

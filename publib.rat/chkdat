@@ -1,0 +1,46 @@
+ ## chkdat - check date and time for out-of-range
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function chkdat (date)
+ integer date(7)
+ 
+ # date(1) = year
+ # date(2) = month
+ # date(3) = day
+ # date(4) = hour
+ # date(5) = minute
+ # date(6) = second
+ # date(7) = millisecond
+ integer mlen(12)
+ data mlen(1), mlen(2), mlen(3), mlen(4), mlen(5), mlen(6),
+      mlen(7), mlen(8), mlen(9), mlen(10), mlen(11),
+      mlen (12)  /31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 /
+ 
+				# check year
+ if (date(1) < 0 ) return (ERR)
+ if (date(1) < 100) date(1) = date(1) + 1900
+				# check month
+ if (date(2) < 1 | date(2) > 12)
+	return (ERR)
+				# check day
+ m = date(2)
+ if (date(3) < 1 | date(3) > mlen(m))
+	return (ERR)
+ if (m == 2 & date(3) == 29)    # make sure it's a leap year
+	if ( mod(date(1),4) != 0 |
+             ((mod(date(1),100) == 0) &
+              (mod(date(1),400) != 0) ))
+		return (ERR)
+				# check hour
+ if (date(4) < 0 | date(4) > 23)
+	return (ERR)
+				# check minute
+ if (date(5) < 0 | date(5) > 59)
+	return (ERR)
+				# check second
+ if (date(6) < 0 | date(6) > 59)
+	return (ERR)
+				# check millisecond
+ if (date(7) < 0 | date(7) > 999)
+	return (ERR)
+ return (OK)
+ end

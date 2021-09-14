@@ -1,0 +1,18 @@
+## pack - pack characters into integer words; return nbr words needed
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+#	CP/M version - change for different systems
+ integer function pack (str, int)
+ character str(ARB)
+# integer int(ARB)
+ character int(ARB)	#Microsoft Fortran allows this - 'twill do
+			#the right thing
+ integer i
+ 
+ for (i=1; ; i=i+1)
+	{
+	int(i) = str(i)
+	if (str(i) == EOS)
+		break
+	}
+ return ( (i+1) / 2 )	#return the number of integers used
+ end

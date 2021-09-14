@@ -1,0 +1,33 @@
+## stlu - symbol table lookup primitive
+
+   integer function stlu (symbol, node, pred, st)
+   character symbol (ARB)
+   pointer node, pred, st
+   integer hash, j, nodsiz
+   integer i
+   integer equal
+
+   ifnotdef(CPM, integer unpack; character buf(MAXLINE) )
+
+   DS_DECL(Mem, 1)
+
+   nodsiz = Mem (st)
+
+   hash = 0
+   for (i = 1; symbol (i) != EOS; i = i + 1)
+      hash = hash + symbol (i)
+   hash = mod (hash, ST_HTABSIZE) + 1
+
+   pred = st + hash
+   node = Mem (pred)
+   while (node != LAMBDA) {
+      j = node + ST_DATA
+      ifdef(CPM, if (equal(symbol, Mem(j)) == YES) return(YES) )
+      ifnotdef(CPM, i = unpack(Mem(j), buf(1))
+		if (equal(symbol, buf) == YES) return(YES) )
+      pred = node
+      node = Mem (pred + ST_LINK)
+      }
+
+   return (NO)
+   end

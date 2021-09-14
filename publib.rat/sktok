@@ -1,0 +1,22 @@
+  ## sktok - skip past chars in token
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+  integer function sktok(buf,loc,tok)
+  character buf(ARB), tok(ARB)
+  integer loc
+  integer i,j
+  character c
+  i = loc
+  repeat
+	{
+	c = buf(i)
+	if (c == EOS)
+		break
+	for (j=1; tok(j) != EOS; j=j+1)
+		if (c == tok(j))
+			break
+	if (tok(j) == EOS)
+		break
+	i = i+1
+	}
+  return(i)
+  end

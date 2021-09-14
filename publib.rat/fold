@@ -1,0 +1,9 @@
+ ## fold - fold all letters to lower case
+ subroutine fold (token)
+ character token(ARB), clower
+ integer i
+ 
+ for (i=1; token(i) != EOS; i=i+1)
+        token(i) = clower(token(i))
+ return
+ end

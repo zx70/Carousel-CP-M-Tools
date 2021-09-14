@@ -1,0 +1,29 @@
+   ## getlin - get line by repeated calls to getch
+
+      integer function getlin (line, fd)
+        character line(ARB)
+        integer i
+	integer fd
+        character getch
+        for (i=1; ;i=i+1)
+                {
+                if (getch(line(i), fd) == NEWLINE)
+                        {
+                        line(i+1) = EOS
+                        getlin = i
+                        return
+                        }
+                if (line(i) == EOF)
+                        {
+                        getlin = EOF
+                        line(i) = EOS
+                        return
+                        }
+                if (i >= MAXLINE-1)
+                        {
+                        line(i+1) = EOS
+                        getlin = i
+                        return
+                        }
+                }
+        end

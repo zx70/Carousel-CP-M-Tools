@@ -1,0 +1,15 @@
+ ## clower - change letter to lower case
+        character function clower(c)
+
+        character c, k
+
+        if (c >= BIGA & c <= BIGZ)
+                {               #avoid integer overflow in byte machines
+                k = LETA - BIGA
+                clower = c + k
+                }
+        else
+            clower = c
+
+        return
+        end

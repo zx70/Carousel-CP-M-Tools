@@ -1,0 +1,11 @@
+## ilen - determine number integer words need to pack char string
+# Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+ integer function ilen (str)
+ character str(ARB)
+ integer length
+ 
+ # CP/M version - rewrite for your system:
+ 
+ return ( (length(str) + 2) / 2)	#don't forget to count
+					#the EOS marker
+ end

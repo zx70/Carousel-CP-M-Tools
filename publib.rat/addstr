@@ -1,0 +1,12 @@
+## addstr - add s to str(j) if it fits, increment j
+   integer function addstr(s, str, j, maxsiz)
+   character s(ARB), str(ARB)
+   integer j, maxsiz
+   integer i, ctoc
+
+   i = ctoc (s, str(j), maxsiz)
+   j = j+i
+   if (i == 0)
+	return(NO)
+   return(YES)
+   end

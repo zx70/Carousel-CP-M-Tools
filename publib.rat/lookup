@@ -1,0 +1,37 @@
+## lookup - find a symbol in the symbol table, return its data
+
+   integer function lookup (symbol, info, st)
+   character symbol (ARB)
+   integer info (ARB)		#may actually be a character
+   pointer st
+   integer i
+   integer nodsiz, j
+   integer stlu, unpack
+   ifdef(CPM, integer ilen)
+   ifnotdef(CPM, integer slen)
+   pointer node, pred
+   DS_DECL(Mem, 1)
+
+   if (stlu (symbol, node, pred, st) == NO) {
+      lookup = NO
+      return
+      }
+
+   nodsiz = Mem (st)
+   j = node + ST_DATA
+   ifdef(CPM, j = j + ilen(Mem(j)) )
+   ifnotdef(CPM, j = j + slen (Mem(j)) )
+   if (nodsiz == CHAR_DEFN)
+	i = unpack (Mem(j), info)
+   else			#pick up integer data
+	{
+   	for (i = 1; i <= nodsiz; i = i + 1) 
+		{
+      		info (i) = Mem (j)
+		j = j + 1
+		}
+	}
+   lookup = YES
+
+   return
+   end

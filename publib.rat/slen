@@ -1,0 +1,12 @@
+## slen - determine number words taken up by packed string
+ # Different for each system
+ integer function slen (int)
+ integer int(ARB)
+ character buf(MAXLINE)
+ integer pack, unpack
+ integer junk
+
+ # Here's a quick-and-dirty way to do it; rewrite for your system
+ junk = unpack(int, buf)
+ return (pack(buf, int))
+ end
