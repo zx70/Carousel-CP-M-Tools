@@ -1,3 +1,5 @@
 *.doc linguist-language=Roff
-* linguist-language=R
 *.man linguist-language=Roff
+*.mac linguist-language=Assembly
+* linguist-language=R
+
