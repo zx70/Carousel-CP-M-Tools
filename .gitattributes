@@ -3,3 +3,4 @@
 *.man linguist-language=Roff
 *.mac linguist-language=Assembly
 make* linguist-language=Makefile
+msys3* linguist-language=Makefile
