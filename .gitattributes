@@ -4,3 +4,5 @@
 *.mac linguist-language=Assembly
 make* linguist-language=Makefile
 msys3* linguist-language=Makefile
+HOWTO  linguist-language=text
+README linguist-language=text
