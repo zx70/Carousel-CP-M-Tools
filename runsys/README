@@ -1,0 +1,60 @@
+
+
+Version 2.00                CAROUSEL TOOLKITS (tm)                     CP/M-80
+
+
+                      PROPRIETARY LIBRARY SOURCE PACKAGE
+
+
+The  files  in  this  product  are  CONFIDENTIAL  and  proprietary to Carousel
+MicroTools, Inc.  They may be released only to  selected  Carousel  associates
+and  customers.  Consult your license agreement for the conditions under which
+you are allowed to possess or use this software. 
+
+The files described here are (C) Copyright 1984 Carousel MicroTools,  Inc.  --
+All Rights Reserved.  They may be used only in accordance with a duly executed
+license from Carousel MicroTools, Inc. 
+
+The  Proprietary  Library Source Package supplies the source code necessary to
+rebuild  the  files  provided  only  in  binary   format   in   the   Carousel
+Build-a-ToolKit (tm). 
+
+The following files are on this diskette: 
+
+   README      -- this file
+   HOWTO       -- complete instructions
+   CMTLIB.RAT  -- source code for CMTLIB.336, CMTLIB.344
+   RUNSYS.AR   -- source code, include files, and shell scripts for
+                       run system (both executable and stub versions)
+   RUN.AR      -- source code and shell script for RUN.COM
+   RSH.AR      -- source code and shell script for SH.COM
+   SH.AR       -- source code for SH.TOL
+   INSTALL.AR  -- source code for INSTALL.TOL
+
+                             SPECIAL INSTRUCTIONS
+
+1) DO  NOT write on this diskette.  Do not erase or rename any of the files on
+   it.  It is your MASTER DISK.  Keep it safe!  Make backup copies of it right
+   away. 
+
+2) You need the Carousel Build-a-ToolKit  (which  includes  the  Use-a-ToolKit
+   (tm)) in order to rebuild the Tools. 
+
+3) In  addition,  you need a copy of the Microsoft Fortran-80 compiler and its
+   associated macroassembler, linker, and librarian.  These utilities exist in
+   two incompatible versions:  "old" (pre-3.40) and "new"  (3.40  and  later).
+   You  can build working Tools using either version with the Build-a-ToolKit.
+   However, you need the old version in order to rebuild  RUN.COM  (containing
+   the  real  run  system)  conveniently.   Some  of  the  binary files in the
+   Build-a-ToolKit are supplied in both versions:   if  you  want  to  rebuild
+   both, then you will need both versions of the compiler. 
+
+4) Print  a  copy  of the file HOWTO and study it before attempting to rebuild
+   anything. 
+
+
+
+
+
+
+
