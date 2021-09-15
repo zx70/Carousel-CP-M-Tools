@@ -1,0 +1,14 @@
+## linkq - link buffer into circular queue at head
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine linkq(head,buf)
+  pointer head, buf
+  DS_DECLARE
+  pointer nxtp
+  nxtp = Mem(head+NEXTBUF)
+  Mem(buf+NEXTBUF) = nxtp
+  Mem(buf+PREVBUF) = head
+  Mem(head+NEXTBUF) = buf
+  Mem(nxtp+PREVBUF) = buf
+  return
+  end

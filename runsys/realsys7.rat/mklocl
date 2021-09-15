@@ -1,0 +1,45 @@
+ ## mklocl - make local-style name from UNIX-style
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ integer function mklocl (path, local)
+ character path(ARB)
+ character local(ARB)
+ character c
+ integer i,j
+ byte uflg
+ integer k
+ integer index
+
+ uflg = NO
+ j = 1
+ k = 1
+ call skipbl (path,k)
+ for (i=k; j < FILENAMESIZE; i=i+1)
+	{
+	c = path(i)
+	if (c == SLASH)
+		{
+		if (i == k | uflg == YES)		#skip leading /
+			{
+			uflg = NO
+			next
+			}
+		local(j) = COLON
+		}
+	else
+		local(j) = c
+	if (j == 1 & IS_DIGIT(c))
+		uflg = YES
+	if (c == EOS)
+		break
+	j = j + 1
+	}
+ if (path(k) == SLASH & index(local, COLON) == 0)
+	{
+	local(j) = COLON		#assume device
+	j = j+1
+	local(j) = EOS
+	}
+ call upper (local)
+ return(j-1)
+ end

@@ -1,0 +1,29 @@
+## putrp$ - write block to disk
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine putrp$ (fd,blk)
+  integer fd
+  pointer blk
+  include cprimio
+  DS_DECLARE
+  byte bdos$c, tdev, stat
+  pointer tfcb
+  string errmsg "ERROR x "
+
+  if (wrt(fd) == NO | Mem(blk+BUFSTATE) == NO)
+	return
+  tfcb = fcb(fd)
+  tdev = Mem(tfcb) & 15
+  dskdrt = dskdrt | bit$ (tdev+1)
+  call bdos$b (CPM_SETDMA, Mem(blk+BUFDATA))
+  call pint$ (Mem(blk+BUFBLOCK), Mem(tfcb), 34)
+  stat = bdos$c (CPM_WRITE, Mem(tfcb))
+  if (stat != 0)
+	{
+	state (fd) = CLOSED
+	errmsg(7) = DIG0 + stat
+	call outl$ (errmsg)
+	call cant$ (fd)
+	}
+  return
+  end

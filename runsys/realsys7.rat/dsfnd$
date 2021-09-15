@@ -1,0 +1,38 @@
+## dsfnd$ - free some memory from i/o buffers
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  character function dsfnd$ (level)
+  character level  # =0 on first try, >0 desperate.
+  include cprimio
+  include config
+  integer tfd
+  character limit, grab$, minlim
+  for (tfd=prevfd+1 ;; tfd=tfd+1)
+	{
+	if (tfd > MAXOFILES)
+		tfd = 1
+	minlim = 0
+	if (level == 0)
+		{
+		if (state(tfd)==READWRITE)
+			{
+			limit = 32
+			minlim = 16
+			}
+		else
+			limit = 8
+		}
+	else
+		limit = 1;
+	if (grab$ (tfd,limit,minlim) == OK)
+		{
+		prevfd = tfd
+		dsfnd$ = OK
+		return
+		}
+	if (tfd == prevfd)
+		break
+	}
+  dsfnd$ = ERR
+  return
+  end

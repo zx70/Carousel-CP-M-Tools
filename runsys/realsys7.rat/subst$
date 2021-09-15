@@ -1,0 +1,75 @@
+## subst$ - perform standard file substitions
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+subroutine subst$ (arg)
+character arg(ARB)
+integer access
+integer i, j, k, start, fd(3), acces(3)
+byte stat
+character flag
+integer isin, length, open, create
+
+include config
+include cprimio
+
+string tty TERMINAL_IN
+string sub "?<>"		# do ERROUT first
+string errerr "Can't open ERROUT"
+data fd /ERROUT, STDIN, STDOUT/
+data acces /WRITE, READ, WRITE/
+
+for (j=1; j<=3; j=j+1)
+	{
+	i = fd(j)
+	state(i) = CLOSED
+	access = acces(j)
+	start = isin (arg, sub(j))
+	i = start + 1
+	k = i
+	if (start > 0)		# see if there's a file name
+		{
+		flag = arg(start)
+		if (arg(i) == flag & flag != LESS)
+			{
+			access = APPEND
+			i = i + 1
+			}
+		if (arg(i) == BANG & flag == LESS)	#CP/M only
+					# means remove the file after reading
+			{
+			inkill = YES
+			i = i + 1
+			}
+		call skipbl (arg, i)
+		k = isin (arg(i), BLANK) + i -1
+		if (k <= i)		# have reached end
+			{
+			k = length (arg) + 1
+			arg(k+1) = EOS	# double the EOS
+			}
+		arg(k) = EOS		# mark end
+		}
+	if (start <= 0 | k <= i)	# no substitution
+		stat = open (tty, access)
+	else
+		{
+		if (access != WRITE)
+			stat = open (arg(i), access)
+		else stat = ERR
+		if (access != READ & stat == ERR)
+			stat = create (arg(i), access)
+		}
+	if (stat == ERR)
+		{
+		if (j != 1) call cant (arg(i))
+		else call outl$ (errerr)
+		call endst (ERR)
+		}
+	if (start > 0 & k > i)
+		{
+		arg(k) = BLANK		# necessary for stdel
+		call stdel (arg, start, k-start+1)
+		}
+	}
+return
+end

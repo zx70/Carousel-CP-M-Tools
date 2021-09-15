@@ -1,0 +1,13 @@
+## unlink - remove buffer from any circular queue it may be in
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  pointer function unlink(buf)
+  pointer buf
+  DS_DECLARE
+  pointer prev, nxtp
+  prev = Mem(buf+PREVBUF)
+  nxtp = Mem(buf+NEXTBUF)
+  Mem(prev+NEXTBUF) = nxtp
+  Mem(nxtp+PREVBUF) = prev
+  return(prev)
+  end

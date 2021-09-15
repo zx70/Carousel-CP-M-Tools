@@ -1,0 +1,29 @@
+## grab$ - get some memory from i/o buffers
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  character function grab$ (bfd, thresh, minlim)
+  integer bfd
+  character thresh, minlim
+  DS_DECLARE
+  include cprimio
+  pointer queue, blk, lblk, nblk, unlink
+  integer n
+  grab$ = ERR
+  if (state(bfd) == CLOSED)
+	return
+  if (nq(bfd) < thresh)
+	return
+  queue = bufq(bfd)
+  lblk = queue
+  for (n=0; n<minlim; n=n+1)  # save minlim bufs
+	lblk = Mem(lblk+NEXTBUF)
+  for (blk=Mem(queue+PREVBUF); blk!=lblk; blk=nblk)
+	{  # remove from end of queue
+	call putrp$ (bfd,blk)
+	nblk = unlink(blk)
+	call dsfree(blk)
+	nq(bfd) = nq(bfd) - 1
+	}
+  grab$ = OK
+  return
+  end

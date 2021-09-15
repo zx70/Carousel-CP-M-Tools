@@ -1,0 +1,13 @@
+## zfill$ - fills block to end with CPMEOF character
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine zfill$ (bfd,buf,fill)
+  integer bfd
+  character buf(ARB), fill
+  integer i
+  include cprimio
+  for (i = lastc(bfd)+1; i<=IOBUFSIZE; i=i+1)
+	buf(i) = fill
+  lastc(bfd) = IOBUFSIZE
+  return
+  end

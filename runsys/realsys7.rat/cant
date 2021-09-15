@@ -1,0 +1,8 @@
+ ## cant - print "file:  can't open" and terminate execution
+ subroutine cant (file)
+ character file (ARB)
+ string buf "Can't open "
+ call putlin (buf, ERROUT)
+ call putlin (file, ERROUT)
+ call error(".")
+ end

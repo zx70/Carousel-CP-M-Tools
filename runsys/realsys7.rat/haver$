@@ -1,0 +1,27 @@
+## haver$ - search for wanted block in cache
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  character function haver$ (bfd,wblk)
+  integer bfd
+  integer wblk
+  DS_DECLARE
+  include cprimio
+  pointer blk, queue, prev, unlink
+  queue = bufq(bfd)
+  for (blk=Mem(queue+NEXTBUF); blk != queue; blk=Mem(blk+NEXTBUF))
+	{
+	if (Mem(blk+BUFBLOCK) == wblk)
+		{
+		prev = unlink(blk)
+		nq(bfd) = nq(bfd) -1
+		curbuf(bfd) = blk + BUFDATA
+		dirty(bfd) = Mem(blk+BUFSTATE)
+		block(bfd) = wblk
+		lastc(bfd) = IOBUFSIZE
+		haver$ = YES
+		return
+		}
+	}
+  haver$ = NO
+  return
+  end

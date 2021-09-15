@@ -1,0 +1,68 @@
+## endst - close all files and terminate rat4 program
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ subroutine endst(status)
+ integer status
+ integer in, open, i, getlin, getwrd, pos(2), count
+ integer j
+ pointer tfcb
+  common /cntrlc/ ctrlc
+  byte ctrlc
+ common /shret$/ shret
+ logical shret
+ string unprmt "+ "
+ character tmpbuf(FILENAMESIZE)
+ include config
+ include "cshstuff"
+ include cprimio
+ DS_DECLARE
+
+ call close (STDIN)
+ if (inkill == YES)
+	{
+	tfcb = fcb(STDIN)
+	if (dev(STDIN) == DISK)
+		call bdos$c (CPM_DELETE, Mem(tfcb))
+	}
+ call close (STDOUT)
+# NOTE ***** this assumes STDIN,STDOUT,ERROUT are 1,2,3 *****
+ for (j=4; j <= MAXOFILES; j=j+1)
+	call close (j)
+ for (;;)
+	{
+	if (shret | status != OK)
+		break
+	ctrlc = -ctrlc
+	# rename "shbad.$$$" to "shok.$$$"
+	call shend$
+	in = open (shcmd, READ)
+	if (in == ERR)
+		break
+	state(in) = READWRITE
+	wrt(in) = YES
+	i = getlin (wrkbuf, in)
+	if (i == EOF)
+		break
+	call note (pos, in)
+	call seek (BEGINNING_OF_FILE, in)
+	for (count = pos(1)+128*pos(2); count > 0; count=count-1)
+		call putch (EOS, in)
+	call close (in)
+	if (list == YES)
+		{
+		call putlin(unprmt, ERROUT)
+		call putlin(wrkbuf,ERROUT)
+		}
+	wrkbuf(i) = EOS		# remove NEWLINE
+	i = 1
+	call getwrd (wrkbuf, i, tmpbuf)
+	call close (ERROUT)
+	call exec (tmpbuf, wrkbuf(i))
+	}
+ call close (ERROUT)
+ if (atend(1) != EOS)
+	call exec (atend, EOS)
+# call bdos$d (CPM_RESET, dskdrt)
+ call bdos37 (dskdrt)
+ call exit
+ end

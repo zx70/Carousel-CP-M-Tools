@@ -1,0 +1,65 @@
+## exec - execute a program by overlay
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine exec (cmd,args)
+  character cmd(ARB), args(ARB)
+  integer l, getwrd, gettyp, equal, ctoc
+  character bdos$c, peek
+  include cprimio
+  include config
+  include "cshstuff"
+  string exmsg "** exec error: "
+#
+# pack args into CP/M low memory, make default FCBs
+#
+  shstuf(-130) = ctoc (args, shstuf(-129), 128)
+  l = 1
+  call getwrd(args,l,wrkbuf)
+  call pkcpm$ (wrkbuf, shstuf(-166))
+  call getwrd(args,l,wrkbuf)
+  call pkcpm$ (wrkbuf, shstuf(-150))
+#
+# call bdos$d (CPM_RESET, dskdrt)
+  call bdos37 (dskdrt)
+  if (gettyp(cmd) != BINARY)
+	goto 100
+  if (bdos$c (CPM_OPEN, tmpfcb) < 0)
+	goto 100
+  tmpfcb(33) = 0
+  if (tmpfcb(10) == BIGT)
+	{			# .TOL file found
+	call bdos$b (CPM_SETDMA, wrkbuf)
+	call bdos$c (20, tmpfcb)
+	if (equal(wrkbuf(55), ldaddr) != YES)
+		goto 100
+	call exec$ (tmpfcb, 256*ldaddr, wrkbuf(2))
+	}
+# not a .TOL, execute .COM as non-tool with submitted "resume"
+  call shint$			# convert args to uppercase
+  call notst$
+  if (atend(1) != EOS) # if shell running, submit resume.
+	{
+#	submit(1) = peek(cpbase+4) & (-16)
+	submit(1) = peek(4) & (-16)
+	call bdos$c (CPM_DELETE, submit)
+	if (bdos$c (CPM_MAKE, submit) < 0)
+		goto 100
+	submit(33) = 0
+	if (IS_UPPER(atend(2)))
+		resume(2) = atend(2)
+	else
+		resume(2) = atend(3)
+	call bdos$b (CPM_SETDMA, resume)
+	call bdos$c (21, submit)
+	call bdos$c (CPM_CLOSE, submit)
+#	call bdos$d (CPM_RESET, 1)
+	call bdos37 (1)
+	}
+  call exec$ (tmpfcb, 256, 256)
+
+100	continue
+# error exit, print and die
+  call outs$ (exmsg)
+  call outl$ (cmd)
+  call exit
+  end

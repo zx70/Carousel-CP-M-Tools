@@ -1,0 +1,49 @@
+ ## getr$ - get next record from file bfd
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  character function getr$ (bfd, wblk)
+  integer bfd
+  integer wblk
+  include cprimio
+  include config
+  data rmask /3/
+  pointer blk
+  integer rblk
+  character getcr$, haver$, getb$, getpb$
+
+  getr$ = ERR
+  if (state(bfd) == ERR)
+	return
+  if(dev(bfd) > 0)  # char device
+	{
+	if (curbuf(bfd) == NULL)
+		if (getb$ (bfd) == ERR)
+			return
+	getr$ = getcr$ (bfd)
+	return
+	}
+  blk = curbuf(bfd)
+  if (wrt(bfd) == NO & seeked(bfd) == NO & blk != NULL)
+	{
+	call dsfree (blk-BUFDATA)
+	curbuf(bfd) = NULL
+	}
+  call flush$ (bfd)
+  if (haver$ (bfd,wblk) == YES)
+	{
+	getr$ = OK
+	return
+	}
+  rblk = wblk
+  repeat
+  	{
+  	if (rblk > fsize(bfd))
+  		break
+  	if (getpb$ (bfd,rblk) != OK)
+  		break
+  	rblk = rblk + 1
+  	}
+  until ( (rblk & rmask) == 0 )
+  getr$ = getpb$ (bfd,wblk)
+  return
+  end

@@ -1,0 +1,17 @@
+ ## note - determine current file position (i.e. place where next
+ #         record will be read/written
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ subroutine note (offset, fd)
+ integer fd
+ integer offset(2)
+ include cprimio
+ offset(1) = fpos(fd)
+ offset(2) = block(fd)
+ if (offset(1) == 128)
+	{
+	offset(1) = 0
+	offset(2) = offset(2) + 1
+	}
+ return
+ end

@@ -1,0 +1,30 @@
+## getch$ - get byte from file f
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  character function getch$ (c,f)
+  integer f   # integer ok on call
+  integer c
+  include cprimio
+  DS_DECLARE
+  integer n,b,l
+  pointer buf
+  character movic$, getr$
+  call fdok$ (f)
+  getch$ = OK
+  b = block(f)
+  n = fpos(f) + 1
+  l = lastc(f)
+  if (n > l)
+	{
+	if (l > 0)
+		b = b+1
+	getch$ = getr$ (f,b)
+	n = 1
+	}
+  fpos(f) = n
+  block(f) = b
+  buf = curbuf(f)
+  c = movic$ (Mem(buf),n)
+  c = c & 255
+  return
+  end

@@ -1,0 +1,43 @@
+## putc$ - put char to character device
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine putc$ (fd,c)
+  integer fd
+  character c
+  include cprimio
+  include config
+  include chario
+  integer d
+  byte israw, prnpos
+  d = dev(fd)
+  israw = state(fd) & RAWMODE
+  prnpos = tpos(d)
+  if (prnpos >= tabsiz)
+  	prnpos = 0
+  if (israw == 0)
+  	{
+  	if (c==NEWLINE)
+  		prnpos = 0
+  	else if (c==TAB)
+  		{
+  		repeat
+  			{
+  			call ouchr$ (d, BLANK)
+  			prnpos = prnpos + 1
+  			}
+  		until (prnpos >= tabsiz)
+		tpos(d) = 0
+		return
+  		}
+  	else if (c >= BLANK)
+  		prnpos = prnpos + 1
+  	else if (c == BACKSPACE)
+  		{
+  		prnpos = prnpos -1
+  		if (prnpos < 0) prnpos = 0
+  		}
+  	}
+  call ouchr$ (d,c)
+  tpos(d) = prnpos
+  return
+  end

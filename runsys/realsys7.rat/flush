@@ -1,0 +1,25 @@
+## flush - flush output buffer of file f
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine flush(f)
+  integer f
+  include cprimio
+  call fdok$ (f)
+  if (dev(f) > 0)	# Character device always flushed on putch
+	return
+  if (wrt(f) == NO)
+	{
+	if (state(f) != CLOSED)
+		call flush$ (f)
+	return
+	}
+  if (lastc(f) > 0)
+	{
+	call flush$ (f)
+	fpos(f) = 0
+	block(f) = block(f) + 1
+	lastc(f) = 0
+	dirty(f) = NO
+	}
+  return
+  end

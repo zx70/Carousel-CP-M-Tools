@@ -1,0 +1,58 @@
+ ## seek - move read/write pointer to location 'offset'
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ subroutine seek (offset, fd)
+ integer fd
+ integer offset(2)
+ character getr$
+ integer b,i,j
+ pointer buf
+ character movic$
+ include cprimio
+ DS_DECLARE
+
+ call flush(fd)
+ seeked(fd) = YES
+ fpos(fd) = 0
+ lastc(fd) = 0
+ if (dev(fd) != DISK)
+	return
+ else if (offset(1) == BEGINNING_OF_FILE)
+	{
+	block(fd) = 0
+	return
+	}
+else if (offset(1) == END_OF_FILE)
+	{
+	b = fsize(fd)
+	if (b < 0)
+		{
+		block(fd) = 0
+		return
+		}
+	}
+else
+	{
+	b = offset(2)
+	fpos(fd) = offset(1)
+	}
+block(fd) = b
+if (b <= fsize(fd))
+	{
+	if (getr$ (fd,b) != OK)
+		state(fd) = ERR
+	if (offset(1) == END_OF_FILE)
+		{
+		buf = curbuf(fd)
+		for (i=1; i<=IOBUFSIZE; i=i+1)
+			if (movic$ (Mem(buf),i) == CPMEOF)
+				break
+		j = i - 1
+		fpos(fd) = j
+		lastc(fd) = j
+		if (j == IOBUFSIZE)
+			call flush(fd)
+		}
+	}
+ return
+ end

@@ -1,0 +1,27 @@
+ ## close - close file associated with unit 'fd'
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ subroutine close(fd)
+ integer fd
+ include cprimio
+ DS_DECLARE
+ character c, bdos$c, grab$
+ pointer tfcb, buf
+ call fdok$ (fd)
+ if (state(fd) == CLOSED)
+	return
+ call flush(fd)
+ buf = curbuf(fd)
+ if (buf != 0)
+	{
+	call dsfree(buf-BUFDATA)
+	curbuf(fd) = NULL
+	}
+ c = grab$ (fd,1,0)
+ tfcb = fcb(fd)
+ if (dev(fd) == DISK & wrt(fd) == YES)
+	c = bdos$c (CPM_CLOSE,Mem(tfcb))
+ call dsfree(tfcb-2)  # also frees bufq head
+ state(fd) = CLOSED
+ return
+ end

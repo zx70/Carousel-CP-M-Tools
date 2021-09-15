@@ -1,0 +1,16 @@
+## pkcpm$ -- make CP/M file control block from filename
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine pkcpm$ (name, fcb)
+  character name(ARB), fcb(ARB)
+  integer i
+  call upper (name)
+  if (name(1) != EOS & name(2) == COLON)
+	i = 3
+  else
+	i = 1
+  call pcknm$ (name(i), fcb)
+  if (i == 3)
+	fcb(1) = name(1) - ATSIGN
+  return
+  end

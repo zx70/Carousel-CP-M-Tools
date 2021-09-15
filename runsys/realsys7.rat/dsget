@@ -1,0 +1,19 @@
+## dsget - get buffer from memory, free io bufs if needed
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  pointer function dsget(size)
+  integer size
+  DS_DECLARE
+  character lev, res, dsfnd$
+  pointer t, dsfind
+  for (lev=0; ; lev=lev+1)
+	{
+	t = dsfind(size)
+	if (t != 0)
+		return(t)
+	if (lev == 2)
+		 break
+	res = dsfnd$ (lev)
+	}
+  return(NULL)
+  end

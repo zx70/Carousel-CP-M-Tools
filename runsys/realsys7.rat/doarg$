@@ -1,0 +1,76 @@
+## doarg$ - retrieve arguments and open standard files
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+subroutine doarg$
+integer i, j, k, ib, it
+character tog
+integer isin, length
+ integer nbrarg        #number arguments in list; initialize to 0
+ integer ptr           #pointers (into 'arg') for each argument
+ character arg
+ common /args/ nbrarg, ptr(MAXARGS), arg(ARGBUFSIZE)
+
+
+tog = EOS
+nbrarg = 0
+call mkarg$ (arg)	# pick up arguments from system
+
+call subst$ (arg)	# perform standard file substitions
+
+			# locate each argument
+for (i=1; nbrarg < MAXARGS; i=k+1)
+	{
+	call skipbl (arg, i)
+	if (arg(i) == EOS)
+		break
+	nbrarg = nbrarg + 1
+	ptr(nbrarg) = i
+						# find end of arg
+	ib = isin(arg(i), BLANK)
+	it = isin(arg(i), TAB)
+	if (it <= 0)		# no TAB found
+		k = ib
+	    else if (ib <= 0)	# no BLANK found
+		k = it
+	    else if (it < ib)	# both found:  use smaller of it & ib
+		k = it
+	    else
+		k = ib
+	k = k + i - 1
+	if (k <= i)				# reached end of line
+		k = length(arg(i)) + i
+	for ( ; i < k; i=i+1)
+		{
+		if (arg(i) == SQUOTE | arg(i) == DQUOTE)
+			{
+			tog = arg(i)
+			for (j=i; ; j=j+1)	# remove quote
+				{
+				arg(j) = arg(j+1)
+				if (arg(j) == EOS) break
+				}
+			k = k - 1
+			for (; i < k; i=i+1)
+				{
+				if (arg(i) == tog)
+					{
+					for (j=i; ; j=j+1)	# remove quote
+						{
+						arg(j) = arg(j+1)
+						if (arg(j) == EOS) break
+						}
+					k = k - 1
+					tog = EOS
+					break
+					}
+				}
+			}
+		}
+	if (tog != EOS)
+		call error ("unbalanced quotes.")
+	if (arg(k) == EOS)
+		break
+	arg(k) = EOS
+	}
+return
+end

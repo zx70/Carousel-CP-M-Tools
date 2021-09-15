@@ -1,0 +1,46 @@
+ ## putch$ - puts one byte onto file
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ subroutine putch$ (c,f)
+ character c
+ integer f
+ DS_DECLARE
+ include cprimio
+ character getb$, getr$, flg
+ integer n, curblk
+ pointer buf
+ call fdok$ (f)
+ if (state(f) == ERR | wrt(f) == NO)
+	call cant$ (f)
+ if (dev(f) > 0)	# Character device output
+	{
+	call putc$ (f,c)
+	return
+	}
+ n = fpos(f) + 1
+ buf = curbuf(f)
+ if (buf == NULL)
+	{
+	if (state(f) == READWRITE)
+		{
+		curblk = block(f)
+		flg = getr$ (f, curblk)
+		}
+	else
+		flg = getb$ (f)
+	if (flg != OK)
+		{
+		state(f) = ERR
+		return
+		}
+	buf = curbuf(f)
+	}
+ call movci$ (c, Mem(buf), n)
+ dirty(f) = YES
+ fpos(f) = n
+ if (lastc(f) < IOBUFSIZE)
+	lastc(f) = n
+ if (n >= IOBUFSIZE)
+	call flush(f)
+ return
+ end

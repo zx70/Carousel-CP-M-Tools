@@ -1,0 +1,46 @@
+ ## initst - initialize variables and I/O for software tools programs
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ subroutine initst
+ include cprimio
+ include config
+ include chario
+ common /cntrlc/ ctrlc
+ byte ctrlc
+ byte bdos$d
+ common /shret$/ shret
+ logical shret
+ common /dsflg$/ first
+ byte first
+ byte i
+
+ # initialize misc flags, etc. from other routines
+
+ readah = 0
+ call dsin$
+ first = YES
+ dskdrt = 0
+ curdsk = bdos$d (CPM_GETDISK, 0)
+ curusr = bdos$d (CPM_USER, -1)
+ for (i=1; i<MAXCDEV; i=i+1)
+	tpos(i) = 0
+ inkill = NO
+ prevfd = STDERR
+#  state(1) = READ
+#  state(2) = READ
+#  state(3) = READ
+ for (i=1; i<=MAXOFILES; i=i+1)
+	state(i) = CLOSED
+ # initialize dynamic store
+ call dsinit
+ # open standard input, output, and errout files
+ call doarg$
+ # get environment
+ # rename shell command file to "shbad.$$$"
+ if (!shret)
+	call shint$
+ readah = 0
+ if (ctrlc < 0)
+	ctrlc = 1
+ return
+ end

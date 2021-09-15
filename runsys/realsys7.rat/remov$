@@ -1,0 +1,15 @@
+## remov$ - remove file described in fcb from file system
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ byte function remov$ (fcb)
+ byte fcb(ARB)
+ byte bdos$c, i
+
+ for (i=13; i<=FCBSIZE; i=i+1)
+	fcb(i) = 0
+ if (bdos$c (CPM_DELETE,fcb) < 0)
+	remov$ = ERR
+ else
+	remov$ = OK
+ return
+ end

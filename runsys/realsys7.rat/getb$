@@ -1,0 +1,22 @@
+## getb$ - get an i/o buffer for bfd
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  character function getb$ (bfd)
+  integer bfd
+  DS_DECLARE
+  include cprimio
+  pointer blk, dsget
+  blk = dsget(IOBUFNEED)
+  if (blk == NULL)
+	{
+	getb$ = ERR
+	return
+	}
+  Mem(blk+NEXTBUF) = blk
+  Mem(blk+PREVBUF) = blk
+  Mem(blk+BUFSTATE) = NO
+  dirty(bfd) = NO
+  curbuf(bfd) = blk+BUFDATA
+  getb$ = OK
+  return
+  end

@@ -1,0 +1,6 @@
+## newlin - putch a NEWLINE
+  subroutine newlin(fd)
+  byte fd  # integer OK
+  call putch (NEWLINE, fd)
+  return
+  end

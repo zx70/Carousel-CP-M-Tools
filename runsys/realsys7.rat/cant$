@@ -1,0 +1,16 @@
+## cant$ - abort on write error
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine cant$ (fd)
+  byte fd
+  string msg "** can't write  0"
+  pointer tfcb
+  if (fd < 0)
+	{
+	fd = -fd
+	msg(16) = MINUS
+	}
+  msg(17) = DIG0 + fd
+  call outl$ (msg)
+  call exit
+  end

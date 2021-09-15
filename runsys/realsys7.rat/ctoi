@@ -1,0 +1,28 @@
+ ## ctoi - convert string at in(i) to integer, increment i
+ integer function ctoi (in, i)
+ character in (ARB)
+ integer index, mul10
+ character sign
+ integer d, i
+ string digits "0123456789"
+ 
+ call skipbl (in, i)
+ sign = PLUS
+ if (in(i) == MINUS)
+	{
+	sign = MINUS
+	i = i + 1
+	}
+ else if (in(i) == PLUS)
+	i = i + 1
+ for (ctoi = 0; in(i) != EOS; i = i + 1)
+	{
+	d = index (digits, in(i))
+	if (d == 0)		#non-digit
+		break
+	ctoi = mul10(ctoi) + d - 1
+	}
+ if (sign == MINUS)
+	ctoi = (-ctoi)
+ return
+ end

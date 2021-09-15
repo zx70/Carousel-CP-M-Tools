@@ -1,0 +1,49 @@
+## getcr$ - get record from character device
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  character function getcr$ (f)
+  integer f
+  DS_DECLARE
+  include cprimio
+  include chario
+  pointer buf
+  integer i, d
+  character c,s,inchr$,raw,insta$,movic$
+
+  getcr$ = OK
+  lastc(f) = 1
+  d = dev(f)
+  buf = curbuf(f)
+  raw = state(f) & RAWMODE
+  if (d == CONSOLE)	# NOTE: not in rawmode
+	{
+		c = 0
+	Mem(buf) = CONBUFSIZE
+	call bdos$b (CPM_CONBUFIN, Mem(buf))
+	call outnl$
+	i = movic$ (Mem(buf),2)
+	i = i+3
+	Mem(buf) = c
+	call movci$ (NEWLINE,Mem(buf),i)
+	if (c == 0 & (Mem(buf+1)&127) == CPMEOF)
+		{
+		Mem(buf) = CPMEOF
+		getcr$ = EOF
+		}
+	lastc(f) = i
+	tpos(d) = 0
+	}
+  else
+	{ # other than console
+	c = inchr$ (d)
+	Mem(buf) = c
+	if (raw != 0)
+		return
+	c = c&127
+	if (c == CPMEOF)
+		getcr$ = EOF
+	if (c == 10 | c == 13)
+		tpos(d) = 0
+	}
+  return
+  end

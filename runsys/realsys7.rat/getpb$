@@ -1,0 +1,22 @@
+## getpb$ - get buffer and disk block
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  byte function getpb$ (bfd,wblk)
+  integer bfd
+  integer wblk
+  character haver$, getb$, getrp$
+  include cprimio
+  call flush$ (bfd)
+  if (haver$ (bfd,wblk) == YES)
+	{
+	getpb$ = OK
+	return
+	}
+  if (getb$ (bfd) == ERR)
+	{
+	getpb$ = ERR
+	return
+	}
+  getpb$ = getrp$ (bfd,wblk)
+  return
+  end

@@ -1,0 +1,14 @@
+## fdok$ - check file descriptor in range
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine fdok$ (f)
+  byte f	# integer ok on call
+  string msg "** bad fd 0"
+  if (f < 1 | f > MAXOFILES)
+	{
+	msg(11) = f + DIG0
+	call outl$ (msg)
+	call endst (ERR)
+	}
+  return
+  end

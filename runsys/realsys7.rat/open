@@ -1,0 +1,18 @@
+ ## open - associate filename with internal specifier; attach file
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ integer function open (name, access)
+ integer access
+ character name(ARB)
+ integer i
+ byte j
+ integer open$ 
+ include cprimio
+ for (j=1; j<= MAXOFILES; j=j+1)                #locate a unit to use
+	if (state(j) == CLOSED)
+		{
+		i = j
+		return(open$ (name,i,access))
+		}
+ return(ERR)
+ end

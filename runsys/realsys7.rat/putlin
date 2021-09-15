@@ -1,0 +1,19 @@
+ ## putlin - put out line by repeated calls to putch
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+        subroutine putlin (line, fd)
+        character line(ARB)
+	integer fd
+	character c
+        integer i
+	for (i=1; ; i=i+1)
+		{
+		c = line(i)
+		if (c == EOS)
+			break
+		if (c == NEWLINE)
+			call putch$ (13,fd)
+		call putch$ (c,fd)
+		}
+        return
+        end

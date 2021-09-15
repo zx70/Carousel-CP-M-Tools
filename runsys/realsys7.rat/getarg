@@ -1,0 +1,24 @@
+ ## getarg - get command line argument
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ integer function getarg (n, array, maxsiz)
+ integer n, maxsiz
+ character array(ARB)
+ DS_DECLARE
+ integer nbrarg         #number arguments in list; initialize to 0
+ integer ptr            #pointers (into 'arg') for each argument
+ character arg
+ common /args/ nbrarg, ptr(MAXARGS), arg(ARGBUFSIZE)
+ integer ctoc
+ integer p
+
+ array(1) = EOS
+ if (n > nbrarg)
+	return(EOF)
+ if (n < 0)
+	return(nbrarg)
+ if (n == 0)
+	return(0)
+ p = ptr(n)
+ return(ctoc(arg(p),array,maxsiz))
+ end

@@ -1,0 +1,26 @@
+## flush$ - move curbuf to cache
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine flush$ (bfd)
+  integer bfd
+  DS_DECLARE
+  include cprimio
+  pointer queue, blk
+  integer b
+  queue = bufq(bfd)
+  blk = curbuf(bfd)
+  if (blk == NULL)
+	return
+  curbuf(bfd) = 0
+  if (wrt(bfd) == YES)
+	call zfill$ (bfd,Mem(blk),CPMEOF)
+  blk = blk - BUFDATA
+  b = block(bfd)
+  if (b > fsize(bfd))
+	fsize(bfd) = b
+  Mem(blk + BUFBLOCK) = b
+  Mem(blk + BUFSTATE) = dirty(bfd)
+  call linkq(queue,blk)
+  nq(bfd) = nq(bfd) + 1
+  return
+  end

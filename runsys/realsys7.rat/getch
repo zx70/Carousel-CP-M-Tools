@@ -1,0 +1,29 @@
+## getch - get characters from file f
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ character function getch(c, f)
+ character c
+ integer f
+ include cprimio
+ character r, getch$
+ integer rc
+ repeat
+	{
+	r = getch$ (rc,f)
+	c = rc & 127
+	if (c == CPMEOF | r != OK)
+		{
+		c = EOF
+		if (dev(f) == DISK)  #bounce off disk eof
+			fpos(f) = fpos(f) - 1
+		else  # skip chars from CPMEOF to NEWLINE
+			if (c == CPMEOF)
+			{
+			repeat
+				r = getch$ (rc,f)
+			until (rc & 127 == NEWLINE)
+			}
+		}
+	} until ( c != 0 & c != 13)
+ return(c)
+ end

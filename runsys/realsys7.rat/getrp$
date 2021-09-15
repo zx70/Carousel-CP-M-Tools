@@ -1,0 +1,36 @@
+## getrp$ - read a block from disk
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  byte function getrp$ (bfd, wblk)
+  integer bfd
+  integer wblk
+  DS_DECLARE
+  include cprimio
+  pointer tfcb, buf
+  byte bdos$c
+  tfcb = fcb(bfd)
+  buf = curbuf(bfd)
+  block(bfd) = wblk
+  dirty(bfd) = NO
+  lastc(bfd) = IOBUFSIZE
+  call bdos$b (CPM_SETDMA, Mem(buf))
+  call pint$ (wblk, Mem(tfcb), 34)
+  if (bdos$c (CPM_READ, Mem(tfcb)) != 0)
+	{
+	if (wblk > fsize(bfd))
+		{
+		fsize(bfd) = wblk
+		call zfill$ (bfd,Mem(buf),CPMEOF)
+		lastc(bfd) = 1
+		if (wrt(bfd) == NO)
+			{
+			getrp$ = EOF
+			return
+			}
+		}
+	else
+		call zfill$ (bfd,Mem(buf),0)
+	}
+  getrp$ = OK
+  return
+  end

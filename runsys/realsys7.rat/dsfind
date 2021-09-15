@@ -1,0 +1,33 @@
+## dsfind - get pointer to block of at least w 2-byte integers
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  pointer function dsfind(w)
+  integer w
+  DS_DECLARE
+  pointer p, q, l
+  integer n, k
+  n = w + DS_OHEAD
+  q = Mem(DS_FIRST)
+  repeat
+	{
+	p = Mem(q + DS_LINK)
+	if (p == LAMBDA)
+		return(NULL)
+	if (Mem(p + DS_SIZE) >= n)
+		break
+	q = p
+	}
+  k = Mem(p + DS_SIZE) - n
+  if (k >= DS_CLOSE)
+	{
+	Mem (p + DS_SIZE) = k
+	l = p + k
+	Mem(l + DS_SIZE) = n
+	}
+  else
+	{
+	Mem(q + DS_LINK) = Mem(p + DS_LINK)
+	l = p
+	}
+  return(l + DS_OHEAD)
+  end

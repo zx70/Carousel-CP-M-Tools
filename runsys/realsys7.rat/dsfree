@@ -1,0 +1,40 @@
+## dsfree - return a block of storage to available space list
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine dsfree(block)
+  pointer block
+  DS_DECLARE
+  string err " dsfree:  not ds block!"
+  pointer p0, p, q
+  integer n, junk
+  p0 = block - DS_OHEAD
+  n = Mem(p0 + DS_SIZE)
+  q = Mem(DS_FIRST)
+  repeat
+	{
+	p = Mem(q + DS_LINK)
+	if (p == LAMBDA | p > p0)
+		break
+	q = p
+	}
+  if (q + Mem(q + DS_SIZE) > p0)
+	call outl$ (err)
+  if (p0 + n == p & p != LAMBDA)
+	{
+	n = n + Mem(p + DS_SIZE)
+	Mem(p0 + DS_LINK) = Mem(p + DS_LINK)
+	}
+  else
+	Mem(p0 + DS_LINK) = p
+  if (q + Mem(q + DS_SIZE) == p0)
+	{
+	Mem(q + DS_SIZE) = Mem(q + DS_SIZE) + n
+	Mem(q + DS_LINK) = Mem(p0 + DS_LINK)
+	}
+  else
+	{
+	Mem(q + DS_LINK) = p0
+	Mem(p0 + DS_SIZE) = n
+	}
+  return
+  end

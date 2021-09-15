@@ -1,0 +1,24 @@
+## dsinit - initialize dynamic store to maximum space available
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  subroutine dsinit(w)
+  integer w
+  integer ms
+  pointer i,j,k,t
+  DS_DECLARE
+  common /dsflg$/ first
+  byte first
+  if (first == YES)
+    {
+    ms = Mem(DS_MEMEND) - Mem(DS_FIRST) + 1
+    j = Mem(DS_FIRST)
+    t = j
+    Mem(t + DS_SIZE) = 0
+    Mem(t + DS_LINK) = j + DS_OHEAD
+    t = j + DS_OHEAD
+    Mem(t + DS_SIZE) = ms - DS_OHEAD - 1
+    Mem(t + DS_LINK) = LAMBDA
+    first = NO
+    }
+  return
+  end

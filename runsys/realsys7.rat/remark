@@ -1,0 +1,17 @@
+ ## remark - print message to ERROUT; assure NEWLINE
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ subroutine remark (line)
+ character line(ARB)
+ integer i
+ character c
+ for (i=1; i<127; i=i+1)
+	{
+	c = line(i)
+	if (c == EOS | c == PERIOD)
+		break
+	call putch(c,ERROUT)
+	}
+ call newlin (ERROUT)
+ return
+ end

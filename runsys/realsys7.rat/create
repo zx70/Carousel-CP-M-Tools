@@ -1,0 +1,30 @@
+ ## create - associate filename with internal specifier; create file
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ integer function create(name, access)
+ character name(ARB)
+ integer access
+ integer open
+ character packnm
+ character i
+ byte remov$, bdos$c
+ include cprimio
+ create = ERR
+ i = packnm (name, tmpfcb)
+ if (i == ERR)
+	return
+ if (i == DISK)
+	{
+	if (tmpfcb(2) == BLANK)
+		return
+	if (bdos$c (CPM_OPEN, tmpfcb) >=0)
+		{
+		if (remov$ (tmpfcb) == ERR)
+			return 
+		}
+	if (bdos$c (CPM_MAKE, tmpfcb) < 0)
+		return
+	}
+ create = open(name, access)
+ return
+ end

@@ -1,0 +1,73 @@
+ ## open$ - associate file with specified unit 'fd'
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  integer function open$ (name, fd, access)
+  character name(ARB)
+  integer fd
+  byte access
+  pointer tfcb, j, tbufq, dsget
+  character packnm, bdos$c, i, movic$, bdos$a
+  character idev, tdev
+  integer ro
+  include cprimio
+  include config
+  DS_DECLARE
+
+  open$ = ERR
+  tbufq = dsget(IFCBSIZE)
+  if (tbufq == NULL)
+  	return
+  tfcb = tbufq + 2
+  for (;;)
+    {
+    idev = packnm (name,Mem(tfcb))
+    if (idev == ERR)
+	break
+    if (idev == DISK)
+  	{
+  	if (bdos$c(CPM_OPEN,Mem(tfcb)) < 0)
+		break
+  	call bdos$c (CPM_GETSIZE,Mem(tfcb))
+  	call tint$ (j,Mem(tfcb),34)
+  	fsize(fd) = j-1
+  	}
+    else
+  	fsize(fd) = 0
+    open$  = fd
+    dev(fd) = idev
+    lastc(fd) = 0
+    block(fd) = 0
+    fpos(fd) = 0
+    seeked(fd) = NO
+    dirty(fd) = NO
+    fcb(fd) = tfcb
+    bufq(fd) = tbufq
+    Mem(tbufq) = tbufq
+    Mem(tbufq+1) = tbufq
+    curbuf(fd) = 0
+    nq(fd) = 0
+    state(fd) = access
+    if (access == READ)
+	wrt(fd) = NO
+    else
+	wrt(fd) = YES
+    if (idev != DISK)
+	return
+    if (access == APPEND)
+	call seek (END_OF_FILE, fd)
+    if (wrt(fd) == YES)
+	{
+	call bdos$a (CPM_GETRO, j, ro)
+	tdev = Mem(tfcb) & 15
+	if ((ro & bit$ (tdev+1)) != 0 | (movic$ (Mem(tfcb),10) & 128) != 0)
+		{
+		call close(fd)
+		break
+		}
+	}
+    return
+    }
+  call dsfree (tbufq)
+  open$ = ERR
+  return
+  end

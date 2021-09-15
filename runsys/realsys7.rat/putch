@@ -1,0 +1,11 @@
+ ## putch - put character 'c' onto file 'fd'
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+ subroutine putch(c, fd)
+ character c
+ integer fd
+ if (c == NEWLINE)
+	call putch$ (13,fd)
+ call putch$ (c,fd)
+ return
+ end

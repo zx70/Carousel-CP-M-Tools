@@ -1,0 +1,33 @@
+## isin - find character 'c' in string (knows about escapes)
+ integer function isin (str, c)
+ character c, str(ARB)
+ character toggle, tc
+
+ for (isin = 1; ; isin=isin+1)
+	{
+	tc = str(isin)
+	if (tc == EOS)
+		break
+	if (tc == c)
+		{
+		if (isin == 1)
+			return
+		if (str(isin-1) != ESCAPE)
+			return
+		}
+	else if (tc == SQUOTE | tc == DQUOTE) #skip quoted strgs
+		{
+		toggle = tc
+		repeat
+			{
+			isin = isin+1
+			tc = str(isin)
+			if (tc == EOS | tc == toggle)
+				break
+			}
+		if (tc == EOS)
+			break
+		}
+	}
+ return (0)
+ end

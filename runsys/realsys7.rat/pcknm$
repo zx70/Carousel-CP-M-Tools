@@ -1,0 +1,37 @@
+## pcknm$ -- create general CP/M file control block
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+  byte function pcknm$ (name, fcb)
+  character name(ARB), fcb(ARB)
+  byte notok(16)
+  data notok /0, 11*BLANK, 4*0/
+  byte i,j,lim,c
+  pcknm$ = ERR
+  call movb$ (notok, fcb, 16)
+  lim = 9
+  j = 1
+  for (i=2; ; i=i+1)
+ 	{
+ 	c = name(j)
+ 	if (c == EOS)
+ 		break
+	j = j+1
+ 	if (c == STAR)
+ 		{
+ 		c = QMARK
+ 		if (i < lim)
+ 			j = j-1
+ 		}
+	if (c == PERIOD)
+		{
+		i = lim
+		lim = 12
+		next
+		}
+	if (i > lim)
+		return
+	fcb(i) = c
+ 	}
+  pcknm$ = OK
+  return
+  end

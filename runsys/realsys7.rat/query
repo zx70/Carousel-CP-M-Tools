@@ -1,0 +1,14 @@
+## query - print command usage information on request
+ subroutine query(usage)
+ character usage(ARB)
+ character temp(FILENAMESIZE)
+ integer i, j, getarg
+ i = getarg(1,temp,FILENAMESIZE)
+ j = temp(1)
+ if (i==1 & j==QMARK & getarg(2,temp,FILENAMESIZE)==EOF)
+	{
+	call remark (usage)
+	call endst (OK)
+	}
+ return
+ end
