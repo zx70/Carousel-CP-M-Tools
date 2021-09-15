@@ -1,0 +1,36 @@
+## run -- main program to run any Tool -- version 2.00
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+ common /shret$/ shret
+ logical shret
+ common /genv$/ gotenv, firste
+ logical gotenv, firste
+ firste = .FALSE.
+ shret = .TRUE.		# assume returning to shell
+ DRIVER(run)
+ include "cshstuff"
+ common /shret$/ shret
+ logical shret
+ character args(MAXLINE), cmd(MAXLINE), fulcmd (FILENAMESIZE)
+ integer i, l, getwrd, loccom
+ string err "** run can't find command: "
+
+ call getenv
+ call mkarg$ (args)
+ if (args(1) == EOS)
+	{
+	shret = .FALSE.
+	return
+	}
+ call outl$ (copyrt)
+ call shdel$
+ i = 1
+ l = getwrd (args, i, cmd)
+ if (loccom (cmd, fulcmd) == BINARY)
+  	call exec (fulcmd, args(i))
+ call putlin (err, ERROUT)
+ call putlin (cmd, ERROUT)
+ call error (".")
+ DRETURN
+ end
