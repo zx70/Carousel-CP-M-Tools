@@ -2,3 +2,4 @@
 *.doc linguist-language=Roff
 *.man linguist-language=Roff
 *.mac linguist-language=Assembly
+make* linguist-language=Makefile
