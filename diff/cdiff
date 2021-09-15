@@ -40,3 +40,4 @@
    common /difcom/ Next_sym, Next_inx, Old_file, New_file, Text_file,
       New_size, Old_size, Old_copy, New_copy, Option, Verbos,
       Text_file_name, Old_copy_name, New_copy_name
+      
