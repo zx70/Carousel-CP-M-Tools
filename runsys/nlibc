@@ -1,0 +1,7 @@
+## nlibc -- ratfor- and fortran-compile library routine (use new fortran)
+#	usage:  nlibc routine
+#	(nf80.com refers to Microsoft Fortran-80 version 3.40 or greater.)
+
+ratfor $1.rat | fsort >$1.for
+nf80 $1.344,=$1
+rm $1.for

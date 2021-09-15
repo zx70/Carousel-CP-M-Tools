@@ -1,0 +1,26 @@
+## msys336 -- rebuild fakesys.336 and realsys.336
+#	usage:  msys336
+#	uses files realsys1.rat, realsys2.mac, realsys3.mac, realsys4.mac,
+#	  realsys5.mac, realsys6.mac, realsys7.rat, runsys8.mac,
+#	  fakesys1.rat, fakesys2.mac
+#	Utilities "om80.com" and "olib80.com" refer to versions of
+#	   Microsoft Macro-80 and Lib-80 before version 3.40.
+
+olibc realsys1
+olibc fakesys1
+om80 realsys2.336,=realsys2
+om80 fakesys2.336,=fakesys2
+om80 realsys2.336,=realsys2
+om80 realsys3.336,=realsys3
+om80 realsys4.336,=realsys4
+om80 realsys5.336,=realsys5
+om80 realsys6.336,=realsys6
+olibc realsys7
+om80 runsys8.336,=runsys8
+olib80 realsys.tmp=realsys1.336,realsys2.336,realsys3.336,realsys4.336/e
+olib80 realsys.336=realsys.tmp,realsys5.336,realsys6.336,realsys7.336,@
+runsys8.336/e
+olib80 fakesys.336=fakesys1.336,fakesys2.336,runsys8.336/e
+rm realsys1.336 realsys2.336 realsys3.336 realsys4.336 realsys5.336 @
+  realsys6.336 realsys7.336 runsys8.336
+rm fakesys1.336 fakesys2.336 realsys.tmp

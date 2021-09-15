@@ -1,0 +1,7 @@
+## olibc -- ratfor- and fortran-compile library routine (use old fortran)
+#	usage:  olibc routine
+#	(of80.com refers to Microsoft Fortran-80 before version 3.40.)
+
+ratfor $1.rat | fsort >$1.for
+of80 $1.336,=$1
+rm $1.for

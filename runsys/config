@@ -1,0 +1,29 @@
+## config - common block for CP/M system configuration
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+  byte		prevfd	# used only by buffer cache
+  character	tmpdev	# disk for scratch files
+  character	atend	# program to exec at end
+  character	maxdev  # last disk in system
+  integer       ddate   # current date & time, if known
+  byte		tabsiz	# tab size for printer and console
+  character	homedr	# home directory
+  character	path	# path prefixes for commands
+  character	extn	# path suffixes for commands
+  byte		list	# flag for listing of command line
+  byte		vbose	# flag for shell verbose mode
+  byte		inkill  # flag to remove STDIN when closed
+  byte		curdsk	# current default disk drive
+  byte		curusr	# current default user number
+  integer	rmask	# block read-ahead mask
+  byte		ttcols	# Columns on CRT
+  byte		ttrows	# Rows on CRT
+  byte		xxxtra	# spare
+
+  common /config/ prevfd, tmpdev(8), maxdev, ddate(7),
+	tabsiz, homedr(8), path(MAXPATH), extn(MAXPATH),
+	list, vbose,
+	atend(FILENAMESIZE),
+	inkill, curdsk, curusr, rmask, ttcols, ttrows,
+	xxxtra(50)

@@ -1,0 +1,17 @@
+## chario -- common block for character i/o devices
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+	byte	readah	# read-ahead char for console
+	byte	tpos	# tab counter for output devices
+	integer	ictabl	# inchar jump table
+	integer octabl	# outchar jump table
+	integer istabl	# input status jump table
+	integer ostabl	# output status jump table
+
+  common /chario/	readah,
+			tpos(MAXCDEV),
+			ictabl(MAXCDEV),
+			octabl(MAXCDEV),
+			istabl(MAXCDEV),
+			ostabl(MAXCDEV)

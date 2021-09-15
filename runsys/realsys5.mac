@@ -1,0 +1,243 @@
+;## realsys5.mac -- fifth module linked into run.com -- version 2.00
+;
+; Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+;	All rights reserved.
+
+	title rsys5
+	.8080
+
+	include LIBDEFS
+
+
+;  Character device i/o routines.
+;  Two levels of support are provided, quick direct console i/o via
+;  BDOS calls and table driven routine calling for device independent
+;  ratfor routines.
+;## common chario - common block for character i/o devices
+;
+;	byte	rdah	# read-ahead char for console
+;	byte	tpos	# tab counter for output devices
+;	integer	ictabl	# inchar jump table
+;	integer octabl	# outchar jump table
+;	integer istabl	# input status jump table
+;	integer ostabl	# output status jump table
+;
+;  common /chario/	rdah,
+;			tpos(MAXCDEV),
+;			ictabl(MAXCDEV),
+;			octabl(MAXCDEV),
+;			istabl(MAXCDEV),
+;			ostabl(MAXCDEV)
+	common	/chario/
+rdah:	db	0
+
+tpos:	ds	MAXCDEV
+
+ictabl:	dw	iccook
+	dw	icraw	; console raw mode
+	dw	iclist	; list device
+	dw	icrdr	; rdr device
+	dw	icnull	; null device
+	dw	icusr	; user defined device
+
+octabl:	dw	occook	; console output cooked mode
+	dw	ocraw	; console output raw mode
+	dw	oclist	; printer
+	dw	ocpun	; punch
+	dw	ocnull	; null device
+	dw	ocusr	; user defined device
+
+istabl:	dw	iscon	; input status
+	dw	iscon	;  "     "
+	dw	islist	; list input status
+	dw	isnull	; rdr input status
+	dw	isnull	; null input status
+	dw	isnull	; usr input status
+
+ostabl:	dw	oscon	; cooked output status
+	dw	oscon	; raw output status
+	dw	oslist	; list output status
+	dw	osnull	; pun output status
+	dw	osnull	; null output status
+	dw	osnull	; usr output status
+
+;	CONTROL-C control
+	common /cntrlc/
+ctrlc:	ds	1
+	cseg
+
+; CONTROL-C kill control
+; byte function killed ()
+;	returns 0 if CTRL-C has not been hit,
+;	returns 1 if CTRL-C has been hit.
+; should either be called from main or abort when gets true response
+
+entry killed, iscon, iclook
+public onkill
+extrn cd$
+
+killed:	pop	h	; kill$: get return address
+	push	h	;        for later use if needed.
+	shld	onkill	;
+	lxi	h,2	;	 save stack frame
+	dad	sp	;
+	shld	onkill+2;
+ret0:	xra	a	; return(0)
+	ret
+kill$:	lhld	onkill+2
+	sphl
+	lhld	onkill
+	push	h
+	lxi	h,CPMdsk
+	call	cd$
+ret1:	mvi	a,1
+	ret
+
+onkill:	ds	4	; saved return address and stack pointer
+
+; status routines
+islist	equ	ret0
+
+oscon	equ	ret1
+oslist	equ	ret1
+isnull	equ	ret1
+osnull	equ	ret1
+iscon:	mvi	c,CPMTST
+	jmp	bdos	; return(BDOS(11))
+
+;	character output routines
+ocusr	equ	ret0	; user device output, nop
+ocnull	equ	ret0	; null device output, nop
+ocpun:	mvi	c,CPMPUN	; called as call ocjmp$ (dev,char)
+	jmp	ocbdos		; thus E has char addr
+
+oclist:	mvi	c,CPMLST
+	jmp	ocbdos
+ocraw:	mvi	c,CPMRAW
+	jmp	bdos
+occook:	mvi	c,CPMTTO
+ocbdos:	ldax	d
+	mov	e,a
+	push	b
+	push	d
+	call	iclook
+	lda	rdah
+	cpi	19	; CTRL-S
+	jnz	cont
+stopit:	call	iclook
+	jz	stopit
+cont:	xra	a
+	sta	rdah
+	pop	d
+	pop	b
+	jmp	bdos
+
+;	character input routines, called via icjmp$ (dev)
+;	return char read in A.
+icusr	equ	ret0	; no user device default
+icnull:	mvi	a,CPMEOF; null device is source for EOF
+	ret
+icrdr:	mvi	c,CPMRDR
+	jmp	bdos
+iclist	equ	icnull	;
+icraw:	mvi	c,CPMRAW
+	mvi	e, -1
+	jmp	bdos
+
+iccook:	mvi	c,CPMTTI
+	jmp	bdos
+
+iclook:	call	icraw	; CTRL-C KILL character watch
+	ora	a
+	rz		; no action if no char
+	ani	127
+	sta	rdah
+	cpi	3
+	rnz
+	lda	ctrlc
+	cpi	1
+	jz	kill$
+	mvi	a,3
+	ora	a
+	ret
+
+; DIRECT BDOS output routines for low-level errors
+;
+; outc$ (c)
+; character c
+; putc(c)
+; return
+; end
+
+	PUBLIC outc$
+outc$:	mov	e,m
+	mvi	c,2
+	push	h
+	call	bdos
+	pop	h
+	ret
+
+; outs$ (s)
+; character s(ARB)
+; integer i
+; for (i=1; s(i) != EOS; i=i+1)
+;	call outc$ (s(i))
+; return
+; end
+
+	PUBLIC outs$
+outs$:	mov	a,m
+	ana	a
+	rz
+	push	h
+	call	outc$
+	pop	h
+	inx	h
+	jmp	outs$
+
+; outl$ (l)
+; character l(ARB)
+; call outs$ (l)
+; call outs$ (NEWLINE)
+; return
+	PUBLIC outl$, outnl$
+outl$:	call	outs$
+outnl$:	lxi	h,outnl
+	jmp	outs$
+outnl:	db	13,10,0
+
+; character i/o table driven call jump entries
+;  subroutine calljump (dev, table)
+;  byte dev	# char device number, 1-MAXCDEV
+;  byte function table[] # table of entry points
+;  jumps to table[dev]
+
+
+cjmp$:	mov	a,m	; tdev = (dev-1) << 1
+	dcr	a	;
+	add	a	;
+	mov	c,a	; addr = tdev+table
+	mvi	b,0	;
+	ret
+
+entry	inchr$,	ouchr$,	insta$,	ousta$
+
+inchr$:	call	cjmp$
+	lxi	h,ictabl
+gojmp:	dad	b
+	mov	c,m
+	inx	h
+	mov	b,m
+	push	b
+	ret
+ouchr$:	call	cjmp$
+	lxi	h, octabl
+	jmp	gojmp
+insta$:	call	cjmp$
+	lxi	h,istabl
+	jmp	gojmp
+ousta$:	call	cjmp$
+	lxi	h,ostabl
+	jmp	gojmp
+
+	end

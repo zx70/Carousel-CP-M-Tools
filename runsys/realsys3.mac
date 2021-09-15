@@ -1,0 +1,334 @@
+;## realsys3.mac -- third module linked into run.com -- version 2.00
+;
+; Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+;	All rights reserved.
+
+	title rsys3
+	.8080
+	include LIBDEFS
+; Shell control support routines
+;
+
+; Common block with Copyright notice and shell command file path.
+
+	common /shenv$/
+	db	' 0A'
+shok:	db	0
+	db	'SHOK    $$$'
+shok1:	db	0,0,0,0
+shbad:	db	0
+	db	'SHBAD   $$$'
+shok3:	db	0,0,0,0
+shok2:	db	0
+	db	'SHOK    $$$'
+shok4:	db	0,0,0,0
+	ds	61	; space for version and copyright
+
+;# cdsmem - common block for dynamic storage and
+;	    system flags
+;  common /cdsmem/ Mem(2),CPM,$MEMR,FORIO$,EXADDR,#$MEMRY,GOADDR
+;	integer Mem # contains base and hi limit for dynamic
+;		      memory allocation, see dsinit.
+;	integer CPM # contains base address of CP/M. Usually 0.
+;	integer $MEMR # set by loader to program hi limit
+;	integer FORIO$ # set by user if >0 to reserve FORTRAN buffer space.
+;
+	common /cdsmem/
+Mem:	ds	4	; DS limits
+CPM:	dw	base	; CP/M base
+$MEMR:	ds	2	; pointer to hi limit of code. 
+			;   copy of $MEMRY set by L80.
+FORio$:	dw	0	; FORTRAN buffers to reserve
+
+	cseg
+
+; Shell command file rename routines
+	entry	shint$, shend$, shdel$, notst$
+	extrn	bdos$c,	upper
+
+opren:	db	23
+opdel:	db	19
+
+shfix:	lda	shok
+	sta	shbad
+	sta	shok2
+	xra	a
+	sta	shok1
+	sta	shok3
+	sta	shok4
+	ret
+shdbad:	lxi	d,shbad
+shdel:	lxi	h,opdel
+	call	bdos$c
+	ret
+shdok:	lxi	d,shok
+	jmp	shdel
+shrok:	lxi	d,shok
+shren:	lxi	h,opren
+	call	bdos$c
+	ret
+shrbad:	lxi	d,shbad
+	jmp	shren
+
+shint$:	call	shfix
+	call	shdbad
+	jmp	shrok
+
+shend$:	call	shfix
+	call	shdok
+	jmp	shrbad
+
+shdel$:	call	shfix
+	call	shdok
+	jmp	shdbad
+
+notst$:	lxi	h,CPMDMA+1	; fold args to upper case
+	call	upper
+	ret
+
+; FORTRAN INIT and ERR and EXIT routines
+;
+;# $ERR - FORTRAN runtime error handling routine, modified to
+;	  write to ERROUT and quit via endst.
+;
+;# $EX - FORTRAN exit routine.
+;
+;# $INIT - FORTRAN entry routine, sets SP for cpu and Mem, CPM in
+;	   cdsmem common block.
+;
+;# exec - execute program by overlay, no return
+;  exec$ (fcb)
+;	byte fcb(FCBSIZE)  # CP/M FCB of open file containing program
+;	exec$ loads and starts new program.  Low memory is not touched
+;	thus arguments should have already been set.  No error testing
+
+entry	$ERR,	$INIT,	$EX,	EXIT,	dsin$
+extrn	$IOFLG,	$EC,	$MEMRY,	error,	onkill
+
+$ERR:	pop	h
+	mov	a,m
+	inx	h
+	ora	a
+	ral
+	mov	c,a
+	mvi	b,0
+	lxi	h,errtbl
+	dad	b
+	mov	e,m
+	inx	h
+	mov	d,m
+	xchg
+	shld	errcod
+	lxi	h,errmsg
+	jmp	error
+
+EXIT:
+$EX:	mvi	c,0
+	jmp	bdos
+
+kill:	lxi	h,erreom
+	jmp	error
+
+errmsg:	db	10
+	db	'**'
+errcod:	ds	2
+	db	'**'
+erreom:	db	'.'
+errtbl:	db	'idf0mpir'
+	db	'fwitexdo'
+	db	'mldzlgsq'
+	db	'ibtlobde'
+	db	'isbeinov'
+	db	'cnglgssn'
+	db	'a2iodtbi'
+	db	'rcefst'
+
+; INIT - called as first instruction in each FORTRAN MAIN program.
+; 	 sets stack and initializes FORTRAN I/O variables in case
+;	 they are needed.
+$INIT:	xra	a	; set system flags, SP
+	sta	$EC
+	sta	$IOFLG
+	sta	FORio$
+	sta	FORio$ + 1
+	lhld	base+6
+	sphl
+	push	b
+	shld	onkill+2
+	lxi	h,kill
+	shld	onkill
+	ret
+
+; dsin - dynamic store initialization.  Called by initst after
+;	 possible space reservation by user.
+dsin$:	lxi	h, $MEMRY
+	mov	c,m
+	inx	h
+	mov	b,m	; BC = ($MEMRY)
+	lxi	h,$MEMR
+	mov	m,c
+	inx	h
+	mov	m,b
+	lhld	base+6	; get hi address
+	dcr	h	; memhi = sp-256
+	xchg		; reserve space for FORTRAN or other
+	lhld	FORio$	; buffers, Mem(5) should be negative
+	dad	d	; of space needed
+	push	h
+	lxi	d,Mem	; DE = -Mem
+	mov	a,d
+	cma
+	mov	d,a
+	mov	a,e
+	cma
+	mov	e,a
+	inx	d
+	dad	d	; Mem(MEMEND) = (memhi-Mem)/2
+	xra	a
+	mov	a,h
+	rar
+	mov	h,a
+	mov	a,l
+	rar
+	mov	l,a
+	shld	Mem
+	mov	h,b	; Mem(DS_FIRST) = ($MEMRY-Mem)/2
+	mov	l,c
+	inx	h
+	inx	h
+	inx	h
+	dad	d
+	xra	a
+	mov	a,h
+	rar
+	mov	h,a
+	mov	a,l
+	rar
+	mov	l,a
+	shld	Mem+2
+	pop	h
+	shld	$MEMRY	; set new high mem limit
+	ret
+
+;  call exec (fcb, loadaddress, goaddress)
+;  exec$ loads a program into the CP/M TPA and jumps to it.
+;  It does this by stacking the FCB and a program to do the
+;  actual loading, then jumping to the load program on the
+;  stack.
+;  cd - also contains change directory entry
+;  The load address and start address must be updated in Mem before call
+
+entry	exec$, cd$
+
+exec$:	push	h	; save fcb
+	xchg		; HL = loadaddress address
+	mov	e,m	; take address
+	inx	h
+	mov	d,m	;
+	xchg		; HL = loadaddress
+	shld	l5	; save for later use
+	mov	l,c	; HL = goaddress address
+	mov	h,b	;
+	mov	e,m	; take address
+	inx	h	;
+	mov	d,m	;
+	xchg		; HL = goaddress
+	shld	l4	; save for later use
+	pop	d	; DE = FCB
+	lhld	base+6	; HL = BDOS entry address
+	sphl		; reset stack to max
+	lxi	h,36	; HL = FCBsize
+	dad	d	; HL = FCB end + 1
+	mvi	a,18	; count = FCB words to move
+l1:	dcx	h	; loop1:
+	mov	d,m	;  push FCB onto stack
+	dcx	h	;  from back end
+	mov	e,m	;
+	push	d	;
+	dcr	a	;
+	jnz	l1	;
+	lxi	h,0	; HL = 0 + SP so
+	dad	sp	; HL = FCB on stack
+	shld	t1	; temp = FCB
+	call	cd$
+	mvi	a,proge-progg  ; count=prog size
+	ora	a	;
+	rar		;
+	lxi	h,proge	; push prog onto stack
+l3:	dcx	h	; same way as FCB
+	mov	d,m	;
+	dcx	h	;
+	mov	e,m	;
+	push	d	;
+	dcr	a	;
+	jnz	l3	;
+	lhld	t1	; HL = FCB
+	mvi	a,15
+	ana	m
+	inr	a
+	mov	m,a
+	xchg		; DE = FCB
+	lxi	h,0	;
+	dad	sp	; HL = prog entry address
+	push	h	; stack reference copy
+	push	h	; stack ret for initial call
+	db	33	; lxi	h, loadaddress
+l5:	dw	CPMgo	;
+	ret		; goto load program
+
+progg:	nop		; DE = FCB
+			; HL = DMA
+	xchg		; DE = DMA, HL = FCB
+	mvi	c,26	; op = setDMA
+	push	d	; stack DMA
+	push	h	; stack FCB
+	call	bdos	; do set DMA
+	pop	d	; DE = FCB
+	push	d	; stack FCB
+	mvi	c,20	; op = read seq.
+	call	bdos	; do read
+	pop	d	; DE = FCB
+	pop	h	; HL = DMA
+	pop	b	; BC = loop address
+	push	b	; stack reference copy
+	push	b	; stack for loop ret
+	push	psw	; stack read result
+	push	d	; stack FCB
+	lxi	d,128	; DE = DMA increment
+	dad	d	; HL = new DMA (old + 80H)
+	pop	d	; DE = FCB
+	pop	psw	; a = read result
+	cpi	0	; if not done then continue
+	rz		; with loop via ret
+	mvi	c,26
+	lxi	d,CPMDMA
+	call	bdos
+	lxi	h,base
+	push	h
+	db	33	; lxi h,startaddress
+l4:	dw	CPMgo	;
+	push	h
+	lxi	h,CPMdsk
+cd$:	push	h	; change directory
+	mvi	a,15
+	ana	m
+	mov	e,a
+	mvi	c,14
+	call	bdos
+	pop	h
+	mvi	a,-16
+	ana	m
+	rar
+	rar
+	rar
+	rar
+	mov	e,a
+	mvi	c,32
+	call	bdos
+	ret		; cd$ done, ret or go
+proge:	
+
+t1:	dw	0	; temp
+
+
+	end

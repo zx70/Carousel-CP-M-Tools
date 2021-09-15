@@ -1,0 +1,154 @@
+;## realsys4.mac -- fourth module linked into run.com -- version 2.00
+;
+; Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+;	All rights reserved.
+
+	title	rsys4
+	.8080
+;
+; Copyright 1981 by Unicorn Systems, Castro Valley, CA 94546
+;
+; Ratfor CP/M assembly language interface.
+; Only the minimum number of functions are
+; implemented in assembly code.  These provide
+; Ratfor level access to CP/M facilities,
+; replacements for some F80 library functions, and
+; some fortran language extensions.
+;
+; NOTE on general assembly interface to FORTRAN:
+;	FORTRAN function arguments are passed
+;	by address.  If 3 or fewer arguments are
+;	passed they are stored:
+;		arg 1:  in	HL
+;		arg 2		DE
+;		arg 3		BC
+;	for more than 3 args, BC will contain the
+;	address of a table of argument addresses
+;	for arguments number 3 and above.
+;	Function return values are returned in registers:
+;		byte values in	A
+;		int values	HL
+;	See MicroSoft FORTRAN-80 reference manual
+;	appendix C for further details if needed.
+;
+; The calling sequences shown below are as they would
+; appear in a Ratfor program.
+;
+;# addrs$ - returns address of variable var
+;  unsigned function addrs$(var)
+;  anytype_of_variable var
+;
+;# bdos$a - general call of CP/M bdos
+;  byte function bdos$a (op, de, hl)
+;  byte op
+;  unsigned de, hl
+;  #op is CP/M function code
+;  #de contains desired value for DE
+;  #hl will receive return value from HL
+;  #bdos$a returns value from A after BDOS call
+;
+;# bdos$b - CP/M BDOS call for disk functions
+;  byte function bdos$b (op,buf)
+;  byte op
+;  character buf(ARB)
+;  # op is CP/M function code
+;  # buf is an array whose address will be put into DE
+;  # bdos$b returns value from A
+;
+;# bdos$c - CP/M BDOS call for disk functions with packed
+;	    user number and disk number in FCB(1) as:
+;	    FCB(1) = 16*userno + diskno (A==0)
+; the call is the same as bdos$b.
+;
+;# bdos$d - CP/M BDOS call, same as bdos$a but with the
+;	    third (hl) argument omitted.
+;
+
+entry	bdos$a, bdos$b, bdos$c, bdos$d, bdos$e
+entry	addrs$, gd$,	gu$,	mul10
+extrn	iclook
+extrn	cd$
+extrn	outl$
+	include LIBDEFS
+
+	common /cntrlc/
+ctrlc:	db	0
+	cseg
+
+
+bdos$a:	push	b
+	call	bdos$d
+	pop	d
+	xchg
+	mov	m,e
+	inx	h
+	mov	m,d
+addrs$:	ret
+
+bdos$b:	mov	c,m
+	jmp	bdos$e
+
+bdos$c:	mov	c,m
+	push	b
+	xchg
+	push	h
+	call	cd$
+	pop	h
+	pop	b
+	mov	a,m
+	push	psw
+	ani	15
+	inr	a
+	mov	m,a
+	push	h
+	xchg
+	call	bdos$e
+	pop	h
+	pop	b
+	mov	m,b
+	ret
+
+bdos$d:	mov	c,m
+	xchg
+	mov	e,m
+	inx	h
+	mov	d,m
+;	call	bdos$e
+;	ret
+
+bdos$e:
+	lda	ctrlc
+	cpi	1
+	jnz	bdos
+	push	b
+	push	d
+	call	iclook
+	pop	d
+	pop	b
+	jmp	bdos
+
+mul10:	mov	e,m	; int mul10(a)
+	inx	h
+	mov	d,m	; ret(10*a)
+	mov	h,d
+	mov	l,e
+	dad	d
+	dad	h
+	dad	d
+	dad	h
+	ret
+
+
+gd$:	mvi	a,15	; byte getdisk(fcb)
+	ana	m	; ret(fcb_disk)
+	ret
+
+gu$:	mvi	a,-16	; byte getuser(fcb)
+	ana	m	; ret(fcb-userno)
+	rar
+	rar
+	rar
+	rar
+	ret
+
+	end

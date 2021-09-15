@@ -1,0 +1,39 @@
+## cprimio - common block for io primitives  CPM version
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+  character state	# file state and access, bit flags.
+  character dev		# device connected to file
+  character wrt		# write mode
+  integer fpos		# pointer to current character in buffer
+  integer lastc		# pointer to last character in buffer
+  integer block		# current block in file
+  integer fsize		# last block in file
+  character seeked	# flag NO if never seeked upon
+  character dirty	# flag for new data in buffer
+  integer nq		# number of associated buffers in cache
+  pointer bufq		# queue head for buffers in cache
+  pointer curbuf	# current buffer from dynamic store
+  pointer fcb		# FCB for CPM calls
+  character tmpfcb	# work area
+  character wrkbuf	# line buffer for initst, endst
+  integer dskdrt	# disk written flags
+  integer bit$		# bit$ (i) = 2**(i-1)
+
+  common /cio/		state(MAXOFILES),
+			dev(MAXOFILES),
+			wrt(MAXOFILES),
+			fpos(MAXOFILES),
+			lastc(MAXOFILES),
+			block(MAXOFILES),
+			fsize(MAXOFILES),
+			seeked(MAXOFILES),
+			dirty(MAXOFILES),
+			nq(MAXOFILES),
+			bufq(MAXOFILES),
+			curbuf(MAXOFILES),
+			fcb(MAXOFILES),
+			tmpfcb(36),
+			wrkbuf(MAXLINE),
+			dskdrt,
+			bit$ (16)

@@ -1,0 +1,99 @@
+## realsys1.rat -- first module linked in run.com -- version 2.00
+#	Beware differences from some versions:
+#		the case of the "(c)" in the copyright notice;
+#		default user & drive;
+#		the case of the "A" in 0A:shok.$$$ and 0A:sh.env.
+#
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA, USA
+#	All rights reserved.
+
+ include libdefs
+
+ block data cmmns$
+# common block assignments.
+# note that this file must be linked first and
+# that the include file "cshstuff" must be first.
+
+include	"cshstuff"
+
+# common	shenv$
+# data	shstuf	->-> see runsys3.mac
+data	ldaddr	/72/	# X'48' = end of runsys, start of tool
+data	copyrt	/'C', 'o', 'p', 'y', 'r', 'i', 'g', 'h',
+		 't', ' ', '(', 'c', ')', ' ', '1', '9',
+		 '8', '3', ',', ' ', 'C', 'a', 'r', 'o',
+		 'u', 's', 'e', 'l', ' ', 'M', 'i', 'c',
+		 'r', 'o', 'T', 'o', 'o', 'l', 's', ',',
+		 ' ', 'I', 'n', 'c', '.', ',', ' ', 'E',
+		 'l', ' ', 'C', 'e', 'r', 'r', 'i', 't',
+		 'o', ',', ' ', 'C', 'A', '.', ' ', 'V',
+		 '2', '.', '0', 0 /
+
+# common	shnams
+data	resume	/'7','A',':','S','H',' ','-','R', 0,'$', 26, 9*0/
+data	shcmd	/' ','0','A',':','s','h','o','k','.',3*'$', 0, 2*0/
+data	envfil	/' ','0','A',':','s','h','.','e','n','v', 0, 4*0/
+data	submit	/0, 3*'$', 5*32, 'S', 'U', 'B', 21*0/
+
+# common cdsmem - dynamic store control, see runsys3.mac
+  integer mem(8)
+  common /cdsmem/ mem
+# see runsys3.mac for initial values
+
+# common args - command line argument info
+  integer nbrarg, ptr
+  character arg
+  common /args  / nbrarg, ptr(MAXARGS), arg(ARGBUFSIZE)
+# no initialization of args
+
+# common misc - runsystem control info
+  byte	first	# dynamic store init flag
+  common /dsflg$/ first
+# initialized dynamically in initst
+
+  byte	ctrlc	# control c sensitivity enable
+  common /cntrlc/ ctrlc
+# see runsys4.mac for initialization
+
+  logical shret	# endst return to shell flag
+  common /shret$/ shret
+data	shret	/.FALSE./
+
+# common chario - character device i/o control
+  include chario
+
+  logical gotenv # getenv, environment file flag
+  logical firste # getenv, print copyright on first call
+  common /genv$ / gotenv, firste
+  data	gotenv	/.FALSE./
+  data	firste	/.TRUE./
+
+# cprimio - common block for io primitives  CPM version
+include cprimio
+# ->-> see open$ for init of cprimio, except:
+  # must pass through ratfor
+%        data bit$ /1,2,4,8,16,32,64,128,256,512,1024,2048,
+%     c  4096,8192,16384,X'8000'/
+
+# config - common block for CP/M system configuration
+include config
+# data	prevfd	->-> see initst
+  data	tmpdev	/ '/','0','/','a','/',0,2*0/
+  data	atend	/FILENAMESIZE*0/
+  data	maxdev	/'P'/
+  data	ddate	/0,1,1,0,0,0,0/
+  data	tabsiz	/8/
+  data	homedr	/ '/','0','/','a','/', 0, 2*0/
+  data	path	/ '.',' ','/','0','/','a','/', 0, 42*0/ # MAXPATH 50
+  data	extn	/ '.','t','o','l',' ','.','c','o','m',' ','.',0,38*0/
+  data	list	/0/
+  data	vbose	/0/
+# data	inkill	->-> see initst
+# data	curdsk	->-> see initst
+# data	curusr	->-> see initst
+  data	rmask	/3/	# 4 block chunks
+  data	ttcols	/80/
+  data	ttrows	/24/
+  data  xxxtra  /50*0/	# spare
+
+ end

@@ -1,0 +1,160 @@
+;## fakesys2.mac -- major stub within fake (=delivered) runsys.rel, v2.00
+;
+; Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+;	All rights reserved.
+
+	TITLE	jmptable
+	.8080
+
+;	Names defined in REALSYS2.MAC
+	public	$EC,	$IOFLG
+
+;	Names to be found in REALSYS3.MAC
+;ignore	shend$, shint$, notst$, dsin$
+entry	shdel$
+entry	cd$,	exec$
+entry	$ERR,	$EX,	$INIT,	EXIT
+
+;	Names to be found in REALSYS4.MAC
+entry	addrs$,	bdos$a,	bdos$b,	bdos$c,	bdos$d
+entry	gd$,	gu$,	mul10
+
+;	Names to be found in REALSYS5.MAC
+entry	killed
+entry	outc$,	outl$,	outs$,	outnl$
+
+;	Names to be found in REALSYS6.MAC
+entry	movb$,	movci$,	movic$,	movmc$
+entry	peek,	poke,	tint$,	pint$
+
+;	Names to be found in REALSYS7.RAT
+; ignore cant$, doarg$, dsfnd$, flush$, getb$, getcr$, getpb$
+; ignore getrp$, grab$, haver$, open$, pcknm$, pkcpm$, putrp$
+; ignore subst$, zfill, putc$, mkarg$
+entry	cant,	close,	create,	ctoc,	ctoi,	cupper
+entry	dsfind,	dsfree,	dsget,	dsinit,	endst,	equal,	error
+entry	exec,	fdok$,	flush,	getarg,	getch,	getch$
+entry	getlin,	getr$,	gettyp,	getwrd
+entry	index,	initst,	isin,	length,	linkq
+entry	mklocl,	note,	open,	packnm,	putch
+entry	putch$,	putlin,	query,	remark,	remov$
+entry	seek,	skipbl,	stdel,	unlink,	upper,	newlin
+
+;	Names to be found in RUNSYS8.MAC
+;	- none -
+
+$EC:	ds	2
+$IOFLG:	ds	2
+;	JUMP TABLE
+	$ERR:	ds	3
+	$EX:	ds	3
+	$INIT:	ds	3
+	EXIT:	ds	3
+	addrs$:	ds	3
+	bdos$a:	ds	3
+	bdos$b:	ds	3
+	bdos$c:	ds	3
+	bdos$d:	ds	3
+;	cant$:	ds	3
+	cant:	ds	3
+	cd$:	ds	3
+	close:	ds	3
+	create:	ds	3
+	ctoc:	ds	3
+	ctoi:	ds	3
+	cupper:	ds	3
+;	doarg$:	ds	3
+	dsfind:	ds	3
+;	dsfnd$:	ds	3
+	dsfree:	ds	3
+	dsget:	ds	3
+;	dsin$:	ds	3
+	dsinit:	ds	3
+	endst:	ds	3
+	equal:	ds	3
+	error:	ds	3
+	exec$:	ds	3
+	exec:	ds	3
+	fdok$:	ds	3
+;	flush$:	ds	3
+	flush:	ds	3
+	gd$:	ds	3
+	getarg:	ds	3
+;	getb$:	ds	3
+	getch$:	ds	3
+	getch:	ds	3
+;	getcr$:	ds	3
+	getlin:	ds	3
+;	getpb$:	ds	3
+	getr$:	ds	3
+;	getrp$:	ds	3
+	gettyp:	ds	3
+	getwrd:	ds	3
+;	grab$:	ds	3
+	gu$:	ds	3
+;	haver$:	ds	3
+	index:	ds	3
+	initst:	ds	3
+	isin:	ds	3
+	killed:	ds	3
+	length:	ds	3
+	linkq:	ds	3
+;	mkarg$:	ds	3
+	mklocl:	ds	3
+	movb$:	ds	3
+	movci$:	ds	3
+	movic$:	ds	3
+	movmc$:	ds	3
+	mul10:	ds	3
+	newlin:	ds	3
+	note:	ds	3
+;	notst$:	ds	3
+;	open$:	ds	3
+	open:	ds	3
+	outc$:	ds	3
+	outl$:	ds	3
+	outnl$:	ds	3
+	outs$:	ds	3
+	packnm:	ds	3
+;	pcknm$:	ds	3
+	peek:	ds	3
+	pint$:	ds	3
+;	pkcpm$:	ds	3
+	poke:	ds	3
+;	putc$:	ds	3
+	putch$:	ds	3
+	putch:	ds	3
+	putlin:	ds	3
+;	putrp$:	ds	3
+	query:	ds	3
+	remark:	ds	3
+	remov$:	ds	3
+	seek:	ds	3
+	shdel$:	ds	3
+;	shend$:	ds	3
+;	shint$:	ds	3
+	skipbl:	ds	3
+	stdel:	ds	3
+;	subst$:	ds	3
+	tint$:	ds	3
+	unlink:	ds	3
+	upper:	ds	3
+;	zfill$:	ds	3
+;
+;  PADDING - this must be tuned to fill so $MEMRY is loaded
+;  at the address given in the "ldaddr" variable of common
+;  shenv$.
+;  pad to 4A00
+REPT 50
+	jmp	wrong
+ENDM
+	ds	16716
+
+wrong:	lxi	h,wngmsg
+	call	outl$
+	jmp	exit
+wngmsg:	db	"** Wrong Version",0
+
+
+
+	END

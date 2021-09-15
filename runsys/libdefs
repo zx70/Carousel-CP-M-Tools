@@ -1,0 +1,94 @@
+## libdefs -- symbol definitions for non-public portions of Tools library
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+ # Symbol definitions for the hash table routines
+ define(ST_LINK,0)       # offset of link field in symbol table node
+ define(ST_DATA,1)       # offset of data field in symbol table node
+ define(ST_HTABSIZE,43)  # should be a prime number
+
+ # Symbol definitions for the pattern matching routines
+ define(ANY,QMARK)      # symbol for matching any character
+ define(BOL,PERCENT)    # symbol for referring to beginning of line
+ define(CCL,LBRACK)     # symbol for start of character class
+ define(CCLEND,RBRACK)  # symbol for terminating character class
+ define(CHAR,LETA)      # symbol in list for character
+ define(CLOSIZE,4)      # dummy closure size returned by patsiz
+                        # (an unimplemented feature)
+ define(CLOSURE,STAR)    # symbol for defining a closure
+ define(COUNT,1)         #offset in stack for repeat count for matches
+ define(EOL,DOLLAR)      # symbol for referring to end-of-line
+ define(LAMBDA,0)	  # end of list marker
+ define(NCCL,LETN)       # flag for negated character class
+ define(PREVCL,2)        #offset in stack; index of previous closure 
+                         #in pattern
+ define(START,3)         #offset in stack; index in input line where 
+                         #match starts
+
+ # Symbol definitions for string conversion routines
+ define(RADIX,PERCENT)	#Radix indicator for 'gctoi'
+
+ # Symbol definitions for memory management
+ define(DS_MEMEND,1)	# pointer to end of available memory
+ define(DS_FIRST,2)	# pointer to start of available memory
+ define(DS_CLOSE,8)	# threshhold for smallest allowed blocks
+ define(DS_LINK,1)	# block link pointer address
+ define(DS_SIZE,0)	# block size address
+ define(DS_OHEAD,2)	# block administration overhead
+
+ # Symbol definitions for queue management routines
+ define(NEXTBUF,0)	# link forward
+ define(PREVBUF,1)	# link backward
+ define(LISTDATA,2)	# queue start of data
+
+ # Symbol definitions for the io primitives
+ define(MAXARGS,15)     #Max nbr command line arguments allowed
+ define(MAXCDEV,6)	# number of character devices
+ define(ARGBUFSIZE,129) #Size of buffer to hold command line args
+ define(IOBUFSIZE,128)  #Size of buffer for terminal/disk io
+ define(FCBSIZE,36)	#size of CP/M fcb for BDOS calls
+ define(IFCBSIZE,20)	#fcb + queue head size in ints
+ define(IOBUFNEED,68)	#io buffer size + links in ints
+ define(CONBUFSIZE,125) #for CPM console buffered input
+ define(DIRBUFSIZE,83)
+ define(CPMEOF,26)
+ define(DISK,0)
+ define(CONSOLE,1)
+ define(PRINTER,3)
+ define(PUNCH,4)
+ define(READER,4)
+ define(NULLDEV,5)
+ define(USERDEV,6)
+ define(BUFBLOCK,2)	# block of buffer in cache
+ define(BUFSTATE,3)	# dirty of buffer in cache
+ define(BUFDATA,4)	# start of data of buffer in cache
+ define(CLOSED,0)	# free file descriptor
+ define(READABLE,READ)	# access bit flag
+ define(RAWMODE,4)	#   "     "   "
+ # CPM BDOS call function codes:
+ define(CPM_CONIN,1)
+ define(CPM_CONOUT,2)
+ define(CPM_READER,3)
+ define(CPM_PUNCH,4)
+ define(CPM_LIST,5)
+ define(CPM_DIRECT,6)
+ define(CPM_CONBUFIN,10)
+ define(CPM_CONSTAT,11)
+ define(CPM_RESET,37)
+ define(CPM_RESET_ALL,13)
+ define(CPM_CD,14)
+ define(CPM_OPEN,15)
+ define(CPM_CLOSE,16)
+ define(CPM_SFIRST,17)
+ define(CPM_SNEXT,18)
+ define(CPM_DELETE,19)
+ define(CPM_MAKE,22)
+ define(CPM_RENAME,23)
+ define(CPM_GETDISK,25)
+ define(CPM_SETDMA,26)
+ define(CPM_GETRO,29)
+ define(CPM_GETDPB,31)
+ define(CPM_USER,32)
+ define(CPM_READ,33)
+ define(CPM_WRITE,40)
+ define(CPM_GETSIZE,35)

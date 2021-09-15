@@ -1,0 +1,17 @@
+;## libdefs.mac -- symbols for run system -- version 2.00 for CP/M-80
+
+base	equ	0	; CP/M base address, fix if different.
+CPMdsk	equ	base+4
+bdos	equ	base+5
+CPMgo	equ	base+256
+CPMDMA	equ	base+128
+MAXCDEV	equ	6
+CPMEOF	equ	26
+
+CPMTTI	equ	1
+CPMTTO	equ	2
+CPMRDR	equ	3
+CPMPUN	equ	4
+CPMLST	equ	5
+CPMRAW	equ	6
+CPMTST	equ	11

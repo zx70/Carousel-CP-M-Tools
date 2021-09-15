@@ -1,0 +1,16 @@
+## cshstuff -- include file for shell control things
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+character	shstuf	# FCBs for shok and shbad
+byte		ldaddr	# Load address
+character	copyrt	# "Copyright (c) 1983, Carousel Microtools, Inc."
+			# "Version 1.22"
+character	resume	# "RESUME.COM"
+character	shcmd	# "SHOK.$$$"
+character	envfil	# "SH.ENV"
+character	submit	# FCB for SUBMIT on warm boot
+
+common	/shenv$/ shstuf(51), ldaddr, copyrt(68)
+
+common	/shnams/ resume(20), shcmd(15), envfil(15), submit(33)

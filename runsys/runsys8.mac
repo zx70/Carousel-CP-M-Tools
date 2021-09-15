@@ -1,0 +1,16 @@
+;## runsys8.mac -- last module of resident Tool library -- version 2.00
+;
+; Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+;	All rights reserved.
+
+	title	rsys8
+; location for L80 to set top of memory.
+; this must be the last module loaded before the main program.
+	public	$MEMRY
+
+	.8080
+	cseg
+
+$MEMRY:	dw	0	; pointer to hi limit of code. 
+
+	end

@@ -1,0 +1,242 @@
+;## realsys6.mac -- sixth module linked into run.com -- version 2.00
+;
+; Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+;	All rights reserved.
+
+	title rsys6
+	.8080
+
+; Assembly coded versions of some RATFOR primitive routines.
+;
+; RATFOR code:
+;
+; subroutine movb$ (from,to,n)
+; short_int from(ARB), to(ARB)
+; integer n
+; integer i
+; for (i=1; i<=n; i=i+1)
+;	to(i) = from(i)
+; return
+;
+; New MOVB$ routine; move n bytes from from to to
+;	upon entry the registers contain:
+;	HL = @from (address from which to move)
+;	DE = @to (address to which to move)
+;	BC = @n (integer number of bytes to move)
+;
+	PUBLIC	movb$
+
+movb$:
+	push	h		;HL=@from, DE=@to, BC=@n
+	mov	h,b		;move BC into HL
+	mov	l,c
+	mov	c,m		;C := n(1)
+	inx	h		;HL => n(2)
+	mov	b,m		;B := n(2)
+	pop	h		;HL=@from, DE=@to, BC=n
+loop0:	inx	b		;prepare for leading loop-exit-test
+loop1:	dcx	b		;n := n-1
+	mov	a,b		;test for count (n) equal to zero...
+	ora	c		; since INX does not set zero flag.
+	rz			;return when n=0
+	mov	a,m		;else get next byte
+	stax	d		;store it at "to"
+	inx	h		;increment from address
+	inx	d		;increment to address
+	jmp	loop1		;do it again
+;
+; RATFOR code:
+;
+; subroutine movmc$ (from,to,n)
+; integer from, n
+; character to(ARB)
+; integer i
+; character peek
+; for (i=1; i<=n; i=i+1)
+;	to(i) = peek(from+i-1)
+; return
+;
+; New MOVMC$ routine; move absolute memory location to char array
+;	upon entry the registers contain:
+;	HL = @from (integer denoting absolute location)
+;	DE = @to (address to which to move)
+;	BC = @n (integer number of bytes to move)
+;
+	PUBLIC	movmc$
+
+movmc$:
+	push	h		;HL=@from, DE=@to, BC=@n
+	mov	h,b		;move BC into HL
+	mov	l,c
+	mov	c,m		;C := n(1)
+	inx	h		;HL => n(2)
+	mov	b,m		;B := n(2)
+	pop	h		;HL=@from, DE=@to, BC=n
+	mov	a,m		;these 4 instructions form a...
+	inx	h		; "load HL indirect thru HL"...
+	mov	h,m		; sequence...
+	mov	l,a		; HL=from, DE=@to, BC=n
+;	jmp	loop0
+	inx	b		;prepare for leading loop-exit-test
+loop2:	dcx	b		;n := n-1
+	mov	a,b		;test for count (n) equal to zero...
+	ora	c		; since INX does not set zero flag.
+	rz			;return when n=0
+	mov	a,m		;else get next byte
+	stax	d		;store it at "to"
+	inx	h		;increment from address
+	inx	d		;increment to address
+	jmp	loop2		;do it again
+;
+; RATFOR code:
+;
+; subroutine tint$ (i,c,n)
+; character i(2), c(ARB)
+; integer n
+; i(1) = c(n)
+; i(2) = c(n+1)
+; return
+;
+;
+; New TINT$ routine; gets integer from character array
+;	on entry to TINT$ the registers contain:
+;	HL = @i (integer)
+;	DE = @c (character array)
+;	BC = @n (array subscript)
+;
+	PUBLIC	tint$
+
+tint$:
+	push	h		;HL=@i, DE=@c, BC=@n
+	mov	h,b		;move BC into HL
+	mov	l,c
+	mov	c,m		;C := n(1)
+	inx	h		;HL => n(2)
+	mov	b,m		;B := n(2)
+	pop	h		;HL=@i, DE=@c, BC=n
+	xchg			;HL=@c, DE=@i, BC=n
+	dcx	b		;adjust for array origin of zero
+	dad	b		;HL => c(n), DE=@i, BC=n-1
+	mov	a,m		;A := c(n)
+	stax	d		;i(1) := c(n)
+	inx	d		;DE => i(2)
+	inx	h		;HL => c(n+1)
+	mov	a,m		;A := c(n+1)
+	stax	d		;i(2) := c(n+1)
+	ret
+;
+; RATFOR code:
+;
+; subroutine pint$ (i,c,n)
+; character i(2), c(ARB)
+; integer n
+; c(n) = i(1)
+; c(n+1) = i(2)
+; return
+;
+;
+; New PINT$ routine; puts integer into character array
+;	on entry to PINT$ the registers contain:
+;	HL = @i (integer)
+;	DE = @C (character array)
+;	BC = @n (array subscript)
+;
+	PUBLiC	pint$
+
+pint$:
+	push	h		;HL=@i, DE=@C, BC=@n
+	mov	h,b		;move BC into HL
+	mov	l,c
+	mov	c,m		;C := n(1)
+	inx	h		;HL => n(2)
+	mov	b,m		;B := n(2)
+	pop	h		;HL=@i, DE=@C, BC=n
+	xchg			;HL=@C, DE=@i, BC=n
+	dcx	b		;adjust for array origin of zero
+	dad	b		;HL => c(n), DE=@i, BC=n-1
+	ldax	d		;A := i(1)
+	mov	m,a		;c(n) := i(1)
+	inx	h		;HL => c(n+1)
+	inx	d		;DE => i(2)
+	ldax	d		;A := i(2)
+	mov	m,a		;c(n+1) := i(2)
+	ret
+;
+; RATFOR code:
+;
+; subroutine movci$ (c,b,i)
+; character c, b(ARB)
+; integer i
+; b(i) = c
+; return
+;
+; New MOVCI$ routine; stores a char into an integer array
+;	upon entry the registers contain:
+;	HL = @c (the character)
+;	DE = @b (the array)
+;	BC = @i	(the integer subscript)
+;
+	PUBLIC	movci$
+
+movci$:
+	mov	a,m		;A := char
+	mov	h,b		;move BC into HL
+	mov	l,c
+	mov	c,m		;C := i(1)
+	inx	h		;HL => i(2)
+	mov	b,m		;B := i(2)
+	xchg			;HL => b(0), DE=junk, BC=i
+	dcx	b		;adjust for zero array origin
+	dad	b		;HL => b(i), BC=i-1
+	mov	m,a		;b(i) := char
+	ret
+;
+; RATFOR code:
+;
+; character function movic$ (b,i)
+; character b(ARB)
+; integer i
+; movic$ = b(i)
+; return
+;
+; New MOVIC$ routine; get char from integer array
+;	upon entry the registers contain:
+;	HL = @b (the array)
+;	DE = @i (the integer subscript)
+;
+;	upon exit:
+;	A = the character at b(i)
+;
+	PUBLIC	movic$
+
+movic$:
+	xchg			;HL => i(1), DE => b(0)
+	mov	c,m		;C := i(1)
+	inx	h		;HL => i(2)
+	mov	b,m		;B := i(2)
+	xchg			;HL => b(0), DE=junk, BC=i
+	dcx	b		;adjust for zero array origin
+	dad	b		;HL => b(i), BC=i-1
+	mov	a,m		;A := b(i)
+	ret
+
+;	Peek and Poke
+;	b = peek(mem)
+;	call poke (mem,b)
+	PUBLIC peek, poke
+
+peek:
+	mov	e,m
+	inx	h
+	mov	d,m
+	ldax	d
+	ret
+poke:
+	ldax	d
+	mov	e,m
+	inx	h
+	mov	d,m
+	stax	d
+	ret
+
+	end

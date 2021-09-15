@@ -1,0 +1,158 @@
+;## realsys2.mac -- second module linked into run.com -- version 2.00
+;
+; Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+;	All rights reserved.
+
+	TITLE	jmptable
+	.8080
+
+;	Names defined in RUNSYS2.MAC
+	public	$EC,	$IOFLG
+
+;	Names to be found in RUNSYS3.MAC
+extrn	shdel$,	shend$,	shint$,	notst$,	dsin$
+extrn	cd$,	exec$
+extrn	$ERR,	$EX,	$INIT,	EXIT
+
+;	Names to be found in RUNSYS4.MAC
+extrn	addrs$,	bdos$a,	bdos$b,	bdos$c,	bdos$d
+extrn	gd$,	gu$,	mul10
+
+;	Names to be found in RUNSYS5.MAC
+extrn	killed
+extrn	outc$,	outl$,	outs$,	outnl$
+
+;	Names to be found in RUNSYS6.MAC
+extrn	movb$,	movci$,	movic$,	movmc$
+extrn	peek,	poke,	tint$,	pint$
+
+;	Names to be found in RUNSYS7.RAT
+extrn	cant,	cant$,	close,	create,	ctoc,	ctoi,	cupper,	doarg$
+extrn	dsfind,	dsfnd$,	dsfree,	dsget,	dsinit,	endst,	equal,	error
+extrn	exec,	fdok$,	flush,	flush$,	getarg,	getb$,	getch,	getch$
+extrn	getcr$,	getlin,	getpb$,	getr$,	getrp$,	gettyp,	getwrd
+extrn	grab$,	haver$,	index,	initst,	isin,	length,	linkq,	mkarg$
+extrn	mklocl,	note,	open,	open$,	packnm,	pcknm$,	pkcpm$,	putch
+extrn	putch$,	putc$,	putlin,	putrp$,	query,	remark,	remov$
+extrn	seek,	skipbl,	stdel,	subst$,	unlink,	upper,	zfill$,	newlin
+
+;	Names to be found in RUNSYS8.MAC
+
+$EC:	ds	2
+$IOFLG:	ds	2
+;	JUMP TABLE
+	jmp	$ERR
+	jmp	$EX
+	jmp	$INIT
+	jmp	EXIT
+	jmp	addrs$
+	jmp	bdos$a
+	jmp	bdos$b
+	jmp	bdos$c
+	jmp	bdos$d
+;	jmp	cant$
+	jmp	cant
+	jmp	cd$
+	jmp	close
+	jmp	create
+	jmp	ctoc
+	jmp	ctoi
+	jmp	cupper
+;	jmp	doarg$
+	jmp	dsfind
+;	jmp	dsfnd$
+	jmp	dsfree
+	jmp	dsget
+;	jmp	dsin$
+	jmp	dsinit
+	jmp	endst
+	jmp	equal
+	jmp	error
+	jmp	exec$
+	jmp	exec
+	jmp	fdok$
+;	jmp	flush$
+	jmp	flush
+	jmp	gd$
+	jmp	getarg
+;	jmp	getb$
+	jmp	getch$
+	jmp	getch
+;	jmp	getcr$
+;	jmp	getenv
+	jmp	getlin
+;	jmp	getpb$
+	jmp	getr$
+;	jmp	getrp$
+	jmp	gettyp
+	jmp	getwrd
+;	jmp	grab$
+	jmp	gu$
+;	jmp	haver$
+	jmp	index
+	jmp	initst
+	jmp	isin
+	jmp	killed
+	jmp	length
+	jmp	linkq
+;	jmp	mkarg$
+	jmp	mklocl
+	jmp	movb$
+	jmp	movci$
+	jmp	movic$
+	jmp	movmc$
+	jmp	mul10
+	jmp	newlin
+	jmp	note
+;	jmp	notst$
+;	jmp	open$
+	jmp	open
+	jmp	outc$
+	jmp	outl$
+	jmp	outnl$
+	jmp	outs$
+	jmp	packnm
+;	jmp	pcknm$
+	jmp	peek
+	jmp	pint$
+;	jmp	pkcpm$
+	jmp	poke
+;	jmp	putc$
+	jmp	putch$
+	jmp	putch
+	jmp	putlin
+;	jmp	putrp$
+	jmp	query
+	jmp	remark
+	jmp	remov$
+	jmp	seek
+	jmp	shdel$
+;	jmp	shend$
+;	jmp	shint$
+	jmp	skipbl
+	jmp	stdel
+;	jmp	subst$
+	jmp	tint$
+	jmp	unlink
+	jmp	upper
+;	jmp	zfill$
+;
+;  PADDING - this must be tuned to fill so $MEMRY is loaded
+;  at the address given in the "ldaddr" variable of common
+;  shenv$.
+;  pad to 4800
+REPT 10
+	jmp	wrong
+ENDM
+REPT 38
+	db	0
+ENDM
+
+wrong:	lxi	h,wngmsg
+	call	outl$
+	jmp	exit
+wngmsg:	db	"** Wrong Version",0
+
+
+
+	END

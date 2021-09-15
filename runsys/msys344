@@ -1,0 +1,11 @@
+## msys344 -- rebuild fakesys.344
+#	usage:  msys344
+#	uses files fakesys1.rat, fakesys2.mac, runsys8.mac
+#	Utilities "nm80.com" and "nlib80.com" refer to version 3.40 or greater
+#	   of Microsoft Macro-80 and Lib-80.
+
+nlibc fakesys1
+nm80 fakesys2.344,=fakesys2
+nm80 runsys8.344,=runsys8
+nlib80 fakesys.344=fakesys1.344,fakesys2.344,runsys8.344/e
+rm fakesys1.344 fakesys2.344 runsys8.344
