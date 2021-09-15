@@ -1,0 +1,10 @@
+## makerun -- build run.com using version 3.36 F80 & L80
+#
+#	"of80.com" and "ol80.com" mean versions of Microsoft
+#	Fortran-80 and Link-80 before version 3.40.
+#	"oforlib.rel" means the cooresponding Fortran runtime library.
+
+ratfor run.rat | fsort >run.for
+of80 run.336,=run
+ol80 realsys.336,run.336,ratlib.336/s,oforlib/s,run/n/e
+rm run.for run.336
