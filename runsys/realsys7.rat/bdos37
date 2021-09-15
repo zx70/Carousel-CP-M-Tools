@@ -1,0 +1,28 @@
+## bdos37 -- resets any drive(s), avoiding CP/M 2.2 BDOS 37 bug
+# Copyright (c) 1983 Carousel MicroTools, Inc., El Cerrito, CA USA
+#	All rights reserved.
+
+subroutine bdos37 (drvmap)
+
+ integer*2 drvmap
+ include cprimio	# for bitmap array "bit$"
+ integer*2 mask
+ byte bdos$d, curdsk, junk
+
+ curdsk = bdos$d (CPM_GETDISK, 0)	# 0 to 15
+ mask = bit$ (curdsk+1)
+ if ((drvmap & mask) != 0)
+	{
+	if ((drvmap & 1) != 0)
+		junk = bdos$d (CPM_RESET_ALL,0)
+	else
+		{
+		junk = bdos$d (CPM_CD,0)
+		junk = bdos$d (CPM_RESET, drvmap)
+		junk = bdos$d (CPM_CD, curdsk)
+		}
+	}
+ else
+	junk = bdos$d (CPM_RESET, drvmap)
+ return
+ end
