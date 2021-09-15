@@ -1,0 +1,262 @@
+
+
+
+Version 2.00          PROPRIETARY LIBRARY SOURCE PACKAGE               CP/M-80
+
+
+                      HOW TO REBUILD THE CAROUSEL TOOLS
+
+
+The  files  in  this  product  are  CONFIDENTIAL  and  proprietary to Carousel
+MicroTools, Inc.  They may be released only to  selected  Carousel  associates
+and  customers.  Consult your license agreement for the conditions under which
+you are allowed to possess or use this software. 
+
+The files described here are (C) Copyright 1984 Carousel MicroTools,  Inc.  --
+All Rights Reserved.  They may be used only in accordance with a duly executed
+license from Carousel MicroTools, Inc. 
+
+
+                                   ABSTRACT
+
+
+This  package supplies the source code necessary to rebuild the files provided
+only in binary format in  the  Carousel  Build-a-ToolKit  (tm).   (Note:   the
+Build-a-ToolKit  includes the Use-a-ToolKit (tm).)  This document tells how to
+rebuild those binary files. 
+
+
+                                PREREQUISITES
+
+
+You must have the Carousel Build-a-ToolKit and its manual. 
+
+You must also have the following CP/M-80 products from Microsoft: 
+
+   F80.COM      Fortran-80    Fortran (1966) compiler
+   M80.COM      Macro-80      8080 and Z80 macroassembler
+   L80.COM      Link-80       Linker
+   LIB80.COM    Lib-80        Librarian
+
+These Microsoft utilities exist in two incompatible  releases.   Version  3.36
+(and  probably all other versions before 3.40) support a format of relocatable
+(.REL) files which is not compatible with Version 3.40 and later.   (See  also
+the "Terminology" discussion below.)  You MUST have the older version in order
+to recompile the most important binary files in the Build-a-ToolKit. 
+
+Before  reading  these  instructions,  examine  the  manuals and documentation
+accompanying your Build-a-ToolKit.  Install the Tools and gain some experience
+in  using  them,  then  in  recompiling  them   using   the   files   in   the
+Build-a-ToolKit.   Study  especially  the  Installation  Instructions  (in the
+System-Specific section of the manual) and the implementation description  (in
+the Library section). 
+
+
+                                 TERMINOLOGY
+
+
+Compiler versions
+
+   In  these  descriptions  and in the various shell scripts supplied with the
+
+
+                                      1
+
+
+
+
+
+
+
+
+
+   package,  several  different  means  are  used  to  distinguish   the   two
+   incompatible  versions  of  the  Microsoft  relocatable format.  "3.36" (as
+   mentioned in the shell script MSYS336) means the older,  pre-3.40  version.
+   "3.44"  means  version 3.40 or greater.  The filename extensions ".336" and
+   ".344" are attached  to  different  versions  of  the  relocatable  modules
+   (.REL).   A  prefix  "O"  on  a filename (such as OF80.COM, OFORLIB.REL, or
+   OLIBC) means the older version.  An "N" prefix means the newer version. 
+
+RUNSYS, REALSYS, and FAKESYS
+
+   As described in the Installation section of the manual, the Carousel  Tools
+   for  CP/M-80  are  divided into a section of common code (the "run system")
+   and a section unique to each Tool.  The run system typically exists only in
+   RUN.COM; the individual .TOL files contain only the portion unique to  each
+   Tool,  and  they  are  loaded as overlays onto RUN.COM.  In order to link a
+   Tool, a copy of the run system in RUNSYS.336 or RUNSYS.344  is  linked  in,
+   then the INSTALL Tool strips it out, producing a small .TOL file. 
+
+   (The  RUNSYS.336 and RUNSYS.344 files supplied with the Build-a-ToolKit are
+   only stubs:  they do not contain  actual  executable  code,  although  they
+   produce  valid  .TOL  files.   If the user were to link one of these RUNSYS
+   files into a .COM file and skip the INSTALL step, the resulting  .COM  file
+   would  not  run.   A  stand-alone  .COM  version  of a Tool can be built by
+   linking with RUNSYS.336 or RUNSYS.344 as usual, compressing to a .TOL  file
+   using INSTALL, then re-expanding to a .COM file using INSTALL again.) 
+
+   The  RUNSYS  files  are  called  FAKESYS  in the Proprietary Library Source
+   Package.  The true run system is contained in REALSYS.336; this  file  must
+   be  used  in  relinking  RUN.COM.   The archive file RUNSYS.AR contains the
+   source code for all of these versions of the run system. 
+
+
+                 HOW TO REBUILD THE FILES OF THE BUILD-A-TOOLKIT
+
+
+RATLIB.336, RATLIB.344
+
+   These are built by combining CMTLIB and PUBLIB: 
+
+         lib80 ratlib=cmtlib,publib/e
+
+   as described in the Build-a-ToolKit documentation. 
+
+CMTLIB.336, CMTLIB.344
+
+   These are built by Ratfor- and Fortran-compiling the source file CMTLIB.RAT
+   as usual: 
+
+         ratfor cmtlib.rat | fsort >cmtlib.for
+         f80 =cmtlib
+
+   CMTLIB.RAT uses the Ratfor "include" statement to read  copies  of  certain
+   common  block declarations.  The required files can be found as elements of
+   the archive RUNSYS.AR. 
+
+
+                                      2
+
+
+
+
+
+
+
+
+
+REALSYS.336
+
+   This is  one  of  the  products  of  the  shell  script  MSYS336  found  in
+   RUNSYS.AR. 
+
+REALSYS.344
+
+   It  is  awkward to convert the real run system to use the 3.40+ versions of
+   the Microsoft Fortran compiler.  This is because the later versions produce
+   larger code than the earlier, causing  the  run  system  to  extend  beyond
+   address  4800h.   (The  run  system is expected to fill exactly the address
+   space from 0100h to 47FFh, so that the unique portion of each Tool  can  be
+   loaded  at  4800h.)  If a later version of the compiler is used for the run
+   system, a higher load address must be chosen and its upper byte recorded as
+   "ldaddr" in REALSYS1.RAT and FAKESYS1.RAT; the padding in REALSYS1.MAC  and
+   FAKESYS2.MAC  must  be  adjusted;  and  all  the Tools must be relinked and
+   reINSTALLed. 
+
+FAKESYS.336, FAKESYS.344 (called respectively RUNSYS.336 and RUNSYS.344 in the
+   Build-a-ToolKit)
+
+   These are created by  the  shell  scripts  MSYS336  and  MSYS344  found  in
+   RUNSYS.AR. 
+
+RUN.COM
+
+   This  is  created  by  the shell script MAKERUN in the archive RUN.AR.  The
+   version shipped was created from REALSYS.336; if you wish to create a  3.44
+   version, see the instructions under REALSYS.344 above. 
+
+SH.COM
+
+   (Note:  This program has nothing in common with the shell Tool SH.TOL!) 
+
+   The  source  code  is  in  RSH.AR.   Use  the  shell script MAKERSH in that
+   archive. 
+
+   The version shipped was created by the 3.36 compiler; if you use the  later
+   version, you will find the differences to be few and without effect. 
+
+SH.TOL, INSTALL.TOL
+
+   The  source  code  is in SH.AR and INSTALL.AR.  Recompile these as ordinary
+   Tools, according to the instructions in the Build-a-ToolKit.  (If  you  use
+   the  usual shell script, you will create an intermediate file called SH.COM
+   -- be careful that it does  not  replace  the  SH.COM  used  to  start  the
+   shell!) 
+
+
+
+
+
+
+
+
+
+                                      3
+
+
+
+
+
+
+
+
+
+                              EXACT RECONSTRUCTION
+
+
+The  careful  programmer  will  prefer that the files rebuilt from source code
+match the binary versions from  Carousel  byte  for  byte.   In  the  case  of
+relocatable (.336, .344) files, success is to be expected. 
+
+However, the Microsoft linker L80.COM discourages this in the case of the .COM
+files  it  builds.   This  is  because  the  values  it saves in uninitialized
+variables depend on the previous contents of memory.  It is possible to  write
+a  program  that will initialize the entire TPA to known values before running
+L80.COM (but not under  the  Tools  shell!),  thus  stabilizing  the  "random"
+variations.  Unfortunately, this will help in exactly reconstructing only .COM
+or  .TOL  files  produced  in  this  way,  not those shipped by Carousel.  For
+complete security, the user must analyze the role of each  byte  that  differs
+and confirm that it doesn't matter. 
+
+Unless specified in the filename, the binary files in the Build-a-ToolKit were
+all  constructed by the 3.36 version of the compiler and utilities.  Of course
+that version must be used in order to rebuild them  exactly.   You  can  build
+individual  Tools using the later compiler, and they will work with a 3.36 run
+system in RUN.COM.  (The Build-a-ToolKit files support this.)  If you wish  to
+use  the  later  compiler  to  rebuild  the  run  system  and RUN.COM, see the
+instructions under REALSYS.344 above. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                      4
+
