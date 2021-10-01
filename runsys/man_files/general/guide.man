@@ -1,0 +1,319 @@
+.TL
+GUIDE TO THE CAROUSEL TOOLKIT MANUAL
+.TE
+.eh 'Guide'' '
+.oh ' ''Guide'
+.PP
+This manual describes the installation and use of
+Carousel MicroTools' Software Tools for microcomputers.
+The Software Tools are a set of utility programs and
+library routines that
+provide the basic tools you need to develop new uses for your computer.
+They are true
+.I tools
+in the sense of providing the means to take an idea and accomplish it.
+.PP
+The Carousel Tools are descendents of the tools developed
+in the book
+.ul
+Software Tools
+by Brian Kernighan and P. J. Plauger[1].
+The original set of Tools were enhanced, added to,
+and distributed by members of
+the Software Tools Users Group[2].
+The Carousel implementations include all the tools
+distributed by the Users Group,
+some widely accepted extensions[3],
+and microcomputer-specific features developed by
+Carousel MicroTools, Inc.
+.H1
+Manual Organization
+.PP
+This manual tells about the concept and use of the Tools,
+installation of the Tools on your system,
+and the details of each Tool and Library routine[4].
+It also contains several tutorials and a primer.
+.PP
+This section provides a study guide through
+the various sections of the manual.
+When you have followed the guide to completion
+you should be comfortable
+and confident in your ability to use the Tools.
+You will also have learned new information
+about your system and be able to use it more effectively.
+.PP
+The five manual sections are:
+.IP
+Guide
+.br
+contains a general discussion of Tool concepts and
+a guide through the Tutorial and System Specific sections.
+.IP
+Tutorials
+.br
+contains the tutorials
+"A Beginner's Introduction to the Software Tools on CP/M-80," and
+"Introduction to the Software Tools,"
+with examples and discussion of most of the major
+features of the Tools;
+"A Tutorial Introduction to the Software Tools Text Editor,"
+which tells about using the line editor
+.I ed;
+and "Ratfor Primer," which describes the components
+of the ratfor language.
+.IP
+System Specific
+.br
+explains how the Tools work on your specific system,
+tells you how to install the shell and Tools
+and confirm that they work,
+lists file naming conventions and special characters,
+lists system-specific limits of the Tools
+and has a list of notes and reminders.
+.IP
+Tool Descriptions
+.br
+describes the format of the Tool descriptions,
+contains a list of and index to the Tools, and
+describes and gives examples of each of the Tools.
+.IP
+Library Descriptions
+.br
+describes the format of the Library descriptions,
+contains a list of and index to the Library routines,
+and
+describes each of the ratfor-callable routines in the library.
+The descriptions of the Library routines
+are provided only when you purchase the
+the Tool Builder ToolBook or Build-a-ToolKit.
+.H1
+The Tools Philosophy
+.PP
+The philosophy of the Software Tools
+is an important concept of computing software;
+one that was developed in the minicomputer and mainframe
+arena and that promises to have wide application
+as microcomputer usage becomes more sophisticated.
+The information in this section will give you
+an understanding of how the Tools are intended to be used.
+.PP
+The Software Tools are a set of programs and library
+subroutines that provide the basic
+operations you need to develop new uses for
+your computer.
+The operations that the Tools provide are general
+and simple in concept.
+The Tools are used in a consistent way and are designed
+to be used together.
+Because of this last fact you can easily combine functions
+provided by individual Tools in new ways to accomplish new tasks.
+.PP
+As an example of basic operations, suppose
+you have on your computer a list
+of companies from whom you have bought products or services.
+Each is on one line with one word telling what the
+product or service was.
+With the Tools you could easily have the computer print all the lines
+in the file that name one product.
+The same idea - listing all the lines that
+contain a specified word - could be used to list
+all the addresses of people named "John" or all
+the remark lines in a BASIC program.
+.PP
+The concepts behind the Tools were developed in the book
+.ul
+Software Tools
+[1],
+which was published in 1976.
+The major ideas expressed there were:
+.IP
+first,
+teach good programming practices by showing by examples of how
+to write useful utilities;
+.IP
+second,
+that such utilities should be available and easy to use
+on most computer systems; and
+.IP
+third,
+that it is possible to design utilities so they
+will work on a variety of systems and so they can be used
+the same way on each system.
+.PP
+These ideas were appealing to many people and eventually
+the Software Tools Users Group was formed for the sharing
+and standardization of newly-developed Tools[5].
+The Users Group assembled and distributes a set of
+.I portable
+Tools in the form of source code for the programs and subroutines.
+A set of basic "primitive" functions,
+written by a Tools implementor,
+interface between the Tools and the operating system.
+This works because the Tool interface to the system
+is well designed and standardized.
+In principle this is no different from using nuts, bolts, and wrenches -
+so long as the manufacturers adhere to the standards and you
+have a complete set of wrenches, you can put
+together anything that uses nuts and bolts.
+.PP
+The Tools are very similar to a good toolbox: 
+there is a complete set of well-designed
+tools available
+when you need them to accomplish a task.
+It might be as simple as listing all the files on your disk
+or as complicated as listing how many times each different
+word is used in this Introduction[6].
+.PP
+The Tools have been implemented, to varing degrees
+of sophistication, on over 50 different computer operating systems,
+at over 400 different computer installations.
+The Carousel Tools are a complete implementation
+of the Software Tools on microcomputers.
+.H1
+Getting Started
+.PP
+You should now go through the "Beginner's Introduction
+to the Software Tools on CP/M-80" in the Tutorial section.
+It explains many of the features of your system
+and their use with the Software Tools.
+While it is oriented to beginners it contains discussions
+of concepts such as "directories" and "devices" and
+"command line arguments" that are
+used in the Tools.
+Come back here when you have finished the tutorial.
+.H1
+Installation
+.PP
+Now that you have an idea of how to use your system,
+it is time to install the shell and Tools so you can use them.
+This information is in the Installation articles of the
+System-Specific section.
+When you have completed the tasks described there, come back here.
+You will be ready for the next tutorial,
+which has many exercises to help you learn to use the Tools.
+.H1
+Learning to Use the Tools
+.PP
+Now it is time to use the Tools and learn about the
+.I ed
+editor.
+The tutorial "Introduction to the Software Tools"
+has discussions and examples of the use of many
+of the Tools, as well as hints on effective use
+of your computer.  It also has an extensive bibliography.
+.PP
+There are references to Tool descriptions in the tutorial.
+You should look at the beginning of the Tool Description section
+of the manual for an explanation of the description format.
+.PP
+At some point while working through the tutorial
+you should learn about the
+.I ed
+editor by working through the "Tutorial Introduction
+the Software Tools Text Editor." 
+.I ed
+is very powerful.
+It uses the notion of
+.ul
+regular expression,
+a generalized way of specifying groups of
+characters to find or replace.
+It is important to understand regular expressions
+as they are used in the
+.ul
+ch, find, fb, ls,
+and
+.I sedit
+Tools, as well as in
+.I ed.
+The tutorial gives some information on regular
+expressions,
+the Tool Description section has
+an article on them,
+and the Tools that use them have more examples.
+.PP
+One point about these two tutorials:
+they were written for the general Software Tools
+community.
+They require you to refer to the System Specific
+section to learn about certain things such as the
+end-of-file character for your specific system.
+They illustrate the portability of the
+Tools mentioned earlier in this introduction: 
+once you learn the Tools it takes very little
+additional knowledge to use them on another machine.
+.PP
+After you complete the two tutorials, if
+you have not read any of the following parts of the System Specific
+section, please do so now:
+.DS
+Naming Conventions
+Special Characters
+Tool Limits
+Reminders
+Examples
+.DE
+.H1
+Using the Tools
+.PP
+The Tools have been described as a solution in search
+of a problem.
+Like any good toolbox they provide the functionality
+you need when you have a task to be done.
+To maximize your effectiveness with the Tools
+you should read the shell Tool description
+and try the different features described.
+Every Tool description shows examples;
+we strongly recommend that you try them.
+The index near the beginning of the Tool Description section will help
+you find the Tool to perform a given task.
+.bp
+.TS
+REFERENCES
+.TE
+.NP
+Brian W. Kernighan and P. J. Plauger,
+.ul
+Software Tools,
+(Addison-Wesley, 1976).
+.NP
+New Tools and enhancements to the original Kernighan and Plauger Tools
+were submitted to the Software Tools Users Group by people at the
+the following organizations:
+University of Arizona, Lawrence Berkeley Laboratory, Georgia Institute
+of Technology, Data General Corp., Johns Hopkins University, and
+Stanford University.
+.sp
+The Users Group distribution was originally prepared by
+Deborah K. Scherrer of the Computer Science and Applied Mathematics Department,
+Lawrence Berkeley Laboratory, and
+Allen Akin of the School of Information and Computer Science, Georgia Institute
+of Technology.
+.NP
+Suggested by the paper by
+Dennis Hall, Deborah Scherrer, and Joe Sventek,
+"A Virtual Operating System,"
+.ul
+Communications of the Association of Computing Machinery,
+volume 23, number 9, pages 495-502.
+.NP
+The descriptions of the Library routines are provided with the
+routines in the
+Build-a-Tool Kit and with the Builder Tool Book.
+.NP
+The Software Tools Users Group publishes a newsletter,
+offers distribution tapes for sale, and sponsors semiannual meetings.
+Membership information may be obtained from:
+.DS
+Software Tools Users Group
+1259 El Camino Real, #242
+Menlo Park, CA  94025
+.RE
+.NP
+Break each line into individual words,
+sort the list of words, count the number of occurances of each word,
+sort the list by the number of occurances, then format the list on pages
+and print it:
+.DS
+tr !a-zA-Z @n <intro | sort | uniq -c | sort | pr > /lst
+.DE
