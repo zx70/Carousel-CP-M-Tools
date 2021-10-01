@@ -1,0 +1,43 @@
+.TL
+LIBRARY DESCRIPTIONS
+.TE
+.PP
+This section of the Carousel ToolKits User Manual
+describes in detail each of the user-callable
+subroutines and functions in the
+Library.
+The Library contains routines from the
+Software Tools Users Group library
+and the Proprietary Carousel MicroTools Library.
+It is used with programs written in the ratfor language
+to interface the program to the operating system.
+Programs written in ratfor are processed into Fortran by the
+.I ratfor
+Tool.
+.PP
+The Library is
+provided as part of the Carousel Build-a-ToolKit or
+may be purchased with the ToolBuilder ToolBook.
+To use the Library
+you will need to provide the appropriate Fortran compiler and linker.
+.sp
+.PP
+At the beginning of this section are:
+.NP
+a list of the Library routines,
+.NP
+an introduction to the Library,
+.NP
+a list of standard ratfor symbol definitions,
+.NP
+a discussion of the implementation of the Tools on the operating system,
+and
+.NP
+a permuted index.
+.LP
+The Library routine descriptions follow in alphabetical order.
+.PP
+The permuted index
+and the "SEE ALSO" section of each description
+will help you find exactly the routine you need
+for a particular task.
