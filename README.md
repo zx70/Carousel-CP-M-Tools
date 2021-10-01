@@ -1,6 +1,9 @@
 # Carousel-CP-M-Tools
 1983 Sources of the CP/M Tools by Carousel MicroTools
 
+The 'runsys' folder contains the sources for the common runtime environment.
+
+
 Carousel MicroTools Inc. was a company formed by Phil Scherrer, Deborah Scherrer, Sam Penny, and Tom Strong to produce and distribute a version of the Software Tools for microcomputers.
 
 
