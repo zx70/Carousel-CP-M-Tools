@@ -1,0 +1,46 @@
+.TL
+TUTORIAL SECTION
+.TE
+.PP
+This section of the Carousel ToolKit User Manual
+contains tutorials that are intended to be used in conjunction
+with information in other sections of this manual,
+as described in the Introduction Section.
+The tutorials are:
+.IP
+A Beginners Introduction to the Software Tools on CP/M-80
+.br
+An introduction to CP/M-80 and the Tools,
+with discussions of important concepts like user numbers,
+end-of-file characters, upper and lower case arguments,
+and
+.I submit
+and script files.
+.IP
+Introduction to the Software Tools
+.br
+A tutorial with information, examples, and exercises covering all the
+major features of the Software Tools.
+An extensive bibliography is included.
+.IP
+A Tutorial Introduction to the Software Tools Text Editor
+.br
+A tutorial with many exercises to help you learn how to use the Tools
+editor.
+It also introduces the notion of
+.ul
+regular expressions,
+which are a way of specifying
+groups of characters
+that are used by several of the Tools.
+.sp
+The Tools editor is normally called
+.I ed;
+on the CP/M implementation of the Tools it is called
+.I e
+to avoid conflict with the CP/M editor
+.I ed.
+.IP
+Ratfor Primer
+.br
+A detailed description of the major features of the ratfor language.
