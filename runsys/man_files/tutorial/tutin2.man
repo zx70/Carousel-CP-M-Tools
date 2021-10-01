@@ -1,0 +1,825 @@
+.PP
+One of most novel contributions of the shell is the idea of a "pipe." 
+A pipe is simply a way to connect the output of one program to the input of
+another program, so the two run as a sequence of processes - a "pipeline." 
+For example
+.DS
+pr f1 f2 f3
+.DE
+will print the files
+.ul
+f1, f2,
+and
+.I f3,
+beginning each on a new page.
+Suppose you want them run together instead.
+You could say
+.DS
+cat f1 f2 f3 >temp
+pr <temp
+rm temp
+.DE
+but this is more work than necessary.
+Clearly what we want is to take the output of
+.I cat
+and connect it to the input of
+.I pr.
+So let us use a pipe:
+.DS
+cat f1 f2 f3 | pr
+.DE
+The vertical bar "|" means to take the output from
+.I cat,
+which would normally have gone to the terminal,
+and send it to
+.I pr
+to be neatly paginated.
+.PP
+There are many other examples of pipes.
+For instance,
+.DS
+ls | sort
+.DE
+sorts a list of your files (if
+.I ls
+doesn't already do that for you).
+The program
+.I wc
+counts the number of lines, words and characters in its input.
+Thus
+.DS
+ls | wc
+.DE
+counts your files.
+.PP
+Any Tool that reads from the terminal can read from a pipe instead;
+any Tool that writes on the terminal can drive a pipe.
+You can have as many elements in a pipeline as you wish.
+.PP
+Many Software Tools are written so that they will take their
+input from one or more files if file arguments are given;
+if no arguments are given they will read from the terminal,
+and thus can be used in pipelines.
+.I format,
+the text formatter,
+is one example:
+.DS
+format a b c
+.DE
+formats files
+.ul
+a, b,
+and
+.I c
+in order.
+But in
+.DS
+ar -p book | format
+.DE
+.I format
+formats the information coming down the pipeline.
+.PP
+The shell has other capabilities too.
+For example, you can run two programs with one command line by
+separating the commands with a semicolon;
+the shell recognizes the semicolon and breaks the line into
+two commands.
+Thus
+.DS
+date; ls
+.DE
+does both commands before returning with a prompt character.
+.PP
+The shell also allows you to group commands together, often to produce
+a single stream of output.
+For instance,
+.DS
+(date; ls) | pr
+.DE
+which would send the output from
+.I date
+and from
+.I ls
+to be printed by
+.I pr.
+This feature is not always available; see the shell description.
+.PP
+On a few systems you can even have more than one program
+running
+simultaneously,
+if you wish.
+For example, if you are doing something time-consuming,
+like the editor script of an earlier section, and you
+don't want to wait around for the results before starting
+something else, you can say
+.DS
+ed file <script &
+.DE
+The ampersand at the end of a command line says "start this command
+running, then take
+further commands from the terminal immediately,"
+that is, don't wait for it to complete.
+Thus the script will begin, but you can do something else
+at the same time.
+(The system will usually send you a message when the process
+you sent off into the "background" has completed.)
+.PP
+And, just as you can tell the editor or some similar program to
+take its input from a file instead of from the terminal,
+you can tell the shell to read a file to get commands.
+For instance, suppose every time you log in you want to see
+the date and also see a file containing little notes to yourself
+(a "reminder" file).
+You could simply type:
+.DS
+date
+cat reminder
+.DE
+or, you could put those two lines into a file called
+.I startup,
+and then run it by typing
+.DS
+startup
+.DE
+The shell is smart enough to notice that the file
+.I startup
+contains text rather than executable code.
+It then reads the commands from
+the file
+just as if you had typed the contents of
+.I startup
+on the terminal.
+.H1
+3. DOCUMENT PREPARATION AND TEXT MANIPULATION
+.PP
+Writing documents and programs,
+scanning files looking for information,
+preparing input and manipulating output - these are
+all primarily text manipulation and are a large part
+of what you do with a computer.
+The Software Tools provide many utilities for moving text
+around, changing it, looking at it,
+and formatting it in various ways.
+.H2
+Text Formatting
+.PP
+.I format
+is the major text formatting program.
+It produces a text with justified right margins,
+pagination, automatic titling and page numbering, and the like.
+This document was produced by
+.I format.
+The basic idea of
+.I format
+is that the text to be formatted contains within it "formatting
+commands" that indicate in detail how the formatted text is to look.
+For example, there are commands to specify how long lines are,
+whether to use single or double spacing,
+and what headers and footers to use on each page.
+Formatting commands typically consist of a period and two letters,
+such as
+.BR .ce ,
+which is used to center a line.
+A document is prepared by using the editor, and might look
+something like this:
+.DS
+.cc +
+.ce
+Title of Document
+.sp
+some sentences...
+.ul
+something that should be underlined
+some more sentences...
+.ls 2
+more sentences that should be double-spaced
+etc.
++cc .
+.DE
+The lines that begin with a period are the formatting requests.
+For instance,
+.BR .sp
+means "space down a line" and
+.B .ls
+.B 2
+means "set the line spacing to double."
+See the discussion of
+.I format
+in the manual for a list of the
+other formatting commands.
+.PP
+.I format
+also allows you to group commands together and give them
+a single name of your choosing.
+For example, if you always want a new paragraph to begin
+by skipping down a space and then indenting in 5 spaces, you
+could make up or "define" a command
+.BR .PP
+like this:
+.DS
+.cc +
+.de PP
+.sp
+.ti +5
+.en PP
++cc .
+.DE
+The
+.BR .de
+means "define the following command name to be everything
+that follows until you see a
+.BR .en
+command." 
+Thus the above definition makes up a paragraph command that
+skips down a space and temporarily indents 5 spaces in.
+It could then be used this way:
+.DS
+.cc +
+.PP
+a paragraph...
+.PP
+another paragraph...
++cc .
+.DE
+These made-up commands are called "macros" and they
+enable you to make up complex sets of commands.
+They also allow you to easily change the layout of a document
+by simply adjusting the macros.
+This is very important in large documents, such as this manual.
+.H2
+Hints for Preparing Documents
+.PP
+Most documents go through several versions
+(always more than you expected) before they are finally finished.
+Accordingly, you should do whatever possible to make the
+job of changing them easy.
+.PP
+First, when you do the purely mechanical operations of typing,
+type so that subsequent editing will be easy.
+Start each sentence, or even each phrase, on a new line.
+Make lines short, and break lines at natural places,
+such as after commas and semicolons, rather than randomly.
+Since most people change documents by rewriting phrases
+and adding, deleting, and rearranging sentences,
+these precautions simplify any editing you have to do later.
+.PP
+Keep the individual files of a document down to modest size.
+(Use the archiver, if you like.) 
+Larger files edit more slowly,
+and of course if you make a dumb mistake it's better to have clobbered
+a small file than a big one.
+Split into files at natural boundaries in the document,
+for the same reasons that you start each sentence on a new line.
+.PP
+The second aspect of making changes easy is to not commit yourself
+to formatting details too early.
+One of the advantages of text formatters and macros is that
+they permit you to delay decisions to the last possible moment.
+As a rule of thumb, for all but the most trivial jobs,
+you should type a document in terms of a set of requests like
+.BR .pp
+and then define them appropriately.
+As long as you have entered the text in some systematic way,
+it can always be cleaned up and reformatted by a judicious
+combination of editing commands and request definitions.
+.H2
+Text Manipulation
+.PP
+Scanning text, whether it be programs,
+documents, or data,
+is another common use of the computer.
+We've already seen how
+.I ls
+can scan your list of files
+and print out only those names you are interested in.
+The Tool
+.I find
+is even more general, allowing you to search through
+the contents
+of a file looking for patterns.
+For example,
+.DS
+find <data cost income
+.DE
+would search through the file
+.I data
+and print any lines
+containing "cost" or "income".
+.PP
+Besides locating patterns anywhere on a line,
+.I find
+can also look for patterns at certain places on a line.
+For instance,
+.DS
+find <program %C
+find <data "123$"
+.DE
+As in the editor,
+the "%" means "the beginning of the line" and the "$" signifies "the
+end of the line."
+Thus the above examples locate all lines in a file which begin with "C"
+and then lines which end in "123".
+The "$" in the second example is also a special character to
+the shell, as well as to
+.I find
+(there are only so many characters to go around,
+so sometimes we have to double up).
+By putting quote marks around the argument you are
+telling the shell to leave the enclosed characters alone.
+.PP
+The "%" and "$" you used above are called "meta-characters",
+meaning they represent something other than the specific character
+they are.
+There are others.
+For example, you can use the character "?" as a text pattern
+that matches any single character.
+Or you can bracket a set of characters to indicate
+that you want to match any in the set.
+Thus,
+.DS
+find <words "analy?e"
+find <words analy[zs]e
+.DE
+would locate any occurrences of "analyze", "analyse", and
+possibly some misspellings such as "analyxe".
+Likewise,
+.DS
+find <words "%???$"
+.DE
+would locate all lines that contained only 3 characters
+(letters, numbers, punctuation, or special characters).
+The quote marks in the above example are again necessary to
+keep the shell from reading the "$" and "?", which are
+special to it.
+.PP
+Finally, you can even suffix a pattern with "*" to indicate
+that you want to locate zero or more occurrences of that pattern.
+For instance,
+.DS
+find <words "a?*z"
+.DE
+means "find all lines in the file which have the letter "a",
+possibly some other characters, and then the letter "z".
+This might include:
+.DS
+abcz
+a1z
+a-z
+az
+.DE
+.PP
+This combination of regular characters and meta-characters
+is called "regular expressions." 
+Regular expressions can be very powerful.
+They are used not only by
+.I find
+but many other Tools such as the editor,
+.I ch
+(change),
+.I fb
+(find block),
+.I tr
+(transliterate),
+and
+.I ls,
+to name a few.
+The syntax (that is, "the way one specifies") for regular
+expressions is the same for
+.BR all
+these Tools.
+Consistency is important in computing environments,
+and is one of the goals of the Software Tools package.
+.H2
+Supporting Tools
+.PP
+In addition to the formatter and
+.I find,
+there is a host of supporting
+programs that help with moving and altering text.
+The list in the next few paragraphs is far from complete,
+so browse through the Tool Description Section of the manual
+for other possibilities.
+.PP
+We've already described
+.I find,
+which searches a file for certain text patterns.
+There is a similar Tool
+.I fb
+(for "find block") which searches groups of lines,
+such as those in a mailing list or bibliography,
+for patterns.
+.PP
+There is another similar Tool,
+.I ch
+(for "change") which works like
+.I find,
+only once a pattern is located it is changed to some other
+pattern you specify.
+Although the editor can also do this, there are times
+when you don't want the overhead and generality of the
+editor - for these cases
+.I ch
+is very useful.
+.PP
+The Tools
+.I diff
+and
+.I cmp
+print a list of the differences between two files,
+so you can compare two versions of something automatically
+(which certainly beats proofreading by hand).
+.PP
+.I tr
+translates characters into other characters;
+for example it will convert upper to lower case and vice versa.
+This translates upper into lower:
+.DS
+tr A-Z a-z <input >output
+.DE
+.PP
+And there are others: 
+.I sort
+sorts files in a variety of ways.
+.I sedit
+provides many of the editing facilities of
+.I ed
+but can apply them to arbitrarily long input files.
+.I field
+can move fields or sections of lines around in various ways.
+And
+.I form
+assists you in generating form letters or even
+documentation.
+There are also Tools to compress and expand text, to
+encrypt it so no one else can read it, to format text into
+columns,
+and to prepare keyword-in-context indices.
+Most of these Tools are designed to work together.
+You might think of them as tinker-toys, which can be
+combined in a myriad of new and interesting ways.
+Browse through the Tool Descriptions to
+get more of an idea about what's available.
+.H1
+4. WRITING PROGRAMS
+.PP
+Writing programs is essentially text manipulation,
+and many of the utilities already discussed are very
+useful in program development.
+In fact, one of the reasons why the
+Software Tools package is a productive
+programming environment is that there is already a
+rich set of Tools available, and facilities like pipes, I/O redirection, and
+the capabilities of the shell often make it possible to do
+a job by pasting together programs that already exist
+instead of writing from scratch.
+The pipe mechanism lets you fabricate quite complicated operations
+out of spare parts.
+Developing little programs like this gives you a chance to
+develop and test prototypes quickly, and provides an
+excellent base for building more sophisticated Tools later.
+.PP
+The editor can also be made to do things that would normally
+require special programs on other systems.
+For example, to list the first and last lines of each of a
+set of files, such as a book,
+you could laboriously type
+.DS
+ed
+e chap1
+1p
+$p
+e chap2
+1p
+$p
+etc.
+.DE
+But you can do the job much more easily.
+One way is to type
+.DS
+ls chap >temp
+.DE
+to get the list of filenames into a file.
+Then edit this file to make the necessary series of
+editing commands (using the global commands of
+.I ed),
+and write it into
+.I script.
+Now the command
+.DS
+ed <script
+.DE
+will produce the same output as the laborious hand typing.
+.H2
+Programming in ratfor
+.PP
+If you generally have to use the Fortran language, you might consider
+.I ratfor,
+which gives you the control structures and
+freeform input that characterize the C language,
+yet lets you write code that is still portable to other environments.
+Most input, output, file handling, and other system-dependent
+events are best handled by the Software Tools primitives,
+which provide a set of functions that can be implemented on
+most any operating system.
+Ratfor programs that confine their system interactions to these
+primitives can be easily moved to other computers that have the
+Software Tools package implemented.
+This includes over 50 different systems, with the number growing.
+.PP
+Here is a sample ratfor program:
+.DS
+## copy standard input to standard output
+DRIVER
+character c, getch
+while (getch (c, STDIN) != EOF)
+.RS
+call putch (c, STDOUT)
+.RE
+DRETURN
+end
+.DE
+For more examples of ratfor, see the "Ratfor Primer"
+in the Tutorial Section of the manual.
+.H2
+Macro Processing
+.PP
+The Software Tools macro processor is also useful as a program
+development aid.
+Macros are used to extend some underlying language - to perform
+a translation from one language to another.
+We have already discussed macros as they appear in the text formatter.
+The Tool
+.I macro
+works in a similar manner: 
+it lets us define symbolic constants so that subsequent occurrences
+of them are replaced by the defining string of characters.
+The syntax for specifying macros is:
+.DS
+define(name, replacement text)
+.DE
+which defines "name" to be whatever text follows.
+Thereafter, whenever "name" is located in the file, it is replaced
+by "replacement text".
+Macros can be very useful in increasing the readability and
+the changeability of code.
+For example,
+.DS
+define(MAXLINE,200)
+.DE
+could be used to specify the dimensions of arrays:
+.DS
+character buf1(MAXLINE), buf2(MAXLINE)
+.DE
+Or sections of code could be written as macros:
+.DS
+define(abort, call remark ("aborting job")
+.RS
+call exit )
+.RE
+.DE
+Macros can become very complex and powerful.
+A macro processor is included in the ratfor preprocessor.
+The separate
+.I macro
+Tool also allows them to be used in other languages, or
+in regular text, as well.
+For more complete information about macros, see
+the description of the
+.I macro
+Tool.
+.H2
+The Archiver
+.PP
+The archiver is a valuable aid in maintaining program source.
+Each routine can be kept as a separate member of the archive,
+being extracted singly whenever change is necessary.
+The archiver is specifically designed to make archive files
+which can be sent directly to the ratfor preprocessor.
+Thus, a program development session might look like:
+.DS
+.cc +
+ed
+... create some routines
+w rtn1
+...
+w rtn2
+...
+w rtn3
+q
+ar -u program rtn1 rtn2 rtn3
+ratfor program | fsort >pgm.for
++cc .
+.DE
+.H2
+Programming Support Tools
+.PP
+Programming is essentially text manipulation,
+so most of the text manipulation Tools already mentioned
+are useful in a program development environment.
+Notice especially:
+.IP
+.I diff
+- which compares 2 files and prints the differences.
+.I diff
+can be very valuable for maintaining and comparing versions
+of program sources.
+.IP
+.I find
+and
+.I fb
+(find block)
+- useful for scanning not only programs but input and
+output data as well.
+For example,
+.DS
+program | find error
+fb <program  -ssubroutine -send abort
+.RE
+.IP
+.I format
+and
+.I form
+are helpful in generating documentation.
+.LP
+And finally, Tools such as
+.ul
+mcol, field, sort, sedit,
+and
+.I ch
+help in manipulating input and output data.
+.H1
+REFERENCES
+.LP
+.ul
+Software Tools
+.LP
+Allen T. Akin, P. Flinn, and D. Forsyth, Jr. "A Prototype for
+an Advanced Command Language",
+.ul
+Proceedings of the 16th Annual Southeast Regional ACM Conference,
+April 1978.
+A description of another command language interpreter written
+in ratfor and based on the tools concepts.
+Includes several interesting features such as the ability to
+handle multiple inputs and outputs, control structures, and
+the like.
+Available only on Prime machines.
+.LP
+Douglas Comer, "Mouse4:  An Improved Implementation of the
+Ratfor Preprocessor,"
+.ul
+Software - Practice and Experience,
+vol. 8, Jan-Feb 78, 35-40.
+A description of efficiency improvements to the original
+ratfor preprocessor.
+Most of these improvements have been incorporated
+into the version of ratfor distributed by the
+Software Tools Users Group.
+.LP
+Christopher W. Fraser, "A Compact, Portable CRT-based Text Editor,"
+.ul
+Software - Practice and Experience,
+vol. 9, Feb 79, 121-125.
+Description of a screen-oriented text editor implemented as
+a front-end to the
+.I ed
+editor.
+.LP
+Dennis Hall, Deborah Scherrer, Joseph Sventek, "A Virtual
+Operating System,
+.ul
+Communications of the ACM,
+vol. 23, no. 9, Sept 1980, 495-502.
+Description of the Software Tools program development environment
+and how it can represent a
+virtual operating system that disentangles computing
+environments from their underlying operating systems.
+.LP
+David R. Hanson, "Algorithm 568, PDS - A Portable Directory System,
+.ul
+ACM Transactions on Programming Languages and Systems,
+vol. 3, Apr 1981, 162-167.
+Describes a  set of procedures that provide a
+machine-independent method of file specification by
+providing a directory structure and
+set of primitives for manipulating that structure.
+The package is written in ratfor and may be
+used with the Software Tools package to simulate the UNIX type
+of hierarchical file system.
+.LP
+David R. Hanson, "A Portable File Directory System,
+.ul
+Software - Practice and Experience,
+vol. 10, Aug 1980, 623-634.
+Provides implementation details for the Portable Directory System.
+.LP
+David R. Hanson, "Ratsno - An Experiment in Software Adaptibility,"
+.ul
+Software - Practice and Experience,
+vol. 7, 1977, 625-630.
+Describes a Snobol-like language implemented
+in ratfor
+as a Fortran preprocessor.
+.LP
+B. W. Kernighan and Mars Gralia, "A
+Tutorial Introduction to the Software Tools Text Editor",
+available in this manual.
+A step-by-step introduction to the features of the
+.I ed
+text editor.
+.LP
+B. W. Kernighan, "Ratfor - a Preprocessor for a Rational Fortran.
+.ul
+Software - Practice and Experience
+vol. 5, Oct-Dec 1975, 395-406.
+Discusses design criteria for a Fortran preprocessor, the
+ratfor language, and its implementation and user experience.
+.LP
+Brian W. Kernighan and P. J. Plauger,
+.ul
+Software Tools,
+Addison-Wesley Publishing Company, Reading, Massachusetts, 1976.
+An outstanding book designed to teach good programming style by
+presenting examples of programs that are clean,
+easy to read, easy to maintain and modify, human-engineered,
+efficient, and reliable.
+Many of the ideas and utilities in the Software Tools package
+originated from this book.
+.LP
+Robert Munn and J. M. Stewart, "Ratmac:  Kernighan and Plauger's
+Structured Fortran Programming Language,"
+Technical Report TR 675, Department of Chemistry,
+University of Maryland, College Park, MD.
+Describes a version of the ratfor preprocessor with considerably
+enhanced macro facilities.
+.LP
+Deborah K. Scherrer et al,
+.ul
+Software Tools Programmers Manual,
+LBID 097,
+Lawrence Berkeley Laboratory and
+Software Tools Users Group, 1980.
+A manual for the Software Tools program development
+environment.
+Describes the virtual machine, the utilities, and
+the command language in detail.
+.LP
+Deborah K. Scherrer,
+.ul
+Cookbook - Instructions for Implementing the
+.ul
+Software Tools Package,
+LBID 098,
+Lawrence Berkeley Laboratory,
+University of California, Berkeley, CA, 1980.
+Provides guidelines for installing the Software Tools
+program development environment on new systems.
+.LP
+.ul
+Software Tools Communications,
+newsletter distributed by the Software Tools Users Group.
+April 1979 - present.
+The address is
+.DS
+Software Tools User Group
+1259 El Camino Real #242
+Menlo Park, CA  94025
+.RE
+.LP
+C. R. Snow, "The Software Tools Project,"
+.ul
+Software - Practice and Experience,
+vol. 8, Sept-Oct 1978, 585-599.
+Describes a Software Tools implementation project
+on a Burroughs B1700 computer
+using an automatic code translation technique.
+.ne 6
+.sp 2
+.ul
+UNIX
+.LP
+The
+.ul
+Bell System Technical Journal
+(BSTJ)
+special issue on UNIX: July/August, 1978.
+The most complete work on the UNIX operating system.
+Contains many papers describing capabilities, design,
+recent developments, and some retrospective material.
+.LP
+D. M. Ritchie and K. L. Thompson, "The UNIX
+Time-Sharing System,"
+.ul
+Communications of the ACM,
+1974.
+An overview of the system, for people interested in operating systems.
+Worth reading by anyone who programs.
+Contains a remarkable number of one-sentence observations on
+how to do things right.
+.LP
+K. L. Thompson and D. M. Ritchie,
+.ul
+The UNIX Programmer's Manual,
+Bell Laboratories, 1978.
+Lists commands, system routines and interfaces,
+file formats, and some of the maintenance procedures.

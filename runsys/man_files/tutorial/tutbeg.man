@@ -1,0 +1,790 @@
+.TL
+A BEGINNER'S INTRODUCTION TO THE
+.sp
+SOFTWARE TOOLS ON CP/M-80
+.TE
+.oh ~Tutorial Section~~Beginner's Introduction~
+.eh ~Beginner's Introduction~~Tutorial Section~
+.sp 3
+.PP
+This document is designed for those people who are being introduced
+to computers, CP/M, and the Software Tools
+all at the same time.
+If you are already familiar with CP/M, you should
+still read the sections on files and file names,
+running programs, the shell, and script files.
+.H1
+Logging On
+.PP
+"Logging on" essentially means telling the computer
+you want to use it.
+On big machines this usually entails typing your name
+and perhaps additional information such as a password or account number.
+However, small computers simply need to be turned on.
+To turn on your computer:
+.NP
+Switch on your terminal and your printer (if you have one).
+.NP
+Switch on your computer in whatever way necessary.
+.NP
+Switch on your disk drive.
+If you have floppies, insert your main "system" disk
+into your main drive (usually "a:").
+Insert other floppies into your other drives,
+if you are planning on using them.
+.NP
+If switching on your computer doesn't automatically "boot"
+(that is, read in the operating system and get ready to go),
+do so by pressing the clear/reset and run buttons,
+or follow the instructions for booting supplied with your system.
+.PP
+You should now receive some confirmation on the screen that your
+computer is ready.
+The usual indication (or "prompt") is:
+.DS
+A>
+.DE
+If nothing happens, check to make sure everything is
+switched on,
+all your cables are correctly connected,
+your terminal is set to "Line" or "Remote",
+and you have the correct disk in your main disk drive.
+Then try step 4 again.
+.H1
+What Is an Operating System?
+.PP
+When you buy a computer, the machine itself (the "hardware")
+can't really do much for you except add numbers,
+move numbers around,
+and compare numbers with other numbers.
+These rudimentary tasks are done with what we call "machine instructions".
+(If you are lucky you will never have to see or use a machine instruction.) 
+For a computer to be able to talk to humans,
+it needs something called an "operating system".
+An operating system is a collection of programs ("software")
+that put together machine instructions to allow you to type on
+your terminal,
+run programs,
+make files,
+and other rudimentary tasks.
+CP/M is one operating system; there are lots of others.
+CP/M is a fairly small and simple system - it can talk
+to a terminal and printer;
+it can make files and keep track of them on disks;
+it can let you run other programs by copying them from disk
+into the computer's memory.
+It cannot do your accounting nor compile your programs
+nor sort your address list
+nor write your letters.
+For these and other applications you need special utility programs
+("tools") which you either buy or write yourself.
+The Software Tools are a set of utility programs
+which help you write letters and other documents,
+locate information in files,
+prepare data and scan output,
+write and test programs,
+and other similar word processing and program development tasks.
+.H1
+Disks and Directories
+.PP
+CP/M, and in fact most operating systems,
+have the notion of "current directory".
+Think of this as your current address or current office.
+When you first turn on or "boot" the computer,
+CP/M will set your current directory (or current location),
+to the "a" disk.
+This is where any files you create will reside and
+where CP/M will look for any programs you choose to run
+until you change to another directory.
+.PP
+If you have a floppy system,
+your initial current directory will be whatever floppy disk you
+load into your main (a) drive.
+If you have a hard disk,
+your initial current directory will be the first section of
+your disk (also referred to as "a").
+Although "a" is the name of a directory, CP/M needs help telling
+it apart from other names, such as the name of a file.
+Therefore, CP/M requires you put a colon (:) after a directory
+name.
+Thus, when referring to the "a" directory, you would use "a:".
+Other directory names are "b:", "c:", "d:", etc.
+.PP
+CP/M will remind you which is your current directory by using
+its name in the prompt
+.DS
+A>
+.RE
+or
+.RS
+B>
+.DE
+If you want to move to a different directory
+(that is, if you want to do your work in a different place
+for a while),
+you can specify the new location simply by typing its name:
+.DS
+b:
+.DE
+This will cause CP/M to think of the "b:" disk as your current
+directory.
+You will now get the prompt
+.DS
+B>
+.DE
+until you move somewhere else.
+(The Software Tools have another way of changing from
+one directory to another.
+This is discussed in another tutorial.)
+.H2
+Changing Floppies:
+.PP
+Another way of changing directories is by replacing the floppy
+in your drive with another one.
+When you do this,
+the name of your current directory (a: or b:, for instance)
+will remain the same,
+but what's inside the directory will change.
+.PP
+Whenever you do exchange floppies,
+you will have to tell CP/M that you have done so by typing:
+.DS
+CTRL-C
+.DE
+(hold down the Control (CTRL) key as though it is a shift and then hit C).
+The CTRL-C tells CP/M to make a new map in its memory of
+the empty space on your floppy.
+If you don't hit CTRL-C,
+CP/M will use its old map, corresponding to your previous floppy.
+Imagine what would happen if CP/M used the old map when you
+tried to create a new file on a new floppy.
+.H1
+Files and File Names
+.PP
+All the information your computer ever needs,
+whether it's programs or data or documents you type,
+is kept in "files." 
+A computer file is similar to an office file:  a folder with
+a name on it and information stored inside.
+Computer files have names but the information stored inside
+them is kept on disk, rather than in a manila folder as in an office.
+All programs are kept in files,
+as are all your documents, programs, letters, accounting
+information, phone lists, etc.
+In fact, the computer "runs" a program by copying the program's
+file from disk into its memory and then executing it.
+When the program is done, the memory is erased (but, of course,
+not the file on disk).
+.H2
+Naming a File
+.PP
+Files all have names, so that you can tell one apart from the other.
+When you create a new file, you must make up a name for it,
+based on some CP/M rules:
+.NP
+a file name may start with 1-8 alphanumeric characters (letters
+or numbers),
+optionally followed by a period (.) and 0-3 more
+alphanumeric characters.
+For instance,
+.DS
+george
+data.1
+57a.tmp
+Address.lst
+.DE
+are all valid file names.
+Case is ignored in file names, thus
+.DS
+ABNER
+.RE
+and
+.RS
+abner
+.DE
+both refer to the same file.
+The part of the file name following the dot is called the "extension." 
+CP/M expects certain extensions on certain types of files.
+For instance, all (executable) programs end in ".com"
+(standing for "command").
+If you wish, you can establish your own conventions for
+keeping track of your files,
+such as ending all temporary files (i.e., files to be used a few times and
+then deleted) in ".tmp" or beginning a set of files
+belonging to a book with "chapter".
+.NP
+File names should be unique within each directory.
+It is perfectly valid to have a file
+named "ethel" in directory a: and
+one in b:,
+but if you write a file named "ethel" in a directory that
+already has a file named "ethel",
+you will generaly overwrite the contents of the old file
+with that of the new.
+.H2
+CP/M User Numbers
+.PP
+In addition to specifing the disk (e.g. A: or B:) that a file
+is on, CP/M allows a file to belong to a "user."  Just as
+there is a current device directory, there is a current user
+directory.  A maximum of 16 user directories are
+allowed (only one at a time of course).
+CP/M names the user directories 0, 1, 2, ... 15.  The default user
+(i.e. the user number used if you do not say otherwise)
+is 0.
+When using the Software Tools, user numbers may be considered
+to be part of the file name.
+.H2
+CP/M Full File Names
+.PP
+The reason that you can successfully have files with the same
+names on 2 different directories is that the directory name is
+actually part of the file name.
+(Much like your area code is really part of your phone number,
+although you don't always have to dial it.)
+Thus file "arnold" on directory "a:" is really "a:arnold",
+and on directory "b:" it would be "b:arnold".
+Since you would soon tire of typing all those "a:"s and "b:"s,
+CP/M assumes that any files you mention begin with the name of
+the current directory.
+Thus you need to specify the file's full name only when it
+resides somewhere besides your current location.
+(You should now have a good idea of why the notion of "current
+directory" was invented.)
+.PP
+Since there is no standard way to specify the user number part
+of a file name in CP/M, the Software Tools have been taught
+to recognize a leading number before the disk name as the
+user number.  Thus you could have two different files named
+arnold on disk B: if they belong to different users, e.g.
+.DS
+0b:arnold
+.DE
+is different from
+.DS
+5b:arnold
+.DE
+.H2
+Pathnames
+.PP
+Now let's thoroughly confuse you:
+because the Software Tools are designed to run on many
+different operating systems, not just CP/M,
+they use a standard file naming convention.
+Instead of using "a:", "b:", etc. to refer to
+directories,
+the Software Tools use a "pathname" construct where directories and
+file names are separated by slashes.
+For instance, the file
+.DS
+b:harry
+.DE
+would, in pathname format, be called
+.DS
+/b/harry
+.DE
+Many systems allow you to have directories within directories
+(much like manila file folders within a file drawer).
+On these systems, a file's full name would have to include
+the names of all the directories needed to reach the file.
+Thus
+.DS
+/main/people/harry
+.DE
+would be the name of a file "harry" which was in the directory "people"
+which in turn was in the directory "main".
+CP/M user numbers are treated as directories by the Tools so
+the pathname
+.DS
+/5/b/harry
+.DE
+is the same as
+.DS
+5b:harry
+.DE
+.PP
+The Software Tools understand both styles of file names,
+so feel free to use whichever you are most comfortable with.
+.H1
+Devices
+.PP
+Terminals, printers, and other pieces of hardware attached
+to your computer are called "devices".
+Devices, like file names and directories,
+have special names.
+In fact, when using the Tools
+you can generally think of and deal with devices
+as if they were regular files.
+For instance, the printer's "file name" is "lst:"
+(or "/lst" in Tools pathname format).
+So, to print a file you could use one of the file-copying Tools,
+specifying "lst:" as the place you wanted your file copied to.
+The System-Specific section has a list of devices and their names.
+.H2
+End-of-file Character for Devices
+.PP
+When a program is reading a regular disk file,
+CP/M lets it know when the end of the file has been reached.
+However, if a program is reading from your terminal
+(which is a device-type file), you need some way of telling
+it when you're done typing and want to finish up.
+It would be most reasonable to have this I'm-done signal be something
+short, easy to type,
+and something which you wouldn't normally be giving as input to
+any of the programs.
+CP/M has picked
+.DS
+CTRL-Z
+.DE
+to be its end-of-file (I'm done) character.
+To type CTRL-Z you hold down the CTRL ("control") key like a shift
+and then hit "z".
+.PP
+Thus, anytime you are typing in data or information to a program
+you can tell it you're done by typing CTRL-Z.
+The program will then finish up and the computer will get ready to run
+more programs for you.
+.H1
+Typing on the Terminal
+.PP
+In most Tools, when you type characters on a terminal
+nothing is actually used by the computer until you hit the "RETURN"
+(or "ENTER") key.
+This is similar to hitting a carriage-return on a typewriter.
+Thus, if you make a mistake on a line before you hit RETURN,
+you can correct it in two ways:
+.NP
+You can backspace over characters and retype them by using the
+BACKSPACE key, just as you would on a typewriter.
+If your terminal doesn't have one of these, you can also
+backspace by typing CTRL-H.
+.NP
+If you've totaly mangled the line, you can erase it entirely
+by typing CTRL-X.
+.PP
+Remember, though, once you have hit RETURN your line has been taken
+by the computer and you can't change it.
+.H1
+Running Non-Software Tools Programs Using CP/M
+.PP
+You run a non-Software Tools program simply by
+typing its file name.
+Remember we mentioned above that all program file names end in ".com".
+CP/M is nice enough not to make you type that part of the name.
+So, if you want to run the program in the file named
+.CR audit.com ,
+you would type
+.DS
+A> audit
+.DE
+(CP/M typed the "A>"; it could have been "B>", etc.)
+.C audit.com
+had better be on the current directory or CP/M won't be able
+to find it.
+.PP
+If you want to run a program on another directory, you can either
+change your current directory, as in
+.DS
+A> b:
+B> audit
+.DE
+or you can give the program's full file name:
+.DS
+A> b:audit
+.DE
+(Remember that the directory name is really part of a file's
+full name, so don't leave any spaces between the "b:" and "audit").
+Note that there is no way on CP/M to run a program in other
+than the current user directory.  CP/M doesn't understand
+.DS
+5b:audit
+.DE
+(The Tools shell does allow programs from other user numbers to be executed.)
+.PP
+To make a program "run", CP/M copies the program's file from the disk
+into memory,
+then begins executing the copy in memory.
+The copying from disk to memory ("loading") generally takes a few seconds,
+and, if you have floppies, you'll be able to hear the floppy drive make
+little noises as it locates and copies the file you named.
+.H1
+Command Line Arguments
+.PP
+Most programs need some inital information from you before they go off
+and do their work.
+Thus, if you wanted to run a sorting program you'd want to tell it
+what you wanted it to sort.
+Often you give this initial information by writing it on the same
+line as you typed the name of the command.
+For instance, if you typed
+.DS
+A> audit february
+.DE
+you might be telling the audit program that it should use the february
+data file.
+Any characters on the line after the program name are called "command
+line arguments".
+The program itself reads these characters and decides what to do with them.
+Most programs expect some command line arguments, which are usually
+names of files.
+.PP
+The Software Tools expect their arguments to be separated from each other
+by spaces or tabs.
+However, many CP/M commands want their arguments to be separated by commas or
+equal signs.
+The documentation for the various commands will explain exactly what is
+expected.
+.H1
+Running Software Tools Programs Using CP/M
+.PP
+The Software Tools programs, or
+.B Tools,
+are kept in a special format,
+which is indicated by the program's file name ending in ".tol"
+instead of ".com".
+In order to run a Tool from CP/M you must use the
+.I run
+Tool.
+As with CP/M program files,
+you do not need to specify the ".tol" when you run a Tool,
+and command line arguments may be specified.
+For example,
+.DS
+A> run ls doc
+.DE
+The Software Tools
+.I shell,
+which is described below,
+allows you to run Tools and other commands without using
+.I run.
+.H2
+Getting Lower Case Arguments Through to the Tools
+.PP
+To most computers, lower case letters and upper case letters are
+completely different.
+Thus "a" and "A" are as different as "a" and "z".
+There is a strange anomaly in the way CP/M deals with command line
+arguments:
+even though you type your lines in lower-case letters,
+and they appear on your screen as lower-case,
+CP/M actually treats them all as upper case.
+As long as your arguments are file names, this
+presents no problems since there is no case distinction
+made in file names (on CP/M).
+However, there are a few Tools where case is important.
+For instance, if
+.DS
+A> run tool February
+.DE
+used the argument "February" to compare with some internal list of
+months,
+it might not locate the "FEBRUARY" as it was passed by CP/M.
+To get around this problem,
+the Software Tools have a convention (or accepted procedure) for
+sending arguments exactly as typed.
+To do this,
+you specifically ask the Tool to prompt (or ask you) for the
+arguments.
+The prompting allows the Tool to read the arguments directly,
+rather than receiving them from CP/M.
+To get the Tool to prompt, you type the command name,
+a space, and then a single period ".".
+Thus,
+.DS
+A> run tool .
+Args: February
+.DE
+The "tool" program prints "Args: " and you respond with the
+argument(s).
+.PP
+There are only a few Tools where case-distinction is critical
+.I (find,
+.I ch,
+.I tr,
+and
+.I fb,
+for instance).
+Although the above procedure is clumsy, it is the only way
+of maintaining case distinction without altering CP/M itself.
+.PP
+You can, however, avoid the whole problem by using the
+Software Tools
+.I shell,
+which reads command arguments exactly
+as you typed them.
+.H1
+The Shell
+.PP
+The part of CP/M that prompts with the "A>" and "B>" and that
+executes your commands and passes the arguments to them is called
+a "command line interpreter." 
+(CP/M's name for it is CCP.) 
+The Software Tools shell is also a command line interpreter
+that prompts, reads and executes commands, and passes arguments.
+The advantages of using the shell instead of CP/M's interpeter are:
+.NP
+Both upper and lower case arguments can be given.
+.NP
+The shell provides methods for easily combining commands
+together in various ways.
+.NP
+The shell searches for commands in places besides the current
+directory, including different user numbers.
+.NP
+The shell provides more convenient means for running script
+files (sets of commands put together and stored in a file).
+.NP
+The shell has a commonly used syntax which is available on
+many different systems;
+thus it's easier for you to move to new machines without relearning
+their command line interpreter.
+.PP
+The main disadvantage of using the shell is that it is slower
+than CP/M's interpreter,
+primarily because it is a program which runs on top of
+CP/M and must be loaded from disk into memory.
+(CP/M's interpreter is built directly into the system.) 
+There are times when the shell's added capabilities are
+more desirable,
+and times when CP/M's increased efficiency is.
+Thus, use whichever is most appropriate for the task.
+.PP
+Since the shell is a program, you run it by typing its file name:
+.DS
+A> sh
+.DE
+Thereafter, instead of the "A>" or "B>" prompt from CP/M, you
+will see the shell prompt:
+.DS
+%
+.DE
+You type commands and arguments to the shell just as you do
+to CP/M:
+.DS
+audit February
+.DE
+(although there's no need to use the period "." convention for
+passing lower case, since the shell sends arguments to the Tools
+just as they were typed).
+The shell will look for the file "audit" ("audit.com") in your
+current directory, just as CP/M does.
+But if the shell cannot find it there, it will also automatically
+look in the other directories you have specified in the file
+.CR sh.env .
+.PP
+The next tutorial
+and the writeup on the shell will tell you
+more about the shell's capabilities and uses.
+.PA
+You may go back and forth between CP/M and the shell, if you want.
+To leave the shell, type
+.DS
+logout
+.RE
+or
+.RS
+CTRL-Z
+.DE
+(Remember, that's the end-of-file character which means "I'm done".) 
+Then you'll be back to the CP/M prompt:
+.DS
+A> (or B>, etc.)
+.DE
+To start the shell again, type
+.DS
+A> sh
+.DE
+All Software Tools and most CP/M utilities can be run from either
+CP/M or the shell.
+(Remember, you have to use
+.I run
+to run a Tool from CP/M.) 
+The CP/M CCP built-in commands
+.I (era,
+.I dir,
+.I type,
+.I user,
+and
+.I save)
+can not
+be run from the shell.
+(The Tools
+.I rm,
+.I ls,
+.I crt,
+and
+.I cd
+can be used instead of the first four.)
+.H1
+Stopping a Running Program  (Or - Hitting the Panic Button)
+.PP
+Suppose you start a program running and then change your mind,
+or there has been some horrendous mistake and the program is
+spewing out unwanted output all over your terminal.
+You can usually stop ("abort") a running program by typing
+.DS
+CTRL-C
+.DE
+CTRL-C causes what computer people call a "warm boot".
+It stops the programs and resets the computer to a state where
+you can continue.
+If the CTRL-C fails to work (there are times when programs get into
+such trouble that they don't even hear CTRL-C),
+then you'll have to "cold" boot your system.
+You do this in the same way as you turn on and "boot" your
+machine when you first start.
+You may have to turn a key or push one or two buttons.
+.H1
+Script Files and "Submit"
+.PP
+Suppose you have a set of commands that you always do in sequence,
+or which you have to do over and over again.
+You don't want to type them all in each time.
+Both CP/M and the shell provide a way for executing this group
+of commands.
+.H2
+CP/M's "Submit" Capability
+.PP
+To make a set of commands, you first write your list of
+them into a file (using an editor).
+For
+.I submit
+you must name the file something which ends in ".sub".
+Let's imagine you wrote some commands into the file
+.CR doit.sub .
+You could then execute the command by typing:
+.DS
+A> submit doit
+.DE
+You must be on the a: disk to run
+.I submit
+(unless you have fixed your copy of
+.CR submit.com ).
+The
+.I submit
+program reads lines from the file
+.C doit.sub
+and executes them just as if you had typed them in.
+You will even see them printed as they are executed.
+.PP
+Now, suppose you wanted to run
+.I doit
+3 times,
+once using a file
+.I erma
+as data, once using
+.I george,
+and
+once using
+.I trixie.
+You could change the
+.C doit.sub
+file each time with an
+editor, writing in the name of the next file you wanted to use.
+Or, instead of writing in the specific file name you would write
+in "$1".
+The "$1" means replace the $1 with the first command
+line argument.
+Then you'd execute "doit" like this:
+.DS
+A> submit doit erma
+A> submit doit george
+A> submit doit trixie
+.DE
+When
+.I submit
+found the characters "$1" in
+.CR doit.sub ,
+it would replace them with
+.I erma,
+.I george,
+and
+.I trixie
+respectively.
+.PP
+If you start up a
+.I submit
+file but something goes wrong or you
+change your mind, you have two recourses:
+.NP
+Reboot the system with the switch(es) on your computer.
+.NP
+Hit RETURN several times immediately after one of the commands
+has finished.
+.PP
+Neither of these "aborts" is elegant, but they will do the job.
+.H2
+Shell Script Files
+.PP
+Shell script files are very much like CP/M
+.I submit
+files.
+They both contain commands and both perform argument substitution
+using $1, $2, etc.
+However, shell script file names do not have to end in ".sub"
+and you do not have to reside on disk a: to run the script.
+And, to execute a script file you do not have to say
+.I submit
+(or anything else), you merely type the file name.
+The shell is smart enough to be able to tell a script file from
+a program without you having to specify.
+Thus, (if I changed the above example's file name from
+.C doit.sub
+to
+.I doit
+I would type:
+.DS
+% doit erma
+% doit george
+% doit trixie
+.DE
+You can read more about scripts in the description of
+.I sh.
+.H1
+Back-ups and New Disks
+.PP
+Lots of disasters can befall your disk (whether floppy or hard):
+a friend can spill coffee on them,
+a speck of dust can lodge itself in the wrong place,
+lightning can strike and cause a power surge.
+And, horror of horrors, you can accidently delete or destroy
+your most precious files.
+These problems are unavoidable in even the best computer installations.
+So, to prepare for the worst, plan to periodically back-up
+(make copies of) your disks, probably every week or so.
+It's a good idea to keep two back-up disks of everything: 
+the current back-up and the one previous to that.
+And, whenever you buy new software, always make at least one copy of
+it on a new disk and put the original in a very safe place.
+.PP
+Whenever possible, back-up important files on different floppies
+than where the original resides, since one small problem can
+cause an entire disk to become unreadable.
+.PP
+If you are working with floppies, you will probably have
+to "format" them before CP/M can write on them.
+How you do this depends on the drive and system you have,
+but in general you:
+.NP
+Take the new floppy and cover up the small write-lock notch with
+a seal on 8" floppies, or uncover the notch on 5" floppies
+(if you bought the kind of floppies that have one).
+.NP
+Load the new floppy into a drive.
+.NP
+Run whatever program is necessary to format the floppy for
+your system.
+.LP
+Then, to copy all the files in the current user number on one floppy
+to another floppy
+(let's say a: is the old and b: is the new):
+.DS
+A> pip b:=a:*.*[ov]
+.DE
+If you don't want to back up all the files, you
+could individually save the ones you want using one
+of the copy utilities
+.I (cat,
+.I cp,
+or
+.I pip).
