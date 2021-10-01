@@ -1,0 +1,106 @@
+.oh 'Library Descriptions''Introduction'
+.eh 'Introduction''Library Descriptions'
+.bp 4
+.TS
+INTRODUCTION TO THE LIBRARY
+.TE
+.PP
+The library consists of Software Tools system-independent routines as well
+as a set of "primitives", those functions that are
+system-dependent and are implemented for each specific
+operating system.
+The use of the primitives is system-independent;
+it is the implementation of the primitives themselves
+that is specific to a given system.
+.PP
+Programs written for and loaded with the Library,
+except those that use routines whose
+names end in a "?" or a "z",
+are portable to other systems running the Software Tools.
+.PP
+Each Library routine description is written in a common format
+that includes at least some of the following subsections.
+.IP
+SYNOPSIS: 
+gives the form of
+the call, the type of the arguments (in the form of ratfor
+(Fortran) declarations), and the type of the returned value if
+the entry is a function.
+.sp
+The names of arguments are chosen to help convey the kind
+of data transmitted in them.
+Some commonly used names are:
+.RS
+.IP
+.I fd
+is used where the argument or returned value is a
+file descriptor as returned by
+.I open
+or
+.I create.
+File descriptors are simply small integers used as arguments
+to I/O primitives.
+Their actual value is of no concern to the programmer,
+other than for transmission to the primitives.
+.IP
+.I file
+is used when the argument refers to a character
+string representing a file name.
+.IP
+.I str
+is used when the argument refers to a character
+string.
+.IP
+.IR i ,
+.IR k ,
+.IR n ,
+etc. are used when the argument or
+returned value refers to an index.
+.IP
+.I status
+is used when the argument or returned value
+indicates some form of status information.
+Commonly used values of status are ERR, OK, YES, NO, etc.
+.RE
+.IP
+DESCRIPTION: 
+discusses the routine in detail.
+.IP
+ARGUMENTS MODIFIED: 
+tells what arguments have their values modified by this routine, if any.
+.IP
+ROUTINES CALLED: 
+tells what routines this routine calls, if any.
+.IP
+IMPLEMENTATION: 
+provides a more detailed description
+of how the routine works.
+.IP
+CMT IMPLEMENTATION: 
+describes changes or additions made by Carousel MicroTools to the
+Software Tools Users Group version of the routine.
+.IP
+CP/M IMPLEMENTATION: 
+describes changes or additions made by Carousel MicroTools
+specifically for this implementation of the routine.
+.IP
+SEE ALSO: 
+names routines that perform similar or related functions.
+.IP
+DIAGNOSTICS: 
+list the error returns from the routine, if any.
+.IP
+LIMITATIONS AND DEFICIENCIES: 
+tells of potential problem areas.
+.sp
+.PP
+Note that the programming style
+used in all the Software Tools
+and the Library
+is to name routines and variables
+in a way related to their use.
+Thus the names do not necessarily conform to the
+usual Fortran defaults for the names of integers and
+reals.
+You should explicitly declare all
+variables and functions used.

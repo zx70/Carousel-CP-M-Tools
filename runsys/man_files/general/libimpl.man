@@ -1,0 +1,314 @@
+.oh 'Library Descriptions''Carousel Implementation'
+.eh 'Carousel Implementation''Library Descriptions'
+.bp 9
+.TS
+IMPLEMENTATION OF CAROUSEL TOOLS ON CP/M-80
+.TE
+.PP
+A major portion of the development of the Software Tools
+was based on the concept of a Virtual Machine: 
+a "generic" operating system environment that could be
+made standard for all computer systems.  By implementing
+the same Virtual Machine on different target computers, programs
+which could run in that environment could then run on
+those target computers.
+.PP
+The Virtual Machine for the Software Tools consists of a
+defined library of primitive operating system routines for I/O,
+memory allocation, "process control", etc.  These same library
+routines have been implemented on over 50 different mainframes
+and minicomputers.  Carousel Tools are the implementation of
+that Virtual Machine for microcomputers.  In this case the
+discussion is about the CP/M-80 implementation.
+.PP
+CP/M provides a convenient base on which the
+Virtual Machine can be built since it imposes few
+restrictions on the user.
+CP/M provides primitive character I/O to the console, printer,
+and a "reader"/"punch".
+It also provides a flat file system of named files on mountable disks.
+In keeping with one of the "prime directives" in porting Tools,
+strict compatibility with host system files (in this case, CP/M)
+has been maintained.
+Files generated with the Tools are in the same format as standard
+CP/M text files.
+Also, Carousel has avoided the temptation to use BIOS level calls;
+only the BDOS level of interface is used.
+.PP
+This section provides a general understanding
+of the CP/M-80 Carousel Tools implementation.
+Some specific information that assumes knowledge of CP/M is
+included.
+If you are only reading this for a general overview,
+do not worry about the details you do not understand.
+Consult your CP/M-80 manual for details about the
+operating system if you need that information.
+.H1
+Memory Allocation and I/O Cache
+.PP
+CP/M runs a program by copying it from its file to memory
+starting at the program's base address + 256.
+CP/M uses the first 256 bytes of memory for environment information.
+.PP
+Part of the information available is the address of the bottom of BDOS
+itself.
+The Carousel Tools use all memory between address 256 and the base of BDOS.
+The space between the end of the loaded program and BDOS is used
+for the processor stack and for a dynamic memory pool.
+Contiguous blocks of memory are available to Tools via the
+dynamic store routines
+.I (dsget,
+.I dsfree,
+etc.).
+The Carousel Tools also use dynamic memory allocation
+for the necessary CP/M file control blocks (FCBs),
+I/O buffers, and for a cache of recently or
+soon to be used data records.
+All memory not allocated by user level programs,
+FCBs, or I/O buffers
+(128 bytes per open disk file)
+is used by the cache system.
+A user can reserve memory for a special purpose
+by setting the element Mem(5) to minus the number of bytes needed.
+For example: 
+.DS
+DS_DECLARE
+Mem(5) = -512
+.DE
+will reserve 512 bytes.  Mem(5) must be set before calling
+.I initst.
+.PP
+The I/O system attempts to keep recently used blocks in the cache
+to allow re-use without disk access.
+A higher priority is given to files opened in READWRITE mode.
+The cache is maintained as a doubly-linked
+circular queue for each open file.
+When reading, the I/O system tries to
+read-ahead to the end of the physical block of disk space.
+On output, blocks are cached until a multiple of four blocks is ready
+for transfer.
+When a file is closed, all pending writes are completed
+and the buffers are returned to the memory system.
+.PP
+If more memory is requested than is available,
+the memory system looks through the I/O cache for likely blocks
+to free.
+It removes blocks from the cache and completes any pending writes
+until the requirements for memory can be met.
+There is a priority strategy that looks through all caches
+circularly, starting with the file cache least recently robbed,
+with the following sequence: 
+.DS
+READ, WRITE, and APPEND with many blocks;
+READWRITE with many blocks;
+READ, WRITE, APPEND with any blocks;
+READWRITE with any blocks.
+.DE
+If there is still not enough contiguous memory
+after all the caches have been robbed,
+.I dsget
+returns a NULL and the Tool gives up.
+If an application is known to require large contiguous blocks,
+failures can be minimized by allocating the large blocks
+before doing any I/O to avoid fragmenting memory with FCBs and
+active buffers.
+.PP
+Due to the delayed actual writes to files used for output,
+some disk errors cannot be detected at the time the user
+program does the I/O.
+This is an unfortunate necessity of a cached system.
+Critical files may be closed and re-opened to insure data reliability.
+Once an error is detected,
+the program will be terminated with the message "
+.I file-description
+can't write".
+If the source of the error was a CP/M BDOS write random error,
+the error number is also printed.
+.PP
+Another effect of a cached I/O system is some apparent delays when
+terminating a program.
+The user may be finished but must wait for pending writes to
+be completed.
+.H1
+Languages Used
+.PP
+Since the Software Tools are written in ratfor,
+they depend on the host Fortran compiler.
+The Microsoft F80 compiler and L80 linker were chosen
+for the CP/M-80 implementation because of
+their availability and relative efficiency of the code produced.
+The compiler is not needed for using any of the Tools.
+The relocatable files produced by the compiler may be used
+with other L80 format linkers and with modules produced by
+other languages.
+.PP
+There are a (very) few pages of assembly code included
+in the system interface of the Carousel Tools.
+The number of assembly code routines was kept to a minimum to
+allow better maintainability and portability to other microprocessor
+environments.
+One of the routines replaces the Microsoft Fortran error reporting
+routine.
+Thus Fortran errors (e.g., division by zero) will be caught and
+an exit made through
+.I endst
+(the standard Tools termination routine) which
+will properly close all files.
+.H1
+Carousel Tools Initialization and Environment
+.PP
+All programs using the Carousel Tools system must
+have a call to
+.I initst
+as their first executable statement,
+and a call to
+.I endst
+as the last statement.
+The macros DRIVER and DRETURN are provided for this.
+See the sample program in the Ratfor Primer.  Subroutine
+.I initst,
+in turn, calls a number of initialization routines
+that set up dynamic storage,
+read the environment file, get command line arguments,
+and open the standard input, output, and error files with
+possible redirection.
+Subroutine
+.I endst
+flushes all pending output and closes all open files.
+If the termination is normal (i.e.,
+.I endst
+is called with "OK"),
+.I endst
+tries to start the next program.
+First an internal flag is checked to see if the next program
+is known to be the shell.  If not, the shell command stack
+on file
+.C shok.$$$
+is examined.  If there are no more
+commands stacked, the ATEND environment parameter is used.
+If the ATEND parameter specifies a program,
+that program is executed.
+Otherwise, control is returned to the CP/M command line interpreter.
+If the next program to be executed is a Tool with the same
+version number, the Tool is overlayed on the previous
+image.
+.PP
+An environment file
+is the primary mechanism used to allow local dependencies
+and "permanent" environment information to be communicated to Tools.
+The file
+.C sh.env
+is read by
+.I initst
+(via
+.I getenv).
+If
+.C sh.env
+does not exist,
+a default environment is used.
+.PP
+The environment file is not part of the Software Tools as
+distributed by the Software Tools Users Group
+or as described in the CACM paper.
+However, it is similar to the environment file used in the
+UNIX operating system.
+It may be expanded in future releases.
+.H1
+Tool Overlay Format
+.PP
+Since the Software Tools all share an extensive library of
+I/O and other primitive routines, a significant amount of
+disk space can be saved by storing only the different part
+of each Tool.  For this purpose the Tools are all linked
+to the library in a way to allow them to overlay each other.
+The L80 link command to link "Tool" is: 
+.DS
+L80 Tool/n,runsys,Tool,ratlib/s/e
+.DE
+The file
+.C runsys.rel
+which is loaded first contains routines
+needed by all the Tools.  A special file format is used to save
+the linked Tools in a compact form.
+These files have the extension .tol and can be loaded by other Tools.
+Only the different part of each Tool is kept in the .tol file.
+The program
+.I install
+can be used to compress Tools from .com files
+to .tol files and to expand .tol files to .com files.
+Tools kept as .com files can be
+executed directly from the CP/M CCP.
+.PP
+It is also possible use a .tol Tool directly from CP/M
+by prefacing the command with
+.I run,
+e.g.
+.DS
+run cp oldfile newfile
+.DE
+.I run
+will do the same path searching as the shell.
+.PP
+By using the .tol compressed files, all (>60) Tools will fit
+on a typical 8-inch double density diskette.
+.H1
+Suggestions for Disk Allocation
+.PP
+It is preferable to have all the Tools and other
+frequently used programs resident on the system.
+However, since the collection of all Tools require more
+than 500 kilobytes of disk space,
+many floppy disk-based systems simply do not have a large
+enough disk to allow this.
+This discussion describes some possible compromises.
+The following comments are most relevant to a two-drive system.
+.PP
+First, some general comments concerning CP/M disks: 
+CP/M itself relies on having the "a:" disk contain
+a bootable system with the "b:" drive holding specific projects
+or data bases.
+This suggests that all disks containing programs should
+be bootable CP/M disks.
+CP/M uses contiguous blocks on the disk for a file, if it can.
+Since contiguous files load faster,
+build your "a:" disks on clean diskettes.
+And, since the directory is on the beginning of the
+disk and must be searched during the loading process for most
+of the Tools,
+put the most frequently used Tools on the disk first.
+.PP
+Experience shows the following to be the most frequently used Tools
+for program development and documentation: 
+.ul
+sh, logout, run, e(ed), ar, ratfor, fsort, rc, ld, crt, find, format,
+.ul
+ch, cat, cp, mv, ls, rm,
+and
+.ul
+date.
+In addition, several library, CP/M and Microsoft programs are frequently
+needed: 
+.ul
+pip, stat, F80, L80,
+.CR runsys.rel ,
+.CR ratlib.rel ,
+and Microsoft's
+.CR forlib.rel .
+The shell environment file,
+.C sh.env
+should always be present.
+The standard Tools definition file
+.I ratdef
+should be on
+the same disk as the program sources you are developing.
+.PP
+Different users will find there are other groupings of
+files that work well together.  These can be used to
+build a variety of different "working shell disks" for
+doing different kinds of tasks.
+This mode is especially useful when working one some
+of the smaller 5-1/4 inch disk systems.
+Remember to use the
+.I reset
+Tool when changing the disks to ensure that the system
+knows the disks are different.

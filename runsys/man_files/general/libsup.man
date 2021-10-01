@@ -1,0 +1,83 @@
+.oh 'Library Descriptions''Support Routines'
+.eh 'Support Routines''Library Descriptions'
+.bp 12
+.TS
+CP/M SUPPORT ROUTINES
+.TE
+.PP
+These low-level general and CP/M support routines are
+used by certain subroutines in the Carousel Tools library.
+Their use at the user level may result in non-portable
+code.
+They are listed here to assist in the understanding of
+the CP/M implementation of Carousel Tools
+and to avoid conflict with user
+routines of the same name.
+This list and these routines are, of course, subject to change.
+.PP
+These routines and their specifications are
+copyrighted (c) 1983 by Carousel MicroTools, Inc.,
+El Cerrito, CA.
+.DS
+cant$     abort on write error
+chkdat    check date and time for out-of-range
+dodash    expand array(i-1)-array(i+1) into set(j)
+dsfind    get pointer to block of at least w integers
+dsfnd$    free some memory from I/O buffers
+errsub    see if argument is ERROUT substitution
+fdok$     check file descriptor in range
+filset    expand set at array(i) into set(j)
+flush$    move curbuf to cache
+gdate     get current date and time (in ASCII)
+getb$     get an I/O buffer for bfd
+getccl    expand char class at arg(i) into pat(j)
+getcl     get all command line arguments
+getcr$    get record from character device
+getdir    get associated directory name
+getenv    read environment from file
+getnde    get number of directory entries
+getpb$    get buffer and disk block
+getr$     get next record from file bfd
+getrp$    read a block from disk
+gmonth    get month number associated with name
+grab$     get some memory from I/O buffers
+gtok      get token delimited by any of sep
+haver$    search for wanted block in cache
+help$     prints I/O info on STDERR
+helpio    print internal info on file
+hshfcn    hash function
+ilen      find number of words needed to pack string
+insub     determine if argument is STDIN substitution
+isopen    returns file descriptor if file is open
+linkq     link buffer into circular queue at head
+locate    look for c in char class at pat(offset)
+makarg    get command line arguments from system/user
+mklocl    make local-style name from UNIX-style
+mkpath    generate UNIX-style pathname from local style
+movci$    store char in integer array
+movic$    get char from integer array
+omatch    try to match a single pattern at pat(j)
+open$     associate file with specified descriptor
+outc$     prints character on console
+outs$     prints string on console
+outl$     prints line on console
+outsub    determine if argument is STDOUT substitution
+pack      pack characters into words
+packnm    pack name in fcb for CP/M
+patsiz    returns size of pattern entry at pat(n)
+pint$     put integer into character array
+putcr$    put record to character device
+putr$     put record to file
+putrp$    write block to disk
+setenv    set environment parameters in sh.env
+sindex    find tok in str separared by sep
+slen      find number words taken up by packed string
+stclos    insert closure entry at pat(j)
+stlu      symbol table lookup primitive
+termin    get name of input channel to users teletype
+tint$     get integer from character array
+trmout    get name of output channel to users teletype
+unlink    remove buffer from any queue it may be in
+unpack    unpack characters from integers into strings
+zfill$    fills block to end with CP/M EOF character
+.DE

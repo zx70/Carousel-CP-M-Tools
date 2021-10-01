@@ -1,0 +1,134 @@
+.de H
+.sp
+.LP
+.ne 3
+.cu 1
+.bd 1
+.en
+.oh 'Library Descriptions''Ratfor Symbols'
+.eh 'Ratfor Symbols''Library Descriptions'
+.bp 6
+.TS
+STANDARD RATFOR SYMBOL DEFINITIONS IN RATDEF
+.TE
+.PP
+The following macro definitions are generally made available to the
+user automatically whenever
+.I ratfor
+is called.
+Case is significant.
+.H
+Printable ASCII characters:
+.sp
+.nf
+ACCENT    BIGH    BIGW     DIG7     LETE    LETT     RBRACE
+AMPER     BIGI    BIGX     DIG8     LETF    LETU     RBRACK
+AMPERSAND BIGJ    BIGY     DIG9     LETG    LETV     RPAREN
+AND       BIGK    BIGZ     DOLLAR   LETH    LETW     SEMICOL
+ATSIGN    BIGL    CARET    DQUOTE   LETI    LETX     SHARP
+BACKSLASH BIGM    COLON    EQUALS   LETJ    LETY     SLASH
+BANG      BIGN    COMMA    ESCAPE   LETK    LETZ     SQUOTE
+BAR       BIGO    DASH     GREATER  LETL    LPAREN   STAR
+BIGA      BIGP    DIG0     LBRACE   LETM    MINUS    TILDE
+BIGB      BIGQ    DIG1     LBRACK   LETN    NOT      UNDERLINE
+BIGC      BIGR    DIG2     LESS     LETO    OR
+BIGD      BIGS    DIG3     LETA     LETP    PERCENT
+BIGE      BIGT    DIG4     LETB     LETQ    PERIOD
+BIGF      BIGU    DIG5     LETC     LETR    PLUS
+BIGG      BIGV    DIG6     LETD     LETS    QMARK
+.H
+ASCII control character definitions:
+.sp
+.nf
+*NUL     *ENQ     *LF     *SI       *DC4     *EM      *RS
+*SOH     *ACK     *VT     *DLE      *NAK     *SUB     *US
+*STX     *BEL     *FF     *DC1      *SYN     *ESC     *SP
+*ETX     *BS      *CR     *DC2      *ETB     *FS      *DEL
+*EOT     *HT      *SO     *DC3      *CAN     *GS
+.H
+Synonyms for important non-printing ASCII characters:
+.sp
+.nf
+BACKSPACE  BLANK    FORMFEED    NEWLINE    TAB
+.H
+Ratfor language extensions:
+.sp
+.nf
+abs     character     filedes      IS_UPPER     min
+ABS     CHARACTER     IS_DIGIT     short_int    MIN
+andif   DS_DECL       IS_LETTER    max          pointer
+ARB     DS_DECLARE    IS_LOWER     MAX          POINTER
+.H
+Input/output modes:
+.sp
+.nf
+READ      WRITE      APPEND     READWRITE
+.H
+Standard input/output ports:
+.sp
+.nf
+ERROUT          # standard error file
+STDERR          # standard error file
+STDIN           # standard input file
+STDOUT          # standard output file
+TERMINAL_IN     # name of terminal (input channel)
+TERMINAL_OUT    # name of terminal (output channel)
+.H
+Constants included for readability and modifiability:
+.sp
+.nf
+ALPHA           # flag for alphabetic character
+ASCII           # flag for ASCII character file
+BEGINNING_OF_FILE  # flag to seek for positioning at
+                   # the beginning of a file
+BINARY          # flag for indicating binary file
+CHAR_DEFN       # flag for character-type data in hash tables
+DIGIT           # flag for number
+END_OF_FILE     # flag to seek for positioning at end of file
+EOF             # flag for end-of-file
+EOS             # used to mark end of character strings
+ERR             # error return from functions
+HUGE            # some arbitrarily large number
+LETTER          # flag for ASCII letter
+LOCAL           # flag for local-type character file
+NO
+NOERR           # flag for successful completion
+NULL            # empty pointer
+OK              # success flag
+PATH            # flag for UNIX-style pathnames
+YES
+.H
+Size limiting definitions for important objects:
+.sp
+.nf
+FILENAMESIZE    # max characters in file name
+MAXARG          # max size of command line argument
+MAXCHARS        # max nbr of chars when converting
+                # from integers to characters
+MAXLINE         # normal size of line buffers
+MAXNAME         # max size of file name
+MAXOFILES       # max nbr opened files allowed at a time
+MAXPAT          # max size of encoded patterns
+                # (used in string matching)
+MAXPATH         # max chars in path prefix or suffix list
+MAXTOK          # max size of tokens
+NCHARS          # number of special characters
+.ne 8
+.H
+Machine-dependent parameters:
+.sp
+.nf
+DRIVER          # main driving routine
+DRETURN         # return from main driving routine
+CPM             # definition specifying CP/M-80 system
+CPM86           # definition specifying CP/M-86 system
+MAX_INTEGER     # biggest integer that will fit in one word
+MS1_1           # MSDOS, IBM PCDOS 1.1 system
+MS2_0           # MSDOS, IBM PCDOS 2.0 system
+TEK             # Tektronix 4100-series system
+.sp
+.LP
+* Those symbols marked by '*' are not used in the CP/M version and
+have been commented out to save space.
+They can be reimplemented simply by removing the '#' comment character
+in the standard definitions file.

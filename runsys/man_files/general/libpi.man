@@ -1,0 +1,14 @@
+.eh ~Index of Library Functions~~Library Descriptions~
+.oh ~Library Descriptions~~Index of Library Functions~
+.bp 14
+.TS
+PERMUTED INDEX OF LIBRARY FUNCTIONS
+.TE
+.sp
+.ce 3
+Created by
+kwic liblist.1 | sort | unrot -62 | format macs libpi -
+with some lines removed after the unrot
+.sp 2
+.nf
+.so libpi.dat
