@@ -1,0 +1,63 @@
+.ce
+.bd
+.cu
+COPYRIGHT NOTICE
+.he ''''
+.fo ''''
+.PP
+All rights to the
+Carousel ToolKits Users Manual
+are reserved by Carousel MicroTools, Inc.
+The Manual may not, in whole or in part, be copied, photocopied, reproduced,
+translated, or reduced to any electric medium or machine readable form
+without the express written permission of Carousel MicroTools, Inc.
+.PP
+All of this publication except for the documents
+"A Beginner's Introduction to the Carousel Tools,"
+"A Tutorial Introduction to the Software Tools Text Editor,"
+and "Ratfor Primer" are copyrighted (c) 1983, 1984 by Carousel MicroTools, Inc.
+.sp 1
+.ce
+.bd
+.cu
+DISCLAIMER
+.PP
+Carousel MicroTools makes no representations or warranties with respect to the contents
+of this publication, or any software described by this publication,
+and specifically disclaims any implied warranties of merchantibility or
+fitness for any particular purpose.
+Further, Carousel MicroTools, Inc., reserves the right to revise this publication and the
+products it describes and to otherwise make changes to the products without
+obligation of Carousel MicroTools to notify any person or organization of such revision
+or changes.
+.PP
+Carousel MicroTools, Inc. claims no ownership rights to the source code
+that may be provided to you in this package,
+and in no way indicates that it is in a position to pass on any
+such rights to you.
+Use of the source code is entirely at the user's own risk.
+.sp 1
+.ce
+.bd
+.cu
+TRADEMARKS
+.PP
+CP/M is a trademark of Digital Research.
+MS is a trademark of Microsoft.
+IBM is a trademark of International Business Machines.
+Unix is a trademark of Bell Laboratories.
+Carousel ToolKits,
+Carousel Start-a-ToolKit, Carousel Use-a-ToolKit, Carousel Build-a-ToolKit,
+Carousel ToolBook, and Carousel Tools
+are trademarks of Carousel MicroTools, Inc.
+.sp 2
+.ce
+.bd
+.cu
+NOTICE
+.PP
+Any recommendations made in this publication concerning the use of software
+products supplied by Carousel MicroTools or other vendors are based on what Carousel MicroTools considers
+to be sound programming practices.
+If following these recommendations would violate an agreement with another
+vendor, our recommendation should be ignored.
