@@ -1,0 +1,39 @@
+.hd dsinit 03/23/80
+initialize dynamic storage space
+.sy
+.nf
+subroutine dsinit (w)
+integer w
+.fs
+"Dsinit" initializes an area of storage in the common block CDSMEM
+so that the routines "dsget" and "dsfree" can be used for dynamic
+storage allocation.
+The memory to be managed must be supplied by the user, by a
+declaration of the form: 
+   DS_DECL (mem, MEMSIZE)
+.br
+which turns into something similar to
+   integer mem (MEMSIZE)
+   common /cdsmem/ mem
+.br
+The memory size must then be passed to "dsinit" as its argument: 
+   call dsinit (MEMSIZE)
+.im
+"Dsinit" sets up an available space list consisting of two blocks,
+the first empty and the second containing all remaining memory.
+The first word of memory (below the available space list) is set
+to the total size of memory.
+.CI
+Dsinit is called by initst, which is invoked by DRIVER.
+Therefore, dsinit need not be called by user programs.
+.sp
+All available memory is shared by dsget and the disk I/O cache.
+.sp
+The macro definition DS_DECLARE in the standard definitions file
+should be used (rather than DS_DECL) in any routine needing to
+access the memory.
+The standard reference array is "Mem".
+.ca
+error
+.sa
+dsget, dsfree

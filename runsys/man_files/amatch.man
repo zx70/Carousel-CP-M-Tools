@@ -1,0 +1,52 @@
+.hd amatch
+look for pattern matching regular expression
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+loc = amatch (line, from, pat)
+.sp
+character line(ARB), pat(MAXPAT)
+integer from
+integer loc returns location/0
+.br
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+"amatch" scans "line" starting at location "from", looking
+for a pattern which matches the
+regular expression coded in "pat".
+If the pattern is found, its starting location in line is returned.
+If the pattern is not found, "amatch" returns 0.
+
+The regular expression in "pat" must have been previously
+encoded by "getpat" or "makpat".
+(For a complete description of regular expressions,
+see the
+writeup on the editor.) 
+
+"amatch" is a special-purpose version of "match", which should be
+used in most cases.
+
+.sp
+.ti -3
+SEE ALSO
+.br
+match, getpat, makpat
+.sp
+.ti -3
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+The version of "amatch" distributed by the Software Tools
+Users group includes two additional calling
+parameters: 
+.sp
+.ti +3
+loc = amatch (line, from, pat, tagbeg, tagend)
+.sp
+to allow for a tagged-pattern capability.

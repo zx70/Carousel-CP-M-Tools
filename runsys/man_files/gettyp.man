@@ -1,0 +1,55 @@
+.hd gettyp
+get type of file (character or binary)
+.sp
+.ti -3
+SYNOPSIS
+.br
+type = gettyp (name)
+.sp
+.nf
+character name(FILENAMESIZE)
+integer type returned as ASCII, LOCAL, BINARY
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+"gettyp" determines whether the file specified by "name" is ASCII
+characters, local characters (if different from ASCII), or
+binary.
+The type is returned as ASCII, LOCAL, or BINARY in the functional call.
+
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+A file's type may be determined by locating system information about
+the file, or "gettyp" might have to actually open the file
+and read part of it, making a reasonable "guess" as to its flavor.
+
+The shell uses "gettyp" to determine whether a command verb
+given by the user represents a script file or an executable Tool.
+If the file turns out to be a character (i.e.
+script) file, the
+shell then spawns itself with the file as input.
+Thus, if "gettyp" could not be reliably implemented on a
+particular system, the user would have to specifically execute
+her script files by: 
+.sp
+.ti +3
+% sh script ...
+.sp
+"Gettyp" may also be called by the archiver to store a file"s type
+in the
+archive header (for informational purposes only).
+.sp
+This primitive is not considered finalized.
+Most likely, another primitive will be specified which is
+used to pick up an assortment of information about a file.
+"Gettyp" is temporarily used by the shell until the final
+version is specified.
+.sp
+.ti -3
+DIAGNOSTICS
+.br
+ERR is returned if the file does not exist.

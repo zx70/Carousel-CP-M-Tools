@@ -1,0 +1,73 @@
+.hd dsget 03/23/80
+obtain a block of dynamic storage
+.sy
+.nf
+pointer function dsget (w)
+integer w
+.fs
+"Dsget" searches its available memory list for a block that is
+at least as large as its first argument.
+If such a block is found, its index in the memory list is returned;
+otherwise, an error message is printed and the program terminates.
+.sp
+In order to use "dsget", the following declaration must be present: 
+   DS_DECL (mem, MEMSIZE)
+.br
+where MEMSIZE is supplied by the user, and may take on any positive
+value between 6 and 32767, inclusive.
+Furthermore, memory must have been initialized with a call to "dsinit": 
+   call dsinit (MEMSIZE)
+.im
+"Dsget" is an implementation of Algorithm A" on pages 437-438 of
+Volume 1 of The Art of Computer Programming, by Donald E. Knuth.
+The reader is referred to that source for detailed information.
+.sp
+"Dsget" searches a linear list of available blocks for one of
+sufficient size.
+If none are available, a call to "error" results;
+otherwise, the block found is broken into two pieces, and the index
+(in array "mem") of the piece of the desired size is returned to
+the user.
+The remaining piece is left on the available space list.
+Should this procedure cause a block to be left on the available
+space list that is smaller than a threshhold size, the few extra
+words are awarded to the user and the block is removed entirely,
+thus speeding up the next search for space.
+If insufficient space is available, "dsget" reports "out of storage
+space" and allows the user to obtain a dump of dynamic storage
+space if he desires.
+.CI
+Dsget shares the pool of available memory with the disk I/O cache.
+A dsget may cause pending writes to happen so that the desired memory
+can be made available.
+Large contiguous dsgets should be made before much file I/O to help
+avoid unnecessary fragmentation.
+.sp
+Note that on CP/M, integer arrays passed to subroutines may
+be used as character arrays, within the subroutines.
+(However, use of this coincidence may result in non-portable code.) 
+Characters are stored in ascending locations which correspond
+to alternating the least and most significant halves
+of integers.
+The routines pack, unpack, movic$, movci$,
+tint$, and pint$ are used by various
+primitives to facilitate moving strings and characters
+to and from character arrays.
+.sp
+Dsget returns NULL if the desired memory could not be allocated.
+.ca
+error, dsdump
+.bu
+Should probably return error status to the user if space is not found.
+It is also somewhat annoying for the user to have to declare
+the storage area, but Fortran prevents effective use of pointers,
+so this inconvenience is necessary for now.
+Note that the storage area is declared as
+.ul
+integer,
+not
+.ul
+character,
+which may be cause for caution in some implementations.
+.sa
+dsfree, dsinit

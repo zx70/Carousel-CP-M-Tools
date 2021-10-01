@@ -1,0 +1,83 @@
+.hd atodat
+convert ASCII characters to integer dates
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+stat = atodat (str, date)
+.sp
+.nf
+character str(ARB)
+integer date(7)
+integer stat returned as OK/ERR
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Atodat converts an ASCII string into an array of integer dates.
+.sp
+The forms allowed for the character string are somewhat flexible.
+In the description below, yyyy represents at most 4 digits
+of the year.
+Similarly, mm, dd, hh, MM, ss represent digits for month, day,
+hour, minute, and second respectively.
+The symbol "mon" represents the month as a string.
+"mon" can be abbreviated.
+Case of letters is ignored.
+The forms allowed are: 
+.sp
+.nf
+.in +3
+yyyy mon dd
+mm/dd/yyyy
+dd mon yyyy
+ddmonyyyy
+mon yyyy
+mon dd yyyy
+yyyy:mm:dd:hh:MM:ss 
+yyyy:mm:dd:hh:MM 
+yyyy:mm:dd:hh 
+yyyy:mm:dd 
+yyyy:mm 
+yyyy
+.in -3
+.fi
+.sp
+":" or white-space may be used where ":" is shown. 
+If only a 2-digit year is given, year must be >31.
+.sp
+The integer array "date" is the same size and format as that
+returned by the "getnow" function, namely: 
+.sp
+.nf
+.in +3
+date(1) = year		(e.g. 1980)
+date(2) = month 	(e.g. 9)
+date(3) = day		(e.g. 25)
+date(4) = hour		(e.g. 13)
+date(5) = minute	(e.g. 39)
+date(6) = second	(e.g. 14)
+date(7) = millisecond 	(e.g. 397)
+.in -3
+.fi
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+This routine was not included in the Software Tools distribution.
+It is needed by CP/M and other systems who use the "date" Tool
+to set as well
+as retrieve the date.
+.sp
+.ti -3
+SEE ALSO
+.br
+getnow, fmtdat, wkday, date Tool
+.sp
+.ti -3
+DIAGNOSTICS
+.br
+ERR is returned if there are any errors in the incoming character
+date.

@@ -1,0 +1,25 @@
+.hd fold
+convert string to lower case
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call fold (str)
+
+character str(ARB)
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Converts the array "str" to lower case characters.
+Non-alphabetic characters are left unchanged.
+The "str" array is ASCII characters terminated by an EOS marker.
+.sp
+(This routine is exactly the same as "lower".) 
+.sp
+.ti -3
+SEE ALSO
+.br
+clower, cupper, upper, lower

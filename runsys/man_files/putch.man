@@ -1,0 +1,64 @@
+.hd putch
+write character to file
+.br
+.sp
+.ti -3
+SYNOPSIS
+.br
+call putch (c, fd)
+.sp
+.br
+character c
+.br
+filedes fd
+.sp
+.ti -3
+DESCRIPTION
+.br
+Putch
+writes the character
+c
+onto the file specified by
+file descriptor "fd".
+If
+c
+is the NEWLINE character,
+the appropriate action is taken to indicate the end of the record
+on the file.
+The character is assumed to be in ASCII format; however, if
+the output file is not of ASCII type, the necessary conversion
+is done.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Interspersed calls to
+putch
+and
+putlin
+work properly.
+One implementation is to have
+putlin
+perform repeated calls to
+putch.
+
+If the output file is not ASCII, characters are mapped
+into their corresponding format via
+the routine outmap.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+Only ASCII (text) files are supported on CP/M.
+Putch outputs the CR-LF pair for NEWLINES onto the disk for
+compatibility with other CP/M programs.
+Otherwise putch is the same as putch$.
+Tabs are expanded according to the environment parameter
+TAB (in sh.env) on character devices. 
+.sp
+Whenever binary output is needed, use writef.
+.sp
+.ti -3
+SEE ALSO
+.br
+putc, putlin, getch, getlin, readf, writef

@@ -1,0 +1,48 @@
+.hd closdr
+close a directory
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call closdr (dd)
+.sp
+.nf
+integer dd
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Closdr is similar to "close" only it closes (detachs)
+a directory rather than a file.
+The "dd" argument is a directory descriptor as returned
+from an "opendr" call.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+"Closdr" breaks the connection between the program and a directory
+accessed via "opendr".
+On some systems, "closdr" may simply be a call to "close".
+However, on other systems directories may not be accessed as
+normal files and will thus require special handling.
+.sp
+The user should explicitly close all directories that have
+been opened, since "endst" may not be set up to handle the job.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+This primitive was defined in the "Virtual Operating System"
+article by Hall, Scherrer, and Sventek but has
+not yet been included in the primitive set specified
+by the Software Tools Users Group.
+.sp
+Closdr frees the memory allocated by opendr.
+Note that "dd" is not the same as an fd returned by open.
+.sp
+.ti -3
+SEE ALSO
+.br
+opendr, close, endst

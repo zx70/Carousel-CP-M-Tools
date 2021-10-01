@@ -1,0 +1,28 @@
+.hd stcopy
+copy string at from(i) to to(j); increment j
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call stcopy(from, i, to, j)
+
+character from(ARB), to(ARB)
+integer i
+integer j             # j is incremented
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Copies the (sub)string of "from", starting in location "i",
+into array "to", starting at "j".
+'j' is incremented to point to the next available position in
+"to" (i.e.
+the EOS marker inserted by the copy).
+In all other respects, "stcopy" is similar to "scopy".
+.sp
+.ti -3
+SEE ALSO
+.br
+scopy, concat, addstr, addset

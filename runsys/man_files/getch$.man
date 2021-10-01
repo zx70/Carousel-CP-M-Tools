@@ -1,0 +1,54 @@
+.hd getch$
+read byte from file
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+stat = getch$ (b, fd)
+.sp
+.nf
+byte b
+integer fd
+integer stat returned as OK or EOF
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+"Getch$" is similar to "getch" only it copies 1 byte,
+rather than 1 character, from file "fd".
+No conversions of any type are applied to the character.
+The function returns EOF upon reaching the end of the file,
+otherwise it returns OK.
+.sp
+"Getch$" is conceptually the same as: 
+.sp
+.ti +3
+call readf (b, 1, fd)
+.sp
+Getch$ is not to be considered a portable primitive.
+It is described here to help the user understand the Tools
+I/O library.
+.sp
+.ti -7
+CP/M IMPLEMENTATION
+.br
+Getch and readf are implemented by calls to getch$.
+Reading from an unallocated disk block (in the middle of
+a file) returns value 0 (zero) in 'b'.
+Reading from a terminal or reader or user device will have
+whatever special effects are specified for that device.
+A raw mode for character devices is available through the
+"setmod" primitive.
+.sp
+Character devices return EOF on a CTRL-Z character.
+Disk files return EOF only when the last block has been read.
+Note that the unneeded trailing part of the last block will have
+been filled with CP/M EOF characters by putch$.
+These should be checked for by the user.
+.sp
+.ti -7
+SEE ALSO
+.br
+getch, readf, putch$

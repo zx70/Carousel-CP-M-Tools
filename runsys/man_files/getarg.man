@@ -1,0 +1,86 @@
+.hd getarg
+get command line arguments
+.sp
+.ti -3
+SYNOPSIS
+.br
+stat = getarg (n, array, maxsize)
+.nf
+.sp
+integer n, maxsize
+character array(ARB)
+integer stat returned as length/EOF
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Getarg returns the 'n'th argument to the current program in the
+array "arg", one character per array element.
+The argument is terminated by an EOS marker.
+"Maxsize"
+is passed as the maximum
+number of characters array is prepared to deal with (including
+the EOS);  getarg truncates the argument if necessary.
+Getarg returns the length of the argument in "arg"
+(excluding the EOS), or EOF
+if 'n' specified a non-existent argument.
+.sp
+On some systems, if 'n' is zero, the name of the current program
+is returned in "arg" and,
+if 'n' is -1, the function returns the number of
+arguments on the command line.
+.sp
+Also, on some systems, command line arguments can only be passed
+in a single case (upper or lower).
+On these systems an escape mechanism may be necessary to
+indicate case when specifying arguments.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+.sp
+The implementation of "getarg" may be quite different on different
+operating systems.
+Some systems allow only upper case (or lower case) on the command line;
+they may limit size; they may not even provide access at all without
+considerable contortions.
+
+When implementing "getarg", the designer should keep in mind that
+a "delarg" will also be needed.
+One possible design would be to create a routine "makarg", which would
+pick up the arguments from the system, convert them to ASCII strings,
+handle any upper-lower case escape conventions, and store them in an
+array.
+"Getarg" could then access this array, stripping off any quoted strings
+surrounding the arguments, and passing them along to the user.
+"Delarg" could also access this array when removing reference to
+arguments.
+
+If it is absolutely impossible to pick up command line arguments from
+the system, "makarg" could be taught to prompt the user for them.
+
+If the shell is implemented, "getarg" (or perhaps "markarg")
+will have to be altered to read arguments as passed from the shell.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+When a Tool is invoked by the CP/M command line interpreter,
+as opposed to the shell,
+all command line arguments are converted to upper case.
+Thus a special mechanism has been set up to allow passing
+of lower case arguments when needed (such as by the "find"
+and "ch" Tools).
+Initst calls a routine "makarg" to retrieve the arguments
+and initialize for getarg.
+If the only argument given by the user is a dot ('.'),
+makarg will prompt the terminal for arguments.
+All case distinctions with arguments received this way will
+be maintained.
+Case distinction is also maintained when using the shell.
+.sp
+.ti -3
+SEE ALSO
+.br
+initst, delarg

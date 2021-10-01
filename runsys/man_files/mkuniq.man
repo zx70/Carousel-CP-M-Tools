@@ -1,0 +1,70 @@
+.hd mkuniq
+generate unique file name
+.sp
+.ti -3
+SYNOPSIS
+.br
+len = mkuniq (seed, name)
+.sp
+.nf
+character seed(ARB), name(FILENAMESIZE)
+integer len returned as length/ERR
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Mkuniq generates a "unique" file name from a given seed string.
+This name is intended for use in subsequent calls to create
+and open.
+"Len" is returned as the number of characters in "name", not
+including the EOS marker.
+If there was some problem in creating the name, ERR is returned.
+.sp
+Mkuniq is generally used for generating scratch file names,
+such as those needed by the editor and archiver.
+.sp
+On single-user systems or others where the unique naming of
+scratch files is not important, mkuniq simply returns "seed".
+More sophisticated versions may construct a file name in a special
+directory, use process ids or time-and-date to insure uniqueness.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+"Mkuniq" is used to avoid conflicts which occur when more than
+one user is logged in under a single user or directory name.
+The optimum implementation would be to return an absolutely unique
+file name based on "seed".
+However, on most systems this is impossible.
+Another solution would be to append (or prepend) some sort of process
+identifier to "seed", thus making the file name at least unique to
+the calling process.
+To avoid privilege violations it might also be necessary to choose
+a specific directory for all scratch files, with appropriate privileges
+being assigned to it.
+.sp
+On some systems, "seed" is limited to a certain number of
+characters.
+
+On single-user systems, systems with local files, or other circumstances
+where unique file names are not a problem, "mkuniq" can simply return
+the "seed" as "name".
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+The name generated will be "T:seed.$$$" where T is the disk 
+specified in the environment parameter TEMP
+(in sh.env). 
+.sp
+.ti -3
+SEE ALSO
+.br
+getenv
+.sp
+.ne 2
+.ti -3
+DIAGNOSTICS
+.br
+If a file name could not be generated, ERR is returned.

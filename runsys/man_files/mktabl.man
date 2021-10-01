@@ -1,0 +1,63 @@
+.hd mktabl 03/23/80
+make a symbol table
+.sy
+.nf
+pointer function mktabl (nodesize)
+integer nodesize
+.fs
+"Mktabl" creates a symbol table for manipulation by the routines
+"enter", "lookup", "delete", and "rmtabl".
+The symbol table is a general means of associating data with a symbol
+identified by a character string.
+.sp
+The sole argument to "mktabl" is the number of (integer) words of
+information that are to be associated with each symbol.
+If character strings are to be stored in the table, pass
+the standard symbol CHAR_DEFN.
+This will allow variable length character strings to be
+kept without restricting their size.
+.sp
+The function return is the address of the symbol table in
+dynamic storage space (see "dsinit" and "dsget").
+This value must be passed to the other symbol table routines to
+select the symbol table to be manipulated.
+.sp
+Note that dynamic storage space must be initialized by a call to
+"dsinit" before using any symbol table routines.
+.im
+"Mktabl" calls "dsget" to allocate space for a hash table in dynamic
+memory.
+Each entry in the hash table is the head of a linked list
+(with the symbol definition LAMBDA
+used as a null link)
+of symbol table nodes.
+"Mktabl" also records the nodesize specified by the user, so
+"enter" will know how much space to allocate  when a new symbol
+is entered in the table.
+In the case of characters (passing CHAR_DEFN as nodesize),
+enough space to contain the character string will be
+allocated.
+.ca
+dsget
+.sa
+enter, lookup, delete, rmtabl,
+dsget, dsfree, dsinit, sctabl
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+The symbol table manipulation routines distributed by the
+Software Tools Users Group expected all data to be
+1) of the same length,
+and 2) of integer data type.
+The CMT implementation removes these restrictions
+to allow for the storage of variable length character
+strings.
+A table must be flagged as containing character data by
+passing the symbol CHAR_DEFN as the nodesize parameter
+when creating the table with "mktabl".
+Then, when strings are entered via "enter",
+enough space is allocated to hold the string.
+.sp
+The character strings are stored in the tables by packing them
+into integer words, thus wasting no space.

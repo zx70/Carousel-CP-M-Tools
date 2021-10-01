@@ -1,0 +1,35 @@
+.hd stncmp
+compare first n characters of strings
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+stat = stncmp (str1, str2, n)
+.sp
+.nf
+character str1(ARB), str2(ARB)
+integer n
+integer stat returned as -1/0/+1
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Stncmp compares the first 'n' characters of the str arrays
+and returns an integer greater than, equal to, or less than 0,
+depending on whether str1 is lexicographically greater than, equal to,
+or less than str2.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+This routine was not included in the Software Tools
+Users Group distribution tape.
+It is very similar to "strcmp" except that only the first "n" characters
+in each of the arrays in considered in the comparison.
+.sp
+.ti -3
+SEE ALSO
+.br
+strcmp

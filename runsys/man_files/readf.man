@@ -1,0 +1,68 @@
+.hd readf
+read from an opened file
+.br
+.sp
+.ti -3
+SYNOPSIS
+.br
+count = readf (buf, n, fd)
+.sp
+.nf
+byte buf(ARB)      (on some systems: integer buf(ARB)) 
+integer n
+filedes fd
+integer count returned as count/EOF
+.fi
+.br
+.sp
+.ti -3
+DESCRIPTION
+.br
+Readf reads 'n' bytes (or words) from the file opened on file
+descriptor "fd" into the array "buf".
+The bytes (or words) are placed in "buf" one per array element.
+Readf is the typical way of doing binary reads on files.
+Whether buf is declared a byte or an integer is
+dependent upon which is most appropriate for the host operating
+system.
+.sp
+Readf returns the number of bytes/words actually read.
+In most cases, this is equal to 'n'.
+However, it may be less if an EOF has been encountered or if
+"fd" specified a device such as a terminal where less than
+'n' bytes were input.
+.sp
+Readf and writef typically do not do character conversions or
+any other manipulations that may occur when using getch/putch.
+.sp
+Be wary of using readf/writef to the terminal -- they probably
+won't work.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Readf is the typical way of implementing binary I/O.
+Do whatever is necessary on your system to allow users
+to get at the file directly.
+.sp
+If reasonable, design readf to work properly in conjunction
+with getch and getlin.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+Readf reads 8-bit bytes by calls to getch$.
+Byte value 0 (zero) is returned on reads from unallocated blocks.
+Note that CP/M files are a multiple of 128-byte blocks long,
+so EOF will only be returned on a block boundary.
+(Thus the user is responsible for detecting EOF (CTR-Z) within
+the 128-byte blocks.) 
+.sp
+Readf reads 'n' bytes up to an EOF so it is not convenient to
+use with a terminal unless n is 1.
+.sp
+.ne 5
+.ti -3
+SEE ALSO
+.br
+writef, getch, putch

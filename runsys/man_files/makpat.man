@@ -1,0 +1,42 @@
+.hd makpat
+prepare regular expressions for subsequent pattern matching
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+i/ERR = makpat (arg, from, delim, pat)
+
+character arg(ARB), pat(MAXPAT), delim
+integer from
+.br
+.fi
+integer function returns ERR/updated index
+.sp
+.ti -3
+DESCRIPTION
+.br
+Makpat is similar to getpat, but slightly more special purpose.
+It is used to translate a regular expression into a format
+convenient for subsequent pattern matching via "match"
+or "amatch".
+(For a complete description of regular expressions, see the
+writeup on the editor.) 
+.sp
+Makpat scans "arg" starting at location "from" and terminates
+the scan at the "delim" character.
+The characters between arg(from) and the delimiter are
+then encoded into a pattern suitable for subsequent
+matching.
+The function returns an index into arg of the next character
+past the delimiter, or ERR if there was some problem encoding
+the pattern.
+.sp
+The pattern array should be dimensioned at least MAXPAT
+characters long, a definition available in the standard
+symbol definitions file.
+.sp
+.ti -3
+SEE ALSO
+.br
+getpat, match, amatch

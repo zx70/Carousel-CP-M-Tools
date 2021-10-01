@@ -1,0 +1,44 @@
+.hd gdrprm
+get next directory entry
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+stat = gdrprm (dd, file)
+.sp
+.nf
+integer dd
+character file(ARB)
+integer stat returned as length/EOF
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+"Gdrprm" is used to consecutively pick up the names of the
+files contained within a directory.
+It is used by "ls" and similar Tools.
+"dd" is passed as a directory descriptor as returned by
+"opendr".
+"File" is returned as the name of the first/next file in
+the directory.
+The function returns "EOF" when all file names have been
+retrieved; otherwise it returns the length of the filename.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+This primitive was defined in the "Virtual Operating System" paper
+by Hall, Scherrer, and Sventek but has not yet been required
+by the Software Tools Users Group.
+It should be considered tentative and subject to change.
+.sp
+File names are returned in a form readable by users
+as opposed to the form normally used
+by the local directory-listing utitity.
+.sp
+.ti -3
+SEE ALSO
+.br
+opendr, gdraux

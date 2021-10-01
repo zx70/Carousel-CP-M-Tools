@@ -1,0 +1,45 @@
+.hd enter 03/23/80
+place symbol in symbol table
+.sy
+.nf
+subroutine enter (symbol, info, table)
+character symbol (ARB)
+integer info (ARB)	# Sometimes "character info (ARB)"
+pointer table
+.fs
+"Enter" places the character-string symbol given as its first argument,
+along with the information given in its second argument, into the symbol
+table given as its third argument.
+.sp
+The symbol table used must have been created by the routine "mktabl".
+If the symbol talbe was not created with the CHAR_DEFN type,
+the size of the info array must be at least as large as the symbol
+table node size passed to "mktabl" at table creation time.
+.sp
+Should the given symbol already be present in the symbol table,
+its information field will simply be overwritten with the new information.
+.sp
+"Enter" uses the dynamic storage management routines, which
+require initialization by the user; see "dsinit" for further details.
+.im
+"Enter" calls "stlu" to find the proper location for the symbol.
+If the symbol is not present in the table, a call to "dsget" fetches
+a block of memory of sufficient size, which is then linked onto the
+proper chain from the hash table.
+Once the location of the node for the given symbol is known, the
+contents of the information array are copied into the node's information
+field.
+.ca
+stlu, dsget
+.sa
+lookup, delete, mktabl, rmtabl,
+dsget, dsfree, dsinit, sctabl
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+The version distributed by the Software Tools Users Group did not
+make allowances for storing character information.
+This version has been adjusted to allow for variable-length
+characters arrays to be stored.
+For more information, see "mktabl".

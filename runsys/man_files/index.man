@@ -1,0 +1,25 @@
+.hd index
+find character c in string str
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+loc = index(str, c)
+.sp
+character str(ARB), c
+.fi
+integer loc is returned as the location is str where c was located
+.sp
+.ti -3
+DESCRIPTION
+.br
+Returns the index of the first character in "str" that matches 'c',
+or zero if 'c' isn"t in the array.
+"str" is an ASCII character array terminated with an EOS marker.
+'c' is a single ASCII character.
+.sp
+.ti -3
+SEE ALSO
+.br
+match, getpat

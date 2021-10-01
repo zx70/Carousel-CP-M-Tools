@@ -1,0 +1,48 @@
+.hd remove
+remove a file from the file system
+.sp
+.ti -3
+SYNOPSIS
+.br
+stat = remove (filename)
+.br
+.sp
+.nf
+character filename(FILENAMESIZE)
+integer stat returned as OK/ERR
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+From within a running program, remove (or delete) the file
+specified by "name" from the file system.
+"Name" is an ASCII character array.
+The file need not be opened to be removed.
+
+If the file exists and can be removed, OK is returned.
+If the file does not exist or cannot be removed for some
+other reason, the function returns ERR.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+The file to be removed need not be connected to the running program.
+However, if it is,
+remove
+closes the file before removing it.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+Removes requires a CP/M format file name.
+.sp
+.ti -3
+SEE ALSO
+.br
+open, close, create, mklocl
+.sp
+.ti -3
+DIAGNOSTICS
+.br
+If the file does not exist the routine returns ERR.

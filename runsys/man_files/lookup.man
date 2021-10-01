@@ -1,0 +1,38 @@
+.hd lookup 03/23/80
+retrieve information from a symbol table
+.sy
+.nf
+integer function lookup (symbol, info, table)
+character symbol (ARB)
+integer info (ARB)
+pointer table
+.fs
+"Lookup" examines the symbol table given as its third argument for the
+presence of the character-string symbol given as its first argument.
+If the symbol is not present, "lookup" returns "NO".
+If the symbol is present, the information associated with it is copied
+into the information array passed as the second argument to "lookup",
+and "lookup" returns "YES".
+.sp
+The symbol table used must have been created by the routine "mktabl".
+If the table was not created using the CHAR_DEFN flag,
+the size of the information array must be at least as great as the
+symbol table node size specified at its creation.
+.sp
+Note that all symbol table routines use dynamic storage space, which
+must have been previously initialized by a call to "dsinit".
+.im
+"Lookup" calls "stlu" to determine the location of the symbol in the
+table.
+If "stlu" returns NO, then the symbol is not present, and "lookup"
+returns NO.
+Otherwise, "lookup" copies the information field from the appropriate
+node of the symbol table into the information array and returns
+YES.
+.am
+info
+.ca
+stlu
+.sa
+enter, delete, mktabl, rmtabl,
+sctabl, dsinit, dsget, dsfree

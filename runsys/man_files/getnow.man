@@ -1,0 +1,62 @@
+.hd getnow
+determine current date and time
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+subroutine getnow (now)
+integer now (7)
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+"Getnow" is used to query the operating system for the current date
+and time.
+The requested information is returned in a seven-word integer array,
+where: 
+word 1 contains the year (e.g.
+1980);
+word 2 contains the month (e.g.
+9);
+word 3 contains the day (e.g.
+25);
+word 4 contains the hour (e.g.
+13);
+word 5 contains the minute (e.g.
+39);
+word 6 contains the second (e.g.
+14);
+word 7 contains the millisecond (e.g.
+397).
+.sp
+The information returned by "getnow" may be used as-is or further
+useful processing may be done by "fmtdat" or "wkday".
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Operating systems generally have some mechanism for picking
+up the current date and time.
+If yours has one, use it.
+.sp
+Getnow is not critical to the implementation of the Tools and
+can be left as a stub if the operating system cannot supply
+the needed information.
+.sp
+.ti -3
+ARGUMENTS MODIFIED
+.br
+now
+.sp
+.ti -3
+LIMITATIONS AND DEFICIENCIES
+.br
+Some systems cannot obtain all the time information described.
+Array elements that cannot be filled default to zero.
+.sp
+.ti -3
+SEE ALSO
+.br
+fmtdat, wkday, date Tool, atodat

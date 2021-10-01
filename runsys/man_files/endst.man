@@ -1,0 +1,43 @@
+.hd endst
+close all open files and terminate program execution
+.sp
+.ti -3
+SYNOPSIS
+.br
+call endst (status)
+.sp
+integer status passed as OK or ERR
+.sp
+.ti -3
+DESCRIPTION
+.br
+Normally called at the end of any ratfor program or program
+which uses the Software Tools primitives.
+Closes all open files and terminates program execution.
+.sp
+On many systems a call to endst is made automatically, either
+by the system or by specifically inserting the call into
+code processed by the ratfor preprocessor.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Any open files are closed.
+If any files have been opened multiple times (that is, they have more
+than one internal descriptor assigned to them), care is
+taken that multiple closes do not damage
+the file.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+The version distributed by the Software Tools Users Group did
+not include the "status" argument.
+If the command was executed as part of a shell script and the
+status is ERR, the script is aborted and control is returned
+to the shell.
+.sp
+.ti -3
+SEE ALSO
+.br
+close, initst

@@ -1,0 +1,46 @@
+.hd flush
+flush output buffer for file "fd"
+.sp
+.ti -3
+SYNOPSIS
+.br
+call flush (fd)
+.sp
+filedes fd
+.sp
+.sp
+.ti -3
+DESCRIPTION
+.br
+Flush assures that any remaining characters in the output buffer
+of the file specified by "fd" are sent out to the file.
+It is useful for sending lines to a terminal-like device without
+requiring a NEWLINE character, and also for flushing buffers
+after calls to "writef".
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+It is expected that most Software Tools installations will employ
+some form of buffered I/O.
+Flush is intended to define the buffer-clearing operation that
+takes place before file closing, and to provide a means of
+insuring that output directed to a terminal has appeared
+on that terminal (e.g.
+before obtaining some input after
+a prompt).
+On systems with unbuffered I/O, flush is a no-op.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+Flush works as expected on terminal-like devices.
+On disk files, flush moves the current buffer to the cache
+but does not flush the cache.
+To guarantee all blocks are actually transferred to the disk
+the file must be closed.
+.sp
+.ti -3
+SEE ALSO
+.br
+prompt, writef, putch, putlin

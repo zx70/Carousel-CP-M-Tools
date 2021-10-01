@@ -1,0 +1,25 @@
+.hd concat
+concatenate 2 strings together
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call concat(buf1, buf2, outstr)
+
+character buf1(ARB), buf2(ARB), outstr(ARB)
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Copies the arrays buf1 and buf2 into the array outstr.
+
+All arrays are ASCII character arrays stored one character per
+array element.
+
+.sp
+.ti -3
+SEE ALSO
+.br
+scopy, stcopy, addset, addstr

@@ -1,0 +1,33 @@
+.hd esc
+map array(i) into escaped character, if appropriate
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+c = esc(array, i)
+
+character array(ARB)
+integer i              # i may be incremented
+
+character c is returned as the escaped character or array(i)
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+This function checks array(i) for the existence of an
+escape character (as defined by ESCAPE in the general
+symbol definitions).
+If an escape is found and is appropriate, array(i+1) is
+returned as the escaped character.
+
+Escaped n (@n) is mapped into NEWLINE, and escaped t
+(@t) is mapped into TAB.
+
+If no escape is found, the function returns array(i).
+.sp
+.ti -3
+SEE ALSO
+.br
+index, type

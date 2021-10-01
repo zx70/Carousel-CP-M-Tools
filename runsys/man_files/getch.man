@@ -1,0 +1,58 @@
+.hd getch
+read character from file
+.br
+.sp
+.ti -3
+SYNOPSIS
+.br
+c = getch (c, fd)
+.sp
+.nf
+character c
+filedes fd
+.fi
+.br
+.sp
+.ti -3
+DESCRIPTION
+.br
+Getch
+reads the next character from the file specified by
+fd.
+The character is returned in ASCII format both as the functional
+return and in the parameter
+c.
+If the end of a line has been encountered, NEWLINE is returned.
+If the end of the file has been encountered, EOF is returned.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Interspersed calls to
+getch and getlin
+work properly.
+A common implementation is to have
+getlin
+work by repeated calls to
+getch.
+
+If the input file is not ASCII, characters are mapped
+into their corresponding ASCII format via
+a routine called "inmap".
+
+Getch
+is able to recognize an end-of-file marker from either
+a terminal or a file.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+Getch is implemented by calls to getch$.
+The end-of-file from character devices is CTRL-Z.
+The end-of-file character on disk files is either the physical
+end of file or a CTRL-Z character.
+.sp
+.ti -3
+SEE ALSO
+.br
+getc, getlin, putch, putlin, readf, writef

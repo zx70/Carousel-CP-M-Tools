@@ -1,0 +1,37 @@
+.hd setmod
+set mode on terminal-like file
+.br
+.sp
+.ti -3
+SYNOPSIS
+.br
+newmod = setmod (fd, mode)
+.sp
+.nf
+filedes fd
+integer mode
+.fi
+.br
+.sp
+.ti -3
+DESCRIPTION
+.br
+Setmod allows changing the mode of character I/O to terminal-like
+devices.
+Fd must be the descriptor of a file opened to a terminal-like
+device as returned by the isaterminal function.
+Mode may be RAW, RARE, or COOKED.  Normal I/O is done in COOKED
+mode with tabs expanded, backspace and line delete done for
+the user etc.
+RAW mode provides direct byte I/O with no alteration.
+RARE mode is available on some systems as a compromise allowing
+process kill characters to be trapped etc.
+.sp
+Setmod returns the new mode.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+Only RAW and COOKED modes are implemented.
+On the console, RAW mode uses CP/M BDOS function 6,
+COOKED mode uses BDOS function 10 for input, 2 for output.

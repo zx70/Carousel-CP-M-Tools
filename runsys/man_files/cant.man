@@ -1,0 +1,32 @@
+.hd cant
+print "name: can"t open" and terminate execution 
+.sp
+.ti -3
+SYNOPSIS
+.br
+call cant(name)
+
+character name(ARB)
+.sp
+.ti -3
+DESCRIPTION
+.br
+On ERROUT, prints the filename specified by "name" followed by the
+message "can't open" and terminates execution.
+All open files are closed.
+Name is an ASCII character array terminated with an EOS marker.
+.sp
+Cant is essentially: 
+.br
+.in +5
+.nf
+call putlin (name, ERROUT)
+call remark (": can't open.") 
+call endst
+.fi
+.in -5
+.sp
+.ti -3
+SEE ALSO
+.br
+error, remark

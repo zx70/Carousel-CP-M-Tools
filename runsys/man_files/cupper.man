@@ -1,0 +1,22 @@
+.hd cupper
+convert character to upper case
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+c = cupper(c)
+
+character c
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Converts ASCII character c to upper case, if not already there.
+Non-alphabetic characters are returned unchanged.
+.sp
+.ti -3
+SEE ALSO
+.br
+upper, clower, fold, lower

@@ -1,0 +1,27 @@
+.hd query 09/25/80
+print command usage information on request
+.sy
+.nf
+subroutine query (usage)
+hollerith_string usage (ARB)
+.fs
+Many Software Tools commands will supply usage information
+when invoked with a single argument consisting only of a question
+mark.
+"Query" exists to simplify this convention for the programmer.
+.sp
+The sole argument is a period-terminated hollerith literal,
+such as that passed to "error".
+.sp
+When called, "query" checks to see that the command calling it was
+invoked with exactly one argument, and that that argument is a question
+mark.
+If so, the usage message is passed along to "error" and the command
+terminates.
+If not, "query" returns quietly.
+.im
+Two calls to "getarg", some tests, and a call to "error".
+.ca
+error
+.sa
+error

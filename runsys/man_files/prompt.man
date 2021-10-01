@@ -1,0 +1,61 @@
+.hd prompt
+prompt user for input
+.sp
+.ti -3
+SYNOPSIS
+.br
+stat =  prompt (str, buf, fd)
+.sp
+.nf
+character str(ARB), buf(MAXLINE)
+filedes fd
+stat returned as length/EOF
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Prompt determines if "fd" refers to a terminal-like device
+and, if so, writes the
+prompt string "str" to the terminal, and flushes its output buffer
+to insure the prompt is printed.
+A line of input is then read from fd by "getlin".
+.sp
+No carriage return/line feed sequence is done unless specified
+by a NEWLINE in the prompt string.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+The version of "prompt" on the tape is essentially: 
+.sp
+.in +3
+.nf
+if (isaterminal(fd) == YES)
+.in +3
+{
+call putlin(str, fd)
+call flush (fd)
+stat = getlin (buf, fd)
+}
+.in -3
+.in -3
+.fi
+Note that prompt expects to be able to read from and write
+to "fd".
+If this is not possible on your system, modify prompt
+to open a separate channel to the terminal for the write.
+.sp
+.ti -3
+SEE ALSO
+.br
+putlin, remark, flush, isatty
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+The version of prompt distributed by the Software Tools
+Users Group was simply a subroutine call, and did
+not return a status.
+The "stat" return is necessary for noting an end-of-file
+on a read and so was included in the CMT version.

@@ -1,0 +1,50 @@
+.hd getpat
+prepare regular expressions for subsequent pattern matching
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+stat = getpat (arg, pat)
+
+character arg(ARB), pat(MAXPAT)
+.br
+integer stat returned as length/ERR
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Getpat is used to translate a regular expression into a format
+convenient for subsequent pattern matching via "match"
+or "amatch".
+(For a complete description of regular expressions, see the
+writeup on the editor.) 
+.sp
+A typical scenario for pattern-matching might be: 
+.sp
+.nf
+.in +3
+stat = getpat(pattern_you_want_located, pattern_array)
+YES/NO = match(input_line, pattern_array)
+.in -3
+.fi
+.sp
+The pattern array should be dimensioned at least MAXPAT
+characters long, a definition available in the standard
+symbol definitions file.
+.sp
+If the pattern can be made, the functions returns the number
+of characters in "pat";
+otherwise it returns ERR.
+.sp
+Getpat is essentially a call to makpat with the
+following parameters: 
+.sp
+.ti +3
+getpat = makpat (arg, 1, EOS, pat)
+.sp
+.ti -3
+SEE ALSO
+.br
+makpat, match, amatch

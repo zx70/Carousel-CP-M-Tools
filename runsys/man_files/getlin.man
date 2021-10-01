@@ -1,0 +1,77 @@
+.hd getlin
+get next line from file
+.sp
+.ti -3
+SYNOPSIS
+.br
+stat = getlin (line, fd)
+.sp
+.nf
+character line(MAXLINE)
+filedes fd
+integer stat returned as length/EOF
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Getlin reads the next line from the file opened on file
+descriptor "fd" into the ASCII character array "line".
+Characters are copied until a NEWLINE character
+(or other end-of-record marker)
+is found or until MAXLINE characters have
+been copied.
+A NEWLINE character is returned whenever an end-of-line marker
+has been sensed and the entire string is termined with an EOS.
+
+If the line is longer than MAXLINE characters, some systems
+truncate the line to MAXLINE, while other systems return
+the remainder of the line in the next call to getlin.
+
+Getlin
+returns EOF when it encounters an end-of-file, and
+otherwise returns the line length (excluding the EOS).
+
+Interspersed calls to getlin and getch are allowed and work properly.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Getlin reads characters either directly from a file or from
+an internal buffer set up when the file was opened.
+When an end-or-record is encountered (by whatever means the
+system does that sort of thing), a NEWLINE character is returned
+by getlin.
+If the file contains characters in a representation other than
+ASCII, the characters are mapped (via
+inmap)
+into their internal ASCII representation.
+
+Getlin generally assumes a maximum size of the array
+line
+passed to it (MAXLINE).
+If the input line exceeds the limit, either truncate the
+line or return the rest of it in subsequent calls to getlin.
+
+Getlin
+and
+getch
+are compatible;
+that is, interspersed calls to
+getlin
+and
+getch
+are allowed and work properly.
+A common implementation is to have
+getlin
+call getch until a NEWLINE character is found
+(or MAXLINE is reached).
+
+Getlin
+is able to recognize end-of-file marks from both terminals
+and files.
+.sp
+.ti -3
+SEE ALSO
+.br
+getch, putch, putlin

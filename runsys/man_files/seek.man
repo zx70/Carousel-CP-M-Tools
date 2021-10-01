@@ -1,0 +1,67 @@
+.hd seek
+move read/write pointer
+.sp
+.ti -3
+SYNOPSIS
+.br
+call seek (offset, fd)
+.sp
+.br
+.nf
+integer offset(2)
+filedes fd
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+"seek" moves the read/write pointer of the file specified
+by "fd" to a (previously identified) spot
+specified by "offset".
+"Offset" must have been set by a call to "note", or its first
+element must be set to one of the constants END_OF_FILE or
+BEGINNING_OF_FILE (definitions available in the standard symbols
+file).
+.sp
+Once the file is positioned by a call to "seek",
+reading can be done using the standard I/O calls
+(getch, getlin, readf).
+"seek"
+can also be used for seeking to the end of a file and
+performing a write (thus extending the file).
+.sp
+Rewriting in place may not be allowed on some systems.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+"seek"
+depends heavily upon the peculiarities of the operating system.
+It can generally be used on files opened at READWRITE access.
+.sp
+The offset units are chosen to be whatever is most appropriate
+for the system involved: 
+characters, words, records, block numbers, line numbers, etc.
+Two words have been allotted for "offset" although some
+systems may not need that much.
+
+On some systems READWRITE access may have to be implemented by
+opening the file twice, once at READ and once at WRITE access.
+
+"seek" should be made compatible with the standard reading
+and writing routines.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+"seek" can be used on files opened in any mode.
+Seeks on character devices have no effect.
+Random seeks can be followed by reads or writes on files
+opened at READWRITE access.
+Writes after seeks to less than the end of file on files
+opened at WRITE access will result in logical truncation of the file.
+.sp
+.ti -3
+SEE ALSO
+.br
+note

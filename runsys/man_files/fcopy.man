@@ -1,0 +1,29 @@
+.hd fcopy
+copy file in to file out
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call fcopy (in, out)
+
+integer in, out
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Assuming that both files are opened, positioned, and ready to go,
+the routine copies lines from the current file position until
+an EOF is reached on file "in".
+"in" and "out" are file identifiers returned by open or create.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+"Fcopy" simply makes repeated calls to getch and putch.
+.sp
+.ti -3
+SEE ALSO
+.br
+open, create, getch, getlin, putch, putlin

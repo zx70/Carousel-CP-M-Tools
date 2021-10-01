@@ -1,0 +1,53 @@
+.hd writef
+write to an opened file
+.br
+.sp
+.ti -3
+SYNOPSIS
+.br
+count = writef (buf, n, fd)
+.sp
+.nf
+character buf(ARB)   or   integer buf(ARB)
+integer n
+filedes fd
+integer count returned as count/ERR
+.fi
+.br
+.sp
+.ti -3
+DESCRIPTION
+.br
+Writef writes "n" bytes from the array "buf" to the file
+opened on file descriptor "fd".
+Writef is the typical way of doing binary writes to files.
+Whether buf is declared an integer or a character array is
+dependent upon which is most appropriate for the host operating
+system.
+.sp
+Writef returns the number of bytes/words actually written.
+In most cases, this is equal to 'n'.
+If, however, a write error occurs, writef returns ERR.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Writef is the typical way of implementing binary I/O.
+Do whatever is necessary on your system to allow users
+to get at the file directly.
+.sp
+If reasonable, design writef to work properly in conjunction
+with putch and putlin.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+Writef is implemented by calls to putch$.
+Any type of data array can be used.
+'n' should be passed as the total number of 8-bit bytes
+to output.
+.sp
+.ti -3
+SEE ALSO
+.br
+readf, putch, putlin

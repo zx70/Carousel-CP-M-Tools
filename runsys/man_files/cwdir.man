@@ -1,0 +1,70 @@
+.hd cwdir
+change working directory
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+stat = cwdir (name)
+.sp
+.nf
+character name(ARB)
+integer stat returned as OK/ERR
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Cwdir is used to move from one directory to another,
+causing the new one to become the default or current working directory.
+"Name" is passed as an ASCII character string containing the name
+of the new desired directory.
+The name may be passed in either UNIX-style path format or in the
+local dialect.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Most systems have the notion of a current directory, perhaps
+a disk or location associated with a specific user.
+Some systems even allow the user to maintain multiple directories,
+either at the same level or structured hierarchically (directories
+within directories within directories, etc.).
+"Cwdir" allows the caller to move around to whatever directories
+are provided by the local operating system.
+On systems without hierarchical file systems, "cwdir" is used to
+move across device and/or user boundaries.
+On other systems, it may be used to move up and down within
+user-determined hierarchies.
+.sp
+The implementation of "cwdir" depends entirely upon the type of file
+structure allowed on the local system.
+.sp
+If possible, "cwdir" should be taught to read both UNIX-style
+pathnames as well as local ones.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+This primitive was defined in the "Virtual Operating System"
+article by Hall, Scherrer, and Sventek but
+has not yet been included in the Software Tools distribution.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+The CP/M version reads both local style and UNIX-style pathnames.
+.sp
+.I cwdir
+sets a byte at location CP/M base + 4.
+.sp
+.ti -3
+SEE ALSO
+.br
+gwdir
+.sp
+.ti -3
+DIAGNOSTICS
+.br
+ERR is returned if the specified directory cannot be located or
+accessed.

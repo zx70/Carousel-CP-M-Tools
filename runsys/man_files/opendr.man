@@ -1,0 +1,56 @@
+.hd opendr
+open a directory for reading
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+stat = opendr (name, dd)
+.sp
+.nf
+character name(ARB)
+integer dd
+integer stat returned as OK/ERR
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+"Opendr" is similar to "open" except it opens a directory
+rather than a file.
+The directory name is passed in "name" and can either by
+a UNIX-style pathname or a local format.
+"dd" is returned as a directory descriptor which is used
+to refer to the directory in subsequent calls to
+"gdraux", "gdrprm", "closdr", and the like.
+.sp
+ERR is returned if the directory could not be located
+or accessed.
+Otherwise OK is returned.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+"Opendr" is similar to "open" and has been included as a separate
+primitive because many systems do not allow the user to access
+a directory in the same manner as a file.
+The implementor should take whatever steps are necessary to
+access the directory, and should prepare it for perusal
+by routines such as gdrprm and gdraux.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+This primitive was defined in the "Virtual Operating System"
+article by Hall, Scherrer, and Sventek, but has not yet been
+included by the Software Tools Users Group.
+.sp
+Opendr prepares a disk directory for access by gdrprm or
+gdraux.
+The name passed may be in either local style (e.g., "a:") 
+or UNIX-style ("/a").
+.sp
+.ti -3
+SEE ALSO
+.br
+closdr, gwdir, open, close

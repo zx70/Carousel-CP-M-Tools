@@ -1,0 +1,30 @@
+.hd getc
+read character from standard input
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+c = getc (c)
+
+character c
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Getc
+reads the next character from the standard input.
+The character is returned in ASCII format both as the functional
+return and in the parameter c.
+If the end of a line has been encountered, NEWLINE is returned.
+If the end of the file has been encountered, EOF is returned.
+
+If the input file is not ASCII, characters are mapped
+into their corresponding ASCII format.
+
+.sp
+.ti -3
+SEE ALSO
+.br
+getch, getlin

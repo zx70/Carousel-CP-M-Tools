@@ -1,0 +1,60 @@
+.hd putlin
+output a line onto a given file
+.sp
+.ti -3
+SYNOPSIS
+.br
+call putlin (line, fd)
+.sp
+.nf
+character line(ARB)
+filedes fd
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Putlin writes the characters in "line" to the file opened on
+file descriptor "fd".
+If a NEWLINE character is located, appropriate action is
+taken to indicate the end-of-record in whatever format
+is necessary for the local operating system.
+If no NEWLINE character is specified, no carriage return (or
+end-of-record) is assumed.
+This probably means that the output buffer will not be flushed.
+
+Any necessary character translation is done if the output file
+is not of ASCII type.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Putlin should write the line onto the file and, if a NEWLINE
+is encountered,
+do whatever is necessary to indicate to the local operating
+system that a record has been generated.
+If the output file is to contain characters in a representation
+other than
+ASCII, the characters are mapped (via
+outmap)
+into their proper representation.
+
+Putlin
+and
+putch
+are compatible;
+that is, interspersed calls to
+putlin
+and
+putch
+are allowed and work properly.
+A common implementation is to have
+putlin
+call
+putch
+until an EOS marker is found.
+.sp
+.ti -3
+SEE ALSO
+.br
+putch, prompt, remark, getch, getlin

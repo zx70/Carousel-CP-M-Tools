@@ -1,0 +1,37 @@
+.hd delarg
+delete command line argument number 'n'
+.sp
+.ti -3
+SYNOPSIS
+.br
+call delarg (n)
+.sp
+integer n
+.sp
+.ti -3
+DESCRIPTION
+.br
+Delarg
+deletes the 'n'th command line argument, if it exists.
+After a successful call to delarg, calls to getarg
+behave as though the deleted argument had never
+been specified.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Delarg
+works in conjunction with "getarg".
+It generally re-orders indices to an array holding the command
+line arguments.
+.sp
+.ti -3
+SEE ALSO
+.br
+getarg,
+initst
+.sp
+.ti -3
+DIAGNOSTICS
+.br
+If argument 'n' does not exist, delarg simply returns.

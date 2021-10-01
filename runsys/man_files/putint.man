@@ -1,0 +1,30 @@
+.hd putint
+write integer n onto file fd in field width >=w
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call putint(n, w, fd)
+
+integer n, w, fd
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+This routine writes on the file specified by "fd" the number "n"
+as a string of at
+least "w" characters, including a sign if "n" is negative.
+If fewer than 'w' characters are needed, blanks are inserted to
+the left to make up the count; if more than 'w' are needed, more
+are provided.
+If 'w' is negative, the number is left-justified in the field.
+.sp
+"Fd" is a a file descriptor as returned by open or create.
+
+.sp
+.ti -3
+SEE ALSO
+.br
+itoc, putdec

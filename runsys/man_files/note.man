@@ -1,0 +1,62 @@
+.hd note
+determine current file position
+.sp
+.ti -3
+SYNOPSIS
+.br
+call note (offset, fd)
+.sp
+.nf
+integer offset(2)
+filedes fd
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Note determines the current value of a file's read/write pointer.
+The argument "offset" is a 2-word integer array that will receive
+the information.
+Offset is maintained untouched by the user and passed to "seek"
+when desiring to return to that particular location in the file.
+.sp
+Note is usually used as the file is being written,
+picking up the pointer
+to the end of the file before each record is inserted there.
+.sp
+On text files (e.g.
+those created by calls to putch, putlin),
+note is guaranteed to work at line boundaries only.
+However, it should work anywhere on a file created by calls
+to writef.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Note
+is compatible with whatever implementation is chosen for
+seek
+and
+the opening of files at READWRITE access.
+.sp
+Offset is a two-word integer in which is stored a character count,
+word address, block and record address, or whatever is appropriate
+for the local operating system.
+Note should be taught to return BEGINNING_OF_FILE and END_OF_FILE
+where appropriate.
+.sp
+In the editor, note is called to locate the end of file for
+subsequent writes.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+Offset(1) is the index (0-128) of the previous character read from
+or written to the file.
+Offset(2) is the block (0-32767) containing that character.
+However, use of this information may result in non-portable code.
+.sp
+.ti -3
+SEE ALSO
+.br
+seek, readf, writef

@@ -1,0 +1,55 @@
+.hd create
+create a new file (or overwrite an existing one)
+.sp
+.ti -3
+SYNOPSIS
+.br
+fd = create (name, access)
+.br
+
+.nf
+character name(FILENAMESIZE)
+integer access
+filedes fd - returned as a file descriptor/ERR
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Create
+creates a new file whose name is contained in "name"
+and then opens it for I/O according to the value of "mode",
+as if open had been called (see "open").
+If the file already exists, it is truncated and prepared for
+overwriting.
+.sp
+If the creation succeeded, create returns a file descriptor
+which is used to refer to the file in subsequent I/O calls.
+If the file could not be created, ERR is returned.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Create
+creates a new file from within a running program
+and connects the external name of the file to an internal
+identifier
+which is then usable in subsequent subroutine calls.
+If the file already exists, the old version is removed or
+truncated to 0 length and overwritten.
+All other functions are similar to
+open.
+
+On some systems a default character type (ASCII or LOCAL) is
+assigned to a newly-created file.
+.sp
+.ti -3
+SEE ALSO
+.br
+open, close
+.sp
+.ti -3
+DIAGNOSTICS
+.br
+The function returns ERR if the file could not be created or if
+there are already too many files open.

@@ -1,0 +1,33 @@
+.hd addstr
+add string s to str(j) if it fits, increment j
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+stat = addstr(s, array, j, maxsize)
+
+character s(ARB), array(ARB)
+integer j                 # j is incremented
+integer maxsize
+integer stat returned as YES/NO
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Copies the string "s" to array "str", starting in location "j".
+J is incremented to point to the next free position in "str".
+
+If the addition of s to str will exceed its maximum length (maxsize),
+no copying is done and the status NO is returned.
+
+Both s and str are ASCII character arrays stored one character per
+array element.
+
+YES is returned if the routine succeeded, otherwise NO.
+.sp
+.ti -3
+SEE ALSO
+.br
+scopy, stcopy, addset, concat

@@ -1,0 +1,60 @@
+.hd amove
+move (rename) file1 to file2
+.sp
+.ti -3
+SYNOPSIS
+.br
+stat = amove (name1, name2)
+.br
+.sp
+.nf
+character name1(FILENAMESIZE), name2(FILENAMESIZE)
+integer stat returned as OK/ERR
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Amove
+moves the contents of the file specified by
+name1
+to the file specified by
+name2.
+It is essentially a renaming of the file.
+If the file could be moved properly, OK is returned.
+If there were problems either creating the new file or
+deleting the old one, ERR is returned.
+
+Both file names are ASCII character strings terminated with an
+EOS marker.
+
+The files need not be connected to the running program to be
+renamed.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Amove primarily exists to change the name of a file,
+such as when moving the archive scratch file back to the original.
+If possible, this should be implemented with a "rename"
+primitive in the local operating system.
+If this capability isn't available, amove could be implemented
+as a copy/delete combination.
+.sp
+Amoves from different devices will most likely have to be
+implemented as copy/remove operations.
+.sp
+If the system supports naming conventions for devices
+such as terminals, then amoving a file to a TTY should copy the file
+to the terminal and then remove it.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+Moving to a file which is already opened (e.g.,
+moving a file to itself), is prevented.
+.sp
+.ti -3
+SEE ALSO
+.br
+fcopy, remove

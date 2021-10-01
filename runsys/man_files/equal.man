@@ -1,0 +1,25 @@
+.hd equal
+compare str1 to str2; return YES if equal
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+stat = equal(str1, str2)
+
+character str1(ARB), str2(ARB)
+integer stat is returned as YES/NO
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Compares two strings, returning YES if they are the same, NO
+if they differ.
+Each string is an ASCII character array
+terminated with an EOS marker.
+.sp
+.ti -3
+SEE ALSO
+.br
+strcmp

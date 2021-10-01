@@ -1,0 +1,52 @@
+.hd isatty
+determine if file is a terminal/CRT device
+.sp
+.ti -3
+SYNOPSIS
+.br
+stat = isatty (fd)
+.sp
+.br
+filedes fd
+.br
+integer stat returned as YES or NO
+.sp
+.ti -3
+DESCRIPTION
+.br
+This function returns
+YES if the file specified by
+.I fd
+is a terminal-like device,
+otherwise it returns NO.
+.I fd
+is a file descriptor returned by a call to
+.I open
+or
+.I create.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+When a file is opened, a flag is usually set indicating what device
+the file is associated with.
+This function generally reads that
+flag.
+Other implementations are possible, depending upon the operating
+system involved.
+.LP
+.I isatty
+is generally used by the Tools to determine whether they
+should issue prompts or not.
+.sp
+.ti -3
+SEE ALSO
+.br
+open, create
+.sp
+.ti -3
+DIAGNOSTICS
+.br
+NO is returned if
+.I fd
+is in error.

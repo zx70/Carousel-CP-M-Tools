@@ -1,0 +1,130 @@
+.hd open
+open an existing file for reading, writing, or both
+.sp
+.ti -3
+SYNOPSIS
+.br
+fd = open (name, access)
+.nf
+.sp
+character name(FILENAMESIZE)
+integer access
+.br
+.fi
+filedes fd - returned as file descriptor/ERR
+.sp
+.ti -3
+DESCRIPTION
+.br
+Open opens the file whose name is contained in "name" for I/O
+according to the value of "mode", which may be READ, WRITE,
+READWRITE, or APPEND.
+If the file exists and can be opened according to "mode",
+open returns a file descriptor.
+If the file cannot be opened, ERR is returned.
+
+After a file is opened, it is positioned at the beginning,
+unless APPEND access is requested, in which case the file
+is prepared for extension.
+
+Opening the same file for reading more than once is permissible
+and works correctly.
+However, on many systems a file may be opened only once in
+WRITE, APPEND, or READWRITE mode.
+
+There is generally a limit to the number of files that can be
+opened simultaneously.
+This number is specified by the definition MAXOFILES in the
+general symbol definition file.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+Open
+attaches an existing file to a running program
+and associates the external
+file name with an internal identifier
+which is then usable by the program.
+The file is opened for I/O according to the value of "mode",
+where mode may be READ, WRITE, READWRITE, or APPEND.
+"Name" is passed as an ASCII character array, stored one character
+per array element.
+The access modes READ, WRITE, READWRITE, and APPEND are global
+symbols defined in the standard definitions file.
+.sp
+Open
+does whatever manipulations
+are necessary to allow reading and/or writing to the file.
+An internal descriptor (usually an integer) is assigned to the file
+and subsequently
+used when calling other primitives such as close, getch, putch,
+getlin, and putlin.
+.sp
+"Open" should be able to open a channel to the terminal in
+response to the filenames defined by TERMINAL_IN and
+TERMINAL_OUT.
+It also might be taught to respond to other device names
+where appropriate.
+.sp
+Open
+may have to set up an internal I/O buffer for the file.
+It may also have to determine the file's
+type (terminal, character file, binary file).
+Information about the file's type and
+terminal characteristics (yes or no) is generally maintained
+and made available to the user via "isaterminal" and possibly
+other file characteristics primitives.
+
+Open
+is sometimes taught to read characters of ASCII type as well as local
+character type (if not ASCII).
+Translation of characters from local to ASCII is done when
+the characters are passed to
+getch
+and
+getlin.
+
+Opening a fresh instance of an already opened file is permissible
+and does not affect the position of the file as accessed by
+subsequent or previous calls.
+
+There is generally a limit to the maximum number of files
+open at any one time.
+10-15 is a common range.
+.sp
+READWRITE access may cause problems, or even be impossible
+on many systems.
+The only Tool which needs this access is the editor.
+If necessary, READWRITE access may be implemented by opening
+the file twice - once at READ and once at WRITE access.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+All of the features specified in this document have been implemented.
+In addition, the filename may be either local style or pathname style.
+.sp
+Random updates of any width are allowed using "seek" after opening
+the file at READWRITE mode.
+.sp
+A file may be opened several times concurrently for reading.
+However,
+opening the same disk file more than once at write mode (WRITE,
+READWRITE, APPEND) may cause loss of data.
+On a file opened at READWRITE, a seek should be made between
+reads and writes.
+.sp
+Opening a file in WRITE mode has the same effect as a create.
+.sp
+.ti -3
+SEE ALSO
+.br
+create, close, remove, getch, putch, readf, writef, seek, note, isaterminal
+.sp
+.ti -3
+DIAGNOSTICS
+.br
+Open returns ERR if the
+file does not exist, if one of the necessary directories (if any)
+does not exist or is unreadable, if the file is not readable/writeable,
+or if too many files are open.

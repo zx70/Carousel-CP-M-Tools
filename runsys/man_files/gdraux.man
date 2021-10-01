@@ -1,0 +1,57 @@
+.hd gdraux
+get auxilliary directory information
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call gdraux (dd, file, info, date)
+.sp
+.nf
+integer dd
+character file(FILENAMESIZE)
+character info(ARB)
+character date(ARB)
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+"Gdraux" is used to pick up additional information
+about a specific file in a specific directory.
+It is called by "ls" and similar Tools to get information
+about a file such as its
+size, access, and last change date.
+.sp
+"dd" is a directory descriptor as returned by an "opendr" call;
+file is an ASCII character string containing the name of
+the file whose information is desired.
+"Info" is returned as an ASCII array containing whatever information
+is available about the file.
+There is no required format or content.
+"date" is returned as a sortable form of the last change date of
+the file.
+On some systems this may not be available.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+This primitive was defined in the "Virtual Operating System"
+article by Hall, Scherrer, and Sventek, but was not
+one of those specified by the Software Tools Users Group.
+The Users Group is considering a more general way of retrieving
+useful information about a file, so this primitive
+should be considered tentative and subject to change.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+The "info" array contains the file size in 128-byte blocks,
+plus the flags "R/O", "R/W", and/or "SYS" indicating
+read-only, read-write, or system access.
+CP/M does not keep track of file dates, so no date is returned.
+.sp
+.ti -3
+SEE ALSO
+.br
+opendr, gdrprm

@@ -1,0 +1,32 @@
+.hd rmtabl 03/23/80
+remove a symbol table
+.sy
+.nf
+subroutine rmtabl (table)
+pointer table
+.fs
+"Rmtabl" is used to remove a symbol table created by "mktabl".
+The sole argument is the address of a symbol table in dynamic storage
+space, as returned by "mktabl".
+.sp
+"Rmtabl" deletes each symbol still in the symbol table, so it is normally
+not necessary to empty a symbol table before deleting it.
+However, if the information associated with a symbol includes a pointer
+to dynamic storage space, the space will not be reclaimed.
+(This problem can be averted by scanning the symbol table with "sctabl"
+and freeing dynamic objects, then removing the symbol table with "rmtabl".) 
+.sp
+Please see the manual entry for "dsinit" for instructions on
+initializing the dynamic storage space used by the symbol table
+routines.
+.im
+"Rmtabl" traverses each chain headed by the hash table created by "mktabl".
+Each symbol table node encountered along the way is returned to free
+storage by a call to "dsfree".
+Once all symbols are removed, the hash table itself is returned by
+a similar call.
+.ca
+dsfree
+.sa
+mktabl, enter, lookup, delete, dsget,
+dsfree, dsinit, sctabl

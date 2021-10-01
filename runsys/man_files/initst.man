@@ -1,0 +1,72 @@
+.hd initst
+initialize all standard files and common variables
+.sp
+.ti -3
+SYNOPSIS
+.br
+call initst
+.sp
+.ti -3
+DESCRIPTION
+.br
+This routine is generally the first routine called by any
+program desiring to
+use the Software Tools primitives.
+It opens STDIN, STDOUT, and ERROUT files, performing any file
+substitutions indicated on the command line.
+It also prepares the list of arguments needed by
+getarg
+and sets up any buffers, variables, etc.
+needed by the
+Software Tools primitives.
+
+On many systems, the calls to "initst" and "endst" are done
+automatically either by having the ratfor preprocessor insert
+them into the code, or by having the system itself call them
+before executing the user's program.
+.sp
+.ti -3
+IMPLEMENTATION
+.br
+"initst"
+initializes any common blocks, variables, buffers, arrays, or
+whatever is necessary to allow the other Software Tools
+primitives to operate.
+It may also have to retrieve (via "makarg") the list of command arguments
+passed to the program, if this is not automatically available from the
+operating system.
+
+"initst"
+is also responsible for parsing the command line
+to determine if there have been any file substitutions for
+STDIN, STDOUT, or ERROUT.
+The appropriate files (either the user's terminal or the substitutions)
+are then opened and properly positioned.
+Arrangements are made so that "getarg" won"t pick up standard
+file substitution flags on subsequent calls
+(probably by a call to "delarg").
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+"initst also reads the environment file "sh.env" to 
+determine system parameters.
+.sp
+The "ratdef" file includes the macro pair DRIVER and DRETURN
+which, if placed in the main program, will call "initst" and "endst".
+.sp
+.ti -3
+SEE ALSO
+.br
+endst, getarg, delarg
+.sp
+.ti -3
+DIAGNOSTICS
+.br
+If
+"initst"
+cannot function for some reason, the program
+generally aborts
+(possibly without an error message since the standard error file
+may not
+have been opened).

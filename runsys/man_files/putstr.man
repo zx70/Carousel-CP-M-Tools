@@ -1,0 +1,31 @@
+.hd putstr
+write str onto file fd in field width >=w
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call putstr(str, w, fd)
+
+character str(ARB)
+integer w, fd
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Putstr writes the character string "str" onto the file
+specified by "fd",
+in a field at least 'w' characters long.
+If fewer than 'w' characters are needed, blanks are inserted to
+the left to make up the count; if more than 'w' are needed, more
+are provided.
+If 'w' is negative, the characters are left-justified in the field.
+.sp
+"Fd" is a a file descriptor as returned by open or create.
+
+.sp
+.ti -3
+SEE ALSO
+.br
+putch, putlin, remark, error

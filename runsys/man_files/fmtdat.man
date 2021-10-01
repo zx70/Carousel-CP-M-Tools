@@ -1,0 +1,26 @@
+.hd fmtdat 09/25/80
+convert date information to character string
+.sy
+.nf
+subroutine fmtdat (date, time, now, form)
+character date (ARB), time (ARB)
+integer now (7), form
+.fs
+"Fmtdat" is used to convert date information (such as that provided
+by "getnow") into human-readable graphics.
+The first argument is a character string to receive the representation
+of the current date.
+The second argument is a character string to receive the representation
+of the current time.
+The third argument is a date specification in the same 7-word integer
+array format as is returned by "getnow" (year including century,
+month, day, hour, minute, second, millisecond).
+The fourth argument selects the format of the character representations;
+at present, only 0 is used, giving a date in the form MM/DD/YY and a time
+in the form HH:MM:SS. 
+.im
+Simple integer-to-character conversions.
+.am
+date, time
+.sa
+getnow, atodat, date Tool

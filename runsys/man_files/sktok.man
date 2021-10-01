@@ -1,0 +1,47 @@
+.hd sktok
+skip over tokens
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+i = sktok (buf, loc, tok)
+.sp
+.nf
+integer i returned as index to next token
+character buf(ARB)
+integer loc
+character tok(ARB)
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Sktok skips over any contiguous characters from "tok"
+starting at "loc" in "buf".
+i is returned as the index into "buf" of the first character
+not in "tok".
+Sktok is designed to work with gettok to conveniently
+extract tokens from a string.
+For example,
+.sp
+.nf
+.in +3
+for (i = sktok (buf, 1, sep) ;
+.in +3
+gettok (buf, i, tok, sep) != EOS;
+.in +3
+i = sktok (buf, i, sep) )
+.in +3
+{
+--- process token
+}
+.in -3
+.in -3
+.in -3
+.in -3
+.sp
+.ti -3
+SEE ALSO
+.br
+getwrd, gettok, skipbl

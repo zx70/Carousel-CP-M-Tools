@@ -1,0 +1,20 @@
+.hd clower
+fold c to lower case
+.sp
+.ti -3
+SYNOPSIS
+.br
+c = clower(c)
+
+character c
+.sp
+.ti -3
+DESCRIPTION
+.br
+Fold character c to lower case, if not already there.
+If c is not alphabetic, returns it unchanged.
+.sp
+.ti -3
+SEE ALSO
+.br
+fold, upper, lower, clower

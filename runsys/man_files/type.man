@@ -1,0 +1,24 @@
+.hd type
+determine type of character
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+t = type(c)
+
+character c
+character t is returned as LETTER, DIGIT, or c
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+This function determines whether the character 'c' is a letter,
+a digit, or something else; it returns LETTER, DIGIT, or the
+character itself.
+.sp
+.ti -3
+SEE ALSO
+.br
+index

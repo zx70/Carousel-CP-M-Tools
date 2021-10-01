@@ -1,0 +1,53 @@
+.hd ctoi
+convert string at in(i) to integer, increment i
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+n = ctoi(in, i)
+
+character in(ARB)
+integer i               # i is incremented
+integer n is returned as the converted integer
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Converts a character string to an integer.
+Starts looking at position
+i
+of
+in.
+Plus and minus signs are allowed.
+Leading blanks and tabs are ignored; any subsequent digits are
+converted to the correct numeric value.
+The first non-digit seen terminates the scan; upon return,
+i
+points to this position.
+n
+is returned as the value of the integer.
+
+The
+in
+array is an ASCII character array terminated with an EOS marker
+(or a non-numeric character).
+
+Zero is returned if no digits are found.
+.sp
+.ti -3
+SEE ALSO
+.br
+itoc
+.sp
+.ti -3
+LIMITATIONS AND DEFICIENCIES
+.br
+There are no checks for machine overflow.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+The version distributed by the Software Tools Users Group did
+not allow for plus or minus signs.

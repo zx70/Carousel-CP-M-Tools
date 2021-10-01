@@ -1,0 +1,30 @@
+.hd putc
+write character to standard output
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call putc (c)
+
+character c
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Putc
+writes a character onto the standard output file (STDOUT).
+If
+c
+is a NEWLINE character,
+the appropriate action is taken to indicate the end of the record
+on the file.
+The character is assumed to be in ASCII format; however, if
+the output file is not ASCII, characters are mapped
+into their corresponding format.
+.sp
+.ti -3
+SEE ALSO
+.br
+putch, putlin

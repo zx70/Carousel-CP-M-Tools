@@ -1,0 +1,26 @@
+.hd putdec
+write integer n in field width >=w
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call putdec(n, w)
+
+integer n, w
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+This routine writes onto the standard output the number 'n'
+as a string of at
+least "w" characters, including a sign if "n" is negative.
+If fewer than 'w' characters are needed, blanks are inserted to
+the left to make up the count; if more than 'w' are needed, more
+are provided.
+.sp
+.ti -3
+SEE ALSO
+.br
+itoc, putint

@@ -1,0 +1,58 @@
+.hd close
+close (detach) a file
+.sp
+.ti -3
+SYNOPSIS
+.br
+call close (fd)
+.sp
+filedes fd
+.sp
+.ti -3
+DESCRIPTION
+.br
+Close disassociates file descriptor "fd" from the opened
+file to which it refers.
+If "fd" is the only descriptor referring to that file,
+all pending I/O is completed and the file is closed.
+If "fd" does not refer to an opened file, close simply returns.
+"fd" is an internal file descriptor as returned from an
+open
+or
+create
+call.
+
+.ti -3
+IMPLEMENTATION
+.br
+Close
+breaks the connection between the program and a file accessed via
+open
+or
+create.
+If necessary, the file's write buffer is flushed and the end
+of the file is marked so that subsequent reads will find an EOF.
+If a file has been opened multiple times (that is, more than one
+internal descriptor has been assigned to a file), care is
+taken that multiple closes will not damage the file.
+.sp
+.ti -3
+CMT IMPLEMENTATION
+.br
+On CP/M, close finishes all pending writes from the buffer
+cache and returns the buffer space to the dynamic memory
+pool (see "dsfree").
+Closing a disk file (with WRITE access) when it is simultaneously
+opened one or more other times with WRITE access
+will cause loss of data.
+The user should avoid simultaneous opens of a single file at WRITE access.
+.sp
+.ti -3
+SEE ALSO
+.br
+open, create, endst
+.sp
+.ti -3
+DIAGNOSTICS
+.br
+If the file descriptor is in error, the routine simply returns.

@@ -1,0 +1,30 @@
+.hd itoc
+convert integer to character string
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+length = itoc(int, str, size)
+
+integer int, size
+character str(ARB)
+integer length returned as the number of characters needed
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Converts an integer "int" to characters in array "str", which
+is at most "size" characters long.
+"length" is returned as the number of characters the integer
+took, not including the EOS marker.
+Characters are stored in ASCII character arrays terminated with
+an EOS marker.
+.sp
+Negative numbers are handled correctly.
+.sp
+.ti -3
+SEE ALSO
+.br
+ctoi, putdec, putint

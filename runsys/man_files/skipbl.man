@@ -1,0 +1,24 @@
+.hd skipbl
+skip blanks and tabs at str(i)
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call skipbl(str, i)
+
+character str(ARB)
+integer i              # i is incremented
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Starting at position "i" of array "str", increments i while
+str(i) is a BLANK or TAB.
+"Str" is an ASCII character array terminated with an EOS marker.
+.sp
+.ti -3
+SEE ALSO
+.br
+getwrd

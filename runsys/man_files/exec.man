@@ -1,0 +1,57 @@
+.hd exec
+execute a program
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call exec (cmd, args)
+.sp
+.nf
+character cmd(ARB)
+character args(ARB)
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+"exec" can be called from within a running program to
+cause termination of that program and execution of another one.
+It is analogous to the "chain" feature of many operating systems.
+"cmd" is passed as the filename of the new program to execute.
+"args" is an array of command line arguments which will be sent
+untouched to the new program.
+.sp
+.ti -3
+CP/M IMPLEMENTATION
+.br
+This primitive has been developed to replace the "spawn" primitive,
+which is impossible on CP/M.
+.sp
+"exec" overlays the calling program by the command specified.
+The command must be an executable file on the current or
+specified disk.
+The extension .com or .tol must be included in the "cmd" string.
+.sp
+"args" contains the argument string to be sent to "cmd".
+"args" is copied into CP/M low memory as by the CCP.
+If "exec" recognizes the command as a Tool, no folding to upper
+case occurs.
+.sp
+"exec" prepares low memory and opens the command file.
+It then calls "exec$" with the FCB of "cmd" as an argument.
+"exec$" loads and starts the program in "cmd".
+.sp
+If "exec" is loading a Tool from a .tol or .com file it will load
+only the vairable part of the command image.
+If it is loading
+a non-Tool, the entire image is loaded.
+If the environment
+variable ATEND is not empty and "exec" is loading a non-Tool,
+a $$$.SUB file containing the contents of ATEND
+will be created.
+.sp
+.ti -3
+SEE ALSO
+.br
+sh Tool, run Tool, install Tool

@@ -1,0 +1,51 @@
+.hd putch$
+write byte to file
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+call putch$ (b, fd)
+.sp
+.nf
+byte b
+integer fd
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+"Putch$" is similar to "putch" except that it writes
+a byte, instead of a character, onto the file.
+No conversions of any kind are applied to the byte.
+.sp
+"Putch$" is conceptually the same as: 
+.sp
+.ti +3
+call writef (b, 1, fd)
+.sp
+Putch is not to be considered a portable primitive.
+It is described here to help the user understand the Tools
+I/O library.
+.sp
+.ti -7
+CP/M IMPLEMENTATION
+.br
+Putch and writef are implemented by calling putch$.
+Using putch to a character device (rather than a disk)
+will result in tab expansion according to the current
+tab spacing defined in sh.env
+in addition to whatever special effects are
+provided by the low level device drivers
+(such as CTRL-P mapping to the printer).
+Raw console I/O is available through the "setmode" primitive.
+Putch$ to a character device is flushed on a NEWLINE character
+or call to flush.
+Putch$ characters are buffered and cached on disk files.
+Partially filled blocks on disk are filled with the CP/M
+EOF character CTRL-Z.
+.sp
+.ti -7
+SEE ALSO
+.br
+putch, writef, getch$
