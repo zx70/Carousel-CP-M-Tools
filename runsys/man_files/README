@@ -1,0 +1,97 @@
+
+LIST OF ROUTINES IN THE LIBRARY
+
+addset      put character in array
+addstr      add string to a string
+amatch      find pattern matching regular expression
+amove       move (rename) a file
+atodat      convert characters to integer date
+cant        print "name: can’t open" and stop
+closdr      close directory
+close       close (detach) a file
+clower      change character to lower case
+concat      concatenate strings
+create      create or overwrite file
+ctoc        copy string to string
+ctoi        convert string to integer
+ctomn       translate control character to mnemonic
+cupper      convert character to upper case
+cwdir       change working directory
+delarg      delete command line argument
+delete      remove symbol from symbol table
+dsfree      free block of dynamic storage
+dsget       obtain block of dynamic storage
+dsinit      initialize dynamic storage
+endst       close all open files and end execution
+enter       place symbol in symbol table
+equal       compare 2 strings
+error       print single‐line message and end execution
+esc         map character into escaped character
+exec        execute task (replaces ’spawn’)
+fcopy       copy file
+flush       flush file output buffer
+fmtdat      convert date to character string
+fold        convert string to lower case
+gctoi       generalized character to integer conversion
+gdraux      get auxilliary directory information
+gdrprm      get next directory entry
+getarg      get command line arguments
+getc        read character from standard input
+getch$      read byte from file
+getch       read character from file
+getlin      get next line from file
+getnow      get current date and time
+getpat      encode regular expression
+gettok      parse tokens
+gettyp      get type of file (character or binary)
+getwrd      get non‐blank word
+gfnarg      get next file name argument
+gitoc       generalized integer to character conversion
+gwdir       get name of current working directory
+index       find character in string
+initst      initialize standard files and common variables
+isatty      determine if file is a terminal
+itoc        convert integer to character string
+length      compute length of string
+lookup      get string associated with name from hash table
+lower       convert string to lower case
+makpat      encode regular expression
+match       match pattern anywhere on line
+mktabl      make symbol table
+mkuniq      generate unique file name
+mntoc       translate mneumonic to character
+note        determine current file position
+open        open existing file for reading, writing, or both
+opendr      open directory for reading
+prompt      prompt user for input
+putc        write character to standard output
+putch$      write byte to file
+putch       write character to file
+putdec      write integer in field
+putint      write integer to file
+putlin      output line to file
+putstr      write string to file
+query       print command usage information
+readf       read from open file
+remark      print message
+remove      remove file from file system
+rmtabl      remove symbol table
+scopy       copy string
+sctabl      scan all symbols in symbol table
+sdrop       drop characters from string
+seek        move read/write pointer
+setmod      set character device mode
+skipbl      skip blanks and tabs in string
+sktok       skip over tokens
+slstr       take a substring from string
+stake       take characters from string
+stcopy      copy string
+stncmp      compare first characters of string
+stncpy      copy characters
+strcmp      compare strings
+strim       trim trailing blanks and tabs from string
+type        determine type of character
+upper       convert string to upper case
+wkday       get day of week corresponding to date
+writef      write to open file
+
