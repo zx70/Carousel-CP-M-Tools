@@ -1,0 +1,32 @@
+.hd addset
+put c in array(j) if it fits, increment j
+.sp
+.ti -3
+SYNOPSIS
+.br
+.nf
+stat = addset(c, array, j, maxsize)
+
+character c, array(ARB)
+integer j                 # j is incremented
+integer maxsize
+integer stat returned as YES/NO
+.fi
+.sp
+.ti -3
+DESCRIPTION
+.br
+Adds a character at a time to a specified position of an array
+and increments the index.
+It also checks that there's enough room to do so.
+
+The array is an ASCII character array stored one character per
+word.
+'c' is a single ASCII character.
+
+YES is returned if the routine succeeded, otherwise NO.
+.sp
+.ti -3
+SEE ALSO
+.br
+scopy, stcopy, addstr, concat
