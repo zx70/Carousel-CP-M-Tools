@@ -1,4 +1,7 @@
-.TH TUTORIAL SECTION
+.TH TUTORIAL Main
+.TL
+TUTORIAL SECTION
+.TE
 .PP
 This section of the Carousel ToolKit User Manual
 contains tutorials that are intended to be used in conjunction
