@@ -1,23 +1,23 @@
+.TH TUTORIAL ed_Tutorial
 .TL
-A TUTORIAL INTRODUCTION
-to the
-SOFTWARE TOOLS TEXT EDITOR
+A TUTORIAL INTRODUCTION to the SOFTWARE TOOLS TEXT EDITOR
 .TE
-.oh *Tutorial Section**ed Tutorial*
-.eh *ed Tutorial**Tutorial Section*
 .sp 2
-.ce 10
 B. W. Kernighan
+.br
 Bell Laboratories
+.br
 .sp
 and
+.br
 .sp
 M. J. Gralia
+.br
 Applied Physics Laboratory
+.br
 Johns Hopkins University
-.ce 0
 .sp 2
-.H2
+.SH
 INTRODUCTION
 .PP
 .ul
@@ -48,7 +48,7 @@ experienced users is also useful.)
 .PP
 Do the exercises!  They cover material not completely
 discussed in the actual text.  An appendix summarizes the commands.
-.H2
+.SH
 DISCLAIMER
 .PP
 This is an introduction and a tutorial.
@@ -69,7 +69,7 @@ end-of-line on your particular terminal.  It
 is almost always a "return".
 Throughout, we will refer to
 this character, whatever it is, as "newline".
-.H2
+.SH
 CASES
 .PP
 And about case:  it is traditional to use both upper and
@@ -91,7 +91,7 @@ contain both and your terminal is in upper case, you can
 get into a "deadly embrace" situation in which you can see a
 character but can't delete it.  The solution is simple -
 always use both upper and lower case with Software Tools.
-.H2
+.SH
 GETTING STARTED
 .PP
 We'll assume that you have logged in.
@@ -112,7 +112,7 @@ you are now ready to go -
 .ul
 ed
 is waiting for you to tell it what to do.
-.H2
+.SH
 CREATING TEXT - the Append command "a"
 .PP
 As our first problem, suppose we want to create some text
@@ -159,14 +159,14 @@ line or lines of text are to be
 affected - we will discuss these shortly.)
 .PP
 The first command is
-.bd 1
+.B
 append,
 written as the letter
 .DS
 a
 .DE
 all by itself.  It means
-.bd 1
+.B
 "append
 (or add) text lines to the buffer,
 as I type them in."  Appending is rather like writing fresh
@@ -213,7 +213,7 @@ To add more text to what we already have,
 just issue another "a" command, and continue typing.
 (Try it now - it won't always work right until
 we explain about line numbers.)
-.H2
+.SH
 ERROR MESSAGES - "?"
 .PP
 If at any time you make an error in the
@@ -227,13 +227,13 @@ it will tell you by typing
 This is about as cryptic as it can be, but with
 practice, you can usually figure out how you
 goofed.
-.H2
+.SH
 WRITING TEXT OUT AS A FILE - the Write command "w"
 .PP
 It's likely that we'll want to save our text for
 later use.  To write out the contents of the buffer
 onto a file, we use the
-.bd 1
+.B
 write
 command
 .DS
@@ -272,7 +272,7 @@ since if the system crashes or if you make some
 horrible mistake, you will lose all the text in
 the buffer, but any text that was written  onto a file
 is relatively safe.)
-.H2
+.SH
 LEAVING ED - the Quit command "q"
 .PP
 To terminate a session with
@@ -284,12 +284,12 @@ using the "w" command, and then type the command
 q
 .DE
 which stands for
-.bd 1
+.B
 quit.
 At this point your buffer vanishes,
 with all its text, which is why you want to write it out
 before quitting.
-.H2
+.SH
 EXERCISE 1:
 .PP
 Enter
@@ -318,14 +318,14 @@ crt filename
 .DE
 Here, you need to enter a newline (to see the next page)
 or "q" (to quit displaying the text).
-.H2
+.SH
 READING TEXT FROM A FILE - the Edit command "e"
 .PP
 A common way to get text into the buffer is to
 read it from a file in the file system.  This is
 what you do to edit text that you saved with the "w"
 command in a previous session.  The
-.bd 1
+.B
 edit
 command "e" fetches the entire contents of a
 file into the buffer.  So if we had saved the three
@@ -366,7 +366,7 @@ You can find out at any time what file named
 .ul
 ed
 is remembering by typing the
-.bd 1
+.B
 file
 command "f".  In our case, if we typed
 .DS
@@ -378,13 +378,13 @@ would reply
 .DS
 junk
 .DE
-.H2
+.SH
 READING TEXT FROM A FILE - the Read command "r"
 .PP
 Sometimes we want to read a file into the
 buffer without destroying anything that is already
 there.  This is done by the
-.bd 1
+.B
 read
 command "r".
 The command
@@ -399,7 +399,7 @@ e junk
 r junk
 .DE
 the buffer will contain
-.bd 1
+.B
 two
 copies
 of the text (six lines).
@@ -416,7 +416,7 @@ number of newlines read in, after the reading
 operation is complete.
 .PP
 Generally speaking, "r" is much less used than "e".
-.H2
+.SH
 EXERCISE 2:
 .PP
 Experiment with the "e" command - try reading
@@ -437,11 +437,11 @@ What does
 f filename
 .DE
 do?
-.H2
+.SH
 PRINTING THE CONTENTS OF THE BUFFER - the Print command "p"
 .PP
 To
-.bd 1
+.B
 print
 or list the contents of the buffer (or parts of
 it) on the terminal, we use the print command
@@ -466,7 +466,7 @@ Now is the time
 for all good men
 .DE
 Suppose we want to print
-.bd 1
+.B
 all
 the lines in the
 buffer.  We could use "1,3p" as above if we knew
@@ -482,13 +482,13 @@ sign "$".  Use it this way:
 1,$p
 .DE
 This will print
-.bd 1
+.B
 all
 the lines in the buffer
 (line 1 to the last line.)
 .PP
 To print the
-.bd 1
+.B
 last
 line of the buffer,
 we could use
@@ -518,7 +518,7 @@ In fact,
 ed
 lets us abbreviate even further:  we can
 print any single line by typing
-.bd 1
+.B
 just
 the line number - no need to type the letter "p".
 So if we say
@@ -536,7 +536,7 @@ $-1,$p
 which prints the last two lines of the buffer.
 This helps when we want to see how far we got
 in typing.
-.H2
+.SH
 EXERCISE 3:
 .PP
 As before, create some text using the append
@@ -549,7 +549,7 @@ reverse order by saying
 3,1p
 .DE
 does not work.
-.H2
+.SH
 THE CURRENT LINE - 'Dot' or '.'
 .PP
 Suppose our buffer still contains the six
@@ -624,7 +624,7 @@ We can also say
 #cc .
 .DE
 which means "print the line
-.bd 1
+.B
 before
 the current
 line." This enables us to go backwards if we
@@ -662,12 +662,12 @@ second (see Exercise 3.)
 .PP
 Typing a single newline will cause printing of the
 next line - it's equivalent to ".+1p".  Try it.
-.H2
+.SH
 DELETING LINES:  the "d" command
 .PP
 Suppose we want to get rid of the three extra
 lines in the buffer.  This is done by the
-.bd 1
+.B
 delete
 command
 .DS
@@ -693,7 +693,7 @@ And notice that "$" now is line 3!  Dot is set to the
 next line after the last line deleted, unless the
 last line deleted is the last line in the buffer.
 In that case, dot is set to "$".
-.H2
+.SH
 EXERCISE 4:
 .PP
 Experiment with "a", "e", "r", "w", "p", and "d" until
@@ -703,12 +703,12 @@ how dot, "$", and line numbers are used.
 If you are adventurous, try using line numbers
 with "a", "r", and "w" as well.  You will find that
 "a" will append lines
-.bd 1
+.B
 after
 the line number
 that you specify (rather than after dot); that "r" reads
 a file in
-.bd 1
+.B
 after
 the line number you specify
 (not necessarily at the end of the buffer); and that "w"
@@ -729,7 +729,7 @@ buffer by saying
 #cc .
 .DE
 Notice that ".w" is
-.bd 1
+.B
 very
 different from
 .DS
@@ -737,7 +737,7 @@ different from
 .
 w
 #cc .
-.H2
+.SH
 MODIFYING TEXT:  the Substitute command "s"
 .PP
 We are now ready to try one of the most important
@@ -784,19 +784,19 @@ start,end s/change this/to this/
 Whatever string of characters is between
 the first pair of slashes is replaced by whatever
 is between the second pair, in
-.bd 1
+.B
 all
 the lines between
 starting line and ending line.  Only the first occurrence on each line
 is changed, however.  If you want to change
-.bd 1
+.B
 every
 occurrence,
 see Exercise 5.  The rules for
 line numbers are the same as those for "p", except that dot
 is set to the last line changed. (But there is a trap for the
 unwary:  if no substitution took place, dot is
-.bd 1
+.B
 not
 changed.  This causes an error "?" as a warning.)
 .PP
