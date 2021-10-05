@@ -1,3 +1,4 @@
+.TH TUTORIAL Beginners_Introduction
 .TL
 A BEGINNER'S INTRODUCTION TO THE
 .sp
@@ -13,7 +14,7 @@ all at the same time.
 If you are already familiar with CP/M, you should
 still read the sections on files and file names,
 running programs, the shell, and script files.
-.H1
+.SH
 Logging On
 .PP
 "Logging on" essentially means telling the computer
@@ -22,17 +23,17 @@ On big machines this usually entails typing your name
 and perhaps additional information such as a password or account number.
 However, small computers simply need to be turned on.
 To turn on your computer:
-.NP
+.IP
 Switch on your terminal and your printer (if you have one).
-.NP
+.IP
 Switch on your computer in whatever way necessary.
-.NP
+.IP
 Switch on your disk drive.
 If you have floppies, insert your main "system" disk
 into your main drive (usually "a:").
 Insert other floppies into your other drives,
 if you are planning on using them.
-.NP
+.IP
 If switching on your computer doesn't automatically "boot"
 (that is, read in the operating system and get ready to go),
 do so by pressing the clear/reset and run buttons,
@@ -41,16 +42,16 @@ or follow the instructions for booting supplied with your system.
 You should now receive some confirmation on the screen that your
 computer is ready.
 The usual indication (or "prompt") is:
-.DS
+\fB
 A>
-.DE
+\fR
 If nothing happens, check to make sure everything is
 switched on,
 all your cables are correctly connected,
 your terminal is set to "Line" or "Remote",
 and you have the correct disk in your main disk drive.
 Then try step 4 again.
-.H1
+.SH
 What Is an Operating System?
 .PP
 When you buy a computer, the machine itself (the "hardware")
@@ -84,7 +85,7 @@ locate information in files,
 prepare data and scan output,
 write and test programs,
 and other similar word processing and program development tasks.
-.H1
+.SH
 Disks and Directories
 .PP
 CP/M, and in fact most operating systems,
@@ -112,31 +113,31 @@ Other directory names are "b:", "c:", "d:", etc.
 .PP
 CP/M will remind you which is your current directory by using
 its name in the prompt
-.DS
+\fB
 A>
-.RE
+\fR
 or
-.RS
+\fB
 B>
-.DE
+\fR
 If you want to move to a different directory
 (that is, if you want to do your work in a different place
 for a while),
 you can specify the new location simply by typing its name:
-.DS
+\fB
 b:
-.DE
+\fR
 This will cause CP/M to think of the "b:" disk as your current
 directory.
 You will now get the prompt
-.DS
+\fB
 B>
-.DE
+\fR
 until you move somewhere else.
 (The Software Tools have another way of changing from
 one directory to another.
 This is discussed in another tutorial.)
-.H2
+.SH
 Changing Floppies:
 .PP
 Another way of changing directories is by replacing the floppy
@@ -148,9 +149,9 @@ but what's inside the directory will change.
 .PP
 Whenever you do exchange floppies,
 you will have to tell CP/M that you have done so by typing:
-.DS
+\fB
 CTRL-C
-.DE
+\fR
 (hold down the Control (CTRL) key as though it is a shift and then hit C).
 The CTRL-C tells CP/M to make a new map in its memory of
 the empty space on your floppy.
@@ -158,7 +159,7 @@ If you don't hit CTRL-C,
 CP/M will use its old map, corresponding to your previous floppy.
 Imagine what would happen if CP/M used the old map when you
 tried to create a new file on a new floppy.
-.H1
+.SH
 Files and File Names
 .PP
 All the information your computer ever needs,
@@ -175,33 +176,33 @@ In fact, the computer "runs" a program by copying the program's
 file from disk into its memory and then executing it.
 When the program is done, the memory is erased (but, of course,
 not the file on disk).
-.H2
+.SH
 Naming a File
 .PP
 Files all have names, so that you can tell one apart from the other.
 When you create a new file, you must make up a name for it,
 based on some CP/M rules:
-.NP
+.IP
 a file name may start with 1-8 alphanumeric characters (letters
 or numbers),
 optionally followed by a period (.) and 0-3 more
 alphanumeric characters.
 For instance,
-.DS
+\fB
 george
 data.1
 57a.tmp
 Address.lst
-.DE
+\fR
 are all valid file names.
 Case is ignored in file names, thus
-.DS
+\fB
 ABNER
-.RE
+\fR
 and
-.RS
+\fB
 abner
-.DE
+\fR
 both refer to the same file.
 The part of the file name following the dot is called the "extension." 
 CP/M expects certain extensions on certain types of files.
@@ -212,7 +213,7 @@ keeping track of your files,
 such as ending all temporary files (i.e., files to be used a few times and
 then deleted) in ".tmp" or beginning a set of files
 belonging to a book with "chapter".
-.NP
+.IP
 File names should be unique within each directory.
 It is perfectly valid to have a file
 named "ethel" in directory a: and
@@ -221,7 +222,7 @@ but if you write a file named "ethel" in a directory that
 already has a file named "ethel",
 you will generaly overwrite the contents of the old file
 with that of the new.
-.H2
+.SH
 CP/M User Numbers
 .PP
 In addition to specifing the disk (e.g. A: or B:) that a file
@@ -234,7 +235,7 @@ CP/M names the user directories 0, 1, 2, ... 15.  The default user
 is 0.
 When using the Software Tools, user numbers may be considered
 to be part of the file name.
-.H2
+.SH
 CP/M Full File Names
 .PP
 The reason that you can successfully have files with the same
@@ -257,14 +258,14 @@ of a file name in CP/M, the Software Tools have been taught
 to recognize a leading number before the disk name as the
 user number.  Thus you could have two different files named
 arnold on disk B: if they belong to different users, e.g.
-.DS
+\fB
 0b:arnold
-.DE
+\fR
 is different from
-.DS
+\fB
 5b:arnold
-.DE
-.H2
+\fR
+.SH
 Pathnames
 .PP
 Now let's thoroughly confuse you:
@@ -276,36 +277,36 @@ directories,
 the Software Tools use a "pathname" construct where directories and
 file names are separated by slashes.
 For instance, the file
-.DS
+\fB
 b:harry
-.DE
+\fR
 would, in pathname format, be called
-.DS
+\fB
 /b/harry
-.DE
+\fR
 Many systems allow you to have directories within directories
 (much like manila file folders within a file drawer).
 On these systems, a file's full name would have to include
 the names of all the directories needed to reach the file.
 Thus
-.DS
+\fB
 /main/people/harry
-.DE
+\fR
 would be the name of a file "harry" which was in the directory "people"
 which in turn was in the directory "main".
 CP/M user numbers are treated as directories by the Tools so
 the pathname
-.DS
+\fB
 /5/b/harry
-.DE
+\fR
 is the same as
-.DS
+\fB
 5b:harry
-.DE
+\fR
 .PP
 The Software Tools understand both styles of file names,
 so feel free to use whichever you are most comfortable with.
-.H1
+.SH
 Devices
 .PP
 Terminals, printers, and other pieces of hardware attached
@@ -320,7 +321,7 @@ For instance, the printer's "file name" is "lst:"
 So, to print a file you could use one of the file-copying Tools,
 specifying "lst:" as the place you wanted your file copied to.
 The System-Specific section has a list of devices and their names.
-.H2
+.SH
 End-of-file Character for Devices
 .PP
 When a program is reading a regular disk file,
@@ -333,9 +334,9 @@ short, easy to type,
 and something which you wouldn't normally be giving as input to
 any of the programs.
 CP/M has picked
-.DS
+\fB
 CTRL-Z
-.DE
+\fR
 to be its end-of-file (I'm done) character.
 To type CTRL-Z you hold down the CTRL ("control") key like a shift
 and then hit "z".
@@ -344,7 +345,7 @@ Thus, anytime you are typing in data or information to a program
 you can tell it you're done by typing CTRL-Z.
 The program will then finish up and the computer will get ready to run
 more programs for you.
-.H1
+.SH
 Typing on the Terminal
 .PP
 In most Tools, when you type characters on a terminal
@@ -353,18 +354,18 @@ nothing is actually used by the computer until you hit the "RETURN"
 This is similar to hitting a carriage-return on a typewriter.
 Thus, if you make a mistake on a line before you hit RETURN,
 you can correct it in two ways:
-.NP
+.IP
 You can backspace over characters and retype them by using the
 BACKSPACE key, just as you would on a typewriter.
 If your terminal doesn't have one of these, you can also
 backspace by typing CTRL-H.
-.NP
+.IP
 If you've totaly mangled the line, you can erase it entirely
 by typing CTRL-X.
 .PP
 Remember, though, once you have hit RETURN your line has been taken
 by the computer and you can't change it.
-.H1
+.SH
 Running Non-Software Tools Programs Using CP/M
 .PP
 You run a non-Software Tools program simply by
@@ -374,9 +375,9 @@ CP/M is nice enough not to make you type that part of the name.
 So, if you want to run the program in the file named
 .CR audit.com ,
 you would type
-.DS
+\fB
 A> audit
-.DE
+\fR
 (CP/M typed the "A>"; it could have been "B>", etc.)
 .C audit.com
 had better be on the current directory or CP/M won't be able
@@ -384,21 +385,21 @@ to find it.
 .PP
 If you want to run a program on another directory, you can either
 change your current directory, as in
-.DS
+\fB
 A> b:
 B> audit
-.DE
+\fR
 or you can give the program's full file name:
-.DS
+\fB
 A> b:audit
-.DE
+\fR
 (Remember that the directory name is really part of a file's
 full name, so don't leave any spaces between the "b:" and "audit").
 Note that there is no way on CP/M to run a program in other
 than the current user directory.  CP/M doesn't understand
-.DS
+\fB
 5b:audit
-.DE
+\fR
 (The Tools shell does allow programs from other user numbers to be executed.)
 .PP
 To make a program "run", CP/M copies the program's file from the disk
@@ -407,7 +408,7 @@ then begins executing the copy in memory.
 The copying from disk to memory ("loading") generally takes a few seconds,
 and, if you have floppies, you'll be able to hear the floppy drive make
 little noises as it locates and copies the file you named.
-.H1
+.SH
 Command Line Arguments
 .PP
 Most programs need some inital information from you before they go off
@@ -417,9 +418,9 @@ what you wanted it to sort.
 Often you give this initial information by writing it on the same
 line as you typed the name of the command.
 For instance, if you typed
-.DS
+\fB
 A> audit february
-.DE
+\fR
 you might be telling the audit program that it should use the february
 data file.
 Any characters on the line after the program name are called "command
@@ -434,7 +435,7 @@ However, many CP/M commands want their arguments to be separated by commas or
 equal signs.
 The documentation for the various commands will explain exactly what is
 expected.
-.H1
+.SH
 Running Software Tools Programs Using CP/M
 .PP
 The Software Tools programs, or
@@ -449,15 +450,15 @@ As with CP/M program files,
 you do not need to specify the ".tol" when you run a Tool,
 and command line arguments may be specified.
 For example,
-.DS
+\fB
 A> run ls doc
-.DE
+\fR
 The Software Tools
 .I shell,
 which is described below,
 allows you to run Tools and other commands without using
 .I run.
-.H2
+.SH
 Getting Lower Case Arguments Through to the Tools
 .PP
 To most computers, lower case letters and upper case letters are
@@ -473,9 +474,9 @@ presents no problems since there is no case distinction
 made in file names (on CP/M).
 However, there are a few Tools where case is important.
 For instance, if
-.DS
+\fB
 A> run tool February
-.DE
+\fR
 used the argument "February" to compare with some internal list of
 months,
 it might not locate the "FEBRUARY" as it was passed by CP/M.
@@ -490,10 +491,10 @@ rather than receiving them from CP/M.
 To get the Tool to prompt, you type the command name,
 a space, and then a single period ".".
 Thus,
-.DS
+\fB
 A> run tool .
 Args: February
-.DE
+\fR
 The "tool" program prints "Args: " and you respond with the
 argument(s).
 .PP
@@ -512,7 +513,7 @@ Software Tools
 .I shell,
 which reads command arguments exactly
 as you typed them.
-.H1
+.SH
 The Shell
 .PP
 The part of CP/M that prompts with the "A>" and "B>" and that
@@ -522,18 +523,18 @@ a "command line interpreter."
 The Software Tools shell is also a command line interpreter
 that prompts, reads and executes commands, and passes arguments.
 The advantages of using the shell instead of CP/M's interpeter are:
-.NP
+.IP
 Both upper and lower case arguments can be given.
-.NP
+.IP
 The shell provides methods for easily combining commands
 together in various ways.
-.NP
+.IP
 The shell searches for commands in places besides the current
 directory, including different user numbers.
-.NP
+.IP
 The shell provides more convenient means for running script
 files (sets of commands put together and stored in a file).
-.NP
+.IP
 The shell has a commonly used syntax which is available on
 many different systems;
 thus it's easier for you to move to new machines without relearning
@@ -550,19 +551,19 @@ and times when CP/M's increased efficiency is.
 Thus, use whichever is most appropriate for the task.
 .PP
 Since the shell is a program, you run it by typing its file name:
-.DS
+\fB
 A> sh
-.DE
+\fR
 Thereafter, instead of the "A>" or "B>" prompt from CP/M, you
 will see the shell prompt:
-.DS
+\fB
 %
-.DE
+\fR
 You type commands and arguments to the shell just as you do
 to CP/M:
-.DS
+\fB
 audit February
-.DE
+\fR
 (although there's no need to use the period "." convention for
 passing lower case, since the shell sends arguments to the Tools
 just as they were typed).
@@ -578,22 +579,22 @@ more about the shell's capabilities and uses.
 .PA
 You may go back and forth between CP/M and the shell, if you want.
 To leave the shell, type
-.DS
+\fB
 logout
-.RE
+\fR
 or
-.RS
+\fB
 CTRL-Z
-.DE
+\fR
 (Remember, that's the end-of-file character which means "I'm done".) 
 Then you'll be back to the CP/M prompt:
-.DS
+\fB
 A> (or B>, etc.)
-.DE
+\fR
 To start the shell again, type
-.DS
+\fB
 A> sh
-.DE
+\fR
 All Software Tools and most CP/M utilities can be run from either
 CP/M or the shell.
 (Remember, you have to use
@@ -615,16 +616,16 @@ be run from the shell.
 and
 .I cd
 can be used instead of the first four.)
-.H1
+.SH
 Stopping a Running Program  (Or - Hitting the Panic Button)
 .PP
 Suppose you start a program running and then change your mind,
 or there has been some horrendous mistake and the program is
 spewing out unwanted output all over your terminal.
 You can usually stop ("abort") a running program by typing
-.DS
+\fB
 CTRL-C
-.DE
+\fR
 CTRL-C causes what computer people call a "warm boot".
 It stops the programs and resets the computer to a state where
 you can continue.
@@ -634,7 +635,7 @@ then you'll have to "cold" boot your system.
 You do this in the same way as you turn on and "boot" your
 machine when you first start.
 You may have to turn a key or push one or two buttons.
-.H1
+.SH
 Script Files and "Submit"
 .PP
 Suppose you have a set of commands that you always do in sequence,
@@ -642,7 +643,7 @@ or which you have to do over and over again.
 You don't want to type them all in each time.
 Both CP/M and the shell provide a way for executing this group
 of commands.
-.H2
+.SH
 CP/M's "Submit" Capability
 .PP
 To make a set of commands, you first write your list of
@@ -653,9 +654,9 @@ you must name the file something which ends in ".sub".
 Let's imagine you wrote some commands into the file
 .CR doit.sub .
 You could then execute the command by typing:
-.DS
+\fB
 A> submit doit
-.DE
+\fR
 You must be on the a: disk to run
 .I submit
 (unless you have fixed your copy of
@@ -686,11 +687,11 @@ in "$1".
 The "$1" means replace the $1 with the first command
 line argument.
 Then you'd execute "doit" like this:
-.DS
+\fB
 A> submit doit erma
 A> submit doit george
 A> submit doit trixie
-.DE
+\fR
 When
 .I submit
 found the characters "$1" in
@@ -706,14 +707,14 @@ If you start up a
 .I submit
 file but something goes wrong or you
 change your mind, you have two recourses:
-.NP
+.IP
 Reboot the system with the switch(es) on your computer.
-.NP
+.IP
 Hit RETURN several times immediately after one of the commands
 has finished.
 .PP
 Neither of these "aborts" is elegant, but they will do the job.
-.H2
+.SH
 Shell Script Files
 .PP
 Shell script files are very much like CP/M
@@ -733,14 +734,14 @@ Thus, (if I changed the above example's file name from
 to
 .I doit
 I would type:
-.DS
+\fB
 % doit erma
 % doit george
 % doit trixie
-.DE
+\fR
 You can read more about scripts in the description of
 .I sh.
-.H1
+.SH
 Back-ups and New Disks
 .PP
 Lots of disasters can befall your disk (whether floppy or hard):
@@ -765,22 +766,22 @@ If you are working with floppies, you will probably have
 to "format" them before CP/M can write on them.
 How you do this depends on the drive and system you have,
 but in general you:
-.NP
+.IP
 Take the new floppy and cover up the small write-lock notch with
 a seal on 8" floppies, or uncover the notch on 5" floppies
 (if you bought the kind of floppies that have one).
-.NP
+.IP
 Load the new floppy into a drive.
-.NP
+.IP
 Run whatever program is necessary to format the floppy for
 your system.
 .LP
 Then, to copy all the files in the current user number on one floppy
 to another floppy
 (let's say a: is the old and b: is the new):
-.DS
+\fB
 A> pip b:=a:*.*[ov]
-.DE
+\fR
 If you don't want to back up all the files, you
 could individually save the ones you want using one
 of the copy utilities
