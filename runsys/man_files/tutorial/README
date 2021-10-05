@@ -1,0 +1,11 @@
+The format tags in the original documents have been adjusted to be readable with a modern 'man' program as follows:
+
+.H1 -> .SH
+.H2 -> .SH
+.NP -> .IP
+
+.DS -> \fB
+.RS -> \fB
+.DE -> \fR
+.RE -> \fR
+
