@@ -1,11 +1,7 @@
-.TH TUTORIAL Beginners_Introduction
+.TH TUTORIAL Beginner's_Introduction
 .TL
-A BEGINNER'S INTRODUCTION TO THE
-.sp
-SOFTWARE TOOLS ON CP/M-80
+A BEGINNER'S INTRODUCTION TO THE SOFTWARE TOOLS ON CP/M-80
 .TE
-.oh ~Tutorial Section~~Beginner's Introduction~
-.eh ~Beginner's Introduction~~Tutorial Section~
 .sp 3
 .PP
 This document is designed for those people who are being introduced
@@ -42,9 +38,11 @@ or follow the instructions for booting supplied with your system.
 You should now receive some confirmation on the screen that your
 computer is ready.
 The usual indication (or "prompt") is:
+.PP
 \fB
 A>
 \fR
+.PP
 If nothing happens, check to make sure everything is
 switched on,
 all your cables are correctly connected,
@@ -120,19 +118,24 @@ or
 \fB
 B>
 \fR
+.PP
 If you want to move to a different directory
 (that is, if you want to do your work in a different place
 for a while),
 you can specify the new location simply by typing its name:
+.PP
 \fB
 b:
 \fR
+.PP
 This will cause CP/M to think of the "b:" disk as your current
 directory.
 You will now get the prompt
+.PP
 \fB
 B>
 \fR
+.PP
 until you move somewhere else.
 (The Software Tools have another way of changing from
 one directory to another.
@@ -149,9 +152,11 @@ but what's inside the directory will change.
 .PP
 Whenever you do exchange floppies,
 you will have to tell CP/M that you have done so by typing:
+.PP
 \fB
 CTRL-C
 \fR
+.PP
 (hold down the Control (CTRL) key as though it is a shift and then hit C).
 The CTRL-C tells CP/M to make a new map in its memory of
 the empty space on your floppy.
@@ -375,9 +380,11 @@ CP/M is nice enough not to make you type that part of the name.
 So, if you want to run the program in the file named
 .CR audit.com ,
 you would type
+.PP
 \fB
 A> audit
 \fR
+.PP
 (CP/M typed the "A>"; it could have been "B>", etc.)
 .C audit.com
 had better be on the current directory or CP/M won't be able
@@ -385,14 +392,20 @@ to find it.
 .PP
 If you want to run a program on another directory, you can either
 change your current directory, as in
+.PP
 \fB
 A> b:
+.PP
+\fB
 B> audit
 \fR
+.PP
 or you can give the program's full file name:
+.PP
 \fB
 A> b:audit
 \fR
+.PP
 (Remember that the directory name is really part of a file's
 full name, so don't leave any spaces between the "b:" and "audit").
 Note that there is no way on CP/M to run a program in other
@@ -418,9 +431,11 @@ what you wanted it to sort.
 Often you give this initial information by writing it on the same
 line as you typed the name of the command.
 For instance, if you typed
+.PP
 \fB
 A> audit february
 \fR
+.PP
 you might be telling the audit program that it should use the february
 data file.
 Any characters on the line after the program name are called "command
@@ -450,9 +465,11 @@ As with CP/M program files,
 you do not need to specify the ".tol" when you run a Tool,
 and command line arguments may be specified.
 For example,
+.PP
 \fB
 A> run ls doc
 \fR
+.PP
 The Software Tools
 .I shell,
 which is described below,
@@ -474,9 +491,11 @@ presents no problems since there is no case distinction
 made in file names (on CP/M).
 However, there are a few Tools where case is important.
 For instance, if
+.PP
 \fB
 A> run tool February
 \fR
+.PP
 used the argument "February" to compare with some internal list of
 months,
 it might not locate the "FEBRUARY" as it was passed by CP/M.
@@ -491,10 +510,14 @@ rather than receiving them from CP/M.
 To get the Tool to prompt, you type the command name,
 a space, and then a single period ".".
 Thus,
+.PP
 \fB
 A> run tool .
+.PP
+\fB
 Args: February
 \fR
+.PP
 The "tool" program prints "Args: " and you respond with the
 argument(s).
 .PP
@@ -551,19 +574,25 @@ and times when CP/M's increased efficiency is.
 Thus, use whichever is most appropriate for the task.
 .PP
 Since the shell is a program, you run it by typing its file name:
+.PP
 \fB
 A> sh
 \fR
+.PP
 Thereafter, instead of the "A>" or "B>" prompt from CP/M, you
 will see the shell prompt:
+.PP
 \fB
 %
 \fR
+.PP
 You type commands and arguments to the shell just as you do
 to CP/M:
+.PP
 \fB
 audit February
 \fR
+.PP
 (although there's no need to use the period "." convention for
 passing lower case, since the shell sends arguments to the Tools
 just as they were typed).
@@ -588,13 +617,17 @@ CTRL-Z
 \fR
 (Remember, that's the end-of-file character which means "I'm done".) 
 Then you'll be back to the CP/M prompt:
+.PP
 \fB
 A> (or B>, etc.)
 \fR
+.PP
 To start the shell again, type
+.PP
 \fB
 A> sh
 \fR
+.PP
 All Software Tools and most CP/M utilities can be run from either
 CP/M or the shell.
 (Remember, you have to use
@@ -623,9 +656,11 @@ Suppose you start a program running and then change your mind,
 or there has been some horrendous mistake and the program is
 spewing out unwanted output all over your terminal.
 You can usually stop ("abort") a running program by typing
+.PP
 \fB
 CTRL-C
 \fR
+.PP
 CTRL-C causes what computer people call a "warm boot".
 It stops the programs and resets the computer to a state where
 you can continue.
@@ -654,9 +689,11 @@ you must name the file something which ends in ".sub".
 Let's imagine you wrote some commands into the file
 .CR doit.sub .
 You could then execute the command by typing:
+.PP
 \fB
 A> submit doit
 \fR
+.PP
 You must be on the a: disk to run
 .I submit
 (unless you have fixed your copy of
@@ -687,11 +724,17 @@ in "$1".
 The "$1" means replace the $1 with the first command
 line argument.
 Then you'd execute "doit" like this:
+.PP
 \fB
 A> submit doit erma
+.PP
+\fB
 A> submit doit george
+.PP
+\fB
 A> submit doit trixie
 \fR
+.PP
 When
 .I submit
 found the characters "$1" in
@@ -734,11 +777,17 @@ Thus, (if I changed the above example's file name from
 to
 .I doit
 I would type:
+.PP
 \fB
 % doit erma
+.PP
+\fB
 % doit george
+.PP
+\fB
 % doit trixie
 \fR
+.PP
 You can read more about scripts in the description of
 .I sh.
 .SH
@@ -779,9 +828,11 @@ your system.
 Then, to copy all the files in the current user number on one floppy
 to another floppy
 (let's say a: is the old and b: is the new):
+.PP
 \fB
 A> pip b:=a:*.*[ov]
 \fR
+.PP
 If you don't want to back up all the files, you
 could individually save the ones you want using one
 of the copy utilities
