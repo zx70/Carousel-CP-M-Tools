@@ -1,0 +1,1728 @@
+.TH TUTORIAL Intro_to_the_Tools
+.TL
+INTRODUCTION TO THE SOFTWARE TOOLS
+.TE
+.sp 2
+.ce 10
+Adapted with the author's permission, from
+"UNIX for Beginners - Second Edition"
+Brian Kernighan
+Bell Laboratories
+Murray Hill, NJ
+.ce 0
+.sp 3
+.SH
+INTRODUCTION
+.PP
+One of the problems that people encounter in
+their everyday use of computers is the lack of common utilities
+on different computer systems.
+The utilities in Kernighan and Plauger's
+.ul
+Software Tools
+are a step toward a solution.
+A common editor, text formatter, sorter, and other
+Tools are now available on many systems.
+.PP
+The Software Tools package consists of utilities and a program
+library modelled after those of the UNIX operating system.
+Although many of the utilities originated with the Kernighan and
+Plauger book,
+sites all over the world have contributed significant enhancements
+and new Tools.
+.PP
+From the user's point of the view, the utilities
+are reasonably easy to learn and use,
+and present few of the usual impediments
+to getting the job done.
+It is hard, however, for the beginner to know where to start, and how
+to make the best use of the facilities available.
+The purpose of this introduction is to help new users get used to the
+main ideas of the package and start making effective use of it
+quickly.
+.PP
+You should have a couple of other documents with you for easy reference
+as you read this one.
+The most important is
+.ul
+this manual;
+it's often easier to tell you to read about something in the manual
+than to repeat its contents here.
+The other useful document is
+.ul
+A Tutorial Introduction to the Software Tools Text Editor,
+which is included in the Tutorial section of this manual.
+.PP
+A word of warning:  the Software Tools package has become quite popular,
+and there are several variants in use.
+Details also change with time.
+So although the basic structure of the Tools and how to use them is
+common to all versions, there will certainly be a few things
+which are different on other systems from what is described here.
+This document describes the Tools as distributed by Carousel MicroTools.
+System specific information is in the section of this manual titled
+"System-Specific."
+.PP
+This document has five sections: 
+.NP
+Getting Started:  How to access the Tools.
+.NP
+Day-to-day Use:  Things you need every day
+to use the system effectively;
+generally useful commands;
+dealing with files.
+.NP
+Text Manipulation and Document Preparation: 
+Preparing manuscripts and managing text are some of the most common
+uses for the Software Tools.
+This section contains instructions on using a few of the text
+manipulation Tools, plus advice on preparing text for formatting.
+.NP
+Writing Programs: 
+This section talks about some of the programming aids available
+and some of the conventions and philosophy used in writing the Tools.
+.NP
+A Software Tools Reading List: 
+An annotated bibliography of documents that new users should be
+aware of.
+.SH
+1. GETTING STARTED
+.SH
+Logging On
+.PP
+Perform the necessary incantations to log into your system.
+The culmination of your login efforts is some sort of "prompt" or
+indication from your system that it is ready to accept commands
+from you.
+The Tools may be accessed either through the
+local command interpreter or from the
+.I shell
+(the UNIX-like
+command interpreter available with the package).
+The shell is usually started by typing: 
+.PP
+\fB
+sh
+\fR
+.PP
+The shell indicates its readiness to accept commands by
+typing the prompt character "%".
+.SH
+Typing Commands
+.PP
+Once you've seen the shell's prompt, you can type commands,
+which are requests that the system do something.
+Try typing
+.PP
+\fB
+echo Hi There
+\fR
+.PP
+followed by RETURN.
+.I echo
+is a Tool which simply prints back to you its command
+arguments.
+So you should get back: 
+.PP
+\fB
+Hi There
+\fR
+.PP
+Don't forget the RETURN after the command or nothing will happen.
+If you think you're being ignored, type a RETURN;
+something should happen.
+RETURN won't be mentioned again, but don't forget it--it has to
+be there at the end of each line.
+.PP
+Another command you might try is
+.I date,
+which tells you the current date: 
+.PP
+\fB
+date
+\fR
+.PP
+You should get back something like
+.PP
+\fB
+8/26/83 12:07:15
+\fR
+.PP
+.PP
+Systems which can't keep track of the time because they don't have
+clocks often use
+.I date
+to also set the date.
+If you got no answer when you typed
+.I date,
+your system is
+probably like that.
+Try typing
+.PP
+\fB
+date 8/26/83 12:05:39
+\fR
+.PP
+and then try again
+.PP
+\fB
+date
+\fR
+.PP
+On these systems time will stand still unless you frequently reset it.
+.PP
+If you make a mistake typing the command name and refer to a non-existent
+command, you will be told.
+For example, if you type
+\fB
+daytime
+\fR
+you will receive a message something like
+.PP
+\fB
+daytime: not found
+\fR
+.PP
+Of course, if you inadvertently type the name of some other command,
+it will run, with more or less mysterious results.
+.SH
+Mistakes in Typing
+.PP
+If you make a typing mistake and see it before RETURN has been typed,
+there are a couple ways to recover.
+Most systems allow you to backspace or erase characters you have typed.
+Often you simply hit the BACKSPACE key on your terminal.
+Other systems might use the DELETE key, or CTRL-H (hold the CONTROL
+key down while pressing h).
+Most systems also have some way to erase an entire line and start
+over again.
+Check the System Specific section of the manual for details.
+.SH
+Read-ahead
+.PP
+Some systems have full read-ahead, which means that you can type
+as fast as you want, whenever you want,
+even when some command is running or typing at you.
+If you type during output, your input characters may appear
+intermixed with the output characters,
+but they will be stored away and interpreted in the correct order.
+So you can type several commands one after another without waiting
+for the first to finish (or even begin).
+Check your computer manufaturers literature to make sure this is available
+on your system.
+.SH
+Stopping a Program
+.PP
+There are generally 2 ways to stop a program: 
+.NP
+When a program is reading input from your terminal, you indicate that
+you are done by typing a special end-of-file character.
+This is often a control character such as CTRL-D or CTRL-Z.
+.NP
+When a program is running amuck, or you change your mind
+and want to stop it instantly, most systems allow you to type
+an interrupt or abort character such as DELETE or ESCAPE.
+This character will immediately stop the Tool and cancel any
+further processing.
+Check the System Specific section of this manual for the appropriate character.
+.PP
+The Software Tools shell can be stopped by typing your local
+end-of-file character or by typing the word
+\fB
+logout
+\fR
+.SH
+On-Line Help
+.PP
+If you know how to use a program, but have forgotten
+what arguments it expects, you can generally type
+the name of the Tool followed by a question mark,
+which will give you the calling sequence for the Tool.
+For instance,
+.PP
+\fB
+echo ?
+\fR
+.PP
+will result in the message
+.PP
+\fB
+usage:  echo [args]
+\fR
+.PP
+.SH
+2. DAY-TO-DAY USE
+.SH
+Creating Files - The Editor
+.PP
+If you have to type a paper or a letter or a program,
+how do you get the information stored in the machine? 
+Most of these tasks are done with the text editor
+.I ed.
+Since
+.I ed
+is thoroughly documented in the manual and
+explained in
+.ul
+A Tutorial Introduction to the Software Tools Text Editor
+in the Tutorial section;
+we won't spend time here describing how to use it.
+All we want it for right now is to make some files.
+(A file is just a collection of information stored in the machine.)
+.PP
+To create a file called
+.I junk
+with some text in it, do the following: 
+\fB
+.EX
+	ed junk  (invokes the text editor on file "junk")
+	a        (command to "ed", to add text)
+	this is the text
+	you want in the file
+	.
+.EE
+\fR
+The "." that signals the end of adding text must be on
+a line by itself.
+Don't forget it, for until it is typed,
+no other
+.I ed
+commands will be recognized - everything you type will be
+treated as text to be added.
+.PP
+At this point you can do various editing operations on the lines
+you typed in,
+such as correcting spelling mistakes,
+rearranging paragraphs
+and the like.
+Finally, you must write the information you have typed
+into a file with the editor command
+.B
+w
+.PP
+\fB
+w
+\fR
+.PP
+.I ed
+will respond with the number of lines it wrote into the file
+.I junk.
+.PP
+Until you enter the
+.B
+w
+command nothing is stored permanently,
+so if you disconnect, the information is lost.
+But after
+.B
+w
+the information is there permanently;
+you can re-access it any time by typing
+\fB
+ed junk
+\fR
+Type a
+.B
+q
+to quit the editor.
+(If you try to quit without writing,
+.I ed
+will print a message to remind you.
+A second
+.B
+q
+gets you out regardless.)
+.PP
+Now create a second file called
+.I temp
+in the same manner.
+You should now have two files,
+.I junk
+and
+.I temp.
+.SH
+What files are out there?
+.PP
+The
+.I ls
+(for "list") command lists the names (not contents) of any of
+the files that your system knows about.
+If you type
+.PP
+\fB
+ls
+\fR
+.PP
+the response will be
+.PP
+\fB
+junk
+temp
+\fR
+.PP
+which are indeed the two files just created.
+On some systems, the filenames are sorted into alphabetical
+order automatically.
+And, on some systems, other variations are possible.
+For example,
+.PP
+\fB
+ls -v
+\fR
+.PP
+.RB ( v
+for "verbose") which would print additional information
+about the files, such as their size.  Details about additional
+options your system allows
+can be found in the Tool Description section of the manual.
+.PP
+The use of optional arguments that begin with a minus sign,
+like
+.B
+-v,
+is a common convention for the Software Tools.
+In general, if a program accepts such optional arguments,
+they precede any filename arguments.
+It is also vital that you separate the various arguments
+with spaces: 
+.B ls-v
+is not the same as
+.B ls
+.BR -v .
+.SH
+What's in a File Name?
+.PP
+So far we have used filenames without ever saying what's a legal
+name.
+Most systems limit filenames to a small number of characters.
+Others divide filenames
+into 2 or more parts separated by
+a specific character such as a dot.
+Finally, many systems limit filenames to alphanumeric
+characters alone.
+Consult the System Specific section for information about
+filenames on your system.
+.PP
+It is sometimes useful to decide on some file naming conventions
+for yourself, to help you organize your files.
+You might want to have all working files begin with "temp",
+or all ratfor source programs end with "rat".
+If you do choose to do this,
+.I ls
+can help you keep track of your files by only listing those
+file names which include certain patterns.
+For instance,
+.PP
+\fB
+ls rat
+\fR
+.PP
+would print all filenames that included the string "rat".
+You can ask
+.I ls
+to look for several patterns: 
+.PP
+\fB
+ls temp working
+\fR
+.PP
+which would list all files that included the pattern "temp"
+OR the pattern "working" anywhere in their names.
+There are even more sophisticated ways for you to specify
+patterns to match.
+These will be discussed in more detail later on.
+.SH
+Looking at the Contents of Files
+.PP
+Now that you've got a file of text, how do you print it so people
+can look at it? 
+There are several programs that do that.
+One simple way is to use the editor,
+since printing is often done just before making changes anyway.
+You can say
+.PP
+\fB
+ed junk
+1,$p
+\fR
+.PP
+(The "$" signifies the last line of the file.) 
+.I ed
+will reply with the count of the lines in
+.I junk
+and then print all the lines in the file.
+After you learn how to use the editor, you can
+be selective about the parts you print.
+.PP
+There are times when it's not feasible to use the editor for printing.
+For example, there is a limit on how big a file
+.I ed
+can handle.
+Secondly, it will only print one file at a time,
+and sometimes you want to print several, one after another.
+So here are a couple of alternatives.
+.PP
+First is
+.I cat,
+the simplest of all the printing programs.
+.I cat
+simply prints on the terminal the contents of all the files named
+in a list.
+Thus
+.PP
+\fB
+cat junk
+\fR
+.PP
+prints one file, and
+.PP
+\fB
+cat junk temp
+\fR
+.PP
+prints two.
+The files are simply concatenated (hence the name "cat") onto the terminal.
+.PP
+If you
+.I cat
+a file which is more than one screenful long, it may scroll off the
+end of your screen before you have a chance to read it.
+The Tool
+.I crt
+is just like
+.I cat
+only it will wait at the end of every screenful before going ahead.
+When you are ready to see more lines, hit RETURN and
+.I crt
+will proceed with the next bunch.
+Or, when you have seen as much of the file as you want, type
+\fB
+q
+\fR
+to quit.
+.PP
+Another Tool,
+.I pr,
+produces paginated printouts of files.
+As with
+.I cat,
+.I pr
+prints all the files named in a list.
+The difference is that it produces headings with
+the date, time, page number, and filename at the top
+of each page, and extra lines to skip over the fold in the paper.
+Thus
+.I pr
+is useful for preparing files to go to your printer.
+(How you actually send files to your printer differs from
+machine to machine.
+See the "Beginners Introduction" for the appropriate
+action on your system.)  The command
+.PP
+\fB
+pr junk temp
+\fR
+.PP
+will print
+.I junk
+neatly on your terminal, then skip to the top of a new "page" and print
+.I temp
+neatly.
+.PP
+Note that
+.I pr
+is NOT a formatting program in the sense of shuffling lines
+around and justifying margins.
+The true formatter is
+.I format,
+which we will get to in the section on document preparation.
+.SH
+Shuffling Files About
+.PP
+Now that you have some files in the file system and some experience in
+printing them,
+you can try bigger things.
+For example, you can move a file from one place to another (which
+amounts to giving it a new name), like this: 
+.PP
+\fB
+mv junk precious
+\fR
+.PP
+This means that what used to be
+.I junk
+is now
+.I precious.
+If you do an
+.I ls
+command now, you will get
+.PP
+\fB
+precious
+temp
+\fR
+.PP
+Beware that if you move a file to another one that already exists,
+the already existing contents are lost forever.
+.PP
+If you want to make a copy
+of a file (that is, to have two versions of something),
+you can again use the
+.I cat
+command: 
+.PP
+\fB
+cat precious >temp1
+\fR
+.PP
+which makes a duplicate copy of
+.I precious
+in
+.I temp1
+(The sign ">" indicates a redirected output, and will be
+explained later.)
+.PP
+Finally, when you get tired of creating and moving files,
+there is a command to remove files from the file system, called
+.I rm.
+.PP
+\fB
+rm temp temp1
+\fR
+.PP
+will remove both of the files named.
+.PP
+You will get a warning message if one of the named files wasn't there,
+but otherwise
+.I rm
+does its work silently.
+There is no prompting or chatter, and error messages are
+occasionally curt.
+This terseness, common to most of the Tools,
+is sometimes disconcerting to newcomers,
+but experienced users find it desirable.  Just remember that no news
+is good news.
+.SH
+Using Files Instead of the Terminal
+.PP
+Most of the commands we have seen so far produce output on the terminal;
+some, like the editor, also take their input from the terminal.
+It is universal in the Software Tools that the terminal can be
+replaced by a file for either or both of input and output.
+As one example,
+.PP
+\fB
+ls
+\fR
+.PP
+makes a list of files on your terminal.
+But if you say
+.PP
+\fB
+ls >filelist
+\fR
+.PP
+a list of your files will be placed in the file
+.I filelist
+(which will be created if it doesn't already exist,
+or overwritten if it does).
+The symbol ">" means "put the output on the following file,
+rather than on the terminal." 
+Nothing is produced on the terminal.
+As another example, you could combine several files into one
+by capturing the output of
+.I cat
+in a file: 
+.PP
+\fB
+cat f1 f2 f3  >temp
+\fR
+.PP
+.PP
+The symbol ">>" operates very much like ">" does,
+except that it means "add to the end of." 
+That is,
+.PP
+\fB
+cat f1 f2 f3  >>temp
+\fR
+.PP
+means to concatenate
+.ul
+f1, f2,
+and
+.I f3
+to the end of whatever is
+already in
+.I temp,
+instead of overwriting the existing contents.
+As with ">", if
+.I temp
+doesn't exist, it will be created for you.
+.PP
+In a similar way, the symbol "<" means to take the
+input for a program from the following file,
+instead of from the terminal.
+Thus, you could make up a script of commonly used editing
+commands and put them into a file called
+.I script.
+Then you can run the script on a file by saying
+.PP
+\fB
+ed file <script
+\fR
+.PP
+.SH
+Managing Files
+.PP
+Now that you've learned to create files, list their names, look
+at them, and otherwise manipulate them,
+perhaps you'd also like some suggestions on managing and grouping them.
+For instance, suppose you are typing a large document like a book.
+Logically this divides into many small pieces like chapters and
+perhaps sections.
+Physically it must be divided too, for
+.I ed
+will not handle really big files.
+Thus you should type the document as a number of small files.
+You might choose to have a separate file for each chapter, called
+\fB
+chap1
+chap2
+etc.
+\fR
+You would also like a way to group these files together so you
+can deal with them as a unit and so you can tell them apart in
+case you are writing several books containing a
+.ul
+chap1, chap2,
+etc.  To do this, some operating systems, such as UNIX,
+provide what is called
+a "hierarchical" file system.
+This type of file system allows you to store files much like you
+would store something in a filing cabinet - drawers with labels
+containing file folders with labels containing other folders
+with labels, etc.
+However, most operating systems do not allow you to manage files this way.
+Rather, these "flat" file systems look more like a desktop,
+with documents scattered around it, one level deep.
+If you have this sort of system,
+you might want to use some sort of Tool to group your documents together,
+much like organizing the files on a desk into stacks.
+.PP
+The
+.I ar
+archiver is a Tool whose purpose is to collect
+sets of text files into one big file and to maintain that
+file as an "archive".
+This often saves storage space and, more important,
+gives you a handle by which you can deal with a group of related
+files all at once.
+Files can be extracted from the archive, new ones can be added,
+old ones can be deleted or replaced by updated versions,
+and data about the contents can be listed.
+.PP
+The archiver is much like a library room full of important
+documents, with a Xerox machine at the door.
+To add a document to the library,
+you ask the librarian to Xerox it and keep a copy in the room.
+You may then discard the original, since the copy is
+being carefully maintained.
+When you want to extract a document from the library,
+you ask the library to make a Xerox of it for you.
+If you make changes to the document, you
+then give it back to the librarian,
+who Xeroxes it and replaces the old version with the new.
+.PP
+Now, to use the archiver on the computer to maintain
+a document, perhaps your book,
+you would create an archive containing all the chapters
+by using the "update" command: 
+.PP
+\fB
+ar -u book chap1 chap2 chap3 ...
+\fR
+.PP
+This would collect
+.ul
+chap1, chap2, chap3,
+etc. together into an archive file called
+.I book.
+Since the archive
+.I book
+now contains copies of
+.ul
+chap1, chap2,
+and
+.I chap3,
+you can safely remove them from your directory: 
+.PP
+\fB
+rm chap1 chap2 chap3
+\fR
+.PP
+.PP
+If you want to see a list of what you've got in
+.I book,
+in case you've forgotten, you would use the table-of-contents command: 
+.PP
+\fB
+ar -t book
+\fR
+.PP
+This would cause the archiver to print out: 
+.PP
+.EX
+\fB
+chap1
+chap2
+chap3
+\fR
+.EE
+.PP
+Then, when you want to work on a specific chapter
+you would extract (-x) it from the archive: 
+.PP
+.EX
+\fB
+ar -x book chap2
+ed chap2
+\fR
+.EE
+.PP
+And, when you're done editing
+.I chap2,
+put it back: 
+.PP
+.EX
+\fB
+ar -u book chap2
+rm chap2
+\fR
+.EE
+.PP
+(Remember, the call to
+.I rm
+removes
+.I chap2
+from the file system but not, of course, from
+the archive.)
+.PP
+Finally, if you would like to print the entire book on your
+terminal, you would use the
+.I print
+command: 
+.PP
+\fB
+ar -p book
+\fR
+.PP
+which would print all the chapters in the archive.
+.PP
+The archiver is by no means a substitute for a hierarchical
+file system,
+but it does go a long way in helping you organize your files.
+It can also save disk space, especially with small files.
+.SH
+The Shell
+.PP
+We have already mentioned once or twice the mysterious "shell",
+which is in fact just another Tool.
+The shell is the program that interprets what you type as commands
+and arguments.
+You can stack Tools together and combine them in interesting
+ways that are not usually available with local command interpreters.
+.PP
+One of most novel contributions of the shell is the idea of a "pipe." 
+A pipe is simply a way to connect the output of one program to the input of
+another program, so the two run as a sequence of processes - a "pipeline." 
+For example
+.PP
+\fB
+pr f1 f2 f3
+\fR
+.PP
+will print the files
+.ul
+f1, f2,
+and
+.I f3,
+beginning each on a new page.
+Suppose you want them run together instead.
+You could say
+.PP
+.EX
+\fB
+cat f1 f2 f3 >temp
+pr <temp
+rm temp
+\fR
+.EE
+.PP
+but this is more work than necessary.
+Clearly what we want is to take the output of
+.I cat
+and connect it to the input of
+.I pr.
+So let us use a pipe:
+.PP
+\fB
+cat f1 f2 f3 | pr
+\fR
+.PP
+The vertical bar "|" means to take the output from
+.I cat,
+which would normally have gone to the terminal,
+and send it to
+.I pr
+to be neatly paginated.
+.PP
+There are many other examples of pipes.
+For instance,
+.PP
+\fB
+ls | sort
+\fR
+.PP
+sorts a list of your files (if
+.I ls
+doesn't already do that for you).
+The program
+.I wc
+counts the number of lines, words and characters in its input.
+Thus
+.PP
+\fB
+ls | wc
+\fR
+.PP
+counts your files.
+.PP
+Any Tool that reads from the terminal can read from a pipe instead;
+any Tool that writes on the terminal can drive a pipe.
+You can have as many elements in a pipeline as you wish.
+.PP
+Many Software Tools are written so that they will take their
+input from one or more files if file arguments are given;
+if no arguments are given they will read from the terminal,
+and thus can be used in pipelines.
+.I format,
+the text formatter,
+is one example:
+.PP
+\fB
+format a b c
+\fR
+.PP
+formats files
+.ul
+a, b,
+and
+.I c
+in order.
+But in
+.PP
+\fB
+ar -p book | format
+\fR
+.PP
+.I format
+formats the information coming down the pipeline.
+.PP
+The shell has other capabilities too.
+For example, you can run two programs with one command line by
+separating the commands with a semicolon;
+the shell recognizes the semicolon and breaks the line into
+two commands.
+Thus
+.PP
+\fB
+date; ls
+\fR
+.PP
+does both commands before returning with a prompt character.
+.PP
+The shell also allows you to group commands together, often to produce
+a single stream of output.
+For instance,
+.PP
+\fB
+(date; ls) | pr
+\fR
+.PP
+which would send the output from
+.I date
+and from
+.I ls
+to be printed by
+.I pr.
+This feature is not always available; see the shell description.
+.PP
+On a few systems you can even have more than one program
+running
+simultaneously,
+if you wish.
+For example, if you are doing something time-consuming,
+like the editor script of an earlier section, and you
+don't want to wait around for the results before starting
+something else, you can say
+.PP
+\fB
+ed file <script &
+\fR
+.PP
+The ampersand at the end of a command line says "start this command
+running, then take
+further commands from the terminal immediately,"
+that is, don't wait for it to complete.
+Thus the script will begin, but you can do something else
+at the same time.
+(The system will usually send you a message when the process
+you sent off into the "background" has completed.)
+.PP
+And, just as you can tell the editor or some similar program to
+take its input from a file instead of from the terminal,
+you can tell the shell to read a file to get commands.
+For instance, suppose every time you log in you want to see
+the date and also see a file containing little notes to yourself
+(a "reminder" file).
+You could simply type:
+.PP
+.EX
+\fB
+date
+cat reminder
+\fR
+.EE
+.PP
+or, you could put those two lines into a file called
+.I startup,
+and then run it by typing
+.PP
+\fB
+startup
+\fR
+.PP
+The shell is smart enough to notice that the file
+.I startup
+contains text rather than executable code.
+It then reads the commands from
+the file
+just as if you had typed the contents of
+.I startup
+on the terminal.
+.SH
+3. DOCUMENT PREPARATION AND TEXT MANIPULATION
+.PP
+Writing documents and programs,
+scanning files looking for information,
+preparing input and manipulating output - these are
+all primarily text manipulation and are a large part
+of what you do with a computer.
+The Software Tools provide many utilities for moving text
+around, changing it, looking at it,
+and formatting it in various ways.
+.SH
+Text Formatting
+.PP
+.I format
+is the major text formatting program.
+It produces a text with justified right margins,
+pagination, automatic titling and page numbering, and the like.
+This document was produced by
+.I format.
+The basic idea of
+.I format
+is that the text to be formatted contains within it "formatting
+commands" that indicate in detail how the formatted text is to look.
+For example, there are commands to specify how long lines are,
+whether to use single or double spacing,
+and what headers and footers to use on each page.
+Formatting commands typically consist of a period and two letters,
+such as
+.BR .ce ,
+which is used to center a line.
+A document is prepared by using the editor, and might look
+something like this:
+.EX
+\fB
+	.ce
+	Title of Document
+	.sp
+	some sentences...
+	.ul
+	something that should be underlined
+	some more sentences...
+	.ls 2
+	more sentences that should be double-spaced
+	etc.
+\fR
+.EE
+.PP
+The lines that begin with a period are the formatting requests.
+For instance,
+.BR .sp
+means "space down a line" and
+.EX
+	.ls
+	.B 2
+.EE
+means "set the line spacing to double."
+See the discussion of
+.I format
+in the manual for a list of the
+other formatting commands.
+.PP
+.I format
+also allows you to group commands together and give them
+a single name of your choosing.
+For example, if you always want a new paragraph to begin
+by skipping down a space and then indenting in 5 spaces, you
+could make up or "define" a command
+.BR .PP
+like this:
+\fB
+.EX
+	.de PP
+	.sp
+	.ti +5
+	.en PP
+.EE
+\fR
+The
+.BR .de
+means "define the following command name to be everything
+that follows until you see a
+.BR .en
+command." 
+Thus the above definition makes up a paragraph command that
+skips down a space and temporarily indents 5 spaces in.
+It could then be used this way:
+\fB
+.EX
+	.PP
+	a paragraph...
+	.PP
+	another paragraph...
+.EE
+\fR
+These made-up commands are called "macros" and they
+enable you to make up complex sets of commands.
+They also allow you to easily change the layout of a document
+by simply adjusting the macros.
+This is very important in large documents, such as this manual.
+.SH
+Hints for Preparing Documents
+.PP
+Most documents go through several versions
+(always more than you expected) before they are finally finished.
+Accordingly, you should do whatever possible to make the
+job of changing them easy.
+.PP
+First, when you do the purely mechanical operations of typing,
+type so that subsequent editing will be easy.
+Start each sentence, or even each phrase, on a new line.
+Make lines short, and break lines at natural places,
+such as after commas and semicolons, rather than randomly.
+Since most people change documents by rewriting phrases
+and adding, deleting, and rearranging sentences,
+these precautions simplify any editing you have to do later.
+.PP
+Keep the individual files of a document down to modest size.
+(Use the archiver, if you like.) 
+Larger files edit more slowly,
+and of course if you make a dumb mistake it's better to have clobbered
+a small file than a big one.
+Split into files at natural boundaries in the document,
+for the same reasons that you start each sentence on a new line.
+.PP
+The second aspect of making changes easy is to not commit yourself
+to formatting details too early.
+One of the advantages of text formatters and macros is that
+they permit you to delay decisions to the last possible moment.
+As a rule of thumb, for all but the most trivial jobs,
+you should type a document in terms of a set of requests like
+.BR .pp
+and then define them appropriately.
+As long as you have entered the text in some systematic way,
+it can always be cleaned up and reformatted by a judicious
+combination of editing commands and request definitions.
+.SH
+Text Manipulation
+.PP
+Scanning text, whether it be programs,
+documents, or data,
+is another common use of the computer.
+We've already seen how
+.I ls
+can scan your list of files
+and print out only those names you are interested in.
+The Tool
+.I find
+is even more general, allowing you to search through
+the contents
+of a file looking for patterns.
+For example,
+.PP
+\fB
+find <data cost income
+\fR
+.PP
+would search through the file
+.I data
+and print any lines
+containing "cost" or "income".
+.PP
+Besides locating patterns anywhere on a line,
+.I find
+can also look for patterns at certain places on a line.
+For instance,
+.PP
+.EX
+\fB
+	find <program %C
+	find <data "123$"
+\fR
+.EE
+.PP
+As in the editor,
+the "%" means "the beginning of the line" and the "$" signifies "the
+end of the line."
+Thus the above examples locate all lines in a file which begin with "C"
+and then lines which end in "123".
+The "$" in the second example is also a special character to
+the shell, as well as to
+.I find
+(there are only so many characters to go around,
+so sometimes we have to double up).
+By putting quote marks around the argument you are
+telling the shell to leave the enclosed characters alone.
+.PP
+The "%" and "$" you used above are called "meta-characters",
+meaning they represent something other than the specific character
+they are.
+There are others.
+For example, you can use the character "?" as a text pattern
+that matches any single character.
+Or you can bracket a set of characters to indicate
+that you want to match any in the set.
+Thus,
+.PP
+.EX
+\fB
+	find <words "analy?e"
+	find <words analy[zs]e
+\fR
+.EE
+.PP
+would locate any occurrences of "analyze", "analyse", and
+possibly some misspellings such as "analyxe".
+Likewise,
+.PP
+\fB
+find <words "%???$"
+\fR
+.PP
+would locate all lines that contained only 3 characters
+(letters, numbers, punctuation, or special characters).
+The quote marks in the above example are again necessary to
+keep the shell from reading the "$" and "?", which are
+special to it.
+.PP
+Finally, you can even suffix a pattern with "*" to indicate
+that you want to locate zero or more occurrences of that pattern.
+For instance,
+.PP
+\fB
+find <words "a?*z"
+\fR
+.PP
+means "find all lines in the file which have the letter "a",
+possibly some other characters, and then the letter "z".
+This might include:
+.PP
+\fB
+.EX
+	abcz
+	a1z
+	a-z
+	az
+.EE
+\fR
+.PP
+This combination of regular characters and meta-characters
+is called "regular expressions." 
+Regular expressions can be very powerful.
+They are used not only by
+.I find
+but many other Tools such as the editor,
+.I ch
+(change),
+.I fb
+(find block),
+.I tr
+(transliterate),
+and
+.I ls,
+to name a few.
+The syntax (that is, "the way one specifies") for regular
+expressions is the same for
+.BR all
+these Tools.
+Consistency is important in computing environments,
+and is one of the goals of the Software Tools package.
+.SH
+Supporting Tools
+.PP
+In addition to the formatter and
+.I find,
+there is a host of supporting
+programs that help with moving and altering text.
+The list in the next few paragraphs is far from complete,
+so browse through the Tool Description Section of the manual
+for other possibilities.
+.PP
+We've already described
+.I find,
+which searches a file for certain text patterns.
+There is a similar Tool
+.I fb
+(for "find block") which searches groups of lines,
+such as those in a mailing list or bibliography,
+for patterns.
+.PP
+There is another similar Tool,
+.I ch
+(for "change") which works like
+.I find,
+only once a pattern is located it is changed to some other
+pattern you specify.
+Although the editor can also do this, there are times
+when you don't want the overhead and generality of the
+editor - for these cases
+.I ch
+is very useful.
+.PP
+The Tools
+.I diff
+and
+.I cmp
+print a list of the differences between two files,
+so you can compare two versions of something automatically
+(which certainly beats proofreading by hand).
+.PP
+.I tr
+translates characters into other characters;
+for example it will convert upper to lower case and vice versa.
+This translates upper into lower:
+.PP
+\fB
+tr A-Z a-z <input >output
+\fR
+.PP
+And there are others: 
+.I sort
+sorts files in a variety of ways.
+.I sedit
+provides many of the editing facilities of
+.I ed
+but can apply them to arbitrarily long input files.
+.I field
+can move fields or sections of lines around in various ways.
+And
+.I form
+assists you in generating form letters or even
+documentation.
+There are also Tools to compress and expand text, to
+encrypt it so no one else can read it, to format text into
+columns,
+and to prepare keyword-in-context indices.
+Most of these Tools are designed to work together.
+You might think of them as tinker-toys, which can be
+combined in a myriad of new and interesting ways.
+Browse through the Tool Descriptions to
+get more of an idea about what's available.
+.SH
+4. WRITING PROGRAMS
+.PP
+Writing programs is essentially text manipulation,
+and many of the utilities already discussed are very
+useful in program development.
+In fact, one of the reasons why the
+Software Tools package is a productive
+programming environment is that there is already a
+rich set of Tools available, and facilities like pipes, I/O redirection, and
+the capabilities of the shell often make it possible to do
+a job by pasting together programs that already exist
+instead of writing from scratch.
+The pipe mechanism lets you fabricate quite complicated operations
+out of spare parts.
+Developing little programs like this gives you a chance to
+develop and test prototypes quickly, and provides an
+excellent base for building more sophisticated Tools later.
+.PP
+The editor can also be made to do things that would normally
+require special programs on other systems.
+For example, to list the first and last lines of each of a
+set of files, such as a book,
+you could laboriously type
+.PP
+.EX
+\fB
+	ed
+	e chap1
+	1p
+	$p
+	e chap2
+	1p
+	$p
+	etc.
+\fR
+.EE
+.PP
+But you can do the job much more easily.
+One way is to type
+.PP
+\fB
+ls chap >temp
+\fR
+.PP
+to get the list of filenames into a file.
+Then edit this file to make the necessary series of
+editing commands (using the global commands of
+.I ed),
+and write it into
+.I script.
+Now the command
+.PP
+\fB
+ed <script
+\fR
+.PP
+will produce the same output as the laborious hand typing.
+.SH
+Programming in ratfor
+.PP
+If you generally have to use the Fortran language, you might consider
+.I ratfor,
+which gives you the control structures and
+freeform input that characterize the C language,
+yet lets you write code that is still portable to other environments.
+Most input, output, file handling, and other system-dependent
+events are best handled by the Software Tools primitives,
+which provide a set of functions that can be implemented on
+most any operating system.
+Ratfor programs that confine their system interactions to these
+primitives can be easily moved to other computers that have the
+Software Tools package implemented.
+This includes over 50 different systems, with the number growing.
+.PP
+Here is a sample ratfor program:
+.PP
+.EX
+\fB
+	## copy standard input to standard output
+	DRIVER
+	character c, getch
+	while (getch (c, STDIN) != EOF)
+		call putch (c, STDOUT)
+	DRETURN
+	end
+\fR
+.EE
+.PP
+For more examples of ratfor, see the "Ratfor Primer"
+in the Tutorial Section of the manual.
+.SH
+Macro Processing
+.PP
+The Software Tools macro processor is also useful as a program
+development aid.
+Macros are used to extend some underlying language - to perform
+a translation from one language to another.
+We have already discussed macros as they appear in the text formatter.
+The Tool
+.I macro
+works in a similar manner: 
+it lets us define symbolic constants so that subsequent occurrences
+of them are replaced by the defining string of characters.
+The syntax for specifying macros is:
+.PP
+\fB
+define(name, replacement text)
+\fR
+.PP
+which defines "name" to be whatever text follows.
+Thereafter, whenever "name" is located in the file, it is replaced
+by "replacement text".
+Macros can be very useful in increasing the readability and
+the changeability of code.
+For example,
+.PP
+\fB
+define(MAXLINE,200)
+\fR
+.PP
+could be used to specify the dimensions of arrays:
+.PP
+\fB
+character buf1(MAXLINE), buf2(MAXLINE)
+\fR
+.PP
+Or sections of code could be written as macros:
+.PP
+.EX
+\fB
+	define(abort, call remark ("aborting job")
+		call exit )
+\fR
+.EE
+.PP
+Macros can become very complex and powerful.
+A macro processor is included in the ratfor preprocessor.
+The separate
+.I macro
+Tool also allows them to be used in other languages, or
+in regular text, as well.
+For more complete information about macros, see
+the description of the
+.I macro
+Tool.
+.SH
+The Archiver
+.PP
+The archiver is a valuable aid in maintaining program source.
+Each routine can be kept as a separate member of the archive,
+being extracted singly whenever change is necessary.
+The archiver is specifically designed to make archive files
+which can be sent directly to the ratfor preprocessor.
+Thus, a program development session might look like:
+\fB
+.EX
+	ed
+	... create some routines
+	w rtn1
+	...
+	w rtn2
+	...
+	w rtn3
+	q
+	ar -u program rtn1 rtn2 rtn3
+	ratfor program | fsort >pgm.for
+.EE
+\fR
+.SH
+Programming Support Tools
+.PP
+Programming is essentially text manipulation,
+so most of the text manipulation Tools already mentioned
+are useful in a program development environment.
+Notice especially:
+.IP
+.I diff
+- which compares 2 files and prints the differences.
+.I diff
+can be very valuable for maintaining and comparing versions
+of program sources.
+.IP
+.I find
+and
+.I fb
+(find block)
+- useful for scanning not only programs but input and
+output data as well.
+For example,
+.EX
+\fB
+	program | find error
+	fb <program  -ssubroutine -send abort
+.EE
+.RE
+.IP
+.I format
+and
+.I form
+are helpful in generating documentation.
+.LP
+And finally, Tools such as
+.ul
+mcol, field, sort, sedit,
+and
+.I ch
+help in manipulating input and output data.
+.SH
+REFERENCES
+.LP
+.ul
+Software Tools
+.LP
+Allen T. Akin, P. Flinn, and D. Forsyth, Jr. "A Prototype for
+an Advanced Command Language",
+.ul
+Proceedings of the 16th Annual Southeast Regional ACM Conference,
+April 1978.
+A description of another command language interpreter written
+in ratfor and based on the tools concepts.
+Includes several interesting features such as the ability to
+handle multiple inputs and outputs, control structures, and
+the like.
+Available only on Prime machines.
+.LP
+Douglas Comer, "Mouse4:  An Improved Implementation of the
+Ratfor Preprocessor,"
+.ul
+Software - Practice and Experience,
+vol. 8, Jan-Feb 78, 35-40.
+A description of efficiency improvements to the original
+ratfor preprocessor.
+Most of these improvements have been incorporated
+into the version of ratfor distributed by the
+Software Tools Users Group.
+.LP
+Christopher W. Fraser, "A Compact, Portable CRT-based Text Editor,"
+.ul
+Software - Practice and Experience,
+vol. 9, Feb 79, 121-125.
+Description of a screen-oriented text editor implemented as
+a front-end to the
+.I ed
+editor.
+.LP
+Dennis Hall, Deborah Scherrer, Joseph Sventek, "A Virtual
+Operating System,
+.ul
+Communications of the ACM,
+vol. 23, no. 9, Sept 1980, 495-502.
+Description of the Software Tools program development environment
+and how it can represent a
+virtual operating system that disentangles computing
+environments from their underlying operating systems.
+.LP
+David R. Hanson, "Algorithm 568, PDS - A Portable Directory System,
+.ul
+ACM Transactions on Programming Languages and Systems,
+vol. 3, Apr 1981, 162-167.
+Describes a  set of procedures that provide a
+machine-independent method of file specification by
+providing a directory structure and
+set of primitives for manipulating that structure.
+The package is written in ratfor and may be
+used with the Software Tools package to simulate the UNIX type
+of hierarchical file system.
+.LP
+David R. Hanson, "A Portable File Directory System,
+.ul
+Software - Practice and Experience,
+vol. 10, Aug 1980, 623-634.
+Provides implementation details for the Portable Directory System.
+.LP
+David R. Hanson, "Ratsno - An Experiment in Software Adaptibility,"
+.ul
+Software - Practice and Experience,
+vol. 7, 1977, 625-630.
+Describes a Snobol-like language implemented
+in ratfor
+as a Fortran preprocessor.
+.LP
+B. W. Kernighan and Mars Gralia, "A
+Tutorial Introduction to the Software Tools Text Editor",
+available in this manual.
+A step-by-step introduction to the features of the
+.I ed
+text editor.
+.LP
+B. W. Kernighan, "Ratfor - a Preprocessor for a Rational Fortran.
+.ul
+Software - Practice and Experience
+vol. 5, Oct-Dec 1975, 395-406.
+Discusses design criteria for a Fortran preprocessor, the
+ratfor language, and its implementation and user experience.
+.LP
+Brian W. Kernighan and P. J. Plauger,
+.ul
+Software Tools,
+Addison-Wesley Publishing Company, Reading, Massachusetts, 1976.
+An outstanding book designed to teach good programming style by
+presenting examples of programs that are clean,
+easy to read, easy to maintain and modify, human-engineered,
+efficient, and reliable.
+Many of the ideas and utilities in the Software Tools package
+originated from this book.
+.LP
+Robert Munn and J. M. Stewart, "Ratmac:  Kernighan and Plauger's
+Structured Fortran Programming Language,"
+Technical Report TR 675, Department of Chemistry,
+University of Maryland, College Park, MD.
+Describes a version of the ratfor preprocessor with considerably
+enhanced macro facilities.
+.LP
+Deborah K. Scherrer et al,
+.ul
+Software Tools Programmers Manual,
+LBID 097,
+Lawrence Berkeley Laboratory and
+Software Tools Users Group, 1980.
+A manual for the Software Tools program development
+environment.
+Describes the virtual machine, the utilities, and
+the command language in detail.
+.LP
+Deborah K. Scherrer,
+.ul
+Cookbook - Instructions for Implementing the
+.ul
+Software Tools Package,
+LBID 098,
+Lawrence Berkeley Laboratory,
+University of California, Berkeley, CA, 1980.
+Provides guidelines for installing the Software Tools
+program development environment on new systems.
+.LP
+.ul
+Software Tools Communications,
+newsletter distributed by the Software Tools Users Group.
+April 1979 - present.
+The address is
+\fB
+Software Tools User Group
+1259 El Camino Real #242
+Menlo Park, CA  94025
+.RE
+.LP
+C. R. Snow, "The Software Tools Project,"
+.ul
+Software - Practice and Experience,
+vol. 8, Sept-Oct 1978, 585-599.
+Describes a Software Tools implementation project
+on a Burroughs B1700 computer
+using an automatic code translation technique.
+.ne 6
+.sp 2
+.ul
+UNIX
+.LP
+The
+.ul
+Bell System Technical Journal
+(BSTJ)
+special issue on UNIX: July/August, 1978.
+The most complete work on the UNIX operating system.
+Contains many papers describing capabilities, design,
+recent developments, and some retrospective material.
+.LP
+D. M. Ritchie and K. L. Thompson, "The UNIX
+Time-Sharing System,"
+.ul
+Communications of the ACM,
+1974.
+An overview of the system, for people interested in operating systems.
+Worth reading by anyone who programs.
+Contains a remarkable number of one-sentence observations on
+how to do things right.
+.LP
+K. L. Thompson and D. M. Ritchie,
+.ul
+The UNIX Programmer's Manual,
+Bell Laboratories, 1978.
+Lists commands, system routines and interfaces,
+file formats, and some of the maintenance procedures.
