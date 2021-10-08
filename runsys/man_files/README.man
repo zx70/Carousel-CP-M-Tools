@@ -1,101 +1,466 @@
-.oh 'Library Descriptions''Library List'
-.eh 'Library List''Library Descriptions'
-.bp 2
-.TS
-LIST OF ROUTINES IN THE LIBRARY
-.TE
-.LP
-.nf
-addset	    put character in array
-addstr	    add string to a string
-amatch	    find pattern matching regular expression
-amove	    move (rename) a file
-atodat	    convert characters to integer date
-cant	    print "name: can't open" and stop
-closdr	    close directory
-close	    close (detach) a file
-clower	    change character to lower case
-concat	    concatenate strings
-create	    create or overwrite file
-ctoc	    copy string to string
-ctoi	    convert string to integer
-ctomn	    translate control character to mnemonic
-cupper	    convert character to upper case
-cwdir	    change working directory
-delarg	    delete command line argument
-delete	    remove symbol from symbol table
-dsfree	    free block of dynamic storage
-dsget	    obtain block of dynamic storage
-dsinit	    initialize dynamic storage
-endst	    close all open files and end execution
-enter	    place symbol in symbol table
-equal	    compare 2 strings
-error	    print single-line message and end execution
-esc	    map character into escaped character
-exec	    execute task (replaces 'spawn')
-fcopy	    copy file
-flush	    flush file output buffer
-fmtdat	    convert date to character string
-fold	    convert string to lower case
-gctoi	    generalized character to integer conversion
-gdraux	    get auxilliary directory information
-gdrprm	    get next directory entry
-getarg	    get command line arguments
-getc	    read character from standard input
-getch$	    read byte from file
-getch	    read character from file
-getlin	    get next line from file
-getnow	    get current date and time
-getpat	    encode regular expression
-gettok	    parse tokens
-gettyp	    get type of file (character or binary)
-getwrd	    get non-blank word
-gfnarg	    get next file name argument
-gitoc	    generalized integer to character conversion
-gwdir	    get name of current working directory
-index	    find character in string
-initst	    initialize standard files and common variables
-isatty	    determine if file is a terminal
-itoc	    convert integer to character string
-length	    compute length of string
-lookup	    get string associated with name from hash table
-lower	    convert string to lower case
-makpat	    encode regular expression
-match	    match pattern anywhere on line
-mktabl	    make symbol table
-mkuniq	    generate unique file name
-mntoc	    translate mneumonic to character
-note	    determine current file position
-open	    open existing file for reading, writing, or both
-opendr	    open directory for reading
-prompt	    prompt user for input
-putc	    write character to standard output
-putch$	    write byte to file
-putch	    write character to file
-putdec	    write integer in field
-putint	    write integer to file
-putlin	    output line to file
-putstr	    write string to file
-query	    print command usage information
-readf	    read from open file
-remark	    print message
-remove	    remove file from file system
-rmtabl	    remove symbol table
-scopy	    copy string
-sctabl	    scan all symbols in symbol table
-sdrop	    drop characters from string
-seek	    move read/write pointer
-setmod	    set character device mode
-skipbl	    skip blanks and tabs in string
-sktok	    skip over tokens
-slstr	    take a substring from string
-stake	    take characters from string
-stcopy	    copy string
-stncmp	    compare first characters of string
-stncpy	    copy characters
-strcmp	    compare strings
-strim	    trim trailing blanks and tabs from string
-type	    determine type of character
-upper	    convert string to upper case
-wkday	    get day of week corresponding to date
-writef	    write to open file
+.TH LIBRARY Library_fn_list
+\fR 01
+.SP
+.I addset
+- put character in array
+.en
+\fR 02
+.SP
+.I addstr
+- add string to a string
+.en
+\fR 03
+.SP
+.I amatch
+- find pattern matching regular expression
+.en
+\fR 04
+.SP
+.I amove
+- move (rename) a file
+.en
+\fR 05
+.SP
+.I atodat
+- convert characters to integer date
+.en
+\fR 06
+.SP
+.I cant
+- print "name: can't open" and stop
+.en
+\fR 07
+.SP
+.I closdr
+- close directory
+.en
+\fR 08
+.SP
+.I close
+- close (detach) a file
+.en
+\fR 09
+.SP
+.I clower
+- change character to lower case
+.en
+\fR 10
+.SP
+.I concat
+- concatenate strings
+.en
+\fR 11
+.SP
+.I create
+- create or overwrite file
+.en
+\fR 12
+.SP
+.I ctoc
+- copy string to string
+.en
+\fR 13
+.SP
+.I ctoi
+- convert string to integer
+.en
+\fR 14
+.SP
+.I ctomn
+- translate control character to mnemonic
+.en
+\fR 15
+.SP
+.I cupper
+- convert character to upper case
+.en
+\fR 16
+.SP
+.I cwdir
+- change working directory
+.en
+\fR 17
+.SP
+.I delarg
+- delete command line argument
+.en
+\fR 18
+.SP
+.I delete
+- remove symbol from symbol table
+.en
+\fR 19
+.SP
+.I dsfree
+- free block of dynamic storage
+.en
+\fR 20
+.SP
+.I dsget
+- obtain block of dynamic storage
+.en
+\fR 21
+.SP
+.I dsinit
+- initialize dynamic storage
+.en
+\fR 22
+.SP
+.I endst
+- close all open files and end execution
+.en
+\fR 23
+.SP
+.I enter
+- place symbol in symbol table
+.en
+\fR 24
+.SP
+.I equal
+- compare 2 strings
+.en
+\fR 25
+.SP
+.I error
+- print single-line message and end execution
+.en
+\fR 26
+.SP
+.I esc
+- map character into escaped character
+.en
+\fR 27
+.SP
+.I exec
+- execute task (replaces 'spawn')
+.en
+\fR 28
+.SP
+.I fcopy
+- copy file
+.en
+\fR 29
+.SP
+.I flush
+- flush file output buffer
+.en
+\fR 30
+.SP
+.I fmtdat
+- convert date to character string
+.en
+\fR 31
+.SP
+.I fold
+- convert string to lower case
+.en
+\fR 32
+.SP
+.I gctoi
+- generalized character to integer conversion
+.en
+\fR 33
+.SP
+.I gdraux
+- get auxilliary directory information
+.en
+\fR 34
+.SP
+.I gdrprm
+- get next directory entry
+.en
+\fR 35
+.SP
+.I getarg
+- get command line arguments
+.en
+\fR 36
+.SP
+.I getc
+- read character from standard input
+.en
+\fR 37
+.SP
+.I getch$
+- read byte from file
+.en
+\fR 38
+.SP
+.I getch
+- read character from file
+.en
+\fR 39
+.SP
+.I getlin
+- get next line from file
+.en
+\fR 40
+.SP
+.I getnow
+- get current date and time
+.en
+\fR 41
+.SP
+.I getpat
+- encode regular expression
+.en
+\fR 42
+.SP
+.I gettok
+- parse tokens
+.en
+\fR 43
+.SP
+.I gettyp
+- get type of file (character or binary)
+.en
+\fR 44
+.SP
+.I getwrd
+- get non-blank word
+.en
+\fR 45
+.SP
+.I gfnarg
+- get next file name argument
+.en
+\fR 46
+.SP
+.I gitoc
+- generalized integer to character conversion
+.en
+\fR 47
+.SP
+.I gwdir
+- get name of current working directory
+.en
+\fR 48
+.SP
+.I index
+- find character in string
+.en
+\fR 49
+.SP
+.I initst
+- initialize standard files and variables
+.en
+\fR 50
+.SP
+.I isatty
+- determine if file is a terminal
+.en
+\fR 51
+.SP
+.I itoc
+- convert integer to character string
+.en
+\fR 52
+.SP
+.I length
+- compute length of string
+.en
+\fR 53
+.SP
+.I lookup
+- get string from hash table
+.en
+\fR 54
+.SP
+.I lower
+- convert string to lower case
+.en
+\fR 55
+.SP
+.I makpat
+- encode regular expression
+.en
+\fR 56
+.SP
+.I match
+- match pattern anywhere on line
+.en
+\fR 57
+.SP
+.I mktabl
+- make symbol table
+.en
+\fR 58
+.SP
+.I mkuniq
+- generate unique file name
+.en
+\fR 59
+.SP
+.I mntoc
+- translate mneumonic to character
+.en
+\fR 60
+.SP
+.I note
+- determine current file position
+.en
+\fR 61
+.SP
+.I open
+- open file for reading, writing, or both
+.en
+\fR 62
+.SP
+.I opendr
+- open directory for reading
+.en
+\fR 63
+.SP
+.I prompt
+- prompt user for input
+.en
+\fR 64
+.SP
+.I putc
+- write character to standard output
+.en
+\fR 65
+.SP
+.I putch$
+- write byte to file
+.en
+\fR 66
+.SP
+.I putch
+- write character to file
+.en
+\fR 67
+.SP
+.I putdec
+- write integer in field
+.en
+\fR 68
+.SP
+.I putint
+- write integer to file
+.en
+\fR 69
+.SP
+.I putlin
+- output line to file
+.en
+\fR 70
+.SP
+.I putstr
+- write string to file
+.en
+\fR 71
+.SP
+.I query
+- print command usage information
+.en
+\fR 72
+.SP
+.I readf
+- read from open file
+.en
+\fR 73
+.SP
+.I remark
+- print message
+.en
+\fR 74
+.SP
+.I remove
+- remove file from file system
+.en
+\fR 75
+.SP
+.I rmtabl
+- remove symbol table
+.en
+\fR 76
+.SP
+.I scopy
+- copy string
+.en
+\fR 77
+.SP
+.I sctabl
+- scan all symbols in symbol table
+.en
+\fR 78
+.SP
+.I sdrop
+- drop characters from string
+.en
+\fR 79
+.SP
+.I seek
+- move read/write pointer
+.en
+\fR 80
+.SP
+.I setmod
+- set character device mode
+.en
+\fR 81
+.SP
+.I skipbl
+- skip blanks and tabs in string
+.en
+\fR 82
+.SP
+.I sktok
+- skip over tokens
+.en
+\fR 83
+.SP
+.I slstr
+- take a substring from string
+.en
+\fR 84
+.SP
+.I stake
+- take characters from string
+.en
+\fR 85
+.SP
+.I stcopy
+- copy string
+.en
+\fR 86
+.SP
+.I stncmp
+- compare first characters of string
+.en
+\fR 87
+.SP
+.I stncpy
+- copy characters
+.en
+\fR 88
+.SP
+.I strcmp
+- compare strings
+.en
+\fR 89
+.SP
+.I strim
+- trim trailing blanks and tabs from string
+.en
+\fR 90
+.SP
+.I type
+- determine type of character
+.en
+\fR 91
+.SP
+.I upper
+- convert string to upper case
+.en
+\fR 92
+.SP
+.I wkday
+- get day of week corresponding to date
+.en
+\fR 93
+.SP
+.I writef
+- write to open file
+.en
