@@ -1,5 +1,4 @@
-.oh 'Library Descriptions''Support Routines'
-.eh 'Support Routines''Library Descriptions'
+.TH LIBSUP Support_Routines
 .bp 12
 .TS
 CP/M SUPPORT ROUTINES
@@ -18,7 +17,9 @@ This list and these routines are, of course, subject to change.
 These routines and their specifications are
 copyrighted (c) 1983 by Carousel MicroTools, Inc.,
 El Cerrito, CA.
-.DS
+.PP
+\fB
+.EX
 cant$     abort on write error
 chkdat    check date and time for out-of-range
 dodash    expand array(i-1)-array(i+1) into set(j)
@@ -80,4 +81,5 @@ trmout    get name of output channel to users teletype
 unlink    remove buffer from any queue it may be in
 unpack    unpack characters from integers into strings
 zfill$    fills block to end with CP/M EOF character
-.DE
+.EE
+\fR
