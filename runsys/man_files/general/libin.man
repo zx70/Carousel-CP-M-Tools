@@ -1,5 +1,4 @@
-.oh 'Library Descriptions''Introduction'
-.eh 'Introduction''Library Descriptions'
+.TH LIBIN Lib_Introduction
 .bp 4
 .TS
 INTRODUCTION TO THE LIBRARY
