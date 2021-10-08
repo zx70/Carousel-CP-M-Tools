@@ -1,8 +1,7 @@
+.TH GUIDE Guide_to_the_manual
 .TL
 GUIDE TO THE CAROUSEL TOOLKIT MANUAL
 .TE
-.eh 'Guide'' '
-.oh ' ''Guide'
 .PP
 This manual describes the installation and use of
 Carousel MicroTools' Software Tools for microcomputers.
@@ -26,7 +25,7 @@ distributed by the Users Group,
 some widely accepted extensions[3],
 and microcomputer-specific features developed by
 Carousel MicroTools, Inc.
-.H1
+.SH
 Manual Organization
 .PP
 This manual tells about the concept and use of the Tools,
@@ -86,7 +85,7 @@ describes each of the ratfor-callable routines in the library.
 The descriptions of the Library routines
 are provided only when you purchase the
 the Tool Builder ToolBook or Build-a-ToolKit.
-.H1
+.SH
 The Tools Philosophy
 .PP
 The philosophy of the Software Tools
@@ -169,7 +168,7 @@ of sophistication, on over 50 different computer operating systems,
 at over 400 different computer installations.
 The Carousel Tools are a complete implementation
 of the Software Tools on microcomputers.
-.H1
+.SH
 Getting Started
 .PP
 You should now go through the "Beginner's Introduction
@@ -181,7 +180,7 @@ of concepts such as "directories" and "devices" and
 "command line arguments" that are
 used in the Tools.
 Come back here when you have finished the tutorial.
-.H1
+.SH
 Installation
 .PP
 Now that you have an idea of how to use your system,
@@ -191,7 +190,7 @@ System-Specific section.
 When you have completed the tasks described there, come back here.
 You will be ready for the next tutorial,
 which has many exercises to help you learn to use the Tools.
-.H1
+.SH
 Learning to Use the Tools
 .PP
 Now it is time to use the Tools and learn about the
@@ -246,14 +245,17 @@ additional knowledge to use them on another machine.
 After you complete the two tutorials, if
 you have not read any of the following parts of the System Specific
 section, please do so now:
-.DS
+.PP
+\fB
+.EX
 Naming Conventions
 Special Characters
 Tool Limits
 Reminders
 Examples
-.DE
-.H1
+.EE
+\fR
+.SH
 Using the Tools
 .PP
 The Tools have been described as a solution in search
@@ -304,16 +306,21 @@ Build-a-Tool Kit and with the Builder Tool Book.
 The Software Tools Users Group publishes a newsletter,
 offers distribution tapes for sale, and sponsors semiannual meetings.
 Membership information may be obtained from:
-.DS
+.PP
+\fB
+.EX
 Software Tools Users Group
 1259 El Camino Real, #242
 Menlo Park, CA  94025
-.RE
+.EE
+\fR
+.PP
 .NP
 Break each line into individual words,
 sort the list of words, count the number of occurances of each word,
 sort the list by the number of occurances, then format the list on pages
 and print it:
-.DS
+.PP
+\fB
 tr !a-zA-Z @n <intro | sort | uniq -c | sort | pr > /lst
-.DE
+\fR
