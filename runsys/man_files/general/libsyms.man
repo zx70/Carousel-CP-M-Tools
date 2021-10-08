@@ -1,12 +1,10 @@
-.de H
+.TH LIBSYMS Ratfor_Symbols
 .sp
 .LP
 .ne 3
 .cu 1
 .bd 1
 .en
-.oh 'Library Descriptions''Ratfor Symbols'
-.eh 'Ratfor Symbols''Library Descriptions'
 .bp 6
 .TS
 STANDARD RATFOR SYMBOL DEFINITIONS IN RATDEF
@@ -17,7 +15,7 @@ user automatically whenever
 .I ratfor
 is called.
 Case is significant.
-.H
+.SH
 Printable ASCII characters:
 .sp
 .nf
@@ -36,7 +34,7 @@ BIGD      BIGS    DIG3     LETA     LETP    PERCENT
 BIGE      BIGT    DIG4     LETB     LETQ    PERIOD
 BIGF      BIGU    DIG5     LETC     LETR    PLUS
 BIGG      BIGV    DIG6     LETD     LETS    QMARK
-.H
+.SH
 ASCII control character definitions:
 .sp
 .nf
@@ -45,12 +43,12 @@ ASCII control character definitions:
 *STX     *BEL     *FF     *DC1      *SYN     *ESC     *SP
 *ETX     *BS      *CR     *DC2      *ETB     *FS      *DEL
 *EOT     *HT      *SO     *DC3      *CAN     *GS
-.H
+.SH
 Synonyms for important non-printing ASCII characters:
 .sp
 .nf
 BACKSPACE  BLANK    FORMFEED    NEWLINE    TAB
-.H
+.SH
 Ratfor language extensions:
 .sp
 .nf
@@ -58,12 +56,12 @@ abs     character     filedes      IS_UPPER     min
 ABS     CHARACTER     IS_DIGIT     short_int    MIN
 andif   DS_DECL       IS_LETTER    max          pointer
 ARB     DS_DECLARE    IS_LOWER     MAX          POINTER
-.H
+.SH
 Input/output modes:
 .sp
 .nf
 READ      WRITE      APPEND     READWRITE
-.H
+.SH
 Standard input/output ports:
 .sp
 .nf
@@ -73,7 +71,7 @@ STDIN           # standard input file
 STDOUT          # standard output file
 TERMINAL_IN     # name of terminal (input channel)
 TERMINAL_OUT    # name of terminal (output channel)
-.H
+.SH
 Constants included for readability and modifiability:
 .sp
 .nf
@@ -97,7 +95,7 @@ NULL            # empty pointer
 OK              # success flag
 PATH            # flag for UNIX-style pathnames
 YES
-.H
+.SH
 Size limiting definitions for important objects:
 .sp
 .nf
@@ -114,7 +112,7 @@ MAXPATH         # max chars in path prefix or suffix list
 MAXTOK          # max size of tokens
 NCHARS          # number of special characters
 .ne 8
-.H
+.SH
 Machine-dependent parameters:
 .sp
 .nf
