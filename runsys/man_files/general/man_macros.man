@@ -1,0 +1,122 @@
+.in 0
+.rm 80
+.ce
+.cu
+CMT Manual Macro Definitions
+.sp 2
+.ul
+	      request	argument(s)	explanation
+.nf
+
+new entry	hd	tool_name	start new tool document:  accepts 2
+			section_#	arguments--tool_name and section_#
+					(the section_# should be enclosed in
+					parentheses).  Registers and indents
+					affected:  .in = 0 for page headers
+					and footings, .nr b = t, .in = b for
+					text, .ti = b - i for heading "NAME,"
+					.rm = 78.
+
+headings	H1	heading		start new section:  accepts 9 arguments	
+					as separate words in a phrase (see below
+					for specific headings).  Register and
+					indents:  .nr b = t, .in = b for regular
+					text, .ti = .in - i for heading.
+		sy			.H1 SYNOPSIS
+		ds			.H1 DESCRIPTION
+		ex			.H1 EXAMPLES
+		fl			.H1 SYSTEM DATA OR SCRATCH FILES
+		di			.H1 DIAGNOSTICS
+		sa			.H1 SEE ALSO
+		au			.H1 AUTHORS
+		bu			.H1 BUGS/DEFICIENCIES
+		IM			.H1 SOURCE-LEVEL IMPLEMENTATION NOTES
+		IS			.H1 CP/M-80 SPECIFIC INFORMATION
+		CI			.H1 CMT IMPLEMENTATION NOTES
+		fu			.H1 FUNCTION
+		re			.H1 RETURNS
+		am			.H1 ARGUMENTS MODIFIED
+		ca			.H1 ROUTINES CALLED
+		CS			.H1 COMMAND SUMMARY
+		SH			is .H1
+
+paragraphs	LP			start new paragraph.  Registers and
+					indents:  .in = b.
+		IP			start exdented paragraph.  prints first
+					line of paragraph exdented.  If specific
+					part must be on separate line, insert
+					.br before remainder of paragraph.  In-
+					dents and registers:  .in = b, .ti = b,
+					.in = .in - i.
+		NP			same as IP except that a paragraph num-
+					ber is inserted at the beginning of the
+					first line.  The number is reset to 0 by
+ 					.hd, .H1, .NO.
+		NO			resets number register for paragraph
+					numbers utilized by .NP.
+
+indents		RS			increment b by i
+		RE			decrement b by i
+
+displays	DS			indent for displays, no fill, no justify
+					line space 1 before, .in = .in + i
+		DE			exdent at end of display, fill, justify
+					line space 1 after, .in = .in - i
+		SS			same as DS without the line space
+		SE			same as DE without the line space
+
+fonts		I	word		underline word.
+		B	word		boldface word.
+		HU	word		backspace an underlined word to con-
+					catenate it with the previous word.
+		HB	word		backspace a bold word to concatenate
+					it with the previous word.
+		HR	word		backspace an unedited word to concat-
+					enate it with an edited word.
+
+inserts		CM			Carousel MicroTools, Inc.
+		ST			Software Tools (underlined)
+
+reset		RX			.in = b, justify, fill
+
+miscellaneous   pt	word		clears for output words that begin with
+					a period
+		pb	word		bold prints words that begin with a
+					period
+		pu	word		underlines words that begin with a
+					period
+.bp
+.ce
+.cu
+CMT Manual Number Registers
+.sp 2
+.ti 17
+.ul
+Register  Value	   Explanation
+.ls 2
+a
+b	4	current base indent maintained by RS/RE
+c
+d
+e
+f
+g
+h
+i	4	holder for current regular indent in spaces
+j
+k
+l	78	line length in spaces
+m
+n	0	numbered paragraph number
+o
+p
+q
+r	4	regular indent
+s	1	regular increment for paragraph spacing
+t	4	indent for basic text
+u
+v
+w
+x	8	1 tab indent
+y	16	2 tab indent
+z	24	3 tab indent
