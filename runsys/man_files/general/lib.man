@@ -1,3 +1,4 @@
+.TH LIB Library_description
 .TL
 LIBRARY DESCRIPTIONS
 .TE
