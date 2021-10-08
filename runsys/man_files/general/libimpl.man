@@ -1,5 +1,4 @@
-.oh 'Library Descriptions''Carousel Implementation'
-.eh 'Carousel Implementation''Library Descriptions'
+.TH LIBIMPL Lib_Implementation_Descr
 .bp 9
 .TS
 IMPLEMENTATION OF CAROUSEL TOOLS ON CP/M-80
@@ -43,7 +42,7 @@ If you are only reading this for a general overview,
 do not worry about the details you do not understand.
 Consult your CP/M-80 manual for details about the
 operating system if you need that information.
-.H1
+.SH
 Memory Allocation and I/O Cache
 .PP
 CP/M runs a program by copying it from its file to memory
@@ -71,10 +70,14 @@ is used by the cache system.
 A user can reserve memory for a special purpose
 by setting the element Mem(5) to minus the number of bytes needed.
 For example: 
-.DS
+.PP
+\fB
+.EX
 DS_DECLARE
 Mem(5) = -512
-.DE
+.EE
+\fR
+.PP
 will reserve 512 bytes.  Mem(5) must be set before calling
 .I initst.
 .PP
@@ -98,12 +101,16 @@ until the requirements for memory can be met.
 There is a priority strategy that looks through all caches
 circularly, starting with the file cache least recently robbed,
 with the following sequence: 
-.DS
+.PP
+\fB
+.EX
 READ, WRITE, and APPEND with many blocks;
 READWRITE with many blocks;
 READ, WRITE, APPEND with any blocks;
 READWRITE with any blocks.
-.DE
+.EE
+\fR
+.PP
 If there is still not enough contiguous memory
 after all the caches have been robbed,
 .I dsget
@@ -129,7 +136,7 @@ Another effect of a cached I/O system is some apparent delays when
 terminating a program.
 The user may be finished but must wait for pending writes to
 be completed.
-.H1
+.SH
 Languages Used
 .PP
 Since the Software Tools are written in ratfor,
@@ -154,7 +161,7 @@ an exit made through
 .I endst
 (the standard Tools termination routine) which
 will properly close all files.
-.H1
+.SH
 Carousel Tools Initialization and Environment
 .PP
 All programs using the Carousel Tools system must
@@ -213,7 +220,7 @@ or as described in the CACM paper.
 However, it is similar to the environment file used in the
 UNIX operating system.
 It may be expanded in future releases.
-.H1
+.SH
 Tool Overlay Format
 .PP
 Since the Software Tools all share an extensive library of
@@ -222,9 +229,11 @@ disk space can be saved by storing only the different part
 of each Tool.  For this purpose the Tools are all linked
 to the library in a way to allow them to overlay each other.
 The L80 link command to link "Tool" is: 
-.DS
+.PP
+\fB
 L80 Tool/n,runsys,Tool,ratlib/s/e
-.DE
+\fR
+.PP
 The file
 .C runsys.rel
 which is loaded first contains routines
@@ -243,15 +252,17 @@ It is also possible use a .tol Tool directly from CP/M
 by prefacing the command with
 .I run,
 e.g.
-.DS
+.PP
+\fB
 run cp oldfile newfile
-.DE
+\fR
+.PP
 .I run
 will do the same path searching as the shell.
 .PP
 By using the .tol compressed files, all (>60) Tools will fit
 on a typical 8-inch double density diskette.
-.H1
+.SH
 Suggestions for Disk Allocation
 .PP
 It is preferable to have all the Tools and other
