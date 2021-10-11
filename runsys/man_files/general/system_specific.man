@@ -1,0 +1,872 @@
+.TH SS TOL_File_format
+.TL
+SYSTEM-SPECIFIC SECTION FOR MACHINES RUNNING CP/M-80
+.TE
+.PP
+This section of the Carousel ToolKits User Manual has computer operating
+system-specific information:
+.NP
+how the Carousel Tools work on CP/M-80;
+.NP
+a discussion on installing the shell and Tools on your computer;
+.NP
+instructions for installing the shell
+and confirming that the Tools work;
+.NP
+instructions for installing the other Tools;
+.NP
+summaries of naming conventions and special characters
+used in CP/M-80 and the Tools;
+.NP
+a list of limits in the CP/M-80 implementation of
+various Tools;
+.NP
+miscellaneous notes and reminders on the use of the Tools;
+and
+.NP
+examples of common tasks using CP/M and the Tools.
+.PP
+When installing the Tools you should have at hand
+any installation instructions that came with the
+ToolBook you are going to install.
+They will supplement these instructions for your
+specific machine.
+.PP
+As with any new software,
+you should make one or more copies of the diskettes
+you received from Carousel and store the originals
+in a safe place.
+Use
+.I pip
+or your preferred disk copy program.
+Use a copy with the instructions below.
+.PP
+If you have not yet read the "Beginners Introduction"
+tutorial you should do so now.
+The terminology explained there is used in the rest
+of this section.
+.bp
+.SH
+The Carousel Tools .tol File Format
+.PP
+.eh 'Installation Discussion''CP/M-80 System-Specific'
+.oh 'CP/M-80 System-Specific''Installation Discussion'
+The information in this discussion is informative,
+but is not crucial
+to using the Tools.
+You can skip it for now but might want to read it later.
+.PP
+The shell and Tools are programs that are designed to be
+run together.
+The shell reads your commands, loads and executes the
+appropriate Tools and other programs,
+and causes itself to be restarted again when the
+command is done.
+.PP
+The shell and all the Tools share a common portion of code.
+When the shell loads a Tool the common code part of
+the shell is left in memory and only the new parts of code
+needed for the Tool are loaded.
+Likewise, when the shell is reloaded after a Tool is
+done only the parts of code needed for the
+shell are loaded
+(over the specific code for the previous Tool).
+This makes the Carousel Tools run fast and saves disk space,
+particularly on floppy-based systems.
+This technique of sharing code among programs is
+called "overlaying." 
+The file
+.C run.com
+contains the main overlay with the common code,
+and the code for performing the functions of the
+.I run
+command.
+Each other Tool is in a special .tol
+format that is intended to be loaded with the
+common code.
+.PP
+Here is a visualization of your computer's memory
+when you start the shell and then use the
+.I ls
+Tool and then use a non-Tool program.
+.ne 12
+.PP
+\fB
+.EX
+       time ->
+  a b c       d  e     f    g
+  ._._._______.__._____.____.______________
+  |_|                  |    |_|
+m   |   common code    |    | | common code
+e   |__________________|    | |____________
+m   |_|       |ls|     |non-| |_|
+o     | shell |__|shell|    |   |shell
+r     |_______|  |_____|tool|   |_____
+y                      |    |
+                       |    |
+                       |____|
+.EE
+\fR
+.PP
+At the different points in time:
+.IP
+a) you enter
+.I sh
+and
+.C sh.com
+is loaded
+.IP
+b)
+.C sh.com
+loads
+.C run.com
+which contains the common code
+.IP
+c)
+.C run.com
+loads
+.C sh.tol
+which types its prompt and waits for you to enter a command
+.IP
+d) you enter
+.I ls
+so the shell loads
+.C ls.tol
+.IP
+e)
+.C sh.tol
+is reloaded when
+.I ls
+ends so you can enter another command
+.IP
+f) a non-Tool is loaded and executed by the shell
+.IP
+g)
+.C sh.com
+is automatically loaded when the non-Tool ends
+and loads
+.C run.com
+which loads
+.C sh.tol
+.PP
+The automatic reload of the shell after a non-Tool runs is done using the
+.I submit
+feature of CP/M-80.
+.br
+.ne 15
+.SH
+Installing the Tools:  Discussion
+.PP
+There are several different sizes and types
+of disks that are used with CP/M systems.
+The Carousel Tools can be easily customized
+for your particular setup.
+Any installation instructions that came with your
+Shell ToolBook should be read
+in conjunction with or after reading this discussion.
+.PP
+The shell load file
+.C sh.com
+and two related files,
+.C run.com
+and
+.CR sh.env ,
+are to reside in a directory called the
+"default shell directory".
+The rest of the Tools reside in the
+"resident Tool directory".
+These are often the same directory,
+but may be different if desired.
+.PP
+When you receive the Carousel shell,
+it is already set up (installed)
+with the two default directories on drive A, user 0.
+If you do not use user numbers
+and if you do not have
+large flppies or a hard disk or
+RAM disk (memory used as disk)
+this does not need to be changed and
+you can skip to "Installing the Shell" on page 5.
+You might want to come back to this discussion later, when
+you have some experience with the Tools.
+Make sure you read "Starting the Shell"
+and the following sections starting on page 8.
+.PP
+.C sh.com
+is very small (about 500 bytes).
+You should put a copy of
+.C sh.com
+on the disk containing the default shell directory
+under every user number that you use.
+(If you do not use user numbers,
+you will only copy it to user 0.)
+When you start the shell or when the shell is restarted
+after a non-Tool is executed by the shell,
+.C sh.com
+is loaded from the
+disk containing the default shell directory,
+accessing it under the current user number.
+.C sh.com
+calls
+.C run.com
+from the default shell directory to load the common
+code, and then it calls the rest of the shell from the file
+.C sh.tol
+located in the resident Tool directory.
+When the shell is restarted after a Tool finishes
+only the file
+.C sh.tol
+is loaded.
+.PP
+All of this is handled automatically by
+.C sh.com
+which references
+the shell environment file,
+.CR sh.env ,
+located in the default shell directory.
+.C sh.env
+contains the PATH entry that shows
+the user number and disk of the resident Tool directory.
+.C sh.com
+has the name of the default shell directory embedded 
+in its code by the
+.I install
+Tool.
+.PP
+The idea behind installing the Tools is to put them
+onto disk in an optimal fashion for your particular computer.
+Listed below are three basic configurations
+and then a number of things for you to consider.
+You do not need to act on them now but you may want
+to later.
+.PP
+Remember, the
+default
+shell directory has the three shell-related Tools (
+.CR sh.com ,
+.CR run.com
+and
+.CR sh.env ),
+the resident
+Tool directory has the Tools in .tol format,
+and both directories may be
+on the same disk and user number.
+.SH
+Large Floppy Disk Drives
+.PP
+The default shell directory and the resident Tool directory
+are put on one floppy,
+which is used in drive A.
+.SH
+Smaller Floppy Disk Drives
+.PP
+The default shell directory and one resident Tool directory with a
+set of Tools you use together
+(e.g., those in a ToolBook)
+are put on one floppy.
+You make several of these floppies, each with
+different group of related Tools.
+You use these in drive A, putting in a different group
+of Tools as needed.
+Use the
+.I reset
+command when changing diskettes in A.
+.SH
+Hard Disk Drive
+.PP
+The default and resident directories are put on and used
+from the hard disk.
+That way they will load faster.
+.SH
+Considerations
+.NP
+The resident Tool directory can be on any user number
+(and disk) you want.
+The
+.B PATH
+variable in
+.C sh.env
+will tell the shell where to look for the Tools
+and other commands.
+The PATH is set with the
+.I set
+Tool;
+you should read about 
+.I set
+now in the Tool Description
+section of the Manual.
+.sp
+It is often useful to put the default shell directory on user 0
+and the resident Tool directory on another user number
+that you do not use on the same disk.
+That way you will not have the Tools listed every time
+you use the
+.I ls
+Tool on that disk.
+(Using a different user number for the resident Tool directory
+is not required, just handy sometimes.)
+.NP
+The ToolBooks contain groups of Tools that are typically
+used together,
+and that will (usually) fit on one small floppy.
+As you gain experience with the Tools you can make new
+floppies with the default shell directory and just the
+combination of Tools you use for a particular task.
+These are called "working shell diskettes." 
+.NP
+If you have large capacity floppies or a hard disk you can put
+the resident Tool directory in one user number and other commands
+(e.g., a data base program)
+in another user number on the same disk.
+Then set the PATH variable to specify that the shell
+is to look in both (or all) of those directories for commands.
+.NP
+If you have some sort of RAM disk
+(memory used as disk)
+put the default shell directory and the tool
+.C sh.tol
+there,
+perhaps with a select group of Tools that you use a lot.
+That way the shell and those Tools
+will always be loaded very fast.
+If you have a lot of RAM disk
+you could also put the TEMP directory
+there (see the
+.I set
+Tool description).
+.NP
+Whenever possible (i.e., if you have a hard disk)
+do not put the resident or default shell directory or any
+directory listed in PATH on a floppy drive.
+That way the Tools will load faster.
+.NP
+If you use user numbers
+the disk containing the default shell directory
+must have the file
+.C sh.com
+in each user number you use.
+.SH
+Note:
+when you list the files on a disk,
+.I only
+the files on the current user number are shown
+(unless you specify otherwise with the
+.I ls
+Tool).
+This is a problem only if you forget
+it when looking for a file.
+The
+.I which
+Tool is helpful for finding the directory you put a command in.
+.br
+.eh 'Installation''CP/M-80 System-Specific'
+.oh 'CP/M-80 System-Specific''Installation'
+.ne 15
+.SH
+Installing the Shell
+.PP
+When you receive the shell it is installed to reside on
+drive A, user 0, and to look for commands in that directory
+and the current directory.
+For most floppy-based systems this setup will work fine
+and you only need to copy the Tool
+files to a bootable disk as described
+in steps 1 and 2.
+.PP
+On larger systems,
+first you have to decide which directory will be the default
+shell directory and which will be the resident Tool directory.
+You also have to decide if you want to use user numbers.
+.IP
+o  If you have floppies both directories will be on drive A and the
+default shell directory will (probably) be on user 0.
+.IP
+o  If you have hard disk it is preferable to put them
+on a lower-lettered disk (e.g., C instead of F).
+.sp
+.LP
+The instructions below use the following key:
+.RS
+.nf
+R - drive to contain the resident Tool directory
+N - user number to contain the resident Tool directory
+X - drive to contain the default shell directory
+M - user number to contain the default shell directory
+.RE
+.LP
+Before performing the installation
+you must decide where the shell & Tools will reside.
+Typical values are
+.RS
+R=a  N=0  X=a  M=0    for a floppy-based system
+R=C  N=1  X=C  M=0    for a hard disk system
+.RE
+.NP
+Copy
+.I pip
+to the resident Tool directory if it is not already there.
+(If you are using a floppy,
+you will be copying
+.I pip
+to a
+.B bootable
+floppy in drive B.) 
+If you are in user 0 and will be using user 0 the following
+command will work:
+.PP
+\fB
+.EX
+pip R:=A:pip.com
+.EE
+\fR
+.PP
+If you are going to use a different user number there is no
+way, using
+.IR pip ,
+to copy a file to another user number so you
+must first use the following commands to create
+a copy of the
+.IR pip
+command in the resident Tool directory:
+.PP
+\fB
+.EX
+pip
+^C			(Control-C)
+user N
+R:
+save 32 pip.com
+.EE
+\fR
+.PP
+.NP
+If you are using floppies,
+move the bootable diskette made above from drive B to drive A.
+Insert the master shell disk,
+preferably a backup copy, into floppy disk drive B
+and enter Control-C.
+Then use
+.I pip
+to
+copy the diskette in drive B to the new
+resident
+Tool directory as follows:
+.PP
+\fB
+.EX
+pip R:=B:*.*[g0ov]
+.EE
+\fR
+.PP
+If you are using floppies you now have a bootable
+diskette with the shell and related
+Tools in drive A.
+.NP
+If you plan to use the shell and Tools from
+other than drive A, user 0
+record the location of the default shell directory in the files
+.C sh.com
+and
+.CR run.com
+by entering
+.PP
+\fB
+.EX
+run NR:install -d
+.EE
+\fR
+.PP
+and answering the prompts accordingly.
+.NP
+If the default shell and resident Tool directories
+are to be different, the following commands move the required
+files to the default shell directory:
+.PP
+\fB
+.EX
+run NR:cp NR:sh.com MX:
+run NR:mv NR:sh.env MX:
+run NR:mv NR:run.com MX:
+.EE
+\fR
+.PP
+.NP
+Now certain variables must be changed in the environment file,
+.CR sh.env .
+(These are described in more detail in the
+.I set
+Tool description.) 
+The following will cause the shell
+to be accessed properly the first time:
+.PP
+\fB
+.EX
+run NR:set ATEND
+.EE
+\fR
+.PP
+When you first use the Tools, PATH should be set
+by one of the following:
+.PP
+\fB
+.EX
+run NR:set PATH NR: MX: .      #general form
+run NR:set PATH 0A: .          #typical floppy system
+run NR:set PATH 0C: 1C: .      #typical hard disk system
+.EE
+\fR
+.PP
+Other directories containing other commands may also be named.
+When you start using
+.I script
+files you may want to change PATH to have the current directory searched for
+commands before the Tools directories are checked:
+.PP
+\fB
+.EX
+set PATH . NR: MX:
+.EE
+\fR
+.PP
+.NP
+Now you can start the shell by entering
+.PP
+\fB
+.EX
+MX:sh
+.EE
+\fR
+.PP
+The shell will respond with its prompt:
+.PP
+\fB
+.EX
+%
+.EE
+\fR
+.PP
+and then wait for you to enter a command.
+.NP
+Lastly, if you use user numbers on your system,
+the drive containing
+the default shell directory
+must have copies of
+.C sh.com
+on all user numbers you use.
+First change directories to the default shell directory
+.PP
+\fB
+.EX
+% cd /M/X/
+.EE
+\fR
+.PP
+Then use the following to copy
+.C sh.com
+to each of the other user numbers on the disk
+with the default shell directory
+(substitute the other user numbers for "n"):
+.PP
+\fB
+.EX
+% cp sh.com /n/X/
+.EE
+\fR
+.PP
+.br
+.ne 19
+.SH
+Starting the Shell
+.PP
+If you are using the shell from a floppy,
+make sure a bootable shell diskette is in
+the appropiate drive.
+.PP
+At any time you are not in the shell you can start it
+by entering
+.PP
+\fB
+.EX
+X:sh
+.EE
+\fR
+.PP
+where "X" is the default shell directory.
+On a typical floppy system this would be just
+.PP
+\fB
+.EX
+A:sh
+.EE
+\fR
+.PP
+The shell will respond by printing its prompt
+.PP
+\fB
+.EX
+%
+.EE
+\fR
+.PP
+and waiting for you to enter a command.
+.br
+.ne 15
+.SH
+Final Steps
+.eh 'Confirming Installation''CP/M-80 System-Specific'
+.oh 'CP/M-80 System-Specific''Confirming Installation'
+.PP
+The following steps finish the setting
+of certain information used by the shell and Tools.
+The information is discussed in the
+description of the
+.I set
+Tool.
+.NP
+The TEMP variable in
+.C sh.env
+specifies the directory in which the shell and Tools are
+to write temporary and scratch files.
+The default is /0/A/.
+If you have small-capacity floppies, you
+may need to use /0/B/ for TEMP, depending on how full the working shell
+diskette in A is.  For example
+.PP
+\fB
+.EX
+set TEMP /0/B/
+.EE
+\fR
+.PP
+On larger capacity disks it may be useful to put the TEMP directory in
+some user number that you do not use so it will be out of the way.
+This might be, for example, on user 15 of the disk containing the
+default shell directory.
+.sp
+All temporary files used by the Tools are written to the directory
+specified by TEMP
+and have a file name extension of
+.C .$$$
+(e.g.,
+.CR eds.$$$ ).
+.NP
+The MAXDEV variable specifies the last disk drive on your computer.
+If you set it
+you will not get BDOS errors if you mis-type a directory name.
+For example:
+.PP
+\fB
+.EX
+set MAXDEV B
+.EE
+\fR
+.PP
+
+.NP
+Enter
+.PP
+\fB
+.EX
+set -v
+.EE
+\fR
+.PP
+to check the changes you have just made to the shell environment file,
+.CR sh.env .
+.NP
+Make at least one copy of each disk
+you tailored
+so you will not have to repeat this work.
+.br
+.ne 15
+.SH
+Confirming Installation
+.PP
+The following steps will help you confirm that the Tools were installed
+properly.
+Again, the following keys are used:
+.RS
+.nf
+R - drive containing the resident Tools directory
+N - user number of drive containing the resident Tool directory
+X - drive containing the default shell directory
+M - user number of the drive containing the default shell directory
+.RE
+.NP
+Start the shell:
+.PP
+\fB
+.EX
+X:sh
+.EE
+\fR
+.PP
+You should get a "%" prompt.
+If you have problems:
+make sure the default shell directory diskette is in the machine;
+or you may not have copied
+.C sh.com
+to the user number you are using on the disk with the default
+shell directory.
+The command
+.PP
+\fB
+.EX
+MX:sh
+.EE
+\fR
+.PP
+will work in the later case.
+.NP
+Check the contents of the default shell directory.
+.PP
+\fB
+.EX
+cd /M/X
+ls
+.EE
+\fR
+.PP
+The list of files should include
+.CR sh.com ,
+.CR run.com ,
+and
+.CR sh.env ;
+there may be more.
+.NP
+Check the contents of the resident Tool directory.  If it is the
+same as the default shell directory just look at the list printed
+in the previous step.  Otherwise
+.PP
+\fB
+.EX
+ls /N/R
+.EE
+\fR
+.PP
+will list the directory.
+.NP
+Confirm the values of the shell variables in the enviroment file.  Enter
+.PP
+\fB
+.EX
+set -v
+.EE
+\fR
+.PP
+PATH should name at least the default shell directory
+and the resident Tool directory.
+A typical value for a floppy disk system is
+.PP
+\fB
+.EX
+PATH   /0/A/ .
+.EE
+\fR
+.PP
+Read the description of the
+.I set
+Tool for information on the other shell variables listed.
+.NP
+Enter
+.PP
+\fB
+.EX
+ls /N/R | crt
+.EE
+\fR
+.PP
+to list the files in the resident Tool directory, one screenful at a time.
+This will test that pipes work.
+.NP
+Enter
+.PP
+\fB
+.EX
+ls /N/R .tol > tmp
+cat < tmp
+ls tmp ; rm tmp
+.EE
+\fR
+.PP
+to test I/O redirection.
+(Notice that
+.I crt
+is more useful than
+.I cat
+for copying a file to the terminal if you have more than 23 lines
+in the file.)
+.sp
+.PP
+You have confirmed that the Tools work by using some of them,
+and using the major features of the shell.
+If you have problems,
+contact your dealer or Carousel MicroTools, Inc.
+.br
+.ne 15
+.SH
+Installing Other Tools
+.eh 'Installing Other Tools''CP/M-80 System-Specific'
+.oh 'CP/M-80 System-Specific''Installing Other Tools'
+.PP
+If you have a floppy-based system with
+relatively large capacity
+diskettes or a hard disk system
+you can just copy additional
+Tools to the directory that has
+the other Tools.
+.PP
+On smaller capacity floppy diskettes you will need to make
+a series of floppies each of which contains the shell
+files and a set of Tools that are used together.
+These are called
+"working shell diskettes".
+(The following assumes the
+default and resident directories
+are on drive A, user 0.)
+.NP
+Start the shell in drive A and put
+a bootable but otherwise blank
+diskette in drive B.
+.NP
+Copy the shell files and any other
+files desired from drive A:
+.ne 7
+.PP
+\fB
+.EX
+cp sh.tol b:
+cp run.com b:
+cp sh.com b:
+cp sh.env b:
+cp cp.tol b:		(not required)
+cp pip.com b:		(not required)
+.EE
+\fR
+.PP
+.NP
+Transfer the new shell diskette from drive B
+to drive A, put the diskette with the Tools
+to be added in drive B, and enter
+.PP
+\fB
+.EX
+reset
+.EE
+\fR
+.PP
+.NP
+Use
+.I cp
+or
+.I pip
+to copy the Tools you want (and will fit)
+from B to A.
+For example,
+.PP
+\fB
+.EX
+pip A:=B:*.tol[g0ov]
+.EE
+\fR
+.PP
