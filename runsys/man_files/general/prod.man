@@ -1,0 +1,346 @@
+.TH PROD Carousel_Tool_Products
+.TL
+Carousel MicroTools Products
+.TE
+.PP
+The Carousel Tools consist of over sixty different 
+programs, a relocatable program library, and
+source code for all but the proprietary programs.
+The Carousel Tools are available for CP/M-80 and MSDOS 
+2.0 on a number of different computers.  
+The programs and files can be purchased as a whole 
+or in smaller packages called ToolBooks.
+The different products of Carousel MicroTools are
+described below.
+.SH
+Carousel ToolKit Manual
+.PP
+This is the primary user instruction and reference
+manual for the Carousel ToolKits.   
+It describes all the programs and library subroutines
+of the Carousel Tools.  Individual
+ToolBook packages may contain insertions for the 
+manual.  No license is required to buy the manual.
+.SH
+Carousel Start-a-ToolKit
+.PP
+The Start-a-ToolKit is a package incorporating the 
+following products:
+.PP
+\fB
+.EX
+Carousel ToolKit Manual
+Carousel ToolKit License
+Carousel Shell ToolBook
+.EE
+\fR
+The Start-a-ToolKit is recommended for someone who wishes to test 
+the flavor of using the Tools and to see how the 
+Tools work on their computer system.  Additional 
+ToolBooks will be required to obtain the full utility 
+of the Tools.
+.SH
+Carousel Use-a-ToolKit
+.PP
+The Use-a-ToolKit is a package incorporating the 
+manual and all the basic programs in the Carousel Tools.
+The package includes the following 
+products:
+.PP
+\fB
+.EX
+Carousel ToolKit Manual
+Carousel ToolKit License
+Carousel Shell ToolBook
+Carousel TextEdit ToolBook
+Carousel TextHandler ToolBook
+Carousel Formatter ToolBook
+Carousel DiskHandler ToolBook
+Carousel Programmer ToolBook
+.EE
+\fR
+.PP
+The Use-a-ToolKit is the recommended package for 
+anyone expecting to make serious use of the Tools.
+.SH
+Carousel Build-a-ToolKit
+.PP
+The Build-a-ToolKit is a package that includes the 
+Use-a-ToolKit as well as 
+the source and relocatable binaries required for
+building new Tools.  It includes the following 
+components:
+.PP
+\fB
+.EX
+Carousel Use-a-ToolKit
+Carousel ToolBuilder ToolBook
+.EE
+\fR
+.PP
+The Build-a-ToolKit is recommended for those
+who wish to modify the Tools or to build new Tools
+or portable software.  The Kit does require the
+use of a Fortran compiler and linker which must
+be obtained from a third party.
+See the notes on the ToolBuilder ToolBook for usage 
+restrictions.
+.SH
+Carousel Shell ToolBook and License
+.PP
+The Shell ToolBook contains the basic software that 
+is proprietary to Carousel MicroTools, Inc.  It 
+consists of the *.com, *.tol and other types of 
+files that are required to run all other Carousel 
+Tools.  It also contains the Tools that are 
+equivalent to the built-in functions of the native 
+operating system plus a 
+few of the other Tools of the full set.
+.PP
+The Shell ToolBook incorporates the single-user 
+license for use of the proprietary Shell software 
+on the user's system.  Additional licenses can be 
+purchased if you have several hardware systems
+at the same site on which the Tools are to be run.
+.PP
+The Shell ToolBook contains a diskette 
+holding all of the files associated with the Shell.  
+This diskette is formatted for a particular 
+operating system and disk format.  This will be 
+marked on the label of the diskette.  The ToolBook 
+also contains a short tutorial on how to 
+install the Shell onto your hardware as well 
+as any updates for the manual that are required by 
+the particular hardware and operating system.  The 
+fourth item in the Shell ToolBook is the single-system
+single-user license to be signed by the 
+buyer.
+.PP
+The Shell diskette contains the following files:
+.PP
+\fB
+.EX
+run.com        major system overlay used by all Tools
+sh.com         start shell operation
+sh.env         environment table
+cat.tol        join and show text files
+cd.tol         change to different directory
+cp.tol         copy one file to another
+crt.tol        paginate files to terminal
+date.tol       print/set time and date
+dc.tol         desk calculator
+echo.tol       print command line arguments
+install.tol    installs the shell
+logout.tol     log out of shell
+ls.tol         list filenames in current directory
+mv.tol         move (rename) file
+pwd.tol        print working directory name
+reset.tol      reset system after diskette change 
+rm.tol         remove file
+set.tol        set shell options
+sh.tol         shell overlay in Tool form
+tee.tol        copy input to output and named files
+which.tol      print full pathname of command
+.EE
+\fR
+.SH
+Carousel TextEdit ToolBook
+.PP
+The TextEdit ToolBook contains the primary editors 
+available in the Software Tools.  These Tools can fit 
+onto one disk with the basic Tools from the Shell 
+ToolBook so that it can operate as a stand-alone 
+system disk in small floppy systems.
+.PP
+The contents of the TextEdit diskette are: 
+.PP
+\fB
+.EX
+ch.tol         change text patterns
+diff.tol       enumerate differences between two files
+e.tol          editor
+sedit.tol      stream editor
+tr.tol         character transliteration
+.EE
+\fR
+.SH
+Carousel TextHandler ToolBook
+.PP
+The TextHandler ToolBook contains Tools that 
+manipulate text files to prepare them 
+for formatting and output.  The Tools allow for 
+investigation of the text strings and  preparation of 
+special text output information (like indices). 
+.PP
+Some of the Tools in this ToolBook also appear in 
+other ToolBooks.  This is done to provide a 
+complete set of Tools for manipulating text in one 
+place as well as providing special Tools for other 
+sections.
+.PP
+The TextHandler diskette contains the following
+files:
+.PP
+\fB
+.EX
+ch.tol         change text patterns
+cmp.tol        compare two files
+comm.tol       print lines common to two files
+fb.tol         list blocks of lines with patterns
+field.tol      manipulate fields of data
+find.tol       display lines with patterns
+includ.tol     include a file in another file
+isam.tol       make index-sequential cross reference
+kwic.tol       prepare lines for keyword-in-context index
+lam.tol        merge lines of files together
+ll.tol         show length of lines in file
+mcol.tol       multicolumn formatting
+number.tol     number the lines in a file
+os.tol         show overstriking
+pl.tol         print specified lines/pages
+pr.tol         paginate files for printing
+rev.tol        reverse order of lines
+show.tol       show all character, including controls
+sort.tol       sort/merge text files
+split.tol      split file into smaller files
+tail.tol       print last lines of a file
+tr.tol         character transliteration
+uniq.tol       remove adjacent repeated lines
+unrot.tol      un-rotate lines prepared by ~kwic~
+wc.tol         count lines, words, characters in file
+xref.tol       make symbol cross reference list
+.EE
+\fR
+.SH
+Carousel Formatter ToolBook
+.PP
+The Formatter ToolBook contains files whose purpose 
+is to format text files for printing or display.  
+TextEdit and TextHandler Tools are used to develop 
+these files.
+.PP
+The diskette contains the following files:
+.PP
+\fB
+.EX
+detab.tol      convert tabs to spaces
+entab.tol      convert spaces to tabs and spaces
+form.tol       form letter generator
+format.tol     format text
+ll.tol         show length of lines in file
+macro.tol      macro processor
+mcol.tol       multicolumn formatting
+os.tol         show overstriking
+pl.tol         print specified lines/pages
+pr.tol         paginate files for printing
+wc.tol         count lines, words, characters in file
+.EE
+\fR
+.SH
+Carousel DiskHandler ToolBook
+.PP
+The DiskHandler ToolBook contains Tools whose 
+functions are to manipulate files by changing their 
+form for space conservation or protection.  In 
+particular, this ToolBook provides the user with 
+the archiver.  Space is left available on the 
+diskette so that a reasonably sized archive file
+can be built on it.
+.PP
+The files on the DiskHandler diskette are: 
+.PP
+\fB
+.EX
+ar.tol         maintain archive file 
+cpress.tol     compress input files
+crypt.tol      encrypt/decrypt a file
+expand.tol     un-compress input files
+split.tol      split a file into smaller files
+.EE
+\fR
+.SH
+Carousel Programming ToolBook
+.PP
+The Programming ToolBook is composed of those Tools 
+and scripts that contribute to the development of 
+programs, especially 
+.bd
+ratfor
+programs.  It is 
+required if one is to make use of the ToolBuilder 
+ToolBook.  It assumes the presence of the Fortran 
+compiler and linker used to compile the Tools on 
+the system.  For CP/M-80 this is the MicroSoft 
+Fortran-80 and Linker-80.  For MSDOS 2.0 it is the 
+IBM Fortran and Linker.
+.PP
+The files on the diskette of the ToolBook are: 
+.PP
+\fB
+.EX
+fc (script)    compile, link and load
+ld (script)    link and load
+rc (script)    ratfor, compile, link and load
+ratdef         standard definitions for ~ratfor~
+fsort.tol      sort ~ratfor~ declarations for compile
+includ.tol     file inclusion preprocessor
+ratfor.tol     ratfor preprocessor
+tsort.tol      sort symbols topologically
+xref.tol       make symbol cross reference list
+.EE
+\fR
+.SH
+Carousel ToolBuilder ToolBook
+.PP
+The ToolBuilder ToolBook consists of the source for the 
+public domain software in the Carousel Tools and 
+the relocatable library 
+for the public domain as well as the proprietary software.  
+Manual updates will include the documentation for 
+the library routines.
+.PP
+This ToolBook contains from three to six diskettes,
+depending on the format.
+In general, the files on the diskettes will be the 
+following:
+.PP
+\fB
+.EX
+ratdef         ratfor definitions for the Tools
+*.ar           source archives for programs in Shell,
+                  TextEdit, TextHandler, Formatter,
+                  DiskHandler and Programmer ToolBooks.
+libdefs        ratfor definitions for the library
+publib.rat     public library ratfor source
+cmtlib.rel     CMT proprietary relocatable library
+ratlib.rel     merged relocatable library
+runsys.rel     subroutine shell for all Tools
+.EE
+\fR
+There are three restrictions regarding use of the 
+ToolBuilder ToolBook:
+.NP
+The relocatable files are compiler and linker 
+dependent, and you must use the recommended 
+compiler and linker for the files to be useful.
+.NP
+You may make use of the proprietary library for 
+building new Tools or programs for your own use.  
+However, if you intend to distribute or sell 
+programs incorporating parts of the proprietary 
+library you must execute a special licensing arrangement 
+with Carousel MicroTools, Inc. 
+.NP
+Carousel MicroTools, Inc. makes no claim to the 
+source code provided, and in no way does Carousel 
+warrant that the source code is in the public 
+domain or that it is not proprietary to some other 
+third party.
+.SH
+Carousel Add-a-ToolKits
+.PP
+Carousel MicroTools, Inc. plans to offer new Tools to its
+existing customers from time to time.  Some of these
+will be written by Carousel, other will be provided by
+owner of ToolBuilder ToolBooks.  They will be announced
+in the Carousel Script Newsletter.
