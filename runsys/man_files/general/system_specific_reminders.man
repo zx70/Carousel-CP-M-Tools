@@ -1,0 +1,163 @@
+.TH SSKNOW Reminders
+
+CP/M-80 System Specific
+Reminders
+
+.bp 15
+.TL
+REMINDERS
+.TE
+
+.PP
+The Tools
+.ul
+cp, ls, mv,
+and
+.I rm
+work with any type of file
+(binary, such as .com or .tol, or text).
+Most of the other Tools work only with ASCII text files.
+.PP
+Each time the shell is executed all pending script files
+(except background commands) are cancelled.
+.PP
+The shell and some of the Tools use temporary files.
+These files are always put in the directory specified by the TEMP
+variable in
+.CR sh.env .
+The Tools temporary files always have names that end with the extension
+.C .$$$
+(e.g.,
+.CR eds.$$$ ).
+.PP
+In the TEMP directory,
+the only Tool temporary file that has a reason to be there is
+.CR backgrnd.$$$ ;
+you can get rid of any others
+(with a
+.C .$$$
+extension)
+you see.
+.PP
+The shell cannot execute the CP/M built-in commands
+.ul
+user, dir, era, type,
+and
+.I save;
+use, respectively, the
+.ul
+cd, ls, rm,
+and
+.I crt
+Tools instead.
+There is no need to run
+.I save
+from the shell.
+.PP
+The shell does not properly expand CP/M's "ambiguous" file names when
+executing non-Tools.
+For example,
+"stat *.*" will not work from the shell.
+.PP
+In general, the Tools can be used from the CP/M CCP
+or from the shell.
+Tools kept as .tol files must be executed with the
+.I run
+Tool when they are called from the CCP.
+.PP
+The shell is just another Tool;
+it does not remain in memory while another program is running.
+The shell begins execution of multiple commands
+by making a command chain similar to the
+.C $$$.sub
+file made by the CP/M
+.I submit
+program.
+This file is called
+.CR shok.$$$ .
+During execution of a Tool
+.C shok.$$$
+is renamed to
+.C shbad.$$$
+to prevent continuation of the script if the Tool should abort.
+.sp
+At normal termination, each Tool looks into
+.C shok.$$$
+to find the next command to execute.
+In case the next command is to be the shell,
+an internal flag is set so
+.C shok.$$$
+does not need to be referenced.
+.sp
+In case of abnormal termination of a Tool or if no
+.C shok.$$$
+file is found, the shell variable ATEND in the file
+.C sh.env
+is examined.
+If no command has been specified for ATEND,
+a CP/M warm boot is performed.
+Otherwise the command specified by ATEND is executed.
+.sp
+Note that the shell always modifies the ATEND
+variable to point to itself in order to regain control in the event of an
+aborted command.
+The
+.I logout
+Tool modifies ATEND to allow a return to CP/M and should therefore be
+used to leave the shell.
+Any pending background scripts will be executed when
+.I logout
+is executed.
+.PP
+Some word processor-type (non-Tool) programs do not use the international
+standard conventions for end-of-line characters.
+Files made with such programs may need to be looked at with
+.I show
+and then modified with
+.I tr
+before they can be used with the other Tools.
+.PP
+Directories may be specified in either CP/M or Tools pathname format.
+For example, the following are equivalent:
+.PP
+\fB
+.EX
+% 0a:crt 2a:file	% /0/a/crt /2/a/file
+.EE
+\fR
+.PP
+.PP
+You can change directories by specifying just a directory name.
+For example, the following are all equivalent:
+.PP
+\fB
+.EX
+% cd /2/b		% /2/b
+% cd 2b:		% 2b:
+.EE
+\fR
+.PP
+.PP
+If you put the TEMP directory on a floppy drive
+that you change (e.g. on drive B),
+you will need to be careful that
+background commands (those entered
+with a '@' at the end) do not
+get lost.
+.PP
+The Software Tools editor is normally called
+.I ed.
+It is called
+.I e
+in the CP/M-80 implememtation
+of the Tools to avoid conflict
+with the CP/M editor
+.CR ed .
+.PP
+You can rename any Tool except
+.ul
+sh, run, cd, echo, logout, ls,
+or
+.C pwd
+by just changing the file name.
+The new name must have the .tol extension.
