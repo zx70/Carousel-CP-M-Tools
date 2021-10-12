@@ -1,0 +1,168 @@
+.TH TDDES Tool_Descriptions
+.bp 4
+
+.SH Tool Description Entry Format
+.PP
+Each Tool description is written in a common format
+which includes at least some of the following subsections.
+.IP
+SYNOPSIS: 
+gives the form of the command line necessary to use the Tool.
+The conventions used are described
+on the next page.
+.IP
+DESCRIPTION: 
+discusses the Tool in detail,
+including telling about the command line arguments
+and offering suggestions on how to use the Tool.
+.IP
+EXAMPLES: 
+presents and explains examples of using the Tool,
+often in conjunction with other Tools.
+This section often provides ideas on how you might use the Tool.
+.IP
+SCRATCH AND SYSTEM DATA FILES: 
+lists the Tool-defined files used.
+Temporary files are created in the directory specified by the TEMP
+variable,
+which is described in the entry for the
+.I set
+Tool.
+.IP
+SEE ALSO: 
+names Tools that perform similar or related functions.
+.IP
+DIAGNOSTICS: 
+lists the error messages the Tool can produce.
+Reference is occasionally made to limits in the Tool source code that
+may be changed;
+the values for this implementation of the Tools
+are specified in the "Tool Limits" part of the
+System Specific section of the manual.
+.IP
+LIMITATIONS AND DEFICIENCIES: 
+tells of potential problem areas.
+Tool limits, as mentioned under DIAGNOSTICS, may also be listed here.
+.bp
+.SHConventions Used on the Synopsis Line
+.PP
+The synopsis line for each entry shows the command line arguments
+that may be used with the Tool.
+Certain conventions have been adopted to present the information
+accurately.
+Some arguments are optional,
+some are required, and some are required to go with other arguments.
+The conventions adopted to express how arguments are used
+are described here.
+.ne 5
+.LP
+Sample synopsis line:
+.DS
+.fi
+crt [-N]
+.ul
+[file ...]
+.DE
+.ne 15
+.LP
+.bd
+The Rules
+.NP
+Flag options are one or more letters preceed by a dash (-)
+or, occasionally, a plus sign (+).
+They indicate some variation of or limit to the
+basic operation of the Tool.
+For example,
+.RS
+-a
++from -to
+.RE
+.NP
+Numbers are indicated by the letter "N" preceeded by a dash or plus.
+For example,
+.RS
+-N
+.RE
+.NP
+Words that stand for something are underlined.
+For example,
+.RS
+.I file
+.RE
+which stands for a file name.
+The meaning of the word is often apparent but is always
+explained in the description.
+.NP
+Optional arguments are enclosed in square brackets.
+For example, if a filename is optional it is indicated by
+.RS
+.I [file]
+.RE
+.NP
+If an argument type may occur any number of times, including none,
+this is indicated by ellipsis.
+For example,
+.RS
+.ul
+[file ...]
+.RE
+indicates that any number of file names may be specified.
+.NP
+If a choice must be made between some options this is indicated by
+enclosing them in braces ({...}).
+The options to be chosen between are separated by pipe signs (|).
+For example, if either flag a or b must be specified it would be
+indicated this way: 
+.RS
+-{a|b}
+.RE
+.sp
+.LP
+.B Examples
+.PP
+Putting this all together, here are some real Tool synopsis lines.
+.ne 4
+.PP
+crt [-N]
+.ul
+[file ...]
+.br
+means that you may specify a number and/or
+zero, one, or more file names.
+.ne 4
+.PP
+field {-tC |
+.I fieldlist}
+.I outputformat
+.ul
+[file ...]
+.br
+means that
+.B either
+the
+.B -t
+flag with something following it
+.B or
+some
+.I fieldlist
+must be specified,
+and that an
+.I outputformat
+must be specified
+and any number of files may be specified.
+.ne 5
+.PP
+diff [-[c|d|r|s][v]]
+.ul
+file1 [file2]
+.br
+means that the flags are optional and
+.bd
+c, d, r,
+and
+.B s
+may not be used together but any of them could be used with
+.B v
+(e.g.,
+.B -cv).
+One file must be specified and another may be specified if desired.
