@@ -1,34 +1,28 @@
 
 Where necessary the files have been adjusted to be readable with a modern version of the 'man' program.
 
-
-.oh 'Tool Descriptions''Tool List'
-.eh 'Tool List''Tool Descriptions'
-.bp 2
-.TS
-
 LIST OF TOOLS
 
-ar		    maintain archive files
-cat		    join and copy input to output
-cd		    change the current directory
-ch		    change strings in text files
-cmp		    compare two files
+ar	    maintain archive files
+cat	    join and copy input to output
+cd	    change the current directory
+ch	    change strings in text files
+cmp	    compare two files
 comm	    print lines common to two files
-cp		    make a copy of a file (text or binary)
+cp	    make a copy of a file (text or binary)
 cpress	    compress input files
-crt		    copy files to the terminal
+crt	    copy files to the terminal
 crypt	    encrypt and decrypt text files
 date	    print or set the date and time
-dc		    desk calculator
+dc	    desk calculator
 detab	    convert tabs to spaces
 diff	    compare and list differences between files
 e(ed)	    text editor
 echo	    echo words entered on the command line
 entab	    convert spaces to tabs and spaces
 expand	    uncompress compressed files
-fb		    search for blocks of lines with text patterns
-fc		    Fortran compile, link, and load
+fb	    search for blocks of lines with text patterns
+fc	    Fortran compile, link, and load
 field	    manipulate fields of data
 find	    search lines for text patterns
 form	    produce form letters by prompting for information
@@ -38,37 +32,37 @@ includ	    include contents of a file in another file
 install	    change default shell directory or tool form
 isam	    make an index-sequential access list
 kwic	    prepare lines for keyword-in-context index
-lam		    merge lines of files together
-ld		    link and load
-ll		    print line lengths
+lam	    merge lines of files together
+ld	    link and load
+ll	    print line lengths
 logout	    leave the shell
-ls		    list the files in a directory
+ls	    list the files in a directory
 macro	    general-purpose macro processor
 mcol	    put text in multiple columns
-mv		    move (rename) a file
+mv	    move (rename) a file
 number	    number the lines in files
-os		    convert backspaces into multiple lines
-pl		    print specified lines or pages in files
-pr		    put the text in files on pages
-pwd		    print the current directory name
+os	    convert backspaces into multiple lines
+pl	    print specified lines or pages in files
+pr	    put the text in files on pages
+pwd	    print the current directory name
 ratfor	    ratfor preprocessor
-rc		    ratfor compile, Fortran compile, link, and load
+rc	    ratfor compile, Fortran compile, link, and load
 reset	    reset the file system
-rev		    reverse lines
-rm		    remove (delete) files
-run		    execute a tool from the CCP
+rev	    reverse lines
+rm	    remove (delete) files
+run	    execute a tool from the CCP
 sedit	    stream editor
-set		    print, set or unset shell variables
-sh		    shell (command line interpreter)
+set	    print, set or unset shell variables
+sh	    shell (command line interpreter)
 show	    show all characters including control characters
 sort	    sort and/or merge text files
 split	    split a file into pieces
 tail	    print last lines of files
-tee		    copy input to output and to files
-tr		    transliterate characters
+tee	    copy input to output and to files
+tr	    transliterate characters
 tsort	    sort symbols topologically
 uniq	    strip adjacent repeated lines from files
 unrot	    unrotate lines rotated by kwic
-wc		    count lines, words, and characters in files
+wc	    count lines, words, and characters in files
 which	    locate a command using the shell search path
 xref	    make a cross reference list of symbols
