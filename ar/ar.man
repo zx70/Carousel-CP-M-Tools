@@ -1,9 +1,13 @@
-.so manhdr
-.hd AR (1) 06/06/83
-archive file maintainer
-.sy
+.TH AR archive_file_maintainer 06/06/83
+
+.SH "NAME"
+ar \- archive file maintainer
+
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
 ar [-](d|p|t|u|x)[v][r] arcname [files]
-.ds
+
+.SH "DESCRIPTION"
 Ar collects sets of arbitrary files into one big file and
 maintains that file as an 'archive'.
 Files can be extracted from the archive, new ones can be added,
