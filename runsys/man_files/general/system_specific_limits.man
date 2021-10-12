@@ -1,0 +1,56 @@
+.TH SSLIMIT Tool_Limits
+
+CP/M-80 System Specific
+Tool Limits
+.bp 14
+.TS
+TOOL LIMITS
+.TE
+.PP
+Many of the Tools have limits to the sizes of things they can handle.
+Those limits that can be changed
+are specified as variables in the source code for the Tool
+and are mentioned
+in the individual Tool descriptions,
+normally in the DIAGNOSTICS or LIMITATIONS subsections.
+The following table gives the values for the 
+changable limits
+in the CP/M implementation of the Tools.
+.sp
+.nf
+.ul
+Tool    Limit        Value          Tool    Limit        Value
+
+.# use mcol -w27 sslimits.raw to make the table
+ar      MAXFILES        25          mcol    MAXPTR        1200
+                                   
+crypt   MAXKEY         128          pl      MAXLINES       200
+                                            MAXBUF        3000
+dc      MAXSTACK       200         
+                                    pr      MARGIN1          3
+diff    MAXLINES      1000                  MARGIN2          2
+                                            BMARGIN          3
+e(ed)   MAXTBUFS         4         
+                                    ratfor  ARGSIZE        100
+format  MAXOFILES       10                  SBUFSIZE       400
+        BUFSIZE        400                  CALLSIZE        50
+                                            MAXTOK          80
+includ  NFILES           7                  EVALSIZE       500
+                                            MAXFORSTK      200
+lam     MAXARGS         12                  NFILES           7
+        MAXBUF         200                  MAXSTACK       100
+        MAXOBUF        500                  MAXTOK          80
+                                            BUFSIZE        250
+macro   MAXSTACK        30         
+        ARGSIZE        100          sort    FLMAX           25
+        CALLSIZE        20         
+        EVALSIZE      2500          tail    MAXBUF        3000
+        MAXOFILES       10         
+        BUFSIZE       2500          tsort   MAXBUF        5000
+        MAXTOKEN       200         
+                                    xref    MAXBUF       12000 
+mcol    MAXBUF        7000
+.sp
+.PP
+You have to have the Carousel Library and source code to be able to change
+the values of any of these variables.
