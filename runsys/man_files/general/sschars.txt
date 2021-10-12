@@ -1,0 +1,27 @@
+Special_Characters
+CP/M-80 System Specific
+
+CP/M-DEFINED SPECIAL CHARACTERS
+
+Control Character      Description
+
+CTRL-C                 remap for new disk
+CTRL-C                 (in running program)
+                       abort, warm boot
+CTRL-E                 physical end of line
+                       (but not part of text)
+CTRL-H or BACKSPACE    erase last character
+CTRL-J                 line feed
+CTRL-M                 carriage-return
+CTRL-P                 turn printing on or off
+CTRL-Q                 restart scrolling of screen
+                       stopped by CTRL-S
+CTRL-R                 retype line after newline
+CTRL-S                 stop scrolling of terminal screen
+CTRL-U                 remove current line
+                       (on terminal devices)
+CTRL-X                 backspace to start of line
+CTRL-Z                 end-of-file from terminals
+RUB or DELETE          remove and echo last character
+                       (on terminal devices)
+
