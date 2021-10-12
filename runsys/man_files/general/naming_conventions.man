@@ -1,0 +1,78 @@
+.TH SSNAMES Naming_Conventions
+CP/M-80 System Specific
+Naming Conventions
+.bp 12
+.TS
+NAMING CONVENTIONS
+.TE
+.SH
+Directories:
+.RS
+.nf
+.ul
+CP/M style		Tools style
+a:			/a/
+b:			/b/
+.SH
+File Names:
+.RS
+.nf
+.ul
+CP/M style		Tools style
+disk:name.ext		/disk/name.ext
+userdisk:name.ext	/user/disk/name.ext
+
+where "disk" is a, b, etc.
+.in +6
+"user" is 0, 1, ... 15
+"name" is 1-8 alphanumeric characters
+"ext"  is 0-3 alphanumeric characters
+.SH
+Commonly Used Filename Extensions
+.RS
+.nf
+.ul
+Extension	Definition
+.cc ~
+.asm		assembly code program
+.bak		common editor backup
+.bas		Basic program
+.cob		Cobol program
+.com		CP/M executable program
+.for		Microsoft Fortran program
+.lib		used by CP/M editor
+.mac		Macro-80 program
+.plm		PL/M program
+.prn		list output of some assemblers
+.rel		Microsoft relocatable binary
+.sub		script file for 'submit'
+.sym		symbol table
+~cc .
+.SH
+Tools Filename Extensions
+.RS
+.nf
+.ul
+Extension	Definition
+.cc ~
+.doc		Tools document files
+.env		Tools environment information
+.rat		Ratfor program
+.tol		Tools overlay files
+.$$$		Tools temporary files in TERM directory
+~cc .
+.SH
+Devices:
+.RS
+.nf
+.ul
+CP/M style	Tools style	Description
+con:		/con		terminal
+lst:		/lst		printer
+nul:		/nul		null device (a data sink)
+pun:		/pun		paper tape punch
+rdr:		/rdr		paper tape reader
+tty:		/tty		terminal
+usr:		/usr		installation specific
+				device
+.RE
