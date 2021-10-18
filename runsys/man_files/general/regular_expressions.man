@@ -1,0 +1,222 @@
+.TH TDRE Regular_Expressions
+.TS
+REGULAR EXPRESSIONS
+.TE
+.PP
+The Tools support what is called
+.I regular
+.I expression
+notation for specifying character
+.I patterns,
+or groups of characters.
+They are used to match patterns
+in the editors and some commands,
+and for specifying selected lines in the editors.
+.PP
+A regular expression identifies
+the characteristics of a string of characters.
+For example, regular expressions can be created to match
+patterns at specified positions on a line,
+to match
+patterns that contain certain characters plus perhaps others, or
+to match strings of indefinite length.
+Regular expressions are used in the same way with all Tools that
+allow them
+(e.g.,
+.ul
+ch, ed, fb, find, ls,
+and
+.I sedit).
+.PP
+In the following discussion on constructing regular expressions
+the slash character (/) is used to delimit
+regular expressions in the examples.
+.IP
+Any ordinary character
+except for % $ ? * [ and @
+(discussed below) is a regular expression
+and matches that character.
+E.g.,
+.B /a/
+matches the next occurence of the letter
+.B a.
+.IP
+A percent (%) at the beginning of a regular expression matches
+the beginning of a line.
+E.g.,
+.B /%The/
+matches the word
+.B The
+at the beginning of a line;
+.B /%/
+matches the the beginning of any line.
+.IP
+A dollar sign ($) at the end of a regular expression matches the
+end of a line.
+E.g.,
+.B /.$/
+matches a period
+at the end of a line;
+.B /$/
+matches the end of any line;
+.B /%$/
+matches an empty line.
+.IP
+A question mark (?) matches any character except a newline character
+(the character indicating the end of a line).
+E.g.,
+.B /th??/
+matches
+.B then,
+.B anthem,
+.B theatre,
+etc.
+.IP
+A string of characters enclosed in square brackets ([]) matches
+a single occurence of any character
+in the string but no others.
+If, however, the first character of the string
+is an exclamation point (!), the regular expression matches any
+single occurence of any character
+.B except
+the characters in the string (or the newline).
+A range of characters in ASCII order may be specified by
+inserting a dash (-) between the upper- and lower-limit
+characters.
+E.g.,
+.B /[abc]/
+matches any occurence of
+.B a
+or
+.B b
+or
+.BR c ;
+.B /[a-c]/
+will do the same;
+.B /[!a-c]/
+matches all other characters;
+.B /[a-z][0-9]/
+matches any lower case letter followed by a number.
+.IP
+An asterisk (*) following any character
+means match any number of
+consecutive occurences of that character,
+including none.
+E.g.,
+.B /aa*/
+matches one or more of consecutive occurences the letter 
+.BR a ;
+.bd
+/..*$/
+matches one or more periods at the end of a line;
+.B /(?*)/
+matches a
+.B (
+followed by anything followed by a
+.BR ) ;
+.B /%?*$/
+matches a whole line;
+.B /%?*c/
+matches any number and combination of characters at the beginning of a
+line followed by
+.BR c ,
+and also matches
+.B c
+at the beginning of a line.
+.IP
+The
+concatenation of regular expressions is a regular expression that matches the
+concatenation of the strings matched by the components of the regular
+expression.
+That is, you can join the components described above.
+E.g.,
+.B /%[A-Z]?c/
+matches lines beginning with a capital letter and having
+.B c
+as the third letter in the line.
+.IP
+In the editors
+the null regular expression standing alone is equivalent to the last regular
+expression encountered.
+E.g.,
+.B //.
+.IP
+An at sign (@) before any of the above special
+characters (% $ ? * [ ]) in a regular expression causes that character
+to be considered literally.
+An @ will be taken literally when entered as @@@@.
+E.g.,
+.B /[@])}]/
+matches
+.B ]
+or
+.B )
+or
+.BR }.
+.SH
+Summary
+.nr i @ny
+.LP
+.nf
+.ul
+Character   Usage
+.SP
+%           Indicates beginning of line
+.SP
+$           Indicates end of line
+.SP
+?           Matches any character (except the newline)
+.SP
+[...]       Character class (any one of these characters)
+.SP
+[!...]      Negated character class (any character except these)
+.SP
+c1-c2       Range of characters from c1 through c2 (used in [...])
+.SP
+*           Zero or more occurences of the preceeding character
+.SP
+@           Escaped character (e.g., @%, @[, @*)
+.nr i @nr
+.PP
+The special meanings of these characters can be escaped when
+the characters are preceded by an at sign (@) or in the following
+special cases:
+.nr i @ny
+.LP
+.nf
+.ul
+Character   When Not Special
+.SP
+%           When not at beginning
+.SP
+$           When not at end
+.SP
+*           When at beginning
+.SP
+!           When not at beginning of string inside square brackets, [ ]
+.ne 2
+.SP
+-           When at beginning or end of string inside square brackets, [ ]
+.SP
+]           When not following [
+.nr i @nr
+.ne 10
+.PP
+The following use regular characters to create
+special escape sequences within regular expressions and
+replacement text.
+.nr i @ny
+.IP
+@@n	    newline
+.SP
+@@t	    tab
+.nr i @nr
+.LP
+For example,
+.B /@t[0-9]/
+matches a tab followed by a number;
+.B /@n/
+matches the end of the line,
+not just the end of the text on the line, as
+.B /$/
+would.
